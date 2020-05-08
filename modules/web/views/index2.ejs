@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include ("templates/head.ejs") %>
+  </head>
+
+  <body>
+    <%- include ("templates/top2.ejs") %>
+    <table width="500" border="0" align="center">
+      <tr>
+        <th scope="col">
+          <div id="TabbedPanels1" class="TabbedPanels">
+            <div>
+              <h1>
+                  Artemis supporters
+              </h1>
+              <small style="font-size: 12px">
+                People who donated trough any of the donation points,<br>
+                regardless of amount.<br>
+                Donations is what makes the server and such run.
+              </small>
+              <hr><br>
+              @Zero Zebra#7338 <br>
+              @Yen D'Arr#5300 <br>
+              @Yojimbo#0376 <br>
+
+              <br>
+            </div>
+          </div>
+        </th>
+      </tr>
+    </table>
+    <table width="500" border="0" align="center">
+      <tr>
+        <th scope="col">
+          <div id="slideshow">
+            <div>
+              <img
+                style="border-radius: 25px;"
+                src="/static/images/slide1.png"
+              />
+            </div>
+            <div>
+              <img
+                style="border-radius: 25px;"
+                src="/static/images/slide2.png"
+              />
+            </div>
+            <div>
+              <img
+                style="border-radius: 25px;"
+                src="/static/images/slide3.png"
+              />
+            </div>
+          </div>
+
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+          <script>
+            $("#slideshow > div:gt(0)").hide();
+
+            setInterval(function () {
+              $("#slideshow > div:first")
+                .fadeOut(1000)
+                .next()
+                .fadeIn(1000)
+                .end()
+                .appendTo("#slideshow");
+            }, 3000);
+          </script>
+        </th>
+      </tr>
+    </table>
+
+    <%- include ("templates/bottom.ejs") %>
+  </body>
+</html>
