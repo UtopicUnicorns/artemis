@@ -14,7 +14,7 @@ module.exports = {
       .setDescription("Hello, I am Artemis!")
       .addField("Main discord server: ", "https://discord.gg/EVVtPpw")
       .addField("Bot Website: ", "https://artemisbot.eu")
-      .addField("Bot Github: ", "https://github.com/UtopicUnicorns/mint-bot")
+      .addField("Bot Github: ", "https://github.com/UtopicUnicorns/artemis")
       .addField(
         "Bot Invite: ",
         "https://discordapp.com/api/oauth2/authorize?client_id=440892659264126997&permissions=2147483127&scope=bot"
