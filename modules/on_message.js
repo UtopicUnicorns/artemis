@@ -436,7 +436,7 @@ module.exports = {
     let eventnumber = 25;
     let eventnumber2 = Math.floor(Math.random() * 50);
     if (eventnumber2 == eventnumber) {
-      let eventcheck = message.member.roles.find(r => r.name === `512Mb`);
+      let eventcheck = message.member.roles.cache.find(r => r.name === `512Mb`);
       if (!eventcheck) {
         let eventr = message.guild.roles.cache.find(r => r.name === `512Mb`);
         if (!eventr) return;
@@ -650,7 +650,7 @@ module.exports = {
       ) {
         const level = message.guild.roles.cache.find((r) => r.id === i);
         if (level) {
-          let checking = message.member.roles.find((r) => r.id === i);
+          let checking = message.member.roles.cache.find((r) => r.id === i);
           if (!checking) {
             let remove = [
               levelups.lvl5,
@@ -664,7 +664,7 @@ module.exports = {
             for (let n of remove) {
               const level2 = message.guild.roles.cache.find((r) => r.id === n);
               if (level2) {
-                if (message.member.roles.find((r) => r.id === n)) {
+                if (message.member.roles.cache.find((r) => r.id === n)) {
                   message.member.roles.remove(level2).catch((error) => {
                     console.log(
                       moment().format("MMMM Do YYYY, HH:mm:ss") +

@@ -23,7 +23,7 @@ module.exports = {
         }
         if (array2.includes(args)) {
             const role = message.guild.roles.cache.find(r => r.name === args);
-            let checking = message.member.roles.find(r => r.name === args);
+            let checking = message.member.roles.cache.find(r => r.name === args);
             if (!checking) return message.reply("You do not have this role.");
             member.roles.remove(role).catch(console.error);
             const embed = new Discord.MessageEmbed()

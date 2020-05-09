@@ -23,7 +23,7 @@ module.exports = {
         }
         if (array2.includes(args)) {
             const role = message.guild.roles.cache.find(r => r.name === args);
-            let checking = message.member.roles.find(r => r.name === args);
+            let checking = message.member.roles.cache.find(r => r.name === args);
             if (checking) return message.reply("You already have this role.");
             member.roles.add(role).catch(console.error);
             const embed = new Discord.MessageEmbed()

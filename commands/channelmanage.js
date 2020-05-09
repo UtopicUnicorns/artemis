@@ -100,7 +100,7 @@ module.exports = {
             }
             let channelcheck = message.guild.channels.cache.find(channel => channel.id === args[1]) || message.guild.channels.cache.find(channel => channel.name === args[1]);
             if (!channelcheck) return message.channel.send(args[1] + " is not a valid channel!\nIf you used Channelname try using channelID instead!");
-            channelget.reactionChannel = channelcheck.id;
+            channelget.streamChannel = channelcheck.id;
             setGuild.run(channelget);
             return message.channel.send("Stream channel has been changed to " + channelcheck);
         }

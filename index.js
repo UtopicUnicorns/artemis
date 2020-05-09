@@ -173,7 +173,7 @@ client.once("ready", () => {
               `DELETE FROM timers WHERE mid = ${data.mid} AND uid = ${data.uid}`
             )
             .run();
-        let memberrole = gettheguild.roles.find((r) => r.name === `~/Members`);
+        let memberrole = gettheguild.roles.cache.find((r) => r.name === `~/Members`);
         reminduser.roles.add(memberrole).catch(console.error);
         let array2 = [];
         client.channels.cache
@@ -230,7 +230,7 @@ client.once("ready", () => {
 });
 
 //Reconnect
-client.once("reconnecting", () => {
+client.once("shardReconnecting", id => {
   //Wipe music
   const musicf = fs.readdirSync("./music");
   for (const file of musicf) {
@@ -245,7 +245,7 @@ client.once("reconnecting", () => {
   //reconnect console message fuck you too
   console.log(
     moment().format("MMMM Do YYYY, HH:mm:ss") +
-      "\n" +
+      `\n${id} ` +
       __filename +
       ":" +
       ln() +
@@ -297,14 +297,20 @@ client.on("guildCreate", (guild) => {
   if (!newGuild1) {
     newGuild = getGuild.get(guild.id);
     if (!newGuild) {
-      if (!guild.roles.find((r) => r.name === `Muted`)) {
-        guild.createRole({
+      if (!guild.roles.cache.find((r) => r.name === `Muted`)) {
+        guild.roles.create({
+          data: {
           name: `Muted`,
+          },
+          reason: 'Needed for Artemis',
         });
       }
-      if (!guild.roles.find((r) => r.name === `~/Members`)) {
-        guild.createRole({
+      if (!guild.roles.cache.find((r) => r.name === `~/Members`)) {
+        guild.roles.create({
+          data: {
           name: `~/Members`,
+          },
+          reason: 'Needed for Artemis',
         });
       }
       newGuild = {
@@ -352,10 +358,10 @@ client.on("guildMemberUpdate", (oldMember, newMember) => {
 });
 
 //presence updates
-client.on("presenceUpdate", (oldMember, newMember) => {
+client.on("presenceUpdate", (oldPresence, newPresence) => {
   //load module
   const onMemberPrupdate = require("./modules/on_member_prupdate.js");
-  onMemberPrupdate.onMemberPrupdate(oldMember, newMember);
+  onMemberPrupdate.onMemberPrupdate(oldPresence, newPresence);
 
   //next
 });

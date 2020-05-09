@@ -26,8 +26,8 @@ module.exports = {
         let str = "";
         for (let i of array) {
           if (
-            !i.roles.find((r) => r.name === cargs) ||
-            i.roles.find((r) => r.id === cargs)
+            !i.roles.cache.find((r) => r.name === cargs) ||
+            i.roles.cache.find((r) => r.id === cargs)
           ) {
             str += i + "\n";
           }
@@ -59,8 +59,8 @@ module.exports = {
         let str = "";
         for (let i of array) {
           if (
-            i.roles.find((r) => r.name === cargs) ||
-            i.roles.find((r) => r.id === cargs)
+            i.roles.cache.find((r) => r.name === cargs) ||
+            i.roles.cache.find((r) => r.id === cargs)
           ) {
             str += i + "\n";
           }
