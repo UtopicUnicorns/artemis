@@ -15,7 +15,7 @@ module.exports = {
     const setScore = db.prepare(
       "INSERT OR REPLACE INTO scores (id, user, guild, points, level, warning, muted, translate, stream, notes) VALUES (@id, @user, @guild, @points, @level, @warning, @muted, @translate, @stream, @notes);"
     );
-    if (!message.member.hasPermission("KICK_MEMBERS")) return;
+    if (!message.member.permissions.has("KICK_MEMBERS")) return;
     let guildChannels2 = getGuild.get(message.guild.id);
     if (guildChannels2) {
       if (guildChannels2.leveling == "2") {

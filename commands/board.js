@@ -32,7 +32,7 @@ module.exports = {
             let user = message.guild.members.cache.get(data.user);
             embed.addField(
               "Place: (" + counter + ")",
-              user.user +
+              `${user.user}` +
                 "\n" +
                 data.points +
                 " points (level " +

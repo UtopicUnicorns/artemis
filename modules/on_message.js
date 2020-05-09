@@ -248,7 +248,7 @@ module.exports = {
     }
 
     //autoMod START
-    if (message.member && message.member.hasPermission("KICK_MEMBERS")) {
+    if (message.member && message.member.permissions.has("KICK_MEMBERS")) {
     } else {
       if (guildChannels.autoMod == "strict" || guildChannels.autoMod == "2") {
         const automod = require("./automod.js");
@@ -373,7 +373,7 @@ module.exports = {
 
     //Topic For mint server only
     if (message.guild.id == "628978428019736619") {
-      if (message.member && message.member.hasPermission("KICK_MEMBERS")) {
+      if (message.member && message.member.permissions.has("KICK_MEMBERS")) {
         if (message.content.startsWith(prefix + "topic")) {
           let selectthis = [
             "Which Linux distribution did you first user,\nand why did you start using it?",

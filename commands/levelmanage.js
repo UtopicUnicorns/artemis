@@ -13,7 +13,7 @@ module.exports = {
     const setLevel = db.prepare(
       "INSERT OR REPLACE INTO level (guild, lvl5, lvl10, lvl15, lvl20, lvl30, lvl50, lvl85) VALUES (@guild, @lvl5, @lvl10, @lvl15, @lvl20, @lvl30, @lvl50, @lvl85);"
     );
-    if (!message.member.hasPermission("KICK_MEMBERS")) return;
+    if (!message.member.permissions.has("KICK_MEMBERS")) return;
     //
     let getUsage = db.prepare("SELECT * FROM usage WHERE command = ?");
     let setUsage = db.prepare(

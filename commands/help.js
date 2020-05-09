@@ -13,7 +13,7 @@ module.exports = {
         usage.number++;
         setUsage.run(usage);
         if (message.content === `${prefix}help mod`) {
-            if (message.member.hasPermission('KICK_MEMBERS')) {
+            if (message.member.permissions.has('KICK_MEMBERS')) {
                 let str = '';
                 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
                 for (const file of commandFiles) {
@@ -34,7 +34,7 @@ module.exports = {
             }
         }
         if (message.content === `${prefix}help server`) {
-            if (message.member.hasPermission('KICK_MEMBERS')) {
+            if (message.member.permissions.has('KICK_MEMBERS')) {
                 let str = '';
                 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
                 for (const file of commandFiles) {
@@ -55,7 +55,7 @@ module.exports = {
             }
         }
         if (message.content === `${prefix}help mscore`) {
-            if (message.member.hasPermission('KICK_MEMBERS')) {
+            if (message.member.permissions.has('KICK_MEMBERS')) {
                 let str = '';
                 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
                 for (const file of commandFiles) {
@@ -201,7 +201,7 @@ module.exports = {
             .addField(`${prefix}help fun`, 'Display Fun commands\n')
             .addField(`${prefix}help stream`, 'Display stream related commands\n')
             .addField(`${prefix}help music`, 'Display music help\n')
-        if (message.member.hasPermission('KICK_MEMBERS')) {
+        if (message.member.permissions.has('KICK_MEMBERS')) {
             embed2.addField(`${prefix}help mod`, 'Display Mod commands\n')
             embed2.addField(`${prefix}help server`, 'Display server commands\n')
             embed2.addField(`${prefix}help mscore`, 'Display score/level commands\n')

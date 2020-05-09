@@ -15,7 +15,7 @@ module.exports = {
     const prefix = prefixstart.prefix;
     const guildChannels = getGuild.get(message.guild.id);
     var muteChannel1 = message.guild.channels.cache.get(guildChannels.muteChannel);
-    if (!message.member.hasPermission("KICK_MEMBERS")) return;
+    if (!message.member.permissions.has("KICK_MEMBERS")) return;
     //
     let getUsage = db.prepare("SELECT * FROM usage WHERE command = ?");
     let setUsage = db.prepare(

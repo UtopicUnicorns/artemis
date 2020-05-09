@@ -7,7 +7,7 @@ module.exports = {
         const getGuild = db.prepare("SELECT * FROM guildhub WHERE guild = ?");
         const prefixstart = getGuild.get(message.guild.id);
         const prefix = prefixstart.prefix;
-        if (!message.member.hasPermission('KICK_MEMBERS')) return;
+        if (!message.member.permissions.has('KICK_MEMBERS')) return;
         //
         let getUsage = db.prepare("SELECT * FROM usage WHERE command = ?");
         let setUsage = db.prepare("INSERT OR REPLACE INTO usage (command, number) VALUES (@command, @number);");

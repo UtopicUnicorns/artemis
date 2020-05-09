@@ -9,7 +9,7 @@ module.exports = {
         const prefix = prefixstart.prefix;
         const getWords = db.prepare("SELECT * FROM words WHERE words = ?");
         const setWords = db.prepare("INSERT OR REPLACE INTO words (guild, words, wordguild) VALUES (@guild, @words, @wordguild);");
-        if (!message.member.hasPermission('KICK_MEMBERS')) return;
+        if (!message.member.permissions.has('KICK_MEMBERS')) return;
         //
         let getUsage = db.prepare("SELECT * FROM usage WHERE command = ?");
         let setUsage = db.prepare("INSERT OR REPLACE INTO usage (command, number) VALUES (@command, @number);");

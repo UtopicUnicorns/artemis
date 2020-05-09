@@ -147,7 +147,7 @@ exports.run = (client, config) => {
                   '<button class="collapsible"><img src ="' +
                     i +
                     '" width="30px" height="30px" style="border-radius: 50%;"><div class="textcol">' +
-                    client.guilds.cache.get(data.guild) +
+                    `${client.guilds.cache.get(data.guild)}` +
                     " (" +
                     guildsizeget.memberCount +
                     " members)" +
@@ -228,7 +228,7 @@ exports.run = (client, config) => {
                 '<button class="collapsible"><img src ="' +
                 gettheguild.iconURL({ format: 'jpg' }) +
                 '" width="30px" height="30px" style="border-radius: 50%;"><div class="textcol">' +
-                client.guilds.cache.get(data.guild) +
+                `${client.guilds.cache.get(data.guild)}` +
                 '</div></button><div class="colpanel"><table width="100%" style="table-layout: fixed; max-width: 100px; border-collapse: collapse;" align="center">';
               array.push(top1);
               let count2 = 0;
@@ -305,9 +305,7 @@ exports.run = (client, config) => {
             //check perms
             let thiss = gettheguild.members.cache.get(user.id);
             if (thiss) {
-              let rolec = thiss.roles.cache.map((roles) =>
-                roles.cache.hasPermission("KICK_MEMBERS")
-              );
+              let rolec = thiss.permissions.has("KICK_MEMBERS");
               if (!gettheguild.owner) {
               } else {
                 if (
@@ -319,7 +317,7 @@ exports.run = (client, config) => {
                     '<button class="collapsible"><img src ="' +
                     gettheguild.iconURL({ format: 'jpg' }) +
                     '" width="30px" height="30px" style="border-radius: 50%;"><div class="textcol">' +
-                    client.guilds.cache.get(data.guild) +
+                    `${client.guilds.cache.get(data.guild)}` +
                     '</div></button><div class="colpanel"><table width="100%" style="border-collapse: collapse;" align="center">';
                   let bot1 = "</table></div>";
                   let s1 = gettheguild.channels.cache.find(
@@ -1028,9 +1026,7 @@ exports.run = (client, config) => {
       //check perms
       let thiss = gettheguild.members.cache.get(req.session.user.id);
       if (thiss) {
-        let rolec = thiss.roles.cache.map((roles) =>
-          roles.cache.hasPermission("KICK_MEMBERS")
-        );
+        let rolec = thiss.permissions.has("KICK_MEMBERS");
         if (
           gettheguild.owner.id == req.session.user.id ||
           rolec.toString().includes("true")
