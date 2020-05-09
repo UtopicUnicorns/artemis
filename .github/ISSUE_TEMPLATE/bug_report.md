@@ -12,27 +12,13 @@ A clear and concise description of what the bug is.
 
 **To Reproduce**
 Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+- 
 
-**Expected behavior**
-A clear and concise description of what you expected to happen.
+**Was a command involved, if yes which one**
+ - 
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
+**What were the last tasks in the channel that bot it is in before the bug happened?**
+ - 
 
-**Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Browser [e.g. chrome, safari]
- - Version [e.g. 22]
-
-**Smartphone (please complete the following information):**
- - Device: [e.g. iPhone6]
- - OS: [e.g. iOS8.1]
- - Browser [e.g. stock browser, safari]
- - Version [e.g. 22]
-
-**Additional context**
-Add any other context about the problem here.
+**Do commands/tasks still work in other channels?**
+- yes/no
