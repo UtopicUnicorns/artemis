@@ -24,7 +24,7 @@ module.exports = {
     if (!args[0]) {
       const embed = new Discord.MessageEmbed()
         .setTitle("Usage")
-        .setAuthor(message.author.username, message.author.avatarURL())
+        .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
         .setColor("RANDOM")
         .addField(
           prefix + "play song query",
@@ -81,7 +81,7 @@ module.exports = {
       });
       let embed = new Discord.MessageEmbed()
         .setTitle(openmusicurl2[0].title)
-        .setAuthor(message.author.username, message.author.avatarURL())
+        .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
         .setThumbnail(openmusicurl2[0].thumbnails.default.url)
         .setColor("RANDOM")
         .setDescription("Downloading......")
@@ -97,7 +97,7 @@ module.exports = {
         .on("progress", (p) => {
           let embed2 = new Discord.MessageEmbed()
             .setTitle(openmusicurl2[0].title)
-            .setAuthor(message.author.username, message.author.avatarURL())
+            .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
             .setThumbnail(openmusicurl2[0].thumbnails.default.url)
             .setColor("RANDOM")
             .setDescription(
@@ -142,7 +142,7 @@ module.exports = {
               message.delete();
               const rembed = new Discord.MessageEmbed()
                 .setTitle(song.title)
-                .setAuthor(message.author.username, message.author.avatarURL())
+                .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
                 .setThumbnail(song.thumb)
                 .setColor("RANDOM")
                 .setDescription("Started playing: ")
@@ -161,7 +161,7 @@ module.exports = {
             serverQueue.songs.push(song);
             const rembed = new Discord.MessageEmbed()
               .setTitle(song.title)
-              .setAuthor(message.author.username, message.author.avatarURL())
+              .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
               .setThumbnail(song.thumb)
               .setColor("RANDOM")
               .setDescription("Song was added to the queue")

@@ -93,7 +93,7 @@ module.exports = {
       );
       const whoartemis = new Discord.MessageEmbed()
         .setTitle("Invite")
-        .setAuthor(message.author.username, message.author.avatarURL())
+        .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
         .setColor("RANDOM")
         .setDescription("Hello, I am Artemis!")
         .addField("Main discord server: ", "https://discord.gg/EVVtPpw")
@@ -101,7 +101,7 @@ module.exports = {
         .addField("Bot Github: ", "https://github.com/UtopicUnicorns/artemis")
         .addField(
           "Bot Invite: ",
-          "https://discordapp.com/api/oauth2/authorize?client_id=440892659264126997&permissions=2147483127&scope=bot"
+          "https://discordapp.com/api/oauth2/authorize?client_id=440892659264126997&permissions=8&scope=bot"
         )
         .setFooter("Bot owner: <@127708549118689280> | UtopicUnicorn#0383");
       return message.channel.send({
@@ -230,7 +230,7 @@ module.exports = {
     ) {
       const nonprefix = new Discord.MessageEmbed()
         .setTitle("Non prefix help menu")
-        .setAuthor(message.author.username, message.author.avatarURL())
+        .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
         .setDescription(
           "This message was triggered by mentioning me with the help argument"
         )
@@ -391,7 +391,7 @@ module.exports = {
             .get("695182849476657223")
             .setTopic(selectedthis);
           const topicstart = new Discord.MessageEmbed()
-            .setAuthor(message.author.username, message.author.avatarURL())
+            .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
             .setColor("RANDOM")
             .setDescription(
               "For the next 30 minutes this will be the topic!\nTrying to go off-topic may have consequences."
@@ -585,7 +585,7 @@ module.exports = {
               if (res == message.content) return;
               try {
                 const translationtext = new Discord.MessageEmbed()
-                  .setAuthor(message.author.username, message.author.avatarURL())
+                  .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
                   .setColor("RANDOM")
                   .setDescription(res)
                   .setFooter("Translated from: " + body.lang)
@@ -688,7 +688,7 @@ module.exports = {
             });
             const embed = new Discord.MessageEmbed()
               .setTitle("Level Role get!")
-              .setAuthor(message.author.username, message.author.avatarURL())
+              .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
               .setColor("RANDOM")
               .addField("Gained the title: ", level, true)
               .setTimestamp();

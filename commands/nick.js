@@ -22,17 +22,11 @@ module.exports = {
     const args = message.content.slice(prefix.length + user.id.length + 10);
     if (!args) return message.reply("You must give a new nickname!");
     let nowtime = new Date();
-    message.guild.members
+    message.guild.members.cache
       .get(user.id)
       .setNickname(args)
       .catch(
-        console.log(
-          moment().format("MMMM Do YYYY, HH:mm:ss") +
-            "\n" +
-            __filename +
-            ":" +
-            ln()
-        )
+        console.log('')
       );
     //LOGS
     const guildChannels = getGuild.get(message.guild.id);
@@ -44,8 +38,8 @@ module.exports = {
     } else {
       const logsmessage = new Discord.MessageEmbed()
         .setTitle(prefix + "nick")
-        .setAuthor(message.author.username, message.author.avatarURL())
-        .setDescription("Used by: " + message.author)
+        .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
+        .setDescription("Used by: " + `${message.author}`)
         .setURL(message.url)
         .setColor("RANDOM")
         .addField("Usage:\n", message.content, true)

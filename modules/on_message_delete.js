@@ -20,7 +20,7 @@ module.exports = {
     if (logsChannel1 == "0") {
     } else {
       if (message.author.id == "440892659264126997") return;
-      if (message.MessageAttachments.size > 0) return;
+      if (message.attachments.size > 0) return;
       const fetchedLogs = await message.guild.fetchAuditLogs({
         limit: 1,
         type: "MESSAGE_DELETE",
@@ -35,7 +35,7 @@ module.exports = {
         try {
           const delmessage = new Discord.MessageEmbed()
             .setTitle("A message got Deleted!!")
-            .setAuthor(message.author.username, message.author.avatarURL())
+            .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
             .setDescription(
               "Message by: " + message.author + "\nDeleted by: " + executor
             )

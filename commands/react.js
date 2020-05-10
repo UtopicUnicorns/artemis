@@ -33,8 +33,8 @@ module.exports = {
       .then(messages => {
         for (let n in array) {
           if (n > 19) return;
-          if (message.guild.emojis.find(r => r.name == array[n])) {
-            var emoji = [message.guild.emojis.find(r => r.name == array[n])];
+          if (message.guild.emojis.cache.find(r => r.name == array[n])) {
+            var emoji = [message.guild.emojis.cache.find(r => r.name == array[n])];
             for (let i in emoji) {
               messages.react(emoji[i]);
             }

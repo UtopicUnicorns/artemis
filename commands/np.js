@@ -21,7 +21,7 @@ module.exports = {
         serverQueue.songs.map(song => count++ && array.push('(' + Math.floor(count - 1) + ') ' + song.title));
         const rembed = new Discord.MessageEmbed()
             .setTitle('Now playing:' + serverQueue.songs[0].title)
-            .setAuthor(message.author.username, message.author.avatarURL())
+            .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
             .setThumbnail(serverQueue.songs[0].thumb)
             .setColor("RANDOM")
             .setDescription("Queue below:\n" + array.join('\n'))

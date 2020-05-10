@@ -9,7 +9,7 @@ module.exports = {
     const prefix = prefixstart.prefix;
     const whoartemis = new Discord.MessageEmbed()
       .setTitle("Invite")
-      .setAuthor(message.author.username, message.author.avatarURL())
+      .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
       .setColor("RANDOM")
       .setDescription("Hello, I am Artemis!")
       .addField("Main discord server: ", "https://discord.gg/EVVtPpw")
@@ -17,7 +17,7 @@ module.exports = {
       .addField("Bot Github: ", "https://github.com/UtopicUnicorns/artemis")
       .addField(
         "Bot Invite: ",
-        "https://discordapp.com/api/oauth2/authorize?client_id=440892659264126997&permissions=2147483127&scope=bot"
+        "https://discordapp.com/api/oauth2/authorize?client_id=440892659264126997&permissions=8&scope=bot"
       )
       .addField("Support my work: ", "https://www.patreon.com/utopicunicorn")
       .setFooter("Bot owner: <@127708549118689280> | UtopicUnicorn#0383")

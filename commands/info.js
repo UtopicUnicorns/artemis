@@ -8,7 +8,7 @@ module.exports = {
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
     let inline = true;
-    let sicon = message.guild.iconURL({ format: 'jpg' });
+    let sicon = message.guild.iconURL({ format: "jpg" });
     function convertMS(milliseconds) {
       var day, hour, minute, seconds;
       seconds = Math.floor(milliseconds / 1000);
@@ -55,8 +55,17 @@ module.exports = {
       )
       .addField("Total servers", message.client.guilds.cache.size)
       .addField("Total users: ", message.client.users.cache.size)
-      .addField("You Joined", message.member.joinedAt)
-      .setFooter(`Created ${message.guild.createdAt}`);
+      .addField(
+        "You Joined",
+        moment
+          .utc(message.member.joinedAt)
+          .format("dddd, MMMM Do YYYY, HH:mm:ss")
+      )
+      .setFooter(
+        `Created ${moment
+          .utc(message.guild.createdAt)
+          .format("dddd, MMMM Do YYYY, HH:mm:ss")}`
+      );
     message.channel.send(serverembed);
     //
     let getUsage = db.prepare("SELECT * FROM usage WHERE command = ?");

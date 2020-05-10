@@ -35,8 +35,8 @@ module.exports = {
       } else {
         const logsmessage = new Discord.MessageEmbed()
           .setTitle(prefix + "rolegive")
-          .setAuthor(message.author.username, message.author.avatarURL())
-          .setDescription("Used by: " + message.author)
+          .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
+          .setDescription("Used by: " + `${message.author}`)
           .setURL(message.url)
           .setColor("RANDOM")
           .addField("Usage:\n", message.content, true)
@@ -73,8 +73,8 @@ module.exports = {
     } else {
       const logsmessage = new Discord.MessageEmbed()
         .setTitle(prefix + "rolegive")
-        .setAuthor(message.author.username, message.author.avatarURL())
-        .setDescription("Used by: " + message.author)
+        .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
+        .setDescription("Used by: " + `${message.author}`)
         .setURL(message.url)
         .setColor("RANDOM")
         .addField("Usage:\n", message.content, true)

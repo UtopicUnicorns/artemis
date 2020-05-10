@@ -17,7 +17,7 @@ module.exports = {
       usage.number++;
       setUsage.run(usage);
       //
-      let array = await message.guild.members.map((m) => m);
+      let array = await message.guild.members.cache.map((m) => m);
       let args = message.content.slice(10);
       let role = message.guild.roles.cache.find((r) => r.name === args);
       console.log(args);
@@ -41,8 +41,8 @@ module.exports = {
       } else {
         const logsmessage = new Discord.MessageEmbed()
           .setTitle(prefix + "massdel")
-          .setAuthor(message.author.username, message.author.avatarURL())
-          .setDescription("Used by: " + message.author)
+          .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
+          .setDescription("Used by: " + `${message.author}`)
           .setURL(message.url)
           .setColor("RANDOM")
           .addField("Usage:\n", message.content, true)

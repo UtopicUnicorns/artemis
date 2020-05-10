@@ -18,7 +18,7 @@ module.exports = {
     //
     curl.get("https://distrowatch.com/random.php", function(error, response, body) {
       let test = htmlText(body).split("\n");
-      const kappa = message.client.emojis.find(emoji => emoji.name === "kappa");
+      const kappa = message.client.emojis.cache.find(emoji => emoji.name === "kappa");
         message.reply('I use ' + test[0].slice(17) + ` btw ${kappa}`)
     });
   }

@@ -107,7 +107,7 @@ module.exports = {
             }, 200 * count);
           }
           return muteChannel1.send(
-            user +
+            `${user}` +
               ", You have been muted by our system due to breaking rules, trying to leave and rejoin will not work!"
           );
         }
@@ -123,7 +123,7 @@ module.exports = {
         const embed = new Discord.MessageEmbed()
           .setTitle(`User joined`)
           .setColor(`RANDOM`)
-          .setDescription(guildMember.user)
+          .setDescription(`${guildMember.user}`)
           .addField(
             `This user has joined us.`,
             "\n" +
@@ -191,7 +191,7 @@ module.exports = {
           return muteChannel1.send(
             ageA.join(" ") +
               " " +
-              guildMember.user +
+              `${guildMember.user}` +
               "\nAutomod Strict is on!\nThis means that every user gets dumped into this channel.\nAutomod strict is usually enabled if there is a raid going on."
           );
         } catch {
@@ -210,7 +210,7 @@ module.exports = {
       return muteChannel1.send(
         ageA.join(" ") +
           " " +
-          guildMember.user +
+          `${guildMember.user}` +
           "\nWelcome, you need to verify yourself first!\nTo begin write `" +
           prefix +
           "verify`"

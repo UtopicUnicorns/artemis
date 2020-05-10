@@ -24,7 +24,7 @@ module.exports = {
     googleIt({ options, query: args, disableConsole: true })
       .then((results) => {
         let embed = new Discord.MessageEmbed()
-          .setAuthor(message.author.username, message.author.avatarURL())
+          .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
           .setTitle(results[0].title)
           .setURL(results[0].link)
           .setDescription(results[0].snippet + "\n\n" + results[0].link)

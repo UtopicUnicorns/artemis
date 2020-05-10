@@ -45,8 +45,8 @@ module.exports = {
           setTimeout(() => {
             const logsmessage = new Discord.MessageEmbed()
               .setTitle(prefix + "set")
-              .setAuthor(message.author.username, message.author.avatarURL())
-              .setDescription("Used by: " + message.author)
+              .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
+              .setDescription("Used by: " + `${message.author}`)
               .setURL(message.url)
               .setColor("RANDOM")
               .addField("Usage:\n", message.content, true)
@@ -199,7 +199,7 @@ module.exports = {
       if (args[0] == `mute`) {
         if (!member) {
           const logsmessage2 = new Discord.MessageEmbed()
-            .setAuthor(message.author.username, message.author.avatarURL())
+            .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
             .setColor("RANDOM")
             .setTitle("Usage")
             .addField(prefix + "set mute @mention\n", "Mute a user")
@@ -222,7 +222,7 @@ module.exports = {
         if (args[1] == `time`) {
           if (!args[2]) {
             const logsmessage2 = new Discord.MessageEmbed()
-              .setAuthor(message.author.username, message.author.avatarURL())
+              .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
               .setColor("RANDOM")
               .setTitle("Usage")
               .addField(prefix + "set mute @mention\n", "Mute a user")
@@ -241,7 +241,7 @@ module.exports = {
           }
           if (!args[3]) {
             const logsmessage2 = new Discord.MessageEmbed()
-              .setAuthor(message.author.username, message.author.avatarURL())
+              .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
               .setColor("RANDOM")
               .setTitle("Usage")
               .addField(prefix + "set mute @mention\n", "Mute a user")

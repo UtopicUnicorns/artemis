@@ -33,13 +33,13 @@ module.exports = {
         if (reaction.message.author.id == "440892659264126997") return;
         if (reaction.users.first() == reaction.message.author)
           return reaction.remove(reaction.message.author.id);
-        if (!reaction.message.MessageAttachments.size > 0) {
+        if (!reaction.message.attachments.size > 0) {
           try {
             const editmessage = new Discord.MessageEmbed()
               .setTitle("A message got reported!")
               .setAuthor(
                 reaction.message.author.username,
-                reaction.message.author.avatarURL()
+                reaction.message.author.avatarURL({ format: "jpg" })
               )
               .setDescription("Message by: " + reaction.message.author)
               .setURL(reaction.message.url)
@@ -65,12 +65,12 @@ module.exports = {
         }
         if (reaction.message.content === "") {
           try {
-            const image = reaction.message.MessageAttachments.array()[0].url;
+            const image = reaction.message.attachments.array()[0].url;
             const editmessage = new Discord.MessageEmbed()
               .setTitle("A message got reported!")
               .setAuthor(
                 reaction.message.author.username,
-                reaction.message.author.avatarURL()
+                reaction.message.author.avatarURL({ format: "jpg" })
               )
               .setDescription("Message by: " + reaction.message.author)
               .setURL(reaction.message.url)
@@ -95,12 +95,12 @@ module.exports = {
           }
         }
         try {
-          const image = reaction.message.MessageAttachments.array()[0].url;
+          const image = reaction.message.attachments.array()[0].url;
           const editmessage = new Discord.MessageEmbed()
             .setTitle("A message got reported!")
             .setAuthor(
               reaction.message.author.username,
-              reaction.message.author.avatarURL()
+              reaction.message.author.avatarURL({ format: "jpg" })
             )
             .setDescription("Message by: " + reaction.message.author)
             .setURL(reaction.message.url)
@@ -139,7 +139,7 @@ module.exports = {
             .setTitle("A message that was reported got deleted!")
             .setAuthor(
               reaction.message.author.username,
-              reaction.message.author.avatarURL()
+              reaction.message.author.avatarURL({ format: "jpg" })
             )
             .setDescription("Message by: " + reaction.message.author)
             .setColor("RANDOM")
@@ -164,20 +164,20 @@ module.exports = {
       }
     }
     //Highlights
-    let limit = 1;
+    let limit = 3;
     if (reaction.emoji.name == "🍵" && reaction.count == limit) {
       if (highlightChannel1 == "0")
         return reaction.message.channel.send(
           "You did not set up a Highlights channel!"
         );
       if (reaction.message.author.id == "440892659264126997") return;
-      if (!reaction.message.MessageAttachments.size > 0) {
+      if (!reaction.message.attachments.size > 0) {
         try {
           const editmessage = new Discord.MessageEmbed()
             .setTitle("A message got highlighted!")
             .setAuthor(
               reaction.message.author.username,
-              reaction.message.author.avatarURL()
+              reaction.message.author.avatarURL({ format: "jpg" })
             )
             .attachFiles(["./modules/img/tea.png"])
             .setThumbnail("attachment://tea.png")
@@ -208,12 +208,12 @@ module.exports = {
             "You did not set up a logs channel!"
           );
         try {
-          const image = reaction.message.MessageAttachments.array()[0].url;
+          const image = reaction.message.attachments.array()[0].url;
           const editmessage = new Discord.MessageEmbed()
             .setTitle("A message got highlighted!")
             .setAuthor(
               reaction.message.author.username,
-              reaction.message.author.avatarURL()
+              reaction.message.author.avatarURL({ format: "jpg" })
             )
             .attachFiles(["./modules/img/tea.png"])
             .setThumbnail("attachment://tea.png")
@@ -243,12 +243,12 @@ module.exports = {
           "You did not set up a logs channel!"
         );
       try {
-        const image = reaction.message.MessageAttachments.array()[0].url;
+        const image = reaction.message.attachments.array()[0].url;
         const editmessage = new Discord.MessageEmbed()
           .setTitle("A message got highlighted!")
           .setAuthor(
             reaction.message.author.username,
-            reaction.message.author.avatarURL()
+            reaction.message.author.avatarURL({ format: "jpg" })
           )
           .attachFiles(["./modules/img/tea.png"])
           .setThumbnail("attachment://tea.png")
@@ -307,7 +307,7 @@ module.exports = {
               guildMember.roles.add(role).catch(console.error);
               reaction.remove(user.id);
               const embed = new Discord.MessageEmbed()
-                .setAuthor(user.username, user.avatarURL())
+                .setAuthor(user.username, user.avatarURL({ format: "jpg" }))
                 .setColor("RANDOM")
                 .addField("Joined: ", role, true)
                 .setTimestamp();
@@ -321,7 +321,7 @@ module.exports = {
               guildMember.roles.remove(role).catch(console.error);
               reaction.remove(user.id);
               const embed = new Discord.MessageEmbed()
-                .setAuthor(user.username, user.avatarURL())
+                .setAuthor(user.username, user.avatarURL({ format: "jpg" }))
                 .setColor("RANDOM")
                 .addField("Left: ", role, true)
                 .setTimestamp();

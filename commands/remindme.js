@@ -47,7 +47,7 @@ module.exports = {
           "\n";
       }
       const embed = new Discord.MessageEmbed()
-        .setAuthor(message.author.username, message.author.avatarURL())
+        .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
         .setTitle("Remindme")
         .setColor(`RANDOM`)
         .setDescription("Reminders:\n" + str)
@@ -62,7 +62,7 @@ module.exports = {
     }
     if (!args[1]) {
       const embed = new Discord.MessageEmbed()
-        .setAuthor(message.author.username, message.author.avatarURL())
+        .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
         .setTitle("ERROR")
         .setColor(`RANDOM`)
         .setDescription("No time set!")
@@ -153,7 +153,7 @@ module.exports = {
       );
     }
     const embed = new Discord.MessageEmbed()
-      .setAuthor(message.author.username, message.author.avatarURL())
+      .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
       .setTitle("UNSUPPORTED FORMAT")
       .setColor(`RANDOM`)
       .setDescription("No time set!")
