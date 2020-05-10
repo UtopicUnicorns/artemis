@@ -232,7 +232,7 @@ client.once("ready", () => {
 //Reconnect
 client.once("shardReconnecting", id => {
   //Wipe music
-  const musicf = fs.readdirSync("./music");
+  /* const musicf = fs.readdirSync("./music");
   for (const file of musicf) {
     fs.unlink("./music/" + file, (err) => {
       if (err) {
@@ -240,7 +240,7 @@ client.once("shardReconnecting", id => {
         return;
       }
     });
-  }
+  } */
 
   //reconnect console message fuck you too
   console.log(
@@ -297,14 +297,6 @@ client.on("guildCreate", (guild) => {
   if (!newGuild1) {
     newGuild = getGuild.get(guild.id);
     if (!newGuild) {
-      if (!guild.roles.cache.find((r) => r.name === `Muted`)) {
-        guild.roles.create({
-          data: {
-          name: `Muted`,
-          },
-          reason: 'Needed for Artemis',
-        });
-      }
       if (!guild.roles.cache.find((r) => r.name === `~/Members`)) {
         guild.roles.create({
           data: {

@@ -18,18 +18,18 @@ module.exports = {
     //
     let args = message.content.slice(prefix.length + 5).split(" ");
     const serverQueue = message.client.queue.get(message.guild.id);
-    if (!message.member.voiceChannel)
+    if (!message.member.voice.channel)
       return message.channel.send(
         "You have to be in a voice channel to stop the music!"
       );
     if (!serverQueue)
       return message.channel.send("There is no song that I could skip!");
     if (!args[0]) {
-      serverQueue.connection.dispatcher.destroy();
+      serverQueue.connection.dispatcher.end();
       return message.reply("Skipped!");
     }
     if (args[0] == "0") {
-      serverQueue.connection.dispatcher.destroy();
+      serverQueue.connection.dispatcher.end();
       return message.reply("Skipped!");
     }
     if (args[0] > serverQueue.songs.length - 1) {

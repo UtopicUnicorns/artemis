@@ -62,7 +62,7 @@ module.exports = {
             if (channel) {
               if (muteChannel1) {
                 if (i == muteChannel1.id) {
-                  channel.overwritePermissions(member, {
+                  channel.createOverwrite(member, {
                     VIEW_CHANNEL: true,
                     READ_MESSAGES: true,
                     SEND_MESSAGES: true,
@@ -75,7 +75,7 @@ module.exports = {
                   );
                 }
               }
-              channel.overwritePermissions(member, {
+              channel.createOverwrite(member, {
                 VIEW_CHANNEL: false,
                 READ_MESSAGES: false,
                 SEND_MESSAGES: false,

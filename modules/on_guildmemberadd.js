@@ -84,7 +84,7 @@ module.exports = {
               if (channel) {
                 if (muteChannel1) {
                   if (i !== muteChannel1.id) {
-                    channel.overwritePermissions(user, {
+                    channel.createOverwrite(user, {
                       VIEW_CHANNEL: false,
                       READ_MESSAGES: false,
                       SEND_MESSAGES: false,
@@ -95,7 +95,7 @@ module.exports = {
                   let channel2 = guildMember.guild.channels.cache.find(
                     (channel) => channel.id === muteChannel1.id
                   );
-                  channel2.overwritePermissions(user, {
+                  channel2.createOverwrite(user, {
                     VIEW_CHANNEL: true,
                     READ_MESSAGES: true,
                     SEND_MESSAGES: true,
@@ -163,7 +163,7 @@ module.exports = {
           if (channel) {
             if (muteChannel1) {
               if (i !== muteChannel1.id) {
-                channel.overwritePermissions(user, {
+                channel.createOverwrite(user, {
                   VIEW_CHANNEL: false,
                   READ_MESSAGES: false,
                   SEND_MESSAGES: false,
@@ -174,7 +174,7 @@ module.exports = {
               let channel2 = guildMember.guild.channels.cache.find(
                 (channel) => channel.id === muteChannel1.id
               );
-              channel2.overwritePermissions(user, {
+              channel2.createOverwrite(user, {
                 VIEW_CHANNEL: true,
                 READ_MESSAGES: true,
                 SEND_MESSAGES: true,
