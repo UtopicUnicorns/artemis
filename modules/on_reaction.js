@@ -302,34 +302,42 @@ module.exports = {
             const guildMember = reaction.message.guild.members.cache.get(
               user.id
             );
-            let haverole = guildMember.roles.has(role.id);
+            let haverole = guildMember.roles.cache.find(
+              (r) => r.id === role.id
+            );
             if (!haverole) {
               guildMember.roles.add(role).catch(console.error);
-              reaction.remove(user.id);
+              reaction.users.remove(user.id);
               const embed = new Discord.MessageEmbed()
                 .setAuthor(user.username, user.avatarURL({ format: "jpg" }))
                 .setColor("RANDOM")
                 .addField("Joined: ", role, true)
                 .setTimestamp();
-              reaction.message.client.channels
+              reaction.message.client.channels.cache
                 .get(reactionChannel1.id)
                 .send(embed)
                 .then((message) => {
-                  message.delete(5000);
+                  message.delete({
+                    timeout: 5000,
+                    reason: "It had to be done.",
+                  });
                 });
             } else {
               guildMember.roles.remove(role).catch(console.error);
-              reaction.remove(user.id);
+              reaction.users.remove(user.id);
               const embed = new Discord.MessageEmbed()
                 .setAuthor(user.username, user.avatarURL({ format: "jpg" }))
                 .setColor("RANDOM")
                 .addField("Left: ", role, true)
                 .setTimestamp();
-              reaction.message.client.channels
+              reaction.message.client.channels.cache
                 .get(reactionChannel1.id)
                 .send(embed)
                 .then((message) => {
-                  message.delete(5000);
+                  message.delete({
+                    timeout: 5000,
+                    reason: "It had to be done.",
+                  });
                 });
             }
           }

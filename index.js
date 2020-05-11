@@ -74,7 +74,7 @@ client.once("ready", () => {
 
   //change bot Status
   setInterval(() => {
-    var RAN = [`https://artemisbot.eu`, `${client.guilds.size} servers`];
+    var RAN = [`https://artemisbot.eu`, `${client.guilds.cache.size} servers`];
     client.user.setActivity(RAN[~~(Math.random() * RAN.length)], {
       type: "LISTENING",
     });

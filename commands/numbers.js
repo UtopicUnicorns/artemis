@@ -15,7 +15,7 @@ module.exports = {
         setUsage.run(usage);
         //
         const allroles = db.prepare("SELECT * FROM roles WHERE guild = ?;").all(message.guild.id);
-        let array = message.guild.roles.sort((a, b) => a.position - b.position).map(role => role);
+        let array = message.guild.roles.cache.sort((a, b) => a.position - b.position).map(role => role);
         let array2 = [];
         let str = "";
         for (const data of allroles) {
@@ -23,7 +23,7 @@ module.exports = {
         }
         for (let i of array) {
            if(array2.includes(i.id))
-            str += message.guild.roles.cache.find(r => r.name === (i.name)) + ": " + message.guild.roles.cache.find(r => r.name === (i.name)).members.size + "\n";
+            str += `${message.guild.roles.cache.find(r => r.name === (i.name))}` + ": " + message.guild.roles.cache.find(r => r.name === (i.name)).members.size + "\n";
         }
         const embed = new Discord.MessageEmbed()
             .setTitle("Role Sizes")
