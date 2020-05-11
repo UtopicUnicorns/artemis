@@ -15,11 +15,11 @@ console.log = function (str) {
   originalLog(str);
   if (str) {
     if (str.length > 1500) {
-      client.channels.cache.get("661927474673876992").send(str, {
+      client.channels.cache.get("701764606053580870").send(str, {
         split: true,
       });
     } else {
-      client.channels.cache.get("661927474673876992").send(str);
+      client.channels.cache.get("701764606053580870").send(str);
     }
   }
 };
@@ -67,7 +67,7 @@ client.once("ready", () => {
         .filter((guild) => guild.owner !== undefined)
         .map(
           (guild) =>
-            `${guild.id}/${guild.name}\nUsers: ${guild.memberCount}\nOwner: ${guild.owner.user.username}`
+            `${guild.id}/${guild.name}\nUsers: ${guild.memberCount}`
         )
         .join("\n\n")
   );
@@ -254,7 +254,7 @@ client.once("shardReconnecting", id => {
         .filter((guild) => guild.owner !== undefined)
         .map(
           (guild) =>
-            `${guild.id}/${guild.name}\nUsers: ${guild.memberCount}\nOwner: ${guild.owner.user.username}`
+            `${guild.id}/${guild.name}\nUsers: ${guild.memberCount}`
         )
         .join("\n\n")
   );
@@ -287,9 +287,7 @@ client.on("guildCreate", (guild) => {
     "Joined a new guild: " +
       guild.name +
       " Users: " +
-      guild.memberCount +
-      " Owner: " +
-      guild.owner.user.username
+      guild.memberCount
   );
 
   //Check if they have been sad returnees
@@ -332,9 +330,7 @@ client.on("guildDelete", (guild) => {
     "Left a guild: " +
       guild.name +
       " Users: " +
-      guild.memberCount +
-      " Owner: " +
-      guild.owner.user.username
+      guild.memberCount
   );
 
   //next

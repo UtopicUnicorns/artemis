@@ -4,7 +4,9 @@ dbinit = require("./dbinit.js");
 dbinit.dbinit();
 module.exports = {
   onMemberPrupdate: async function (oldPresence, newPresence) {
+    if (!oldPresence) return;
     const user = oldPresence.guild.members.cache.get(oldPresence.userID);
+    if (!user) return;
     //Twitch notifications
     if (oldPresence.activities !== newPresence.activities) {
       if (!oldPresence.activities[0]) {
