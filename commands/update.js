@@ -29,7 +29,7 @@ module.exports = {
     }
     //
     for (let i of logschannels) {
-      await sleep(10000);
+      await sleep(5000);
       if (message.client.channels.cache.get(`${i}`)) {
         const updatetext = new Discord.MessageEmbed()
           .setTitle("Update")
