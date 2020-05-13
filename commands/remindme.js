@@ -37,9 +37,9 @@ module.exports = {
           "\nWhen: " +
           moment(timers, "YYYYMMDDHHmmss").fromNow() +
           "\n" +
-          guildname +
+          `${guildname}` +
           "\n" +
-          channelname +
+          `${channelname}` +
           "\nReminder: " +
           data.reminder +
           "\nDeletion key: " +

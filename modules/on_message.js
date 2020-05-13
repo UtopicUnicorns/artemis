@@ -93,7 +93,10 @@ module.exports = {
       );
       const whoartemis = new Discord.MessageEmbed()
         .setTitle("Invite")
-        .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
+        .setAuthor(
+          message.author.username,
+          message.author.avatarURL({ format: "jpg" })
+        )
         .setColor("RANDOM")
         .setDescription("Hello, I am Artemis!")
         .addField("Main discord server: ", "https://discord.gg/EVVtPpw")
@@ -174,11 +177,15 @@ module.exports = {
       if (!generalChannel1) {
         var generalChannel1 = "0";
       }
-      var muteChannel1 = message.guild.channels.cache.get(guildChannels.muteChannel);
+      var muteChannel1 = message.guild.channels.cache.get(
+        guildChannels.muteChannel
+      );
       if (!muteChannel1) {
         var muteChannel1 = "0";
       }
-      var logsChannel1 = message.guild.channels.cache.get(guildChannels.logsChannel);
+      var logsChannel1 = message.guild.channels.cache.get(
+        guildChannels.logsChannel
+      );
       if (!logsChannel1) {
         var logsChannel1 = "0";
       }
@@ -230,7 +237,10 @@ module.exports = {
     ) {
       const nonprefix = new Discord.MessageEmbed()
         .setTitle("Non prefix help menu")
-        .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
+        .setAuthor(
+          message.author.username,
+          message.author.avatarURL({ format: "jpg" })
+        )
         .setDescription(
           "This message was triggered by mentioning me with the help argument"
         )
@@ -305,12 +315,16 @@ module.exports = {
                 let ageA = ageS.split(" ");
                 if (roleadd) {
                   setTimeout(async () => {
-                    await message.member.roles.add(roleadd).catch(console.error);
+                    await message.member.roles
+                      .add(roleadd)
+                      .catch(console.error);
                   }, 5000);
                 }
                 const canvas = Canvas.createCanvas(700, 250);
                 const ctx = canvas.getContext("2d");
-                const background = await Canvas.loadImage("./modules/img/mintwelcome.png");
+                const background = await Canvas.loadImage(
+                  "./modules/img/mintwelcome.png"
+                );
                 ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
                 ctx.font = "30px Zelda";
                 ctx.shadowColor = "black";
@@ -328,13 +342,17 @@ module.exports = {
                   canvas.width / 3.0,
                   canvas.height / 2.0
                 );
-                const avatar = await Canvas.loadImage(member.displayAvatarURL({ format: 'jpg' }));
+                const avatar = await Canvas.loadImage(
+                  member.displayAvatarURL({ format: "jpg" })
+                );
                 ctx.drawImage(avatar, 600, 25, 50, 50);
                 ctx.beginPath();
                 ctx.arc(125, 125, 100, 0, Math.PI * 2, true);
                 ctx.closePath();
                 ctx.clip();
-                const guildlogo = await Canvas.loadImage(message.guild.iconURL({ format: 'jpg' }));
+                const guildlogo = await Canvas.loadImage(
+                  message.guild.iconURL({ format: "jpg" })
+                );
                 ctx.drawImage(guildlogo, 25, 25, 200, 200);
                 const attachment = new Discord.MessageAttachment(
                   canvas.toBuffer(),
@@ -391,7 +409,10 @@ module.exports = {
             .get("695182849476657223")
             .setTopic(selectedthis);
           const topicstart = new Discord.MessageEmbed()
-            .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
+            .setAuthor(
+              message.author.username,
+              message.author.avatarURL({ format: "jpg" })
+            )
             .setColor("RANDOM")
             .setDescription(
               "For the next 30 minutes this will be the topic!\nTrying to go off-topic may have consequences."
@@ -416,9 +437,11 @@ module.exports = {
         message.content
           .toLowerCase()
           .startsWith("i want to enter the dark side, i accept the risk") &&
-        amember.roles.has("629020299261902889")
+        amember.roles.cache.find((r) => r.id === `629020299261902889`)
       ) {
-        let haverole = amember.roles.has("701396956009857083");
+        let haverole = amember.roles.cache.find(
+          (r) => r.id === `701396956009857083`
+        );
         if (haverole) {
           return message.reply("You already have access to the dark side!");
         } else {
@@ -473,7 +496,8 @@ module.exports = {
             if (err) throw err;
           });
           return message.channel.send(
-            "Set channel id to: " + message.client.channels.cache.get(`${cargs}`)
+            "Set channel id to: " +
+              message.client.channels.cache.get(`${cargs}`)
           );
         }
         let channelcheck = fs
@@ -486,7 +510,9 @@ module.exports = {
           );
         }
         try {
-          message.client.channels.cache.get(`${channelcheck}`).send(message.content);
+          message.client.channels.cache
+            .get(`${channelcheck}`)
+            .send(message.content);
         } catch {
           console.log(
             moment().format("MMMM Do YYYY, HH:mm:ss") +
@@ -585,7 +611,10 @@ module.exports = {
               if (res == message.content) return;
               try {
                 const translationtext = new Discord.MessageEmbed()
-                  .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
+                  .setAuthor(
+                    message.author.username,
+                    message.author.avatarURL({ format: "jpg" })
+                  )
                   .setColor("RANDOM")
                   .setDescription(res)
                   .setFooter("Translated from: " + body.lang)
@@ -604,7 +633,7 @@ module.exports = {
               }
             })
             .catch((err) => {
-              console.log('');
+              console.log("");
             });
           if (err) return message.channel.send(err);
         }
@@ -688,7 +717,10 @@ module.exports = {
             });
             const embed = new Discord.MessageEmbed()
               .setTitle("Level Role get!")
-              .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
+              .setAuthor(
+                message.author.username,
+                message.author.avatarURL({ format: "jpg" })
+              )
               .setColor("RANDOM")
               .addField("Gained the title: ", level, true)
               .setTimestamp();
@@ -704,7 +736,8 @@ module.exports = {
       //thanks
       if (message.content.toLowerCase().includes("thank")) {
         const user =
-          message.mentions.users.first() || message.client.users.cache.get(args[0]);
+          message.mentions.users.first() ||
+          message.client.users.cache.get(args[0]);
         if (!user) return;
         if (user == message.author) return;
         if (congratulationsRecently.has(message.author.id + message.guild.id)) {
@@ -736,7 +769,8 @@ module.exports = {
       //love
       if (message.content.toLowerCase().includes("love")) {
         const user =
-          message.mentions.users.first() || message.client.users.cache.get(args[0]);
+          message.mentions.users.first() ||
+          message.client.users.cache.get(args[0]);
         if (!user) return;
         if (user == message.author) return;
         if (congratulationsRecently.has(message.author.id + message.guild.id)) {
@@ -768,7 +802,8 @@ module.exports = {
       //Congratulations
       if (message.content.toLowerCase().includes("congrat")) {
         const user =
-          message.mentions.users.first() || message.client.users.cache.get(args[0]);
+          message.mentions.users.first() ||
+          message.client.users.cache.get(args[0]);
         if (!user) return;
         if (user == message.author) return;
         if (congratulationsRecently.has(message.author.id + message.guild.id)) {

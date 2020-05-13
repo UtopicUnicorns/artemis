@@ -37,7 +37,7 @@ module.exports = {
             .setTitle("A message got Deleted!!")
             .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
             .setDescription(
-              "Message by: " + message.author + "\nDeleted by: " + executor
+              "Message by: " + `${message.author}` + "\nDeleted by: " + `${executor}`
             )
             .setColor("RANDOM")
             .addField("Deleted Message:\n", message.content)
