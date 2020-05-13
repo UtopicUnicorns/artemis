@@ -225,7 +225,27 @@ module.exports = {
       } else {
         if (message.content.toLowerCase() == "help") {
           message.channel.setName(`${eCname}` + cCname);
-          return message.reply("You have started a support session!");
+          const supTic = new Discord.MessageEmbed()
+            .setTitle("Support format")
+            .setAuthor(
+              message.author.username,
+              message.author.avatarURL({ format: "jpg" })
+            )
+            .setDescription("Copy and paste this format and fill it out\nSimply write `done` when you got the help you needed or fixed it")
+            .setColor("RANDOM")
+            .addField("Describe your issue in detail:", "\n-")
+            .addField("What operating system/distribution do you use:", "\n-")
+            .addField("What are your system specifications:", "\n-")
+            .addField(
+              "Explain in detail what the steps were you took to generate this issue:",
+              "\n-"
+            )
+            .addField("Have you tried other solutions, and which ones:", "\n-")
+            .addField("Is this issue something you can easely google:", "\n-")
+            .setTimestamp();
+          return message.reply({
+            embed: supTic,
+          });
         }
       }
     }

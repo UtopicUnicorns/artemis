@@ -27,7 +27,10 @@ module.exports = {
       spec: message.content.slice(prefix.length + 6, 1000),
     };
     setSpecs.run(specsSet);
-    message.delete(2000);
+    message.delete({
+      timeout: 2000,
+      reason: "It had to be done.",
+    });
     message.reply(`Specs updated!`);
   },
 };

@@ -66,8 +66,7 @@ client.once("ready", () => {
       client.guilds.cache
         .filter((guild) => guild.owner !== undefined)
         .map(
-          (guild) =>
-            `${guild.id}/${guild.name}\nUsers: ${guild.memberCount}`
+          (guild) => `${guild.id}/${guild.name}\nUsers: ${guild.memberCount}`
         )
         .join("\n\n")
   );
@@ -114,7 +113,7 @@ client.once("ready", () => {
           .setTitle("REMIND ALERT")
           .setAuthor(
             reminduser.user.username + "#" + reminduser.user.discriminator,
-            reminduser.user.displayAvatarURL({ format: 'jpg' })
+            reminduser.user.displayAvatarURL({ format: "jpg" })
           )
           .setDescription(reminduser)
           .addField("Reminder: ", data.reminder + "!")
@@ -125,6 +124,50 @@ client.once("ready", () => {
         db.prepare(
           `DELETE FROM remind WHERE mid = ${data.mid} AND uid = ${data.uid}`
         ).run();
+      }
+    }
+  }, 5000);
+
+  //support run
+  setInterval(() => {
+    const supportDb = db.prepare("SELECT * FROM support").all();
+    for (const data of supportDb) {
+      if (client.channels.cache.get(data.cid)) {
+        if (client.channels.cache.get(data.cid).name.startsWith("\u231B")) {
+          client.channels.cache
+            .get(data.cid)
+            .messages.fetch()
+            .then((messages) => {
+              let supportChannelTime = messages.map(
+                (msg) => msg.createdTimestamp
+              );
+              let timenow2 = moment(supportChannelTime[0]).format(
+                "YYYYMMDDHHmmss"
+              );
+              let split = moment(timenow2, "YYYYMMDDHHmmss")
+                .fromNow()
+                .split(" ");
+              if (
+                split[1] == "hour" ||
+                split[1] == "hours" ||
+                split[1] == "day" ||
+                split[1] == "days"
+              ) {
+                let changeCC = client.channels.cache
+                  .get(data.cid)
+                  .name.split("");
+                let changeCCC = changeCC.slice(1);
+                client.channels.cache
+                  .get(data.cid)
+                  .setName(changeCCC.join());
+                client.channels.cache
+                  .get(data.cid)
+                  .send(
+                    "Support session expired!\nYou can resume or start a new session by simply typing:\n`help`"
+                  );
+              }
+            });
+        }
       }
     }
   }, 5000);
@@ -173,7 +216,9 @@ client.once("ready", () => {
               `DELETE FROM timers WHERE mid = ${data.mid} AND uid = ${data.uid}`
             )
             .run();
-        let memberrole = gettheguild.roles.cache.find((r) => r.name === `~/Members`);
+        let memberrole = gettheguild.roles.cache.find(
+          (r) => r.name === `~/Members`
+        );
         reminduser.roles.add(memberrole).catch(console.error);
         let array2 = [];
         client.channels.cache
@@ -181,7 +226,9 @@ client.once("ready", () => {
           .map((channels) => array2.push(channels.id));
         for (let i of array2) {
           setTimeout(() => {
-            let channel = client.channels.cache.find((channel) => channel.id === i);
+            let channel = client.channels.cache.find(
+              (channel) => channel.id === i
+            );
             if (channel) {
               if (channel.permissionOverwrites.get(data.uid)) {
                 channel.permissionOverwrites.get(data.uid).delete();
@@ -230,7 +277,7 @@ client.once("ready", () => {
 });
 
 //Reconnect
-client.once("shardReconnecting", id => {
+client.once("shardReconnecting", (id) => {
   //Wipe music
   /* const musicf = fs.readdirSync("./music");
   for (const file of musicf) {
@@ -253,8 +300,7 @@ client.once("shardReconnecting", id => {
       client.guilds.cache
         .filter((guild) => guild.owner !== undefined)
         .map(
-          (guild) =>
-            `${guild.id}/${guild.name}\nUsers: ${guild.memberCount}`
+          (guild) => `${guild.id}/${guild.name}\nUsers: ${guild.memberCount}`
         )
         .join("\n\n")
   );
@@ -284,10 +330,7 @@ client.on("guildMemberRemove", async (guildMember) => {
 client.on("guildCreate", (guild) => {
   //log it into the console
   console.log(
-    "Joined a new guild: " +
-      guild.name +
-      " Users: " +
-      guild.memberCount
+    "Joined a new guild: " + guild.name + " Users: " + guild.memberCount
   );
 
   //Check if they have been sad returnees
@@ -298,9 +341,9 @@ client.on("guildCreate", (guild) => {
       if (!guild.roles.cache.find((r) => r.name === `~/Members`)) {
         guild.roles.create({
           data: {
-          name: `~/Members`,
+            name: `~/Members`,
           },
-          reason: 'Needed for Artemis',
+          reason: "Needed for Artemis",
         });
       }
       newGuild = {
@@ -326,12 +369,7 @@ client.on("guildCreate", (guild) => {
 //Fuck you too
 client.on("guildDelete", (guild) => {
   //log the pitiful loser who left us
-  console.log(
-    "Left a guild: " +
-      guild.name +
-      " Users: " +
-      guild.memberCount
-  );
+  console.log("Left a guild: " + guild.name + " Users: " + guild.memberCount);
 
   //next
 });

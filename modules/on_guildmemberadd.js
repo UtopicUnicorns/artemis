@@ -6,8 +6,8 @@ module.exports = {
   onGuildMemberAdd: async function (guildMember) {
     //ignore bots
     if (guildMember.user.bot) return;
+    
     //load shit
-
     const guildChannels = getGuild.get(guildMember.guild.id);
     if (guildChannels) {
       var thisguild = guildMember.client.guilds.cache.get(guildChannels.guild);
@@ -48,8 +48,11 @@ module.exports = {
         guildMember.roles.add(role);
       }
     }
+
     //account age check
-    let roleadd1 = guildMember.guild.roles.cache.find((r) => r.name === "~/Members");
+    let roleadd1 = guildMember.guild.roles.cache.find(
+      (r) => r.name === "~/Members"
+    );
     let user = guildMember.user;
     let userscore2 = getScore.get(user.id, guildMember.guild.id);
     if (!userscore2) {
@@ -116,6 +119,7 @@ module.exports = {
     var cdate = moment.utc(user.createdAt).format("YYYYMMDD");
     let ageS = moment(cdate, "YYYYMMDD").fromNow(true);
     let ageA = ageS.split(" ");
+
     //logs
     if (logsChannel1 == `0`) {
     } else {
@@ -185,6 +189,7 @@ module.exports = {
           }
         }, 200 * count);
       }
+
       //if Anti raid is on
       if (guildChannels.autoMod == "strict") {
         try {
@@ -204,6 +209,7 @@ module.exports = {
           );
         }
       }
+
       //if there is a mute channel
       const prefixstart = getGuild.get(guildMember.guild.id);
       const prefix = prefixstart.prefix;
@@ -216,6 +222,7 @@ module.exports = {
           "verify`"
       );
     }
+
     //make nice image for welcoming
     if (roleadd1) {
       guildMember.roles.add(roleadd1).catch(console.error);
@@ -225,7 +232,9 @@ module.exports = {
       try {
         const canvas = Canvas.createCanvas(700, 250);
         const ctx = canvas.getContext("2d");
-        const background = await Canvas.loadImage("./modules/img/mintwelcome.png");
+        const background = await Canvas.loadImage(
+          "./modules/img/mintwelcome.png"
+        );
         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
         ctx.font = "30px Zelda";
         ctx.shadowColor = "black";
@@ -244,14 +253,16 @@ module.exports = {
           canvas.height / 2.0
         );
         const avatar = await Canvas.loadImage(
-          guildMember.user.displayAvatarURL({ format: 'jpg' })
+          guildMember.user.displayAvatarURL({ format: "jpg" })
         );
         ctx.drawImage(avatar, 600, 25, 50, 50);
         ctx.beginPath();
         ctx.arc(125, 125, 100, 0, Math.PI * 2, true);
         ctx.closePath();
         ctx.clip();
-        const guildlogo = await Canvas.loadImage(guildMember.guild.iconURL({ format: 'jpg' }));
+        const guildlogo = await Canvas.loadImage(
+          guildMember.guild.iconURL({ format: "jpg" })
+        );
         ctx.drawImage(guildlogo, 25, 25, 200, 200);
         const attachment = new Discord.MessageAttachment(
           canvas.toBuffer(),
@@ -259,13 +270,7 @@ module.exports = {
         );
         await generalChannel1.send(attachment);
       } catch {
-        console.log(
-          moment().format("MMMM Do YYYY, HH:mm:ss") +
-            "\n" +
-            __filename +
-            ":" +
-            ln()
-        );
+        console.log("");
       }
     }
   },
