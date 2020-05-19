@@ -22,7 +22,6 @@ exports.npm = function () {
   Captcha2 = require("./captcha.js");
   youtube = new YouTube(configfile.youtubekey);
   ping = new Set();
-  spamRecently = new Set();
   msgRecently = new Set();
   noticeset = new Set();
   supportGet = new Set();

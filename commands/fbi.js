@@ -30,16 +30,31 @@ module.exports = {
       );
     }
 
+    //delete message
+    message.delete();
+
+    //image select
+    let selectthis = [
+      "./modules/img/wanted1.png",
+      "./modules/img/wanted2.png",
+      "./modules/img/wanted3.png",
+      "./modules/img/wanted4.png",
+      "./modules/img/wanted5.png",
+    ];
+
+    //pick image
+    let selectedthis = selectthis[~~(Math.random() * selectthis.length)];
+
     //make image
     const canvas = Canvas.createCanvas(645, 545);
     const ctx = canvas.getContext("2d");
 
     //Make background
-    const background = await Canvas.loadImage("./modules/img/wanted.png");
+    const background = await Canvas.loadImage(selectedthis);
     ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 
     //Report Name
-    ctx.font = "50px sans-serif";
+    ctx.font = "48px sans-serif";
     ctx.fillStyle = "#000";
     ctx.textAlign = "center";
     ctx.fillText(user.user.username, 322, 165);
@@ -50,23 +65,33 @@ module.exports = {
     );
     ctx.drawImage(userImage, 222, 225, 200, 200);
 
+    //photo effect
+    const poeff = await Canvas.loadImage("./modules/img/eff.png");
+    ctx.drawImage(poeff, 222, 225, 200, 200);
+
     //nickname
     ctx.font = "10px sans-serif";
     ctx.fillStyle = "#000";
     ctx.textAlign = "left";
-    ctx.fillText(user.user.username + ', ' + user.nickname, 48, 452);
+    ctx.fillText(user.user.username + ", " + user.nickname, 48, 452);
 
     //user creation date
     ctx.font = "10px sans-serif";
     ctx.fillStyle = "#000";
     ctx.textAlign = "left";
-    ctx.fillText(moment.utc(user.user.createdTimestamp).format("dddd, MMMM Do YYYY, HH:mm:ss"), 118, 468);
+    ctx.fillText(
+      moment
+        .utc(user.user.createdTimestamp)
+        .format("dddd, MMMM Do YYYY, HH:mm:ss"),
+      118,
+      468
+    );
 
     //pleb
     ctx.font = "10px sans-serif";
     ctx.fillStyle = "#000";
     ctx.textAlign = "left";
-    ctx.fillText('pleb', 38, 519);
+    ctx.fillText("pleb", 38, 519);
 
     //current discord guild name
     ctx.font = "10px sans-serif";

@@ -30,6 +30,7 @@ module.exports = {
             .addField('(9)\n', 'In-case these rules do not cover a specific situation, mods are allowed to follow their own judgement.')
             .addField('(10)\n', 'We all have our preferences, but do not force it upon one another.')
             .addField('(11)\n', 'This is a Linux based server, keep distro trashtalking and/or editor shittalk to yourself.')
+            .addField('(12)\n', 'Advertising is forbidden.')
             .setURL('https://discord.gg/dSCqtqj')
             .setFooter('Violating these rules may cause a kick, mute or ban from the server.')
             .setTimestamp();

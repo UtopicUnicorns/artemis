@@ -17,6 +17,7 @@ exports.dbinit = function () {
     db.pragma("synchronous = 1");
     db.pragma("journal_mode = wal");
   }
+
   ////////////////////
   //Channelmanage DB//
   ////////////////////
@@ -33,6 +34,7 @@ exports.dbinit = function () {
     db.pragma("synchronous = 1");
     db.pragma("journal_mode = wal");
   }
+
   ////////////////////
   //Rolemanage    DB//
   ////////////////////
@@ -49,6 +51,7 @@ exports.dbinit = function () {
     db.pragma("synchronous = 1");
     db.pragma("journal_mode = wal");
   }
+
   ////////////////////
   //Word filter   DB//
   ////////////////////
@@ -67,6 +70,7 @@ exports.dbinit = function () {
     db.pragma("synchronous = 1");
     db.pragma("journal_mode = wal");
   }
+
   ////////////////////
   //level up      DB//
   ////////////////////
@@ -83,6 +87,7 @@ exports.dbinit = function () {
     db.pragma("synchronous = 1");
     db.pragma("journal_mode = wal");
   }
+
   ////////////////////
   //command usage DB//
   ////////////////////
@@ -99,6 +104,7 @@ exports.dbinit = function () {
     db.pragma("synchronous = 1");
     db.pragma("journal_mode = wal");
   }
+
   //////////////////////
   //Remind          DB//
   //////////////////////
@@ -115,8 +121,9 @@ exports.dbinit = function () {
     db.pragma("synchronous = 1");
     db.pragma("journal_mode = wal");
   }
+
   //////////////////////
-  //ban or stream   DB//
+  //mute or stream  DB//
   //////////////////////
   const table8 = db
     .prepare(
@@ -131,6 +138,7 @@ exports.dbinit = function () {
     db.pragma("synchronous = 1");
     db.pragma("journal_mode = wal");
   }
+
   //////////////////////
   //support         DB//
   //////////////////////
@@ -145,6 +153,7 @@ exports.dbinit = function () {
     db.pragma("synchronous = 1");
     db.pragma("journal_mode = wal");
   }
+
   //////////////////////
   //specs           DB//
   //////////////////////
@@ -159,51 +168,84 @@ exports.dbinit = function () {
     db.pragma("synchronous = 1");
     db.pragma("journal_mode = wal");
   }
+
+  //////////////////////
+  //support cases   DB//
+  //////////////////////
+  const table11 = db
+    .prepare(
+      "SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'supcase';"
+    )
+    .get();
+  if (!table11["count(*)"]) {
+    db.prepare(
+      "CREATE TABLE supcase (scase TEXT PRIMARY KEY, askby TEXT, question TEXT, solveby TEXT, answer TEXT, murl TEXT);"
+    ).run();
+    db.prepare("CREATE UNIQUE INDEX idx_supcase_id ON supcase (scase);").run();
+    db.pragma("synchronous = 1");
+    db.pragma("journal_mode = wal");
+  }
+
+  //support cases
+  getSupCase = db.prepare("SELECT * FROM supcase WHERE scase = ?");
+  setSupCase = db.prepare(
+    "INSERT OR REPLACE INTO supcase (scase, askby, question, solveby, answer, murl) VALUES (@scase, @askby, @question, @solveby, @answer, @murl);"
+  );
+
   //Run specs DB
   getSpecs = db.prepare("SELECT * FROM specs WHERE uid = ?");
   setSpecs = db.prepare(
     "INSERT OR REPLACE INTO specs (uid, spec) VALUES (@uid, @spec);"
   );
+
   //Run support DB
   getSupport = db.prepare("SELECT * FROM support WHERE cid = ? AND gid = ?");
   setSupport = db.prepare(
     "INSERT OR REPLACE INTO support (cid, gid) VALUES (@cid, @gid);"
   );
+
   //Run remind DB
   getRemind = db.prepare("SELECT * FROM remind WHERE time = ?");
   setRemind = db.prepare(
     "INSERT OR REPLACE INTO remind (mid, cid, gid, uid, time, reminder) VALUES (@mid, @cid, @gid, @uid, @time, @reminder);"
   );
+
   //Run ban or stream DB
   getTimers = db.prepare("SELECT * FROM timers WHERE time = ?");
   setTimers = db.prepare(
     "INSERT OR REPLACE INTO timers (mid, cid, gid, uid, time, bs) VALUES (@mid, @cid, @gid, @uid, @time, @bs);"
   );
+
   //Run user info/scores
   getScore = db.prepare("SELECT * FROM scores WHERE user = ? AND guild = ?");
   setScore = db.prepare(
     "INSERT OR REPLACE INTO scores (id, user, guild, points, level, warning, muted, translate, stream, notes) VALUES (@id, @user, @guild, @points, @level, @warning, @muted, @translate, @stream, @notes);"
   );
+
   //loadusage
   getUsage = db.prepare("SELECT * FROM usage WHERE command = ?");
   setUsage = db.prepare(
     "INSERT OR REPLACE INTO usage (command, number) VALUES (@command, @number);"
   );
+
   //run level up
   getLevel = db.prepare("SELECT * FROM level WHERE guild = ?");
   setLevel = db.prepare(
     "INSERT OR REPLACE INTO level (guild, lvl5, lvl10, lvl15, lvl20, lvl30, lvl50, lvl85) VALUES (@guild, @lvl5, @lvl10, @lvl15, @lvl20, @lvl30, @lvl50, @lvl85);"
   );
+
   //run word filter
   getWords = db.prepare("SELECT * FROM words WHERE guild = ?");
   setWords = db.prepare(
     "INSERT OR REPLACE INTO words (guild, words) VALUES (@guild, @words);"
   );
+
   //run rolemanage
   getRoles = db.prepare("SELECT * FROM roles WHERE guild = ?");
   setRoles = db.prepare(
     "INSERT OR REPLACE INTO roles (guild, roles) VALUES (@guild, @roles);"
   );
+
   //run channelmanage
   getGuild = db.prepare("SELECT * FROM guildhub WHERE guild = ?");
   setGuild = db.prepare(
