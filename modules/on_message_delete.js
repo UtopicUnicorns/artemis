@@ -35,7 +35,7 @@ module.exports = {
         try {
           const delmessage = new Discord.MessageEmbed()
             .setTitle("A message got Deleted!!")
-            .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
+            .setAuthor(message.author.username, message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
             .setDescription(
               "Message by: " + `${message.author}` + "\nDeleted by: " + `${executor}`
             )

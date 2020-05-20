@@ -39,7 +39,7 @@ module.exports = {
               .setTitle("A message got reported!")
               .setAuthor(
                 reaction.message.author.username,
-                reaction.message.author.avatarURL({ format: "jpg" })
+                reaction.message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 })
               )
               .setDescription("Message by: " + reaction.message.author)
               .setURL(reaction.message.url)
@@ -70,7 +70,7 @@ module.exports = {
               .setTitle("A message got reported!")
               .setAuthor(
                 reaction.message.author.username,
-                reaction.message.author.avatarURL({ format: "jpg" })
+                reaction.message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 })
               )
               .setDescription("Message by: " + reaction.message.author)
               .setURL(reaction.message.url)
@@ -100,7 +100,7 @@ module.exports = {
             .setTitle("A message got reported!")
             .setAuthor(
               reaction.message.author.username,
-              reaction.message.author.avatarURL({ format: "jpg" })
+              reaction.message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 })
             )
             .setDescription("Message by: " + reaction.message.author)
             .setURL(reaction.message.url)
@@ -139,7 +139,7 @@ module.exports = {
             .setTitle("A message that was reported got deleted!")
             .setAuthor(
               reaction.message.author.username,
-              reaction.message.author.avatarURL({ format: "jpg" })
+              reaction.message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 })
             )
             .setDescription("Message by: " + reaction.message.author)
             .setColor("RANDOM")
@@ -177,7 +177,7 @@ module.exports = {
             .setTitle("A message got highlighted!")
             .setAuthor(
               reaction.message.author.username,
-              reaction.message.author.avatarURL({ format: "jpg" })
+              reaction.message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 })
             )
             .attachFiles(["./modules/img/tea.png"])
             .setThumbnail("attachment://tea.png")
@@ -213,7 +213,7 @@ module.exports = {
             .setTitle("A message got highlighted!")
             .setAuthor(
               reaction.message.author.username,
-              reaction.message.author.avatarURL({ format: "jpg" })
+              reaction.message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 })
             )
             .attachFiles(["./modules/img/tea.png"])
             .setThumbnail("attachment://tea.png")
@@ -248,7 +248,7 @@ module.exports = {
           .setTitle("A message got highlighted!")
           .setAuthor(
             reaction.message.author.username,
-            reaction.message.author.avatarURL({ format: "jpg" })
+            reaction.message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 })
           )
           .attachFiles(["./modules/img/tea.png"])
           .setThumbnail("attachment://tea.png")
@@ -309,7 +309,7 @@ module.exports = {
               guildMember.roles.add(role).catch(console.error);
               reaction.users.remove(user.id);
               const embed = new Discord.MessageEmbed()
-                .setAuthor(user.username, user.avatarURL({ format: "jpg" }))
+                .setAuthor(user.username, user.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
                 .setColor("RANDOM")
                 .addField("Joined: ", role, true)
                 .setTimestamp();
@@ -326,7 +326,7 @@ module.exports = {
               guildMember.roles.remove(role).catch(console.error);
               reaction.users.remove(user.id);
               const embed = new Discord.MessageEmbed()
-                .setAuthor(user.username, user.avatarURL({ format: "jpg" }))
+                .setAuthor(user.username, user.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
                 .setColor("RANDOM")
                 .addField("Left: ", role, true)
                 .setTimestamp();

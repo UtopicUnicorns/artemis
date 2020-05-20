@@ -26,7 +26,7 @@ module.exports = {
         let embed = new Discord.MessageEmbed()
           .setAuthor(
             message.author.username,
-            message.author.avatarURL({ format: "jpg" })
+            message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 })
           )
           .setTitle(results[0].title)
           .setURL(results[0].link)

@@ -253,7 +253,7 @@ module.exports = {
           canvas.height / 2.0
         );
         const avatar = await Canvas.loadImage(
-          guildMember.user.displayAvatarURL({ format: "jpg" })
+          guildMember.user.displayAvatarURL({ format: 'png', dynamic: true, size: 1024 })
         );
         ctx.drawImage(avatar, 600, 25, 50, 50);
         ctx.beginPath();
@@ -261,7 +261,7 @@ module.exports = {
         ctx.closePath();
         ctx.clip();
         const guildlogo = await Canvas.loadImage(
-          guildMember.guild.iconURL({ format: "jpg" })
+          guildMember.guild.iconURL({ format: 'png', dynamic: true, size: 1024 })
         );
         ctx.drawImage(guildlogo, 25, 25, 200, 200);
         const attachment = new Discord.MessageAttachment(

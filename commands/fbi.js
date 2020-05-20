@@ -61,7 +61,7 @@ module.exports = {
 
     //Avatar shot
     const userImage = await Canvas.loadImage(
-      user.user.displayAvatarURL({ format: "jpg" })
+      user.user.displayAvatarURL({ format: 'png', dynamic: true, size: 1024 })
     );
     ctx.drawImage(userImage, 222, 225, 200, 200);
 

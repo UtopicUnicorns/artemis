@@ -33,7 +33,7 @@ module.exports = {
           const embed = new Discord.MessageEmbed()
                       .setAuthor(
                         oldMember.user.username,
-                        oldMember.user.avatarURL({ format: "jpg" })
+                        oldMember.user.avatarURL({ format: 'png', dynamic: true, size: 1024 })
                       )
             .setTitle(`Nickname changed!`)
             .setColor(`RANDOM`)

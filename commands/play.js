@@ -38,7 +38,7 @@ module.exports = {
         .setTitle("Usage")
         .setAuthor(
           message.author.username,
-          message.author.avatarURL({ format: "jpg" })
+          message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 })
         )
         .setColor("RANDOM")
         .addField(
@@ -125,7 +125,7 @@ module.exports = {
             .setTitle(song.title)
             .setAuthor(
               message.author.username,
-              message.author.avatarURL({ format: "jpg" })
+              message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 })
             )
             .setThumbnail(song.thumb)
             .setColor("RANDOM")
@@ -144,7 +144,7 @@ module.exports = {
           .setTitle(song.title)
           .setAuthor(
             message.author.username,
-            message.author.avatarURL({ format: "jpg" })
+            message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 })
           )
           .setThumbnail(song.thumb)
           .setColor("RANDOM")
@@ -226,7 +226,7 @@ module.exports = {
                 .setTitle(song.title)
                 .setAuthor(
                   message.author.username,
-                  message.author.avatarURL({ format: "jpg" })
+                  message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 })
                 )
                 .setThumbnail(song.thumb)
                 .setColor("RANDOM")
@@ -245,7 +245,7 @@ module.exports = {
               .setTitle(song.title)
               .setAuthor(
                 message.author.username,
-                message.author.avatarURL({ format: "jpg" })
+                message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 })
               )
               .setThumbnail(song.thumb)
               .setColor("RANDOM")

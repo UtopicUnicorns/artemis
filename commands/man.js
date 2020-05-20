@@ -33,7 +33,7 @@ module.exports = {
         });
       }
       let embed = new Discord.MessageEmbed()
-        .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
+        .setAuthor(message.author.username, message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
         .setTitle(args)
         .setDescription(text[0])
         .setColor("RANDOM");

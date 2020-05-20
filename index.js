@@ -113,7 +113,7 @@ client.once("ready", () => {
           .setTitle("REMIND ALERT")
           .setAuthor(
             reminduser.user.username + "#" + reminduser.user.discriminator,
-            reminduser.user.displayAvatarURL({ format: "jpg" })
+            reminduser.user.displayAvatarURL({ format: 'png', dynamic: true, size: 1024 })
           )
           .setDescription(reminduser)
           .addField("Reminder: ", data.reminder + "!")
@@ -163,7 +163,7 @@ client.once("ready", () => {
                 client.channels.cache
                   .get(data.cid)
                   .send(
-                    "Support session expired!\nYou can resume or start a new session by simply typing:\n`help`"
+                    "Support session expired!\nYou can resume a session with: `resume caseNum`\nOr start a new session by simply typing:\n`help`"
                   );
               }
             });

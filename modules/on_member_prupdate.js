@@ -74,7 +74,7 @@ module.exports = {
                     const embed = new Discord.MessageEmbed()
                       .setAuthor(
                         user.user.username,
-                        user.user.avatarURL({ format: "jpg" })
+                        user.user.avatarURL({ format: 'png', dynamic: true, size: 1024 })
                       )
                       .setTitle(TSTA)
                       .setColor(`RANDOM`)
@@ -116,7 +116,7 @@ module.exports = {
           const embed = new Discord.MessageEmbed()
             .setAuthor(
               user.user.username,
-              user.user.avatarURL({ format: "jpg" })
+              user.user.avatarURL({ format: 'png', dynamic: true, size: 1024 })
             )
             .setTitle(`Username changed!`)
             .setColor(`RANDOM`)

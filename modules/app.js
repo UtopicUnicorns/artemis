@@ -246,7 +246,7 @@ exports.run = (client, config) => {
                       '<tr style="text-align:left; border-bottom: 1px solid black"><td style="width: 300px;">(' +
                         count2 +
                         ') <img src ="' +
-                        thisss.user.avatarURL({ format: "jpg" }) +
+                        thisss.user.avatarURL({ format: 'png', dynamic: true, size: 1024 }) +
                         '" width="20px" height="20px"> ' +
                         thisss.user.username +
                         '</td><td style="width: 150px;">Lvl: ' +

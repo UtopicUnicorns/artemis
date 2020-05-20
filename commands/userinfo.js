@@ -31,7 +31,7 @@ module.exports = {
     let embed = new Discord.MessageEmbed()
       .setAuthor(
         user.user.username + "#" + user.user.discriminator,
-        user.user.displayAvatarURL({ format: "jpg" })
+        user.user.displayAvatarURL({ format: 'png', dynamic: true, size: 1024 })
       )
       .setDescription(
         "User ID: " +
@@ -44,7 +44,7 @@ module.exports = {
           user.user.bot
       )
       .setColor(`RANDOM`)
-      .setThumbnail(user.user.displayAvatarURL({ format: "jpg" }))
+      .setThumbnail(user.user.displayAvatarURL({ format: 'png', dynamic: true, size: 1024 }))
       .addField(
         "Joined at: ",
         moment.utc(user.user.joinedAt).format("dddd, MMMM Do YYYY, HH:mm:ss")

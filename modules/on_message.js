@@ -114,7 +114,7 @@ module.exports = {
         .setTitle("Invite")
         .setAuthor(
           message.author.username,
-          message.author.avatarURL({ format: "jpg" })
+          message.author.avatarURL({ format: "png", dynamic: true, size: 1024 })
         )
         .setColor("RANDOM")
         .setDescription("Hello, I am Artemis!")
@@ -248,39 +248,141 @@ module.exports = {
           let changeCC = changeC.split("");
           let changeCCC = changeCC.slice(1);
           message.channel.setName(changeCCC.join());
-          return message.reply("Wrapping this up, we are done here!");
+          return message.reply(
+            "Wrapping this up, we are done here!\nYou can resume your session if needed with `resume caseNum`\n\nTo the person who answered:\nUse" +
+              prefix +
+              "`support answer caseNum <Answer>`"
+          );
         }
       } else {
-        //if message is help
-        if (message.content.toLowerCase() == "help") {
+        //if message is resume
+        if (message.content.toLowerCase().startsWith("resume")) {
+          //create args
+          let prevCase = message.content.slice(7);
+
+          //get the case entry
+          let prevCaseGet = getSupCase.get(prevCase);
+
+          //If no entry
+          if (!prevCaseGet)
+            return message.reply(
+              "Case not found, check the case number or start a new session with `help`"
+            );
+
+          //define user
+          let user = message.guild.members.cache.get(prevCaseGet.askby);
+
+          //reply to user
+          const supTic3 = new Discord.MessageEmbed()
+            .setTitle("Resuming support case: " + prevCaseGet.scase)
+            .setAuthor(
+              user.user.username + "#" + user.user.discriminator,
+              user.user.displayAvatarURL({
+                format: "png",
+                dynamic: true,
+                size: 1024,
+              })
+            )
+            .setDescription("Case has been resumed")
+            .addField("Asked by: ", `${user}`)
+            .addField("Context link: ", prevCaseGet.murl)
+            .addField("Question: ", prevCaseGet.question)
+            .addField("\u200b", "\u200b")
+            .addField("Answer: ", prevCaseGet.answer)
+            .setColor("RANDOM")
+            .setTimestamp();
+
           //change channelname
           message.channel.setName(`${eCname}` + cCname);
 
+          //send support embed
+          message.reply({
+            embed: supTic3,
+          });
+        }
+
+        //if message is help
+        if (message.content.toLowerCase() == "help") {
+          //build collector
+          let collector3 = message.channel.createMessageCollector(
+            (m) => m.author.id === message.author.id,
+            { time: 240000 }
+          );
+
           //create support format embed
           const supTic = new Discord.MessageEmbed()
-            .setTitle("Support format")
+            .setTitle("Support case opening")
             .setAuthor(
               message.author.username,
-              message.author.avatarURL({ format: "jpg" })
+              message.author.avatarURL({
+                format: "png",
+                dynamic: true,
+                size: 1024,
+              })
             )
             .setDescription(
-              "Copy and paste this format and fill it out\nSimply write `done` when you got the help you needed or fixed it"
+              "Explain your issue in your next message!\n" +
+                "If you already explained your issue in one message earlier, then just copy paste it.\n\n" +
+                "If you do not respond in 4 minutes, your session creation will end!"
             )
             .setColor("RANDOM")
-            .addField("Describe your issue in detail:", "\n-")
-            .addField("What operating system/distribution do you use:", "\n-")
-            .addField("What are your system specifications:", "\n-")
-            .addField(
-              "Explain in detail what the steps were you took to generate this issue:",
-              "\n-"
-            )
-            .addField("Have you tried other solutions, and which ones:", "\n-")
-            .addField("Is this issue something you can easely google:", "\n-")
             .setTimestamp();
 
           //send support embed
-          return message.reply({
+          message.reply({
             embed: supTic,
+          });
+
+          //await message
+          collector3.on("collect", async (m) => {
+            //check if database is filled
+            let c = getSupCase.get("0");
+            if (!c) {
+              var caseNum = "0";
+            } else {
+              let t = db.prepare(
+                "SELECT scase FROM supcase ORDER BY scase DESC LIMIT 1;"
+              );
+              let r = t.get().scase;
+              r++;
+              var caseNum = r.toFixed();
+            }
+
+            //Build the case
+            buildCase = {
+              scase: caseNum,
+              askby: m.author.id,
+              question: m.content,
+              solveby: "Noone yet",
+              answer: "None given",
+              murl: m.url,
+            };
+
+            //submit the case
+            setSupCase.run(buildCase);
+
+            //reply to user
+            const supTic2 = new Discord.MessageEmbed()
+              .setTitle("Support case: " + caseNum)
+              .setAuthor(
+                m.author.username,
+                m.author.avatarURL({ format: "png", dynamic: true, size: 1024 })
+              )
+              .setDescription("Your case has been submitted!")
+              .addField("Your case number is: ", caseNum)
+              .setColor("RANDOM")
+              .setTimestamp();
+
+            //change channelname
+            message.channel.setName(`${eCname}` + cCname);
+
+            //send support embed
+            message.reply({
+              embed: supTic2,
+            });
+
+            //Stop collecting
+            collector3.stop();
           });
         }
       }
@@ -296,7 +398,7 @@ module.exports = {
         .setTitle("Non prefix help menu")
         .setAuthor(
           message.author.username,
-          message.author.avatarURL({ format: "jpg" })
+          message.author.avatarURL({ format: "png", dynamic: true, size: 1024 })
         )
         .setDescription(
           "This message was triggered by mentioning me with the help argument"
@@ -442,7 +544,11 @@ module.exports = {
                   canvas.height / 2.0
                 );
                 const avatar = await Canvas.loadImage(
-                  member.displayAvatarURL({ format: "jpg" })
+                  member.displayAvatarURL({
+                    format: "png",
+                    dynamic: true,
+                    size: 1024,
+                  })
                 );
                 ctx.drawImage(avatar, 600, 25, 50, 50);
                 ctx.beginPath();
@@ -450,7 +556,11 @@ module.exports = {
                 ctx.closePath();
                 ctx.clip();
                 const guildlogo = await Canvas.loadImage(
-                  message.guild.iconURL({ format: "jpg" })
+                  message.guild.iconURL({
+                    format: "png",
+                    dynamic: true,
+                    size: 1024,
+                  })
                 );
                 ctx.drawImage(guildlogo, 25, 25, 200, 200);
                 const attachment = new Discord.MessageAttachment(
@@ -530,7 +640,11 @@ module.exports = {
           const topicstart = new Discord.MessageEmbed()
             .setAuthor(
               message.author.username,
-              message.author.avatarURL({ format: "jpg" })
+              message.author.avatarURL({
+                format: "png",
+                dynamic: true,
+                size: 1024,
+              })
             )
             .setColor("RANDOM")
             .setDescription(
@@ -679,21 +793,53 @@ module.exports = {
       }
     }
 
-    //restart bot
-    if (message.content.toLowerCase() == "kill yourself") {
-      //If user is me
-      if (message.author.id === "127708549118689280") {
-        //notify me
-        message.reply(
-          "\uD83D\uDC80\uD83D\uDC80\uD83D\uDC80\uD83D\uDC80\uD83D\uDC80\uD83D\uDC80\uD83D\uDC80\uD83D\uDC80\uD83D\uDC80"
-        );
+    //Artemis stuff
+    if (message.content.toLowerCase() == "artemis?") {
+      //check if me
+      if (message.author.id !== "127708549118689280") return;
 
-        //set a small delay
-        setTimeout(() => {
-          //Quit the app and restart if system daddy
-          process.exit();
-        }, 2000);
-      }
+      //Responses
+      let picker = [
+        "What is it, baldy?",
+        "What do you want now?",
+        "Go away please!",
+        "Leave me alone!",
+        "What is it, dragons?",
+      ];
+
+      //pick random response
+      let picked = picker[~~(Math.random() * picker.length)];
+
+      //reply
+      message.reply(picked);
+
+      //build collector
+      let collector2 = message.channel.createMessageCollector(
+        (m) => m.author.id === message.author.id
+      );
+
+      //await message
+      collector2.on("collect", async (m) => {
+        //restart bot
+        if (
+          m.content.toLowerCase() == "kill yourself" ||
+          m.content.toLowerCase() == "hang yourself" ||
+          m.content.toLowerCase() == "die" ||
+          m.content.toLowerCase() == "restart"
+        ) {
+          //notify me
+          m.reply(
+            "\uD83D\uDC80\uD83D\uDC80\uD83D\uDC80\uD83D\uDC80\uD83D\uDC80\uD83D\uDC80\uD83D\uDC80\uD83D\uDC80\uD83D\uDC80"
+          );
+
+          //set a small delay
+          setTimeout(() => {
+            //Quit the app and restart if system daddy
+            process.exit();
+          }, 2000);
+        }
+        collector2.stop();
+      });
     }
 
     //Simulate guild member join
@@ -785,7 +931,7 @@ module.exports = {
           })
             .then((res) => {
               //if shrug
-              if (message.content.includes("ãƒ„")) return;
+              if (message.content.includes("Ã£Æ’â€ž")) return;
 
               //if message is equal to translation
               if (res == message.content) return;
@@ -796,7 +942,11 @@ module.exports = {
                 const translationtext = new Discord.MessageEmbed()
                   .setAuthor(
                     message.author.username,
-                    message.author.avatarURL({ format: "jpg" })
+                    message.author.avatarURL({
+                      format: "png",
+                      dynamic: true,
+                      size: 1024,
+                    })
                   )
                   .setColor("RANDOM")
                   .setDescription(res)
@@ -944,7 +1094,11 @@ module.exports = {
               .setTitle("Level Role get!")
               .setAuthor(
                 message.author.username,
-                message.author.avatarURL({ format: "jpg" })
+                message.author.avatarURL({
+                  format: "png",
+                  dynamic: true,
+                  size: 1024,
+                })
               )
               .setColor("RANDOM")
               .addField("Gained the title: ", level, true)

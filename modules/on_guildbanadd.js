@@ -27,7 +27,7 @@ module.exports = {
       if (!banLog) {
         const banmessage = new Discord.MessageEmbed()
           .setTitle("A user got banned!!")
-          .setAuthor(user.username, user.avatarURL({ format: "jpg" }))
+          .setAuthor(user.username, user.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
           .setDescription("Banned user: " + user)
           .setColor("RANDOM")
           .addField("Banned by:\n", "Probably Artemis")
@@ -41,7 +41,7 @@ module.exports = {
       if (target.id === user.id) {
         const banmessage = new Discord.MessageEmbed()
           .setTitle("A user got banned!!")
-          .setAuthor(user.username, user.avatarURL({ format: "jpg" }))
+          .setAuthor(user.username, user.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
           .setDescription("Banned user: " + user)
           .setColor("RANDOM")
           .addField("Banned by:\n", executor)
@@ -53,7 +53,7 @@ module.exports = {
       } else {
         const banmessage = new Discord.MessageEmbed()
           .setTitle("A user got banned!!")
-          .setAuthor(user.username, user.avatarURL({ format: "jpg" }))
+          .setAuthor(user.username, user.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
           .setDescription("Banned user: " + user)
           .setColor("RANDOM")
           .addField("Banned by:\n", "Probably Artemis")

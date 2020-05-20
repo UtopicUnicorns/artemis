@@ -9,7 +9,7 @@ module.exports = {
     const prefix = prefixstart.prefix;
     const whoartemis = new Discord.MessageEmbed()
       .setTitle("Invite")
-      .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
+      .setAuthor(message.author.username, message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
       .setColor("RANDOM")
       .setDescription("Hello, I am Artemis!")
       .addField("Main discord server: ", "https://discord.gg/EVVtPpw")

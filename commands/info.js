@@ -8,7 +8,7 @@ module.exports = {
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
     let inline = true;
-    let sicon = message.guild.iconURL({ format: "jpg" });
+    let sicon = message.guild.iconURL({ format: 'png', dynamic: true, size: 1024 });
     function convertMS(milliseconds) {
       var day, hour, minute, seconds;
       seconds = Math.floor(milliseconds / 1000);

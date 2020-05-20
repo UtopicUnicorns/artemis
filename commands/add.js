@@ -57,7 +57,7 @@ module.exports = {
         } else {
           const logsmessage = new Discord.MessageEmbed()
             .setTitle(prefix + "add")
-            .setAuthor(message.author.username, message.author.avatarURL({ format: "jpg" }))
+            .setAuthor(message.author.username, message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
             .setDescription("Used by: " + `${message.author}`)
             .setURL(message.url)
             .setColor("RANDOM")

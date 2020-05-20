@@ -21,7 +21,7 @@ module.exports = {
     message.delete();
     let user = message.guild.members.cache.get(message.author.id);
     let embed = new Discord.MessageEmbed()
-      .setAuthor(user.user.username, user.user.avatarURL({ format: "jpg" }))
+      .setAuthor(user.user.username, user.user.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
       .setColor(`RANDOM`)
       .setTitle(args[0])
       .setDescription(args);

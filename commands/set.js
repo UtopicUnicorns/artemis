@@ -52,7 +52,7 @@ module.exports = {
               .setTitle(prefix + "set")
               .setAuthor(
                 message.author.username,
-                message.author.avatarURL({ format: "jpg" })
+                message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 })
               )
               .setDescription("Used by: " + `${message.author}`)
               .setURL(message.url)
@@ -84,7 +84,7 @@ module.exports = {
 
           //return if user is already muted
           if (userscore.muted == `1`) {
-            return message.reply(member + " is already muted!");
+            return message.reply(`${member}` + " is already muted!");
           } else {
             //create array to fetch stuff
             let array = [];
@@ -123,7 +123,7 @@ module.exports = {
                         READ_MESSAGE_HISTORY: true,
                         ATTACH_FILES: false,
                       });
-                      return channel.send(member + "\nYou have been muted!");
+                      return channel.send(`${member}` + "\nYou have been muted!");
                     }
                   }
 
@@ -196,12 +196,12 @@ module.exports = {
                 try {
                   //notify user and yourself about the mute
                   message.reply(
-                    member +
+                    `${member}` +
                       " is temp muted!\n" +
                       moment(datefor, "YYYYMMDDHHmmss").fromNow()
                   );
                   muteChannel1.send(
-                    member +
+                    `${member}` +
                       ", You have been temp muted!\n" +
                       moment(datefor, "YYYYMMDDHHmmss").fromNow()
                   );
@@ -230,7 +230,7 @@ module.exports = {
 
           //if user is not muted return
           if (userscore.muted == `0`)
-            return message.channel.send(member + " Is not muted!");
+            return message.channel.send(`${member}` + " Is not muted!");
 
           //check if role exists
           if (memberrole) {
@@ -278,10 +278,10 @@ module.exports = {
           //run database
           setScore.run(userscore);
           try {
-            message.reply(member + " has been unmuted!");
+            message.reply(`${member}` + " has been unmuted!");
             return logMe();
           } catch {
-            message.reply(member + " has been unmuted!");
+            message.reply(`${member}` + " has been unmuted!");
             return logMe();
           }
         }
@@ -294,7 +294,7 @@ module.exports = {
           const logsmessage2 = new Discord.MessageEmbed()
             .setAuthor(
               message.author.username,
-              message.author.avatarURL({ format: "jpg" })
+              message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 })
             )
             .setColor("RANDOM")
             .setTitle("Usage")
@@ -325,7 +325,7 @@ module.exports = {
             const logsmessage2 = new Discord.MessageEmbed()
               .setAuthor(
                 message.author.username,
-                message.author.avatarURL({ format: "jpg" })
+                message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 })
               )
               .setColor("RANDOM")
               .setTitle("Usage")
@@ -350,7 +350,7 @@ module.exports = {
             const logsmessage2 = new Discord.MessageEmbed()
               .setAuthor(
                 message.author.username,
-                message.author.avatarURL({ format: "jpg" })
+                message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 })
               )
               .setColor("RANDOM")
               .setTitle("Usage")

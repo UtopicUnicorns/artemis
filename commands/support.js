@@ -22,11 +22,69 @@ module.exports = {
     //build args
     const args = message.content.slice(prefix.length + 8).split(" ");
 
-    //Complete support
+    //If no args
     if (!args[0]) {
       return message.reply(
-        "Simply type `help` to start a session if you are in a support channel\nThen write `done` when you received the help!"
+        "Simply type `help` to start a session if you are in a support channel\n" +
+          "Then write `done` when you received the help!\n" +
+          "To resume a session write `resume caseNum`\n" +
+          "To fill out a proper answer for the case use:\n`" +
+          prefix +
+          "support answer caseNum <answer>`"
       );
+    }
+
+    //Answer
+    if (args[0].toLowerCase() == "answer") {
+      //get the case entry
+      let prevCaseGet = getSupCase.get(args[1]);
+
+      //if no entry
+      if (!prevCaseGet) return message.reply("Invalid case number.");
+
+      //run answer
+      prevCaseGet.solveby = message.author.id;
+      prevCaseGet.answer = args.slice(2).join(" ");
+      setSupCase.run(prevCaseGet);
+
+      //reply
+      return message.reply("Answer submitted!");
+    }
+
+    //view
+    if (args[0].toLowerCase() == "view") {
+      //get the case entry
+      let prevCaseGet = getSupCase.get(args[1]);
+
+      //if no entry
+      if (!prevCaseGet) return message.reply("Invalid case number.");
+
+      //define user
+      let user = message.guild.members.cache.get(prevCaseGet.askby);
+
+      const supTic4 = new Discord.MessageEmbed()
+        .setTitle("Support case: " + prevCaseGet.scase)
+        .setAuthor(
+          user.user.username + "#" + user.user.discriminator,
+          user.user.displayAvatarURL({
+            format: "png",
+            dynamic: true,
+            size: 1024,
+          })
+        )
+        .setDescription("Viewing case")
+        .addField("Asked by: ", `${user}`)
+        .addField("Context link: ", prevCaseGet.murl)
+        .addField("Question: ", prevCaseGet.question)
+        .addField("\u200b", "\u200b")
+        .addField("Answer: ", prevCaseGet.answer)
+        .setColor("RANDOM")
+        .setTimestamp();
+
+      //send support embed
+      return message.reply({
+        embed: supTic4,
+      });
     }
 
     //reject non mods after this point
