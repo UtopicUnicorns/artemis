@@ -1,7 +1,12 @@
+//start modules
 const npm = require("../modules/NPM.js");
 npm.npm();
+
+//load database
 dbinit = require("../modules/dbinit.js");
 dbinit.dbinit();
+
+//start
 module.exports = {
   name: "support",
   description: "[mod] Set a support channel",
@@ -49,6 +54,23 @@ module.exports = {
 
       //reply
       return message.reply("Answer submitted!");
+    }
+
+    //edit question
+    //Answer
+    if (args[0].toLowerCase() == "question") {
+      //get the case entry
+      let prevCaseGet = getSupCase.get(args[1]);
+
+      //if no entry
+      if (!prevCaseGet) return message.reply("Invalid case number.");
+
+      //run answer
+      prevCaseGet.question = args.slice(2).join(" ");
+      setSupCase.run(prevCaseGet);
+
+      //reply
+      return message.reply("Question altered!");
     }
 
     //view
