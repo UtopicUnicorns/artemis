@@ -1,19 +1,20 @@
 /***
  * @fileOverview The back-end module which is running express.js
  */
+
+//load modules
 const express = require("express");
 const passport = require("passport");
 const session = require("express-session");
-
 const DiscordStrategy = require("passport-discord.js").Strategy;
 const app = express();
 const { SESSION_SECRET } = require("../config.json");
-
 const http = require("http");
 const https = require("https");
 const fs = require("fs");
 const db = require("better-sqlite3")("./scores.sqlite");
 const bodyParser = require("body-parser");
+
 //Start database
 //userstuff
 const getScore = db.prepare(
@@ -22,6 +23,7 @@ const getScore = db.prepare(
 setScore = db.prepare(
   "INSERT OR REPLACE INTO scores (id, user, guild, points, level, warning, muted, translate, stream, notes) VALUES (@id, @user, @guild, @points, @level, @warning, @muted, @translate, @stream, @notes);"
 );
+
 //Guildchannels
 getGuild = db.prepare(
   "SELECT * FROM guildhub WHERE guild = ? ORDER BY guild DESC"
@@ -29,6 +31,7 @@ getGuild = db.prepare(
 setGuild = db.prepare(
   "INSERT OR REPLACE INTO guildhub (guild, generalChannel, highlightChannel, muteChannel, logsChannel, streamChannel, reactionChannel, streamHere, autoMod, prefix) VALUES (@guild, @generalChannel, @highlightChannel, @muteChannel, @logsChannel, @streamChannel, @reactionChannel, @streamHere, @autoMod, @prefix);"
 );
+
 //rolesdb
 getRoles = db.prepare(
   "SELECT * FROM roles WHERE guild = ? ORDER BY guild DESC"
@@ -36,6 +39,7 @@ getRoles = db.prepare(
 setRoles = db.prepare(
   "INSERT OR REPLACE INTO roles (guild, roles) VALUES (@guild, @roles);"
 );
+
 //Worddb
 getWords = db.prepare(
   "SELECT * FROM words WHERE guild = ? ORDER BY guild DESC"
@@ -43,6 +47,7 @@ getWords = db.prepare(
 setWords = db.prepare(
   "INSERT OR REPLACE INTO words (guild, words) VALUES (@guild, @words);"
 );
+
 //levelup
 getLevel = db.prepare(
   "SELECT * FROM level WHERE guild = ? ORDER BY guild DESC"
@@ -51,6 +56,7 @@ setLevel = db.prepare(
   "INSERT OR REPLACE INTO level (guild, lvl5, lvl10, lvl15, lvl20, lvl30, lvl50, lvl85) VALUES (@guild, @lvl5, @lvl10, @lvl15, @lvl20, @lvl30, @lvl50, @lvl85);"
 );
 
+//start
 exports.run = (client, config) => {
   // App view
   app.set("view engine", "ejs");
@@ -60,6 +66,8 @@ exports.run = (client, config) => {
       extended: true,
     })
   );
+
+  //require https
   app.use(function (req, res, next) {
     if (req.secure) {
       next();
@@ -67,9 +75,11 @@ exports.run = (client, config) => {
       res.redirect(301, "https://" + req.headers.host + req.url);
     }
   });
+
   // Asset directories
   app.use("/static", express.static("./modules/web/add"));
 
+  //Discord redirect thing
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(
@@ -111,6 +121,7 @@ exports.run = (client, config) => {
   // Index page
   /////////////
   app.get("/", (req, res) => {
+    //check if user is logged in
     if (!req.session.user) {
       const test = {
         client: client,
@@ -120,12 +131,19 @@ exports.run = (client, config) => {
         test: test,
       });
     } else {
+      //log
+      console.log(
+        `(${req.session.user.id}) ${req.session.user.username}: Is browsing /(userpanel)).`
+      );
+
       //Start user panel
       function data1(user) {
         const array = [];
         const image = [];
         let count = -1;
-        client.guilds.cache.map((guild) => image.push(guild.iconURL({ format: 'jpg' })));
+        client.guilds.cache.map((guild) =>
+          image.push(guild.iconURL({ format: "jpg" }))
+        );
         for (const data of getScore.all(user.id)) {
           for (let i of image) {
             if (!i) {
@@ -185,12 +203,12 @@ exports.run = (client, config) => {
         }
         return array.toString().replace(/,/g, "");
       }
-      //
+
       //client
       const test = {
         client: client,
       };
-      //
+
       //Render
       res.render("index", {
         page: "dashboard",
@@ -205,6 +223,7 @@ exports.run = (client, config) => {
   // leaderboard page
   ///////////////////
   app.get("/board", (req, res) => {
+    //check if user is logged in
     if (!req.session.user) {
       const test = {
         client: client,
@@ -214,6 +233,11 @@ exports.run = (client, config) => {
         test: test,
       });
     } else {
+      //log
+      console.log(
+        `(${req.session.user.id}) ${req.session.user.username}: Is browsing /board.`
+      );
+
       //Leaderboard
       function data8(user) {
         let array = [];
@@ -226,7 +250,7 @@ exports.run = (client, config) => {
             if (thiss) {
               let top1 =
                 '<button class="collapsible"><img src ="' +
-                gettheguild.iconURL({ format: 'jpg' }) +
+                gettheguild.iconURL({ format: "jpg" }) +
                 '" width="30px" height="30px" style="border-radius: 50%;"><div class="textcol">' +
                 `${client.guilds.cache.get(data.guild)}` +
                 '</div></button><div class="colpanel"><table width="100%" style="table-layout: fixed; max-width: 100px; border-collapse: collapse;" align="center">';
@@ -246,7 +270,11 @@ exports.run = (client, config) => {
                       '<tr style="text-align:left; border-bottom: 1px solid black"><td style="width: 300px;">(' +
                         count2 +
                         ') <img src ="' +
-                        thisss.user.avatarURL({ format: 'png', dynamic: true, size: 1024 }) +
+                        thisss.user.avatarURL({
+                          format: "png",
+                          dynamic: true,
+                          size: 1024,
+                        }) +
                         '" width="20px" height="20px"> ' +
                         thisss.user.username +
                         '</td><td style="width: 150px;">Lvl: ' +
@@ -265,12 +293,12 @@ exports.run = (client, config) => {
         }
         return array.toString().replace(/,/g, "");
       }
-      //
+
       //client
       const test = {
         client: client,
       };
-      //
+
       //Render
       res.render("board", {
         page: "board",
@@ -285,6 +313,7 @@ exports.run = (client, config) => {
   // control page
   ///////////////
   app.get("/control", (req, res) => {
+    //check if user is logged in
     if (!req.session.user) {
       const test = {
         client: client,
@@ -294,6 +323,11 @@ exports.run = (client, config) => {
         test: test,
       });
     } else {
+      //log
+      console.log(
+        `(${req.session.user.id}) ${req.session.user.username}: Is browsing /control.`
+      );
+
       //control panel
       function data2(user) {
         let array = [];
@@ -315,7 +349,7 @@ exports.run = (client, config) => {
                   //If rolec is true
                   let top1 =
                     '<button class="collapsible"><img src ="' +
-                    gettheguild.iconURL({ format: 'jpg' }) +
+                    gettheguild.iconURL({ format: "jpg" }) +
                     '" width="30px" height="30px" style="border-radius: 50%;"><div class="textcol">' +
                     `${client.guilds.cache.get(data.guild)}` +
                     '</div></button><div class="colpanel"><table width="100%" style="border-collapse: collapse;" align="center">';
@@ -329,7 +363,7 @@ exports.run = (client, config) => {
                     var se1 = s1.name;
                   }
                   let a1 =
-                    '<tr style="text-align:left; border-bottom: 1px solid black"><td>generalChannel</td><td><div id="' +
+                    '<tr style="text-align:left; border-bottom: 1px solid black"><td>Welcome</td><td><div id="' +
                     data.guild +
                     'a1">#' +
                     se1 +
@@ -343,7 +377,7 @@ exports.run = (client, config) => {
                     var se2 = s2.name;
                   }
                   let a2 =
-                    '<tr style="text-align:left; border-bottom: 1px solid black"><td>logsChannel</td><td><div id="' +
+                    '<tr style="text-align:left; border-bottom: 1px solid black"><td>Logs</td><td><div id="' +
                     data.guild +
                     'a2">#' +
                     se2 +
@@ -357,7 +391,7 @@ exports.run = (client, config) => {
                     var se3 = s3.name;
                   }
                   let a3 =
-                    '<tr style="text-align:left; border-bottom: 1px solid black"><td>muteChannel</td><td><div id="' +
+                    '<tr style="text-align:left; border-bottom: 1px solid black"><td>Mute/Verify</td><td><div id="' +
                     data.guild +
                     'a3">#' +
                     se3 +
@@ -371,7 +405,7 @@ exports.run = (client, config) => {
                     var se4 = s4.name;
                   }
                   let a4 =
-                    '<tr style="text-align:left; border-bottom: 1px solid black"><td>highlightChannel</td><td><div id="' +
+                    '<tr style="text-align:left; border-bottom: 1px solid black"><td>Highlights</td><td><div id="' +
                     data.guild +
                     'a4">#' +
                     se4 +
@@ -385,7 +419,7 @@ exports.run = (client, config) => {
                     var se5 = s5.name;
                   }
                   let a5 =
-                    '<tr style="text-align:left; border-bottom: 1px solid black"><td>reactionChannel</td><td><div id="' +
+                    '<tr style="text-align:left; border-bottom: 1px solid black"><td>Reaction Roles</td><td><div id="' +
                     data.guild +
                     'a5">#' +
                     se5 +
@@ -399,14 +433,16 @@ exports.run = (client, config) => {
                     var se6 = s6.name;
                   }
                   let a6 =
-                    '<tr style="text-align:left; border-bottom: 1px solid black"><td>streamChannel</td><td><div id="' +
+                    '<tr style="text-align:left; border-bottom: 1px solid black"><td>Stream Notification</td><td><div id="' +
                     data.guild +
                     'a6">#' +
                     se6 +
                     "</div></td></tr>";
+
                   //start forms
                   let ct1 =
-                    '<tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><select name="data2"><option value="" selected disabled hidden>Choose General Channel</option>';
+                    '<tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><select name="data2"><option value="" selected disabled hidden>Choose General Channel</option>' +
+                    `<option value="1 ${data.guild} disable">DISABLE</option>`;
                   let c1 = gettheguild.channels.cache
                     .filter((channel) => channel.type === "text")
                     .map(
@@ -424,7 +460,8 @@ exports.run = (client, config) => {
                     data.guild +
                     'a1`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
                   let ct2 =
-                    '<tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><select name="data2"><option value="" selected disabled hidden>Choose Logs Channel</option>';
+                    '<tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><select name="data2"><option value="" selected disabled hidden>Choose Logs Channel</option>' +
+                    `<option value="2 ${data.guild} disable">DISABLE</option>`;
                   let c2 = gettheguild.channels.cache
                     .filter((channel) => channel.type === "text")
                     .map(
@@ -442,7 +479,8 @@ exports.run = (client, config) => {
                     data.guild +
                     'a2`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
                   let ct3 =
-                    '<tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><select name="data2"><option value="" selected disabled hidden>Choose Mute Channel</option>';
+                    '<tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><select name="data2"><option value="" selected disabled hidden>Choose Mute Channel</option>' +
+                    `<option value="3 ${data.guild} disable">DISABLE</option>`;
                   let c3 = gettheguild.channels.cache
                     .filter((channel) => channel.type === "text")
                     .map(
@@ -460,7 +498,8 @@ exports.run = (client, config) => {
                     data.guild +
                     'a3`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
                   let ct4 =
-                    '<tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><select name="data2"><option value="" selected disabled hidden>Choose HighLight Channel</option>';
+                    '<tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><select name="data2"><option value="" selected disabled hidden>Choose HighLight Channel</option>' +
+                    `<option value="4 ${data.guild} disable">DISABLE</option>`;
                   let c4 = gettheguild.channels.cache
                     .filter((channel) => channel.type === "text")
                     .map(
@@ -478,7 +517,8 @@ exports.run = (client, config) => {
                     data.guild +
                     'a4`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
                   let ct5 =
-                    '<tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><select name="data2"><option value="" selected disabled hidden>Choose Roles Channel</option>';
+                    '<tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><select name="data2"><option value="" selected disabled hidden>Choose Roles Channel</option>' +
+                    `<option value="5 ${data.guild} disable">DISABLE</option>`;
                   let c5 = gettheguild.channels.cache
                     .filter((channel) => channel.type === "text")
                     .map(
@@ -496,7 +536,8 @@ exports.run = (client, config) => {
                     data.guild +
                     'a5`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
                   let ct6 =
-                    '<tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><select name="data2"><option value="" selected disabled hidden>Choose Stream Channel</option>';
+                    '<tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><select name="data2"><option value="" selected disabled hidden>Choose Stream Channel</option>' +
+                    `<option value="6 ${data.guild} disable">DISABLE</option>`;
                   let c6 = gettheguild.channels.cache
                     .filter((channel) => channel.type === "text")
                     .map(
@@ -645,12 +686,12 @@ exports.run = (client, config) => {
         }
         return array.toString().replace(/,/g, "");
       }
-      //
+
       //client
       const test = {
         client: client,
       };
-      //
+
       //Render
       res.render("control", {
         page: "control",
@@ -665,6 +706,7 @@ exports.run = (client, config) => {
   // Command page
   ///////////////
   app.get("/command", (req, res) => {
+    //check if user is logged in
     if (!req.session.user) {
       const test = {
         client: client,
@@ -674,6 +716,11 @@ exports.run = (client, config) => {
         test: test,
       });
     } else {
+      //log
+      console.log(
+        `(${req.session.user.id}) ${req.session.user.username}: Is browsing /command.`
+      );
+
       //commands panel
       //mod
       function commands2() {
@@ -701,7 +748,7 @@ exports.run = (client, config) => {
           bot1.toString().replace(/,/g, "");
         return this1;
       }
-      //
+
       //Server
       function commands3() {
         let str1 = [];
@@ -728,7 +775,7 @@ exports.run = (client, config) => {
           bot1.toString().replace(/,/g, "");
         return this1;
       }
-      //
+
       //mscore
       function commands4() {
         let str1 = [];
@@ -755,7 +802,7 @@ exports.run = (client, config) => {
           bot1.toString().replace(/,/g, "");
         return this1;
       }
-      //
+
       //general
       function commands5() {
         let str1 = [];
@@ -782,7 +829,7 @@ exports.run = (client, config) => {
           bot1.toString().replace(/,/g, "");
         return this1;
       }
-      //
+
       //level
       function commands6() {
         let str1 = [];
@@ -809,7 +856,7 @@ exports.run = (client, config) => {
           bot1.toString().replace(/,/g, "");
         return this1;
       }
-      //
+
       //linux
       function commands7() {
         let str1 = [];
@@ -836,7 +883,7 @@ exports.run = (client, config) => {
           bot1.toString().replace(/,/g, "");
         return this1;
       }
-      //
+
       //Fun
       function commands8() {
         let str1 = [];
@@ -863,7 +910,7 @@ exports.run = (client, config) => {
           bot1.toString().replace(/,/g, "");
         return this1;
       }
-      //
+
       //stream
       function commands9() {
         let str1 = [];
@@ -890,7 +937,7 @@ exports.run = (client, config) => {
           bot1.toString().replace(/,/g, "");
         return this1;
       }
-      //
+
       //Music
       function commands10() {
         let str1 = [];
@@ -917,12 +964,12 @@ exports.run = (client, config) => {
           bot1.toString().replace(/,/g, "");
         return this1;
       }
-      //
+
       //client
       const test = {
         client: client,
       };
-      //
+
       //Render
       res.render("command", {
         page: "command",
@@ -950,9 +997,14 @@ exports.run = (client, config) => {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //recycle
     if (req.body.data3) {
+      console.log(
+        `(${req.session.user.id}) ${req.session.user.username}: Made changes to a user setting.`
+      );
       const array = [];
       const image = [];
-      client.guilds.cache.map((guild) => image.push(guild.iconURL({ format: 'jpg' })));
+      client.guilds.cache.map((guild) =>
+        image.push(guild.iconURL({ format: "jpg" }))
+      );
       for (const data of getScore.all(req.session.user.id)) {
         for (let i of image) {
           if (!i) {
@@ -1011,6 +1063,9 @@ exports.run = (client, config) => {
     //////////////////////////////////////////ADMIN/MOD CHANGES//////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     if (req.body.data2) {
+      console.log(
+        `(${req.session.user.id}) ${req.session.user.username}: made changes to an admin/mod function.`
+      );
       let x1 = req.body.data2.toString();
       let x3 = x1.replace(/,/g, " ");
       let data2 = x3.split(" ");
@@ -1032,62 +1087,164 @@ exports.run = (client, config) => {
           rolec.toString().includes("true")
         ) {
           //start stuff
+
+          //General Channel
           if (data2[0] == "1") {
+            //if data arg 2 is disable
+            if (data2[2] == "disable") {
+              let channelstuff = getGuild2.get(data2[1]);
+              channelstuff.generalChannel = `0`;
+              setGuild.run(channelstuff);
+              return res.status(204).send();
+            }
+
+            //check if channel exists
             let findme = gettheguild.channels.cache.find(
               (channel) => channel.id === data2[2]
             );
+
+            //If no channel
             if (!findme) return res.status(204).send();
+
+            //define channel
             let channelstuff = getGuild2.get(data2[1]);
+
+            //set channel
             channelstuff.generalChannel = findme.id;
             setGuild.run(channelstuff);
             return res.status(204).send();
           }
+
+          //Log channel
           if (data2[0] == "2") {
+            //if data arg 2 is disable
+            if (data2[2] == "disable") {
+              let channelstuff = getGuild2.get(data2[1]);
+              channelstuff.logsChannel = `0`;
+              setGuild.run(channelstuff);
+              return res.status(204).send();
+            }
+
+            //check if channel exists
             let findme = gettheguild.channels.cache.find(
               (channel) => channel.id === data2[2]
             );
+
+            //If no channel
             if (!findme) return res.status(204).send();
+
+            //define channel
             let channelstuff = getGuild2.get(data2[1]);
+
+            //set channel
             channelstuff.logsChannel = findme.id;
             setGuild.run(channelstuff);
             return res.status(204).send();
           }
+
+          //Mute verify channel
           if (data2[0] == "3") {
+            //if data arg 2 is disable
+            if (data2[2] == "disable") {
+              let channelstuff = getGuild2.get(data2[1]);
+              channelstuff.muteChannel = `0`;
+              setGuild.run(channelstuff);
+              return res.status(204).send();
+            }
+
+            //check if channel exists
             let findme = gettheguild.channels.cache.find(
               (channel) => channel.id === data2[2]
             );
+
+            //If no channel
             if (!findme) return res.status(204).send();
+
+            //define channel
             let channelstuff = getGuild2.get(data2[1]);
+
+            //set channel
             channelstuff.muteChannel = findme.id;
             setGuild.run(channelstuff);
             return res.status(204).send();
           }
+
+          //Highlight channel
           if (data2[0] == "4") {
+            //if data arg 2 is disable
+            if (data2[2] == "disable") {
+              let channelstuff = getGuild2.get(data2[1]);
+              channelstuff.highlightChannel = `0`;
+              setGuild.run(channelstuff);
+              return res.status(204).send();
+            }
+
+            //check if channel exists
             let findme = gettheguild.channels.cache.find(
               (channel) => channel.id === data2[2]
             );
+
+            //If no channel
             if (!findme) return res.status(204).send();
+
+            //define channel
             let channelstuff = getGuild2.get(data2[1]);
+
+            //set channel
             channelstuff.highlightChannel = findme.id;
             setGuild.run(channelstuff);
             return res.status(204).send();
           }
+
+          //Reaction role channel
           if (data2[0] == "5") {
+            //if data arg 2 is disable
+            if (data2[2] == "disable") {
+              let channelstuff = getGuild2.get(data2[1]);
+              channelstuff.reactionChannel = `0`;
+              setGuild.run(channelstuff);
+              return res.status(204).send();
+            }
+
+            //check if channel exists
             let findme = gettheguild.channels.cache.find(
               (channel) => channel.id === data2[2]
             );
+
+            //If no channel
             if (!findme) return res.status(204).send();
+
+            //define channel
             let channelstuff = getGuild2.get(data2[1]);
+
+            //set channel
             channelstuff.reactionChannel = findme.id;
             setGuild.run(channelstuff);
             return res.status(204).send();
           }
+
+          //Stream notification channel
           if (data2[0] == "6") {
+            //if data arg 2 is disable
+            if (data2[2] == "disable") {
+              let channelstuff = getGuild2.get(data2[1]);
+              channelstuff.streamChannel = `0`;
+              setGuild.run(channelstuff);
+              return res.status(204).send();
+            }
+
+            //check if channel exists
             let findme = gettheguild.channels.cache.find(
               (channel) => channel.id === data2[2]
             );
+
+            //If no channel
             if (!findme) return res.status(204).send();
+
+            //define channel
             let channelstuff = getGuild2.get(data2[1]);
+
+            //set channel
             channelstuff.streamChannel = findme.id;
             setGuild.run(channelstuff);
             return res.status(204).send();

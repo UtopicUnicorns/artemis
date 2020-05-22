@@ -255,6 +255,17 @@ module.exports = {
           );
         }
       } else {
+        //if no support session
+        if (
+          message.content.startsWith("help") ||
+          message.content.startsWith("resume")
+        ) {
+        } else {
+          message.reply(
+            "There is no support session running right now, please open one with by just saying `help`\nOr resume a case with `resume caseNum`"
+          );
+        }
+
         //if message is resume
         if (message.content.toLowerCase().startsWith("resume")) {
           //create args
@@ -294,6 +305,12 @@ module.exports = {
 
           //change channelname
           message.channel.setName(`${eCname}` + cCname);
+
+          //if mint server
+          if (message.guild.id == "628978428019736619") {
+            //tag scholar role
+            message.channel.send("Calling the <@&629302830532132864>");
+          }
 
           //send support embed
           message.reply({
@@ -340,12 +357,10 @@ module.exports = {
             if (!c) {
               var caseNum = "0";
             } else {
-              let t = db.prepare(
-                "SELECT scase FROM supcase ORDER BY scase DESC LIMIT 1;"
-              );
-              let r = t.get().scase;
-              r++;
-              var caseNum = r.toFixed();
+              let t = db.prepare("SELECT count(scase) FROM supcase;");
+              let r = JSON.stringify(t.get());
+              let e = r.split(":")[1].replace("}", "");
+              var caseNum = e;
             }
 
             //Build the case
@@ -360,6 +375,12 @@ module.exports = {
 
             //submit the case
             setSupCase.run(buildCase);
+
+            //if mint server
+            if (message.guild.id == "628978428019736619") {
+              //tag scholar role
+              message.channel.send("Calling the <@&629302830532132864>");
+            }
 
             //reply to user
             const supTic2 = new Discord.MessageEmbed()

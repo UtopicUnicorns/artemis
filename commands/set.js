@@ -52,7 +52,11 @@ module.exports = {
               .setTitle(prefix + "set")
               .setAuthor(
                 message.author.username,
-                message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 })
+                message.author.avatarURL({
+                  format: "png",
+                  dynamic: true,
+                  size: 1024,
+                })
               )
               .setDescription("Used by: " + `${message.author}`)
               .setURL(message.url)
@@ -123,7 +127,9 @@ module.exports = {
                         READ_MESSAGE_HISTORY: true,
                         ATTACH_FILES: false,
                       });
-                      return channel.send(`${member}` + "\nYou have been muted!");
+                      return channel.send(
+                        `${member}` + "\nYou have been muted!"
+                      );
                     }
                   }
 
@@ -144,7 +150,7 @@ module.exports = {
               //timeout to prevent API spam
               setTimeout(() => {
                 //Remove member role
-                member.roles.remove(memberrole).catch(console.log());
+                member.roles.remove(memberrole).catch(console.log(''));
               }, 10000);
             }
 
@@ -217,7 +223,7 @@ module.exports = {
 
             try {
               //notify you
-              message.channel.send(member + " has been muted!");
+              message.channel.send(`${member}` + " has been muted!");
               return logMe();
             } catch {
               return logMe();
@@ -277,13 +283,12 @@ module.exports = {
 
           //run database
           setScore.run(userscore);
-          try {
-            message.reply(`${member}` + " has been unmuted!");
-            return logMe();
-          } catch {
-            message.reply(`${member}` + " has been unmuted!");
-            return logMe();
-          }
+
+          //notify
+          message.reply(`${member}` + " has been unmuted!");
+
+          //logger
+          return logMe();
         }
       }
       //mute
@@ -294,7 +299,11 @@ module.exports = {
           const logsmessage2 = new Discord.MessageEmbed()
             .setAuthor(
               message.author.username,
-              message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 })
+              message.author.avatarURL({
+                format: "png",
+                dynamic: true,
+                size: 1024,
+              })
             )
             .setColor("RANDOM")
             .setTitle("Usage")
@@ -325,7 +334,11 @@ module.exports = {
             const logsmessage2 = new Discord.MessageEmbed()
               .setAuthor(
                 message.author.username,
-                message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 })
+                message.author.avatarURL({
+                  format: "png",
+                  dynamic: true,
+                  size: 1024,
+                })
               )
               .setColor("RANDOM")
               .setTitle("Usage")
@@ -350,7 +363,11 @@ module.exports = {
             const logsmessage2 = new Discord.MessageEmbed()
               .setAuthor(
                 message.author.username,
-                message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 })
+                message.author.avatarURL({
+                  format: "png",
+                  dynamic: true,
+                  size: 1024,
+                })
               )
               .setColor("RANDOM")
               .setTitle("Usage")

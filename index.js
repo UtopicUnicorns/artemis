@@ -240,7 +240,7 @@ client.once("ready", () => {
         userscore.warning = `0`;
         setScore.run(userscore);
         //
-        client.channels
+        client.channels.cache
           .get(data.cid)
           .send("<@" + data.uid + "> has been unmuted!");
         db.prepare(
