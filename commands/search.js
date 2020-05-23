@@ -1,32 +1,45 @@
+//Load modules
 const npm = require("../modules/NPM.js");
 npm.npm();
+
+//load database
+dbinit = require("../modules/dbinit.js");
+dbinit.dbinit();
+
+//start
 module.exports = {
   name: "search",
   description: "[general] Search the internet",
   execute(message) {
-    const getGuild = db.prepare("SELECT * FROM guildhub WHERE guild = ?");
+    //build prefix
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
-    //
-    let getUsage = db.prepare("SELECT * FROM usage WHERE command = ?");
-    let setUsage = db.prepare(
-      "INSERT OR REPLACE INTO usage (command, number) VALUES (@command, @number);"
-    );
+
+    //update usage
     usage = getUsage.get("search");
     usage.number++;
     setUsage.run(usage);
-    //
 
+    //form args
     let args = message.content.slice(prefix.length + 7);
+
+    //options
     const options = {
-      'lang': 'en'
+      lang: "en",
     };
+
+    //google start
     googleIt({ options, query: args, disableConsole: true })
       .then((results) => {
+        //form embed
         let embed = new Discord.MessageEmbed()
           .setAuthor(
             message.author.username,
-            message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 })
+            message.author.avatarURL({
+              format: "png",
+              dynamic: true,
+              size: 1024,
+            })
           )
           .setTitle(results[0].title)
           .setURL(results[0].link)
@@ -41,6 +54,8 @@ module.exports = {
               "\n" +
               results[2].link
           );
+
+        //send embed
         message.channel.send({
           embed,
         });
@@ -48,7 +63,5 @@ module.exports = {
       .catch((e) => {
         message.reply("No results, or an error occured.");
       });
-
-    //
   },
 };

@@ -1,14 +1,36 @@
+//Load modules
 const npm = require("../modules/NPM.js");
 npm.npm();
+
+//load database
+dbinit = require("../modules/dbinit.js");
+dbinit.dbinit();
+
+//start
 module.exports = {
   name: "info",
   description: "[general] Display server info",
   execute(message) {
-    const getGuild = db.prepare("SELECT * FROM guildhub WHERE guild = ?");
+    //build prefix
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
+
+    //update usage
+    usage = getUsage.get("info");
+    usage.number++;
+    setUsage.run(usage);
+
+    //inline
     let inline = true;
-    let sicon = message.guild.iconURL({ format: 'png', dynamic: true, size: 1024 });
+
+    //guild ICON
+    let sicon = message.guild.iconURL({
+      format: "png",
+      dynamic: true,
+      size: 1024,
+    });
+
+    //function for converting time
     function convertMS(milliseconds) {
       var day, hour, minute, seconds;
       seconds = Math.floor(milliseconds / 1000);
@@ -25,7 +47,11 @@ module.exports = {
         seconds: seconds,
       };
     }
+
+    //define and convert time
     let timers = convertMS(message.client.uptime);
+
+    //for membed
     let serverembed = new Discord.MessageEmbed()
       .setColor("RANDOM")
       .setThumbnail(sicon)
@@ -66,15 +92,8 @@ module.exports = {
           .utc(message.guild.createdAt)
           .format("dddd, MMMM Do YYYY, HH:mm:ss")}`
       );
+
+    //send embed
     message.channel.send(serverembed);
-    //
-    let getUsage = db.prepare("SELECT * FROM usage WHERE command = ?");
-    let setUsage = db.prepare(
-      "INSERT OR REPLACE INTO usage (command, number) VALUES (@command, @number);"
-    );
-    usage = getUsage.get("info");
-    usage.number++;
-    setUsage.run(usage);
-    //
   },
 };

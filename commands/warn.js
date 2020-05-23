@@ -1,40 +1,59 @@
+//Load modules
 const npm = require("../modules/NPM.js");
 npm.npm();
+
+//load database
+dbinit = require("../modules/dbinit.js");
+dbinit.dbinit();
+
+//start
 module.exports = {
   name: "warn",
   description: "[mod] Warn a user",
   async execute(message) {
-    const getScore = db.prepare(
-      "SELECT * FROM scores WHERE user = ? AND guild = ?"
-    );
-    const setScore = db.prepare(
-      "INSERT OR REPLACE INTO scores (id, user, guild, points, level, warning, muted, translate, stream, notes) VALUES (@id, @user, @guild, @points, @level, @warning, @muted, @translate, @stream, @notes);"
-    );
-    const getGuild = db.prepare("SELECT * FROM guildhub WHERE guild = ?");
+    //build prefix
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
+
+    //form guild channels
     const guildChannels = getGuild.get(message.guild.id);
-    var muteChannel1 = message.guild.channels.cache.get(guildChannels.muteChannel);
-    if (!message.member.permissions.has("KICK_MEMBERS")) return;
-    //
-    let getUsage = db.prepare("SELECT * FROM usage WHERE command = ?");
-    let setUsage = db.prepare(
-      "INSERT OR REPLACE INTO usage (command, number) VALUES (@command, @number);"
+
+    //form mute channel
+    var muteChannel1 = message.guild.channels.cache.get(
+      guildChannels.muteChannel
     );
+
+    //if no perms
+    if (!message.member.permissions.has("KICK_MEMBERS")) return;
+
+    //update usage
     usage = getUsage.get("warn");
     usage.number++;
     setUsage.run(usage);
-    //
+
+    //form user
     const user = message.mentions.users.first();
+
+    //if no user
     if (!user) return message.reply("You must mention someone!");
+
+    //form args
     const args = message.content.slice(prefix.length + user.id.length + 10);
+
+    //if no args
     if (!args) {
       var warningtext = "No reason given.";
     } else {
       var warningtext = args;
     }
+
+    //add warning point
     const pointsToAdd = parseInt(1, 10);
+
+    //pull user data
     let userscore = getScore.get(user.id, message.guild.id);
+
+    //if no user
     if (!userscore) {
       userscore = {
         id: `${message.guild.id}-${user.id}`,
@@ -49,15 +68,30 @@ module.exports = {
         notes: 0,
       };
     }
+
+    //add warning text
     userscore.notes = warningtext;
+
+    //add warning point
     userscore.warning += pointsToAdd;
+
+    //if user has over 2 warnings
     if (userscore.warning > 2) {
+      //define member
       const member = message.mentions.members.first();
+
+      //empty array
       let array = [];
+
+      //push channels into array
       message.client.channels.cache
         .filter((channel) => channel.guild.id === message.guild.id)
         .map((channels) => array.push(channels.id));
+
+      //count
       let count = "0";
+
+      //remove rights from all channels in array
       for (let i of array) {
         setTimeout(() => {
           count++;
@@ -75,7 +109,8 @@ module.exports = {
                   ATTACH_FILES: false,
                 });
                 return channel.send(
-                  `${member}` + "\nYou collected 3 warnings, you have been muted!"
+                  `${member}` +
+                    "\nYou collected 3 warnings, you have been muted!"
                 );
               }
             }
@@ -89,27 +124,52 @@ module.exports = {
           }
         }, 200 * count);
       }
-      let memberrole = message.guild.roles.cache.find((r) => r.name === `~/Members`);
+
+      //fetch role
+      let memberrole = message.guild.roles.cache.find(
+        (r) => r.name === `~/Members`
+      );
+
+      //if member role
       if (memberrole) {
+        //anti api spam
         setTimeout(() => {
+          //remove role
           member.roles.remove(memberrole).catch(console.log());
         }, 2500);
       }
+
+      //set muted to yes
       userscore.muted = `1`;
     }
+
+    //run database
     setScore.run(userscore);
-    //LOGS
+
+    //form guild channels
     const guildChannels2 = getGuild.get(message.guild.id);
+
+    //form logs channel
     var logger = message.guild.channels.cache.get(guildChannels2.logsChannel);
-    if (!logger) {
-      var logger = "0";
-    }
-    if (logger == "0") {
-    } else {
+
+    //if no log channel
+    if (!logger) var logger = "0";
+
+    //if logs channel
+    if (logger !== "0") {
+      //anti api spam
       setTimeout(() => {
+        //form embed
         const logsmessage = new Discord.MessageEmbed()
           .setTitle(prefix + "warn")
-          .setAuthor(message.author.username, message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
+          .setAuthor(
+            message.author.username,
+            message.author.avatarURL({
+              format: "png",
+              dynamic: true,
+              size: 1024,
+            })
+          )
           .setDescription("Used by: " + `${message.author}`)
           .setURL(message.url)
           .setColor("RANDOM")
@@ -117,11 +177,14 @@ module.exports = {
           .addField("Channel", message.channel, true)
           .setFooter("Message ID: " + message.id)
           .setTimestamp();
+
+        //send embed
         logger
           .send({
             embed: logsmessage,
           })
           .catch((error) =>
+            //error
             console.log(
               moment().format("MMMM Do YYYY, HH:mm:ss") +
                 "\n" +
@@ -132,7 +195,8 @@ module.exports = {
           );
       }, 3500);
     }
-    //
+
+    //send warning message
     return message.channel.send(
       `${user} has been warned!\nYou have ${userscore.warning} warning(s)`
     );

@@ -1,53 +1,98 @@
+//Load modules
 const npm = require("../modules/NPM.js");
 npm.npm();
+
+//load database
+dbinit = require("../modules/dbinit.js");
+dbinit.dbinit();
+
+//start
 module.exports = {
-    name: 'wordlist',
-    description: '[server] Add or remove bad words from the wordlist',
-    execute(message) {
-        const getGuild = db.prepare("SELECT * FROM guildhub WHERE guild = ?");
-        const prefixstart = getGuild.get(message.guild.id);
-        const prefix = prefixstart.prefix;
-        const getWords = db.prepare("SELECT * FROM words WHERE words = ?");
-        const setWords = db.prepare("INSERT OR REPLACE INTO words (guild, words, wordguild) VALUES (@guild, @words, @wordguild);");
-        if (!message.member.permissions.has('KICK_MEMBERS')) return;
-        //
-        let getUsage = db.prepare("SELECT * FROM usage WHERE command = ?");
-        let setUsage = db.prepare("INSERT OR REPLACE INTO usage (command, number) VALUES (@command, @number);");
-        usage = getUsage.get('wordlist');
-        usage.number++;
-        setUsage.run(usage);
-        //
-        const args = message.content.toLowerCase().slice(prefix.length + 13).split(" ");
-        const cargs = message.content.slice(prefix.length + 9).split(" ");
-        const allwords = db.prepare("SELECT * FROM words WHERE guild = ?;").all(message.guild.id);
-        let array = [];
-        for (const data of allwords) {
-            array.push(data.words);
-        }
-        if (cargs[0] == 'add') {
-            if (args == '') return message.reply("It might be handy to add words!");
-            for (let i of args) {
-                if (!array.includes(i)) {
-                    wordpush = {
-                        guild: message.guild.id,
-                        words: i,
-                        wordguild: message.guild.id + i
-                    }
-                    setWords.run(wordpush);
-                }
-            }
-            return message.reply("Done!");
-        }
-        if (cargs[0] == 'del') {
-            if (args == '') return message.reply("It might be handy to add words!");
-            for (let i of args) {
-                if (array.includes(i)) {
-                    let thishere = message.guild.id + i;
-                    db.prepare(`DELETE FROM words WHERE wordguild = '${thishere}'`).run();
-                }
-            }
-            return message.reply("Done!");
-        }
-        message.reply(prefix + 'wordlist add/del\n' + '||' + array.join(" ") + '||');
+  name: "wordlist",
+  description: "[server] Add or remove bad words from the wordlist",
+  execute(message) {
+    //build prefix
+    const prefixstart = getGuild.get(message.guild.id);
+    const prefix = prefixstart.prefix;
+
+    //if no perms
+    if (!message.member.permissions.has("KICK_MEMBERS")) return;
+
+    //update usage
+    usage = getUsage.get("wordlist");
+    usage.number++;
+    setUsage.run(usage);
+
+    //form args
+    const args = message.content
+      .toLowerCase()
+      .slice(prefix.length + 13)
+      .split(" ");
+
+    //form args 2
+    const cargs = message.content.slice(prefix.length + 9).split(" ");
+
+    //pull words from db
+    const allwords = db
+      .prepare("SELECT * FROM words WHERE guild = ?;")
+      .all(message.guild.id);
+
+    //empty array
+    let array = [];
+
+    //loop trough words
+    for (const data of allwords) {
+      //push words
+      array.push(data.words);
     }
+
+    //add
+    if (cargs[0] == "add") {
+      //if no args
+      if (args == "") return message.reply("It might be handy to add words!");
+
+      //loop trough args
+      for (let i of args) {
+        //if data does not exist yet
+        if (!array.includes(i)) {
+          //add to database
+          wordpush = {
+            guild: message.guild.id,
+            words: i,
+            wordguild: message.guild.id + i,
+          };
+
+          //run database
+          setWords.run(wordpush);
+        }
+      }
+
+      //notify
+      return message.reply("Done!");
+    }
+
+    //del
+    if (cargs[0] == "del") {
+      //if no args
+      if (args == "") return message.reply("It might be handy to add words!");
+
+      //loop trough args
+      for (let i of args) {
+        //if args exist
+        if (array.includes(i)) {
+          //delete from database
+          let thishere = message.guild.id + i;
+          db.prepare(`DELETE FROM words WHERE wordguild = '${thishere}'`).run();
+        }
+      }
+
+      //notify
+      return message.reply("Done!");
+    }
+
+    //nothing
+    return message.reply(
+      prefix + "wordlist add/del\n" + "||" + array.join(" ") + "||"
+    );
+  },
 };

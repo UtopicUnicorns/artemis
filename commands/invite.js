@@ -1,12 +1,26 @@
-const npm = require('../modules/NPM.js');
+//Load modules
+const npm = require("../modules/NPM.js");
 npm.npm();
+
+//load database
+dbinit = require("../modules/dbinit.js");
+dbinit.dbinit();
+
+//start
 module.exports = {
   name: "invite",
   description: "[general] bot invite and main server invite",
   execute(message) {
-    const getGuild = db.prepare("SELECT * FROM guildhub WHERE guild = ?");
+    //build prefix
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
+
+    //update usage
+    usage = getUsage.get("invite");
+    usage.number++;
+    setUsage.run(usage);
+
+    //build embed
     const whoartemis = new Discord.MessageEmbed()
       .setTitle("Invite")
       .setAuthor(message.author.username, message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
@@ -22,17 +36,10 @@ module.exports = {
       .addField("Support my work: ", "https://www.patreon.com/utopicunicorn")
       .setFooter("Bot owner: <@127708549118689280> | UtopicUnicorn#0383")
       .setTimestamp();
+
+      //send embed
     return message.channel.send({
       embed: whoartemis
     });
-    //
-    let getUsage = db.prepare("SELECT * FROM usage WHERE command = ?");
-    let setUsage = db.prepare(
-      "INSERT OR REPLACE INTO usage (command, number) VALUES (@command, @number);"
-    );
-    usage = getUsage.get("invite");
-    usage.number++;
-    setUsage.run(usage);
-    //
   }
 };

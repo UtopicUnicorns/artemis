@@ -1,13 +1,17 @@
+//Load modules
 const npm = require("../modules/NPM.js");
 npm.npm();
+
+//load database
 dbinit = require("../modules/dbinit.js");
 dbinit.dbinit();
+
+//start
 module.exports = {
   name: "fbi",
   description: "[fun] Harmless fun",
   async execute(message) {
     //start prefix
-    const getGuild = db.prepare("SELECT * FROM guildhub WHERE guild = ?");
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
 

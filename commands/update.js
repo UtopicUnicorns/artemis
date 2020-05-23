@@ -1,36 +1,56 @@
+//Load modules
 const npm = require("../modules/NPM.js");
 npm.npm();
+
+//load database
+dbinit = require("../modules/dbinit.js");
+dbinit.dbinit();
+
+//start
 module.exports = {
   name: "update",
   description: "[admin] send out update",
   async execute(message) {
-    const getGuild = db.prepare("SELECT * FROM guildhub WHERE guild = ?");
+    //build prefix
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
+
+    //if no perms
     if (!message.member.permissions.has("KICK_MEMBERS")) return;
-    //
-    let getUsage = db.prepare("SELECT * FROM usage WHERE command = ?");
-    let setUsage = db.prepare(
-      "INSERT OR REPLACE INTO usage (command, number) VALUES (@command, @number);"
-    );
+
+    //update usage
     usage = getUsage.get("update");
     usage.number++;
     setUsage.run(usage);
-    //
+
+    //if not me
     if (message.author.id !== "127708549118689280") return;
+
+    //pull data
     const logslist = db.prepare("SELECT * FROM guildhub").all();
+
+    //empy array
     const logschannels = [];
+
+    //loop trough list
     for (const data of logslist) {
+      //push data
       logschannels.push(data.logsChannel);
     }
+
     //sleep
     function sleep(ms) {
       return new Promise((resolve) => setTimeout(resolve, ms));
     }
-    //
+
+    //for each log channel
     for (let i of logschannels) {
+      //sleep
       await sleep(5000);
+
+      //if channel exists
       if (message.client.channels.cache.get(`${i}`)) {
+        //form embed
         const updatetext = new Discord.MessageEmbed()
           .setTitle("Update")
           .setDescription(message.author)
@@ -40,6 +60,8 @@ module.exports = {
           .addField("Channel", message.channel, true)
           .setFooter("Message ID: " + message.id)
           .setTimestamp();
+
+        //send embed
         message.client.channels.cache.get(`${i}`).send({
           embed: updatetext,
         });

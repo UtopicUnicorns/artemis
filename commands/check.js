@@ -1,92 +1,109 @@
+//Load modules
 const npm = require("../modules/NPM.js");
 npm.npm();
+
+//load database
+dbinit = require("../modules/dbinit.js");
+dbinit.dbinit();
+
+//start
 module.exports = {
   name: "check",
   description: "[server] Role check",
   async execute(message) {
-    const getGuild = db.prepare("SELECT * FROM guildhub WHERE guild = ?");
+    //build prefix
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
-    if (message.member.permissions.has("KICK_MEMBERS")) {
-      //
-      let getUsage = db.prepare("SELECT * FROM usage WHERE command = ?");
-      let setUsage = db.prepare(
-        "INSERT OR REPLACE INTO usage (command, number) VALUES (@command, @number);"
-      );
-      usage = getUsage.get("check");
-      usage.number++;
-      setUsage.run(usage);
-      //
-      const args = message.content.slice(prefix.length + 6).split(" ");
-      const cargs = message.content.slice(prefix.length + 10);
-      if (!args)
-        return message.reply("Provide 2 more args not/yes + idrole namerole");
-      if (args[0] == "not") {
-        let array = await message.guild.members.cache.map((m) => m);
-        let str = "";
-        for (let i of array) {
-          if (
-            !i.roles.cache.find((r) => r.name === cargs) ||
-            i.roles.cache.find((r) => r.id === cargs)
-          ) {
-            str += `${i}\n`;
-          }
-        }
-        let role =
-          message.guild.roles.cache.find((r) => r.id === cargs) ||
-          message.guild.roles.cache.find((r) => r.name === cargs);
-        try {
-          const check = new Discord.MessageEmbed()
-            .setTitle("RoleCheck")
-            .setColor("RANDOM")
-            .addField("These users do not have: ", `${role} \n\n ${str}`)
-            .setTimestamp();
-          return message.channel.send({
-            embed: check,
-          });
-        } catch {
-          console.log(
-            moment().format("MMMM Do YYYY, HH:mm:ss") +
-              "\n" +
-              __filename +
-              ":" +
-              ln()
-          );
+
+    //if member has perms
+    if (!message.member.permissions.has("KICK_MEMBERS")) return;
+
+    //update usage
+    usage = getUsage.get("check");
+    usage.number++;
+    setUsage.run(usage);
+
+    //form first args
+    const args = message.content.slice(prefix.length + 6).split(" ");
+
+    //form second args
+    const cargs = message.content.slice(prefix.length + 10);
+
+    //if no args
+    if (!args)
+      return message.reply("Provide 2 more args not/yes + roleID/roleName");
+
+    //throw all members into an array
+    let array = await message.guild.members.cache.map((m) => m);
+
+    //if args is not
+    if (args[0] == "not") {
+      //to be filled
+      let str = "";
+
+      //loop array
+      for (let i of array) {
+        //if cannot find the role
+        if (
+          !i.roles.cache.find((r) => r.name === cargs) ||
+          i.roles.cache.find((r) => r.id === cargs)
+        ) {
+          //push into array
+          str += `${i}\n`;
         }
       }
-      if (args[0] == "yes") {
-        let array = await message.guild.members.cache.map((m) => m);
-        let str = "";
-        for (let i of array) {
-          if (
-            i.roles.cache.find((r) => r.name === cargs) ||
-            i.roles.cache.find((r) => r.id === cargs)
-          ) {
-            str += `${i}\n`;
-          }
-        }
-        let role =
-          message.guild.roles.cache.find((r) => r.id === cargs) ||
-          message.guild.roles.cache.find((r) => r.name === cargs);
-        try {
-          const check = new Discord.MessageEmbed()
-            .setTitle("RoleCheck")
-            .setColor("RANDOM")
-            .addField("These users have: ", `${role} \n\n ${str}`)
-            .setTimestamp();
-          return message.channel.send({
-            embed: check,
-          });
-        } catch {
-          console.log(
-            moment().format("MMMM Do YYYY, HH:mm:ss") +
-              "\n" +
-              __filename +
-              ":" +
-              ln()
-          );
+
+      //define role
+      let role =
+        message.guild.roles.cache.find((r) => r.id === cargs) ||
+        message.guild.roles.cache.find((r) => r.name === cargs);
+
+      //build embed
+      const check = new Discord.MessageEmbed()
+        .setTitle("RoleCheck")
+        .setColor("RANDOM")
+        .addField("These users do not have: ", `${role} \n\n ${str}`)
+        .setTimestamp();
+
+      //send embed
+      return message.channel.send({
+        embed: check,
+      });
+    }
+
+    //if args is yes
+    if (args[0] == "yes") {
+      //empty stuff
+      let str = "";
+
+      //loop array
+      for (let i of array) {
+        //if can find role
+        if (
+          i.roles.cache.find((r) => r.name === cargs) ||
+          i.roles.cache.find((r) => r.id === cargs)
+        ) {
+          //push into emty stuff
+          str += `${i}\n`;
         }
       }
+
+      //define role
+      let role =
+        message.guild.roles.cache.find((r) => r.id === cargs) ||
+        message.guild.roles.cache.find((r) => r.name === cargs);
+
+      //build embed
+      const check = new Discord.MessageEmbed()
+        .setTitle("RoleCheck")
+        .setColor("RANDOM")
+        .addField("These users have: ", `${role} \n\n ${str}`)
+        .setTimestamp();
+
+      //send embed
+      return message.channel.send({
+        embed: check,
+      });
     }
   },
 };

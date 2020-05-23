@@ -92,11 +92,17 @@ client.once("ready", () => {
 
   //Reminder run
   setInterval(() => {
+    //pull reminder data
     const remindersdb = db
       .prepare("SELECT * FROM remind ORDER BY time DESC;")
       .all();
+
+    //loop the data
     for (const data of remindersdb) {
+      //define time
       let timenow = moment().format("YYYYMMDDHHmmss");
+
+      //if current time is higher than reminder time
       if (timenow > data.time) {
         let gettheguild = client.guilds.cache.get(data.gid);
         if (!gettheguild) return;
@@ -108,19 +114,35 @@ client.once("ready", () => {
             )
             .run();
         }
-        client.channels.cache.get(data.cid).send("<@" + data.uid + "> PING!");
+        if (data.cid == "710893984360169522") {
+          //notify everyone if this channel
+          client.channels.cache.get(data.cid).send("@here");
+        } else {
+          //just notify the user
+          client.channels.cache.get(data.cid).send("<@" + data.uid + "> PING!");
+        }
+
+        //build embed
         const reminderemb2 = new Discord.MessageEmbed()
           .setTitle("REMIND ALERT")
           .setAuthor(
             reminduser.user.username + "#" + reminduser.user.discriminator,
-            reminduser.user.displayAvatarURL({ format: 'png', dynamic: true, size: 1024 })
+            reminduser.user.displayAvatarURL({
+              format: "png",
+              dynamic: true,
+              size: 1024,
+            })
           )
           .setDescription(reminduser)
           .addField("Reminder: ", data.reminder + "!")
           .setColor("RANDOM");
+
+        //send embed
         client.channels.cache.get(data.cid).send({
           embed: reminderemb2,
         });
+
+        //delete entry
         db.prepare(
           `DELETE FROM remind WHERE mid = ${data.mid} AND uid = ${data.uid}`
         ).run();
@@ -157,9 +179,7 @@ client.once("ready", () => {
                   .get(data.cid)
                   .name.split("");
                 let changeCCC = changeCC.slice(1);
-                client.channels.cache
-                  .get(data.cid)
-                  .setName(changeCCC.join());
+                client.channels.cache.get(data.cid).setName(changeCCC.join());
                 client.channels.cache
                   .get(data.cid)
                   .send(

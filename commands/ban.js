@@ -1,37 +1,51 @@
+//Load modules
 const npm = require("../modules/NPM.js");
 npm.npm();
+
+//load database
+dbinit = require("../modules/dbinit.js");
+dbinit.dbinit();
+
+//start
 module.exports = {
   name: "ban",
   description: "[mod] Ban a user",
   execute(message) {
-    const getGuild = db.prepare("SELECT * FROM guildhub WHERE guild = ?");
+    //build prefix
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
+
+    //if no proper perms
     if (!message.member.permissions.has("KICK_MEMBERS")) return;
-    //
-    let getUsage = db.prepare("SELECT * FROM usage WHERE command = ?");
-    let setUsage = db.prepare(
-      "INSERT OR REPLACE INTO usage (command, number) VALUES (@command, @number);"
-    );
+
+    //update usage
     usage = getUsage.get("ban");
     usage.number++;
     setUsage.run(usage);
-    //
+
+    //define member
     const member = message.mentions.members.first();
-    if (!member) {
+
+    //if no user
+    if (!member)
       return message.reply("You need to mention the user you wish to ban!");
-    }
-    //LOGS
+
+    //define guildchannels
     const guildChannels = getGuild.get(message.guild.id);
+
+    //define logs channel
     var logger = message.guild.channels.cache.get(guildChannels.logsChannel);
-    if (!logger) {
-      var logger = "0";
-    }
-    if (logger == "0") {
-    } else {
+
+    //if no logs channel
+    if (!logger) var logger = "0";
+    if (logger !== "0") {
+      //build embed
       const logsmessage = new Discord.MessageEmbed()
         .setTitle(prefix + "ban")
-        .setAuthor(message.author.username, message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
+        .setAuthor(
+          message.author.username,
+          message.author.avatarURL({ format: "png", dynamic: true, size: 1024 })
+        )
         .setDescription("Used by: " + `${message.author}`)
         .setURL(message.url)
         .setColor("RANDOM")
@@ -39,11 +53,14 @@ module.exports = {
         .addField("Channel", message.channel, true)
         .setFooter("Message ID: " + message.id)
         .setTimestamp();
+
+      //send embed
       logger
         .send({
           embed: logsmessage,
         })
         .catch((error) =>
+          //error handle
           console.log(
             moment().format("MMMM Do YYYY, HH:mm:ss") +
               "\n" +
@@ -53,9 +70,10 @@ module.exports = {
           )
         );
     }
-    //
-    return member
-      .members.ban()
+
+    //ban the user
+    return member.members
+      .ban()
       .then(() => message.reply(`${member.user.tag} was banned.`))
       .catch((error) => message.reply("Sorry, an error occured."));
   },

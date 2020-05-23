@@ -1,49 +1,79 @@
+//Load modules
 const npm = require("../modules/NPM.js");
 npm.npm();
+
+//load database
+dbinit = require("../modules/dbinit.js");
+dbinit.dbinit();
+
+//start
 module.exports = {
   name: "join",
   description: "[level] Join a self assignable role",
   execute(message) {
-    const getGuild = db.prepare("SELECT * FROM guildhub WHERE guild = ?");
+    //build prefix
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
-    //
-    let getUsage = db.prepare("SELECT * FROM usage WHERE command = ?");
-    let setUsage = db.prepare(
-      "INSERT OR REPLACE INTO usage (command, number) VALUES (@command, @number);"
-    );
+
+    //update usage
     usage = getUsage.get("join");
     usage.number++;
     setUsage.run(usage);
-    //
+
+    //build args
     const args = message.content.slice(prefix.length + 5);
+
+    //define member
     const member = message.member;
+
+    //pull all roles from database
     const allroles = db
       .prepare("SELECT * FROM roles WHERE guild = ?;")
       .all(message.guild.id);
+
+    //empty array
     let array2 = [];
+
+    //loop roles
     for (const data of allroles) {
+      //if role exists
       if (message.guild.roles.cache.find((r) => r.id == `${data.roles}`)) {
+        //push into array
         array2.push(
           message.guild.roles.cache.find((r) => r.id == data.roles).name
         );
       }
     }
+
+    //check if args equals role
     if (array2.includes(args)) {
+      //rdefine role
       const role = message.guild.roles.cache.find((r) => r.name === `${args}`);
+
+      //check if user has role
       let checking = message.member.roles.cache.find(
         (r) => r.name === `${args}`
       );
+
+      //if user has role
       if (checking) return message.reply("You already have this role.");
+
+      //add role
       member.roles.add(role).catch(console.error);
+
+      //build embed
       const embed = new Discord.MessageEmbed()
         .setDescription(message.author)
         .setColor("RANDOM")
         .addField("Joined: ", `${role}`);
+
+      //send embed
       return message.channel.send({
         embed,
       });
     }
+
+    //error
     message.reply("Invalid role!");
   },
 };

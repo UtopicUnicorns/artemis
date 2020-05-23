@@ -1,20 +1,21 @@
+//Load modules
 const npm = require("../modules/NPM.js");
 npm.npm();
+
+//load database
+dbinit = require("../modules/dbinit.js");
+dbinit.dbinit();
+
+//start
 module.exports = {
   name: "wallpaper",
   description: "[fun] Random wallpaper",
   execute(message) {
-    //form prefix
-    const getGuild = db.prepare("SELECT * FROM guildhub WHERE guild = ?");
+    //build prefix
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
 
-    //usage count
-    //
-    let getUsage = db.prepare("SELECT * FROM usage WHERE command = ?");
-    let setUsage = db.prepare(
-      "INSERT OR REPLACE INTO usage (command, number) VALUES (@command, @number);"
-    );
+    //update usage
     usage = getUsage.get("wallpaper");
     usage.number++;
     setUsage.run(usage);
@@ -24,14 +25,24 @@ module.exports = {
 
     //single
     if (args[0] == "s") {
+      //pull pics
       const photos = fs.readdirSync("./pics/wallpaper/single");
+
+      //empty array
       const array = [];
+
+      //loop trough pics
       for (const file of photos) {
+        //push pic into array
         array.push(file);
       }
+
+      //form embed
       const embed = new Discord.MessageEmbed().setImage(
         "attachment://image.png"
       );
+
+      //send embed
       return message.channel.send({
         embed: embed,
         files: [
@@ -47,14 +58,24 @@ module.exports = {
 
     //double
     if (args[0] == "d") {
+      //pull pics
       const photos = fs.readdirSync("./pics/wallpaper/double");
+
+      //empty array
       const array = [];
+
+      //loop trough pics
       for (const file of photos) {
+        //push pic into array
         array.push(file);
       }
+
+      //form embed
       const embed = new Discord.MessageEmbed().setImage(
         "attachment://image.png"
       );
+
+      //send embed
       return message.channel.send({
         embed: embed,
         files: [

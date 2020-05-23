@@ -1,19 +1,29 @@
+//Load modules
 const npm = require("../modules/NPM.js");
 npm.npm();
+
+//load database
 dbinit = require("../modules/dbinit.js");
 dbinit.dbinit();
+
+//start
 module.exports = {
   name: "userinfo",
   description: "[general] Displays your own or mentioned user info",
   execute(message) {
+    //form prefix
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix.toString();
-    //
+
+    //update usage
     usage = getUsage.get("userinfo");
     usage.number++;
     setUsage.run(usage);
-    //
+
+    //form args
     let args = message.content.slice(prefix.length + 9).split(" ");
+
+    //form user
     if (!args[0]) {
       var user = message.guild.members.cache.get(message.author.id);
     }
@@ -25,13 +35,21 @@ module.exports = {
         message.mentions.users.first().id
       );
     }
+
+    //pull data
     let entryYes = getSpecs.get(user.user.id);
+
+    //array
     let roleMap = [];
+
+    //push roles into array
     user.roles.cache.forEach((role) => roleMap.push(role));
+
+    //form embed
     let embed = new Discord.MessageEmbed()
       .setAuthor(
         user.user.username + "#" + user.user.discriminator,
-        user.user.displayAvatarURL({ format: 'png', dynamic: true, size: 1024 })
+        user.user.displayAvatarURL({ format: "png", dynamic: true, size: 1024 })
       )
       .setDescription(
         "User ID: " +
@@ -44,7 +62,9 @@ module.exports = {
           user.user.bot
       )
       .setColor(`RANDOM`)
-      .setThumbnail(user.user.displayAvatarURL({ format: 'png', dynamic: true, size: 1024 }))
+      .setThumbnail(
+        user.user.displayAvatarURL({ format: "png", dynamic: true, size: 1024 })
+      )
       .addField(
         "Joined at: ",
         moment.utc(user.user.joinedAt).format("dddd, MMMM Do YYYY, HH:mm:ss")
@@ -65,7 +85,8 @@ module.exports = {
         `User has not added their specifications.\nTo add your own specs use ${prefix}specs`
       );
     }
-    message.channel.send(embed);
-    return;
+
+    //send embed
+    return message.channel.send(embed);
   },
 };

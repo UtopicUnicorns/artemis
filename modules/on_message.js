@@ -261,9 +261,21 @@ module.exports = {
           message.content.startsWith("resume")
         ) {
         } else {
-          message.reply(
-            "There is no support session running right now, please open one with by just saying `help`\nOr resume a case with `resume caseNum`"
-          );
+          //Timeout notification
+          if (supportGet.has(message.guild.id)) {
+          } else {
+            message.reply(
+              "There is no support session running right now, please open one with by just saying `help`\nOr resume a case with `resume caseNum`"
+            );
+
+            //add user to the set
+            supportGet.add(message.guild.id);
+
+            //remove user from the set after 20 minutes
+            setTimeout(() => {
+              supportGet.delete(message.guild.id);
+            }, 600000);
+          }
         }
 
         //if message is resume

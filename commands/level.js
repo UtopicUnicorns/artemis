@@ -1,37 +1,43 @@
+//Load modules
 const npm = require("../modules/NPM.js");
 npm.npm();
+
+//load database
 dbinit = require("../modules/dbinit.js");
 dbinit.dbinit();
+
+//start
 module.exports = {
   name: "level",
   description: "[level] Show your points and level",
   async execute(message) {
-    const getGuild = db.prepare("SELECT * FROM guildhub WHERE guild = ?");
+    //build prefix
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
-    //
-    let getUsage = db.prepare("SELECT * FROM usage WHERE command = ?");
-    let setUsage = db.prepare(
-      "INSERT OR REPLACE INTO usage (command, number) VALUES (@command, @number);"
-    );
+
+    //update usage
     usage = getUsage.get("level");
     usage.number++;
     setUsage.run(usage);
-    //
+
+    //build guildchannels
     let guildChannels2 = getGuild.get(message.guild.id);
+
+    //if guild is in database
     if (guildChannels2) {
+      //if leveling is disabled on guild
       if (guildChannels2.leveling == "2") {
+        //joke reply
         return message.reply(
           "You have to purchase Artemisbot Premium for this feature!\nJust kidding, your guild owner probably disabled leveling."
         );
+
+        //if leveling is enabled
       } else {
-        const getScore = db.prepare(
-          "SELECT * FROM scores WHERE user = ? AND guild = ?"
-        );
-        const setScore = db.prepare(
-          "INSERT OR REPLACE INTO scores (id, user, guild, points, level, warning, muted, translate, stream, notes) VALUES (@id, @user, @guild, @points, @level, @warning, @muted, @translate, @stream, @notes);"
-        );
+        //define args
         let args = message.content.slice(prefix.length + 6).split(" ");
+
+        //define user
         if (!args[0]) {
           var user = message.guild.members.cache.get(message.author.id);
         }
@@ -43,13 +49,23 @@ module.exports = {
             message.mentions.users.first().id
           );
         }
+
+        //if no user
         if (!user) return;
+
+        //pull user from database
         let userscore = getScore.get(user.user.id, message.guild.id);
+
+        //if no entry
         if (!userscore)
           return message.reply("This user does not have a database index yet.");
+
+        //math
         let userLevel = Math.floor(0.5 * Math.sqrt(userscore.points));
         userscore.level = userLevel;
         setScore.run(userscore);
+
+        //more math
         let mathlev = userscore.level;
         let mathpoint = userscore.points;
         let mathwarn = userscore.warning;
@@ -60,6 +76,8 @@ module.exports = {
         let math4 = Math.floor(math2 / math3);
         let math5 = Math.floor(((mathpoint - math0) / (math2 - math0)) * 100);
         let math6 = Math.floor((700 / 100) * math5);
+
+        //build canvas
         const canvas = Canvas.createCanvas(700, 250);
         const ctx = canvas.getContext("2d");
         const background = await Canvas.loadImage(
@@ -89,7 +107,9 @@ module.exports = {
           ctx.fillStyle = "#FFFFFF";
           ctx.fillText(mathwarn, 650, 175);
         }
-        const guildlogo = await Canvas.loadImage(user.user.displayAvatarURL({ format: 'jpg' }));
+        const guildlogo = await Canvas.loadImage(
+          user.user.displayAvatarURL({ format: "jpg" })
+        );
         ctx.drawImage(guildlogo, 50, 75, 100, 100);
         ctx.globalAlpha = 0.2;
         ctx.fillStyle = "white";
@@ -103,9 +123,11 @@ module.exports = {
         ctx.fillStyle = "#ffffff";
         ctx.fillText(`${mathpoint} / ${math2} points`, 50, 235);
         const attachment = new Discord.MessageAttachment(
-            canvas.toBuffer(),
-            "level.png"
-          );
+          canvas.toBuffer(),
+          "level.png"
+        );
+
+        //send image
         return message.channel.send(attachment);
       }
     }
