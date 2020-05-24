@@ -125,6 +125,7 @@ exports.run = (client, config) => {
     if (!req.session.user) {
       const test = {
         client: client,
+        db: db,
       };
       res.render("index2", {
         page: "dashboard",
@@ -207,6 +208,7 @@ exports.run = (client, config) => {
       //client
       const test = {
         client: client,
+        db: db,
       };
 
       //Render
@@ -227,6 +229,7 @@ exports.run = (client, config) => {
     if (!req.session.user) {
       const test = {
         client: client,
+        db: db,
       };
       res.render("index2", {
         page: "dashboard",
@@ -297,6 +300,7 @@ exports.run = (client, config) => {
       //client
       const test = {
         client: client,
+        db: db,
       };
 
       //Render
@@ -317,6 +321,7 @@ exports.run = (client, config) => {
     if (!req.session.user) {
       const test = {
         client: client,
+        db: db,
       };
       res.render("index2", {
         page: "dashboard",
@@ -710,6 +715,7 @@ exports.run = (client, config) => {
     if (!req.session.user) {
       const test = {
         client: client,
+        db: db,
       };
       res.render("index2", {
         page: "dashboard",
@@ -968,6 +974,7 @@ exports.run = (client, config) => {
       //client
       const test = {
         client: client,
+        db: db,
       };
 
       //Render

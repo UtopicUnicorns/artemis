@@ -84,7 +84,7 @@ module.exports = {
                       )
                       .addField(TDET, "\n" + TURL)
                       .setTimestamp();
-                    if (body.results[0].background_image) {
+                    if (body.results[0]) {
                       embed.setThumbnail(`${body.results[0].background_image}`);
                     }
                     return newPresence.client.channels.cache.get(TSID).send({

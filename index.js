@@ -115,9 +115,26 @@ client.once("ready", () => {
             .run();
         }
         if (data.cid == "710893984360169522") {
+          //if no channel?
+          if (!client.channels.cache.get(data.cid)) {
+            return db
+              .prepare(
+                `DELETE FROM remind WHERE mid = ${data.mid} AND uid = ${data.uid}`
+              )
+              .run();
+          }
+
           //notify everyone if this channel
           client.channels.cache.get(data.cid).send("@here");
         } else {
+          //if no channel?
+          if (!client.channels.cache.get(data.cid)) {
+            return db
+              .prepare(
+                `DELETE FROM remind WHERE mid = ${data.mid} AND uid = ${data.uid}`
+              )
+              .run();
+          }
           //just notify the user
           client.channels.cache.get(data.cid).send("<@" + data.uid + "> PING!");
         }
