@@ -29,7 +29,7 @@ getGuild = db.prepare(
   "SELECT * FROM guildhub WHERE guild = ? ORDER BY guild DESC"
 );
 setGuild = db.prepare(
-  "INSERT OR REPLACE INTO guildhub (guild, generalChannel, highlightChannel, muteChannel, logsChannel, streamChannel, reactionChannel, streamHere, autoMod, prefix) VALUES (@guild, @generalChannel, @highlightChannel, @muteChannel, @logsChannel, @streamChannel, @reactionChannel, @streamHere, @autoMod, @prefix);"
+  "INSERT OR REPLACE INTO guildhub (guild, generalChannel, highlightChannel, muteChannel, logsChannel, streamChannel, reactionChannel, streamHere, autoMod, prefix, leveling, wmessage) VALUES (@guild, @generalChannel, @highlightChannel, @muteChannel, @logsChannel, @streamChannel, @reactionChannel, @streamHere, @autoMod, @prefix, @leveling, @wmessage);"
 );
 
 //rolesdb
@@ -335,30 +335,50 @@ exports.run = (client, config) => {
 
       //control panel
       function data2(user) {
+        //empty array
         let array = [];
+
+        //empty guild ID
         let gid = [];
+
+        //push guilds into gid
         client.guilds.cache.map((guild) => gid.push(guild.id));
+
+        //loop gid
         for (let i of gid) {
+          //loop trough database entries
           for (const data of getGuild.all(i)) {
+            //define guild
             let gettheguild = client.guilds.cache.get(data.guild);
-            //check perms
+
+            //get user
             let thiss = gettheguild.members.cache.get(user.id);
+
+            //if user exists
             if (thiss) {
+              //check if user has certain perms
               let rolec = thiss.permissions.has("KICK_MEMBERS");
+
+              //if no guild owner
               if (!gettheguild.owner) {
               } else {
+                //if user is guild owner or has proper perms
                 if (
                   gettheguild.owner.id == user.id ||
                   rolec.toString().includes("true")
                 ) {
-                  //If rolec is true
+                  //build top part of array
                   let top1 =
                     '<button class="collapsible"><img src ="' +
                     gettheguild.iconURL({ format: "jpg" }) +
                     '" width="30px" height="30px" style="border-radius: 50%;"><div class="textcol">' +
                     `${client.guilds.cache.get(data.guild)}` +
                     '</div></button><div class="colpanel"><table width="100%" style="border-collapse: collapse;" align="center">';
+
+                  //build bottom part of array
                   let bot1 = "</table></div>";
+
+                  //1
                   let s1 = gettheguild.channels.cache.find(
                     (channel) => channel.id === data.generalChannel
                   );
@@ -368,11 +388,13 @@ exports.run = (client, config) => {
                     var se1 = s1.name;
                   }
                   let a1 =
-                    '<tr style="text-align:left; border-bottom: 1px solid black"><td>Welcome</td><td><div id="' +
+                    '<tr style="text-align:left"><td><br><h2>Set up #Channels</h2></td></tr><tr style="text-align:left; border-bottom: 1px solid black"><td>Welcome</td><td><div id="' +
                     data.guild +
                     'a1">#' +
                     se1 +
                     "</div></td></tr>";
+
+                  //2
                   let s2 = gettheguild.channels.cache.find(
                     (channel) => channel.id === data.logsChannel
                   );
@@ -387,6 +409,8 @@ exports.run = (client, config) => {
                     'a2">#' +
                     se2 +
                     "</div></td></tr>";
+
+                  //3
                   let s3 = gettheguild.channels.cache.find(
                     (channel) => channel.id === data.muteChannel
                   );
@@ -401,6 +425,8 @@ exports.run = (client, config) => {
                     'a3">#' +
                     se3 +
                     "</div></td></tr>";
+
+                  //4
                   let s4 = gettheguild.channels.cache.find(
                     (channel) => channel.id === data.highlightChannel
                   );
@@ -415,6 +441,8 @@ exports.run = (client, config) => {
                     'a4">#' +
                     se4 +
                     "</div></td></tr>";
+
+                  //5
                   let s5 = gettheguild.channels.cache.find(
                     (channel) => channel.id === data.reactionChannel
                   );
@@ -429,6 +457,8 @@ exports.run = (client, config) => {
                     'a5">#' +
                     se5 +
                     "</div></td></tr>";
+
+                  //6
                   let s6 = gettheguild.channels.cache.find(
                     (channel) => channel.id === data.streamChannel
                   );
@@ -445,6 +475,7 @@ exports.run = (client, config) => {
                     "</div></td></tr>";
 
                   //start forms
+                  //build general
                   let ct1 =
                     '<tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><select name="data2"><option value="" selected disabled hidden>Choose General Channel</option>' +
                     `<option value="1 ${data.guild} disable">DISABLE</option>`;
@@ -464,6 +495,8 @@ exports.run = (client, config) => {
                     '</select><input type="submit" class="button" onclick="document.getElementById(`' +
                     data.guild +
                     'a1`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
+
+                  //build logs
                   let ct2 =
                     '<tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><select name="data2"><option value="" selected disabled hidden>Choose Logs Channel</option>' +
                     `<option value="2 ${data.guild} disable">DISABLE</option>`;
@@ -483,6 +516,8 @@ exports.run = (client, config) => {
                     '</select><input type="submit" class="button" onclick="document.getElementById(`' +
                     data.guild +
                     'a2`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
+
+                  //build mute
                   let ct3 =
                     '<tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><select name="data2"><option value="" selected disabled hidden>Choose Mute Channel</option>' +
                     `<option value="3 ${data.guild} disable">DISABLE</option>`;
@@ -502,6 +537,8 @@ exports.run = (client, config) => {
                     '</select><input type="submit" class="button" onclick="document.getElementById(`' +
                     data.guild +
                     'a3`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
+
+                  //build highlights
                   let ct4 =
                     '<tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><select name="data2"><option value="" selected disabled hidden>Choose HighLight Channel</option>' +
                     `<option value="4 ${data.guild} disable">DISABLE</option>`;
@@ -521,6 +558,8 @@ exports.run = (client, config) => {
                     '</select><input type="submit" class="button" onclick="document.getElementById(`' +
                     data.guild +
                     'a4`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
+
+                  //build reaction roles
                   let ct5 =
                     '<tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><select name="data2"><option value="" selected disabled hidden>Choose Roles Channel</option>' +
                     `<option value="5 ${data.guild} disable">DISABLE</option>`;
@@ -540,6 +579,8 @@ exports.run = (client, config) => {
                     '</select><input type="submit" class="button" onclick="document.getElementById(`' +
                     data.guild +
                     'a5`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
+
+                  //build stream notification channel
                   let ct6 =
                     '<tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><select name="data2"><option value="" selected disabled hidden>Choose Stream Channel</option>' +
                     `<option value="6 ${data.guild} disable">DISABLE</option>`;
@@ -559,6 +600,7 @@ exports.run = (client, config) => {
                     '</select><input type="submit" class="button" onclick="document.getElementById(`' +
                     data.guild +
                     'a6`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
+
                   //start rest
                   //Automod
                   if (data.autoMod == "2") {
@@ -582,6 +624,7 @@ exports.run = (client, config) => {
                     '<input type="submit" class="button" onclick="document.getElementById(`' +
                     data.guild +
                     'rapp1`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
+
                   //leveling
                   if (data.leveling == "2") {
                     var lvlm = "OFF";
@@ -604,6 +647,7 @@ exports.run = (client, config) => {
                     '<input type="submit" class="button" onclick="document.getElementById(`' +
                     data.guild +
                     'rapp4`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
+
                   //streamhere
                   if (data.streamHere == "2") {
                     var streamm = "ON";
@@ -626,6 +670,7 @@ exports.run = (client, config) => {
                     '<input type="submit" class="button" onclick="document.getElementById(`' +
                     data.guild +
                     'rapp2`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
+
                   //prefix
                   let rapp3t =
                     '<tr style="text-align:left; border-bottom: 1px solid black"><td>Server prefix:</td><td><div id="' +
@@ -641,9 +686,29 @@ exports.run = (client, config) => {
                     '<input type="submit" class="button" onclick="document.getElementById(`' +
                     data.guild +
                     'rapp3`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
-                  //push shit
+
+                  //welcome message
+                  let wm1 =
+                    '<tr style="text-align:left"><td><h2>Basic setup</h2></td></tr><tr style="text-align:left; border-bottom: 1px solid black"><td>Welcome message:</td><td><div id="' +
+                    data.guild +
+                    'wmD">Change welcome message below</div></td></tr>';
+                  let wm2 =
+                    '<tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><input type="hidden" name="data2" value="wm ' +
+                    data.guild +
+                    '" /><textarea rows="5" cols="20" name="data2">' +
+                    data.wmessage +
+                    "</textarea>";
+                  let wm3 =
+                    '<input type="submit" class="button" onclick="document.getElementById(`' +
+                    data.guild +
+                    'wmD`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
+
+                  //Form webpage
                   array.push(
                     top1 +
+                      wm1 +
+                      wm2 +
+                      wm3 +
                       rapp3t +
                       rapp3 +
                       rapp3b +
@@ -695,6 +760,7 @@ exports.run = (client, config) => {
       //client
       const test = {
         client: client,
+        db: db,
       };
 
       //Render
@@ -1083,7 +1149,7 @@ exports.run = (client, config) => {
         "SELECT * FROM guildhub WHERE guild = ? ORDER BY guild DESC"
       );
       setGuild2 = db.prepare(
-        "INSERT OR REPLACE INTO guildhub (guild, generalChannel, highlightChannel, muteChannel, logsChannel, streamChannel, reactionChannel, streamHere, autoMod, prefix) VALUES (@guild, @generalChannel, @highlightChannel, @muteChannel, @logsChannel, @streamChannel, @reactionChannel, @streamHere, @autoMod, @prefix);"
+        "INSERT OR REPLACE INTO guildhub (guild, generalChannel, highlightChannel, muteChannel, logsChannel, streamChannel, reactionChannel, streamHere, autoMod, prefix, leveling, wmessage) VALUES (@guild, @generalChannel, @highlightChannel, @muteChannel, @logsChannel, @streamChannel, @reactionChannel, @streamHere, @autoMod, @prefix, @leveling, @wmessage);"
       );
       //check perms
       let thiss = gettheguild.members.cache.get(req.session.user.id);
@@ -1256,12 +1322,24 @@ exports.run = (client, config) => {
             setGuild.run(channelstuff);
             return res.status(204).send();
           }
+
+          //prefix
           if (data2[0] == "pr") {
             let channelstuff = getGuild2.get(data2[1]);
             channelstuff.prefix = data2.slice(2).join(" ");
             setGuild.run(channelstuff);
             return res.status(204).send();
           }
+
+          //welcome message
+          if (data2[0] == "wm") {
+            let channelstuff = getGuild2.get(data2[1]);
+            channelstuff.wmessage = data2.slice(2).join(" ");
+            setGuild.run(channelstuff);
+            return res.status(204).send();
+          }
+
+          //automod
           if (data2[0] == "am") {
             if (data2[2] == "ON") {
               let channelstuff = getGuild2.get(data2[1]);
@@ -1276,6 +1354,8 @@ exports.run = (client, config) => {
               return res.status(204).send();
             }
           }
+
+          //leveling
           if (data2[0] == "lv") {
             if (data2[2] == "ON") {
               let channelstuff = getGuild2.get(data2[1]);
@@ -1290,6 +1370,8 @@ exports.run = (client, config) => {
               return res.status(204).send();
             }
           }
+
+          //streampings
           if (data2[0] == "sh") {
             if (data2[2] == "ON") {
               let channelstuff = getGuild2.get(data2[1]);

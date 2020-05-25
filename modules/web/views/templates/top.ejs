@@ -18,8 +18,8 @@
               <%- test.client.user.username %> is <%- test.client.user.presence.status %> <br>
               <%- test.client.users.cache.size.toLocaleString() %> users / 
               <%- test.client.guilds.cache.size.toLocaleString() %> guilds <br>
-              <% let t = test.db.prepare("SELECT number FROM usage;").all(); %>
-              <% let str = 0; for (let i in t) str +=  t[i].number; %>
+              <% let tris = test.db.prepare("SELECT number FROM usage;").all(); %>
+              <% let str = 0; for (let i in tris) str +=  tris[i].number; %>
               <%- str.toLocaleString() %> commands used
             </div>
           </div>
