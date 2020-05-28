@@ -41,15 +41,24 @@ const commandFiles = fs
 
 //loopdiloop commands and loads em
 for (const file of commandFiles) {
+  //define command files
   const command = require(`./commands/${file}`);
+
+  //pull database from database
   let usagecheck = getUsage.get(command.name);
+
+  //if command not in db
   if (!usagecheck) {
     usagecheck = {
       command: command.name,
       number: `0`,
     };
+
+    //run database
     setUsage.run(usagecheck);
   }
+
+  //load commands
   client.commands.set(command.name, command);
 }
 

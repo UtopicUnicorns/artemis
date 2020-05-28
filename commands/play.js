@@ -79,13 +79,19 @@ module.exports = {
     if (!openmusicurl2)
       return message.reply("Sorry, something went wrong. try again.");
 
+    //if no url
+    if (!openmusicurl2[0]) return message.reply("Song not found");
+
     //construct filenames and such
     let openmusicurl = openmusicurl2[0].url;
+
     const id = openmusicurl2[0].id;
     const file = "./music/" + openmusicurl2[0].title + ".mp3";
 
     //Delete user message
     message.delete();
+
+    //return console.log(file);
 
     //check if download exists
     if (fs.existsSync(file)) {
@@ -218,7 +224,7 @@ module.exports = {
             voiceChannel: voiceChannel,
             connection: null,
             songs: [],
-            volume: 10,
+            volume: 30,
             playing: true,
           };
           queue.set(message.guild.id, queueContruct);

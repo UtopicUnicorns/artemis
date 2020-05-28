@@ -69,6 +69,59 @@ module.exports = {
       return message.reply("Question altered!");
     }
 
+    //View user
+    if (args[0].toLowerCase() == "user") {
+      //redefine args
+      let sargs = message.content.slice(prefix.length + 13).split(" ");
+
+      //form user
+      if (!sargs[0]) {
+        var user = message.guild.members.cache.get(message.author.id);
+      }
+      if (message.guild.members.cache.get(sargs[0])) {
+        var user = message.guild.members.cache.get(sargs[0]);
+      }
+      if (sargs[0].startsWith("<@") && sargs[0].endsWith(">")) {
+        var user = message.guild.members.cache.get(
+          message.mentions.users.first().id
+        );
+      }
+
+      //get cases by user
+      let casesGet = db
+        .prepare("SELECT * FROM supcase WHERE askby = ? LIMIT 25;")
+        .all(user.user.id);
+
+      //build embed
+      const supTic5 = new Discord.MessageEmbed()
+        .setTitle(`Viewing past cases for ${user.user.username}`)
+        .setAuthor(
+          user.user.username + "#" + user.user.discriminator,
+          user.user.displayAvatarURL({
+            format: "png",
+            dynamic: true,
+            size: 1024,
+          })
+        )
+        .setDescription("Use " + prefix + "support view CaseNum")
+        .setColor("RANDOM")
+        .setTimestamp();
+
+      //loop trough data
+      for (let data of casesGet) {
+        let q = data.question.toString();
+        supTic5.addField(
+          "Case number: " + data.scase,
+          "Question: " + q.slice(0, 20)
+        );
+      }
+
+      //send embed
+      return message.reply({
+        embed: supTic5,
+      });
+    }
+
     //view
     if (args[0].toLowerCase() == "view") {
       //get the case entry

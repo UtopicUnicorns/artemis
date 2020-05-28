@@ -166,6 +166,7 @@ module.exports = {
         autoMod: `0`,
         prefix: `!`,
         leveling: `1`,
+        wmessage: '',
       };
       setGuild.run(guildfailsafe);
     }
