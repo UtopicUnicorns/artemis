@@ -2,13 +2,14 @@
 const npm = require("../modules/NPM.js");
 npm.npm();
 
+//load database
+dbinit = require("../modules/dbinit.js");
+dbinit.dbinit();
+
+//start
 module.exports = {
-  name: "set",
-  description:
-    "[mod] set mute MENTION" +
-    "\n[mod] set mute time 10 s/m/h MENTION" +
-    "\n[mod] set unmute MENTION" +
-    "\n[mod] set prefix prefix",
+  name: "mute",
+  description: "[mod] mute MENTION\n[mod]mute 2 m MENTION",
   async execute(message) {
     //set prefix
     const prefixstart = getGuild.get(message.guild.id);
@@ -18,7 +19,7 @@ module.exports = {
     if (!message.member.permissions.has("KICK_MEMBERS")) return;
 
     //update usage count
-    usage = getUsage.get("set");
+    usage = getUsage.get("mute");
     usage.number++;
     setUsage.run(usage);
 
@@ -29,7 +30,7 @@ module.exports = {
     );
 
     //create args
-    let args = message.content.slice(prefix.length + 4).split(" ");
+    let args = message.content.slice(prefix.length + 5).split(" ");
 
     //check for logs channel
     var logger = message.guild.channels.cache.get(guildChannels.logsChannel);
@@ -42,6 +43,10 @@ module.exports = {
     //define member
     const member = message.mentions.members.first();
 
+    //if member is you
+    if (message.author.id == member.id)
+      return message.reply("You can not mute yourself");
+
     //Start after use log function
     function logMe() {
       //If channel exists
@@ -50,7 +55,7 @@ module.exports = {
         //timeout to prevent api spam
         setTimeout(() => {
           const logsmessage = new Discord.MessageEmbed()
-            .setTitle(prefix + "set")
+            .setTitle(prefix + "mute")
             .setAuthor(
               message.author.username,
               message.author.avatarURL({
@@ -290,177 +295,85 @@ module.exports = {
         return logMe();
       }
     }
-    //mute
-    if (args[0] == `mute`) {
-      //if no member has been defined
-      if (!member) {
-        //create embed
-        const logsmessage2 = new Discord.MessageEmbed()
-          .setAuthor(
-            message.author.username,
-            message.author.avatarURL({
-              format: "png",
-              dynamic: true,
-              size: 1024,
-            })
-          )
-          .setColor("RANDOM")
-          .setTitle("Usage")
-          .addField(prefix + "set mute @mention\n", "Mute a user")
-          .addField(
-            prefix + "set mute time X Y @mention\n",
-            "Where X = time => 10\nWhere Y = format => s/seconds m/minutes h/hours d/days"
-          )
-          .addField(
-            prefix + "set mute time 10 m @mention\n",
-            "example time usage"
-          )
-          .addField(prefix + "set unmute @mention", "Unmutes the target");
-        return message.channel.send({
-          embed: logsmessage2,
-        });
+
+    //if no member
+    if (!member) {
+      //create embed
+      const logsmessage2 = new Discord.MessageEmbed()
+        .setAuthor(
+          message.author.username,
+          message.author.avatarURL({
+            format: "png",
+            dynamic: true,
+            size: 1024,
+          })
+        )
+        .setColor("RANDOM")
+        .setTitle("Usage")
+        .addField(prefix + "mute @mention\n", "Mute a user")
+        .addField(
+          prefix + "mute X Y @mention\n",
+          "Where X = time => 10\nWhere Y = format => s/seconds m/minutes h/hours d/days"
+        )
+        .addField(prefix + "mute 10 m @mention\n", "example time usage")
+        .addField(prefix + "unmute @mention", "Unmutes the target");
+      return message.channel.send({
+        embed: logsmessage2,
+      });
+    }
+
+    //if first arg is a number
+    if (args[0].match(/^[0-9]+$/) != null) {
+      //if second argument is seconds
+      if (
+        args[1].toLowerCase() == "s" ||
+        args[1].toLowerCase() == "sec" ||
+        args[1].toLowerCase() == "seconds"
+      ) {
+        //seconds to miliseconds
+        let settime = Math.floor(args[0] * 1000);
+        return HitOrMiss(true, settime);
       }
 
-      //if the target is you
-      if (message.author.id == member.id)
-        return message.reply("You can not mute yourself");
-
-      //if second argument is time
-      if (args[1] == `time`) {
-        //if no third argument
-        if (!args[2]) {
-          //construct embed
-          const logsmessage2 = new Discord.MessageEmbed()
-            .setAuthor(
-              message.author.username,
-              message.author.avatarURL({
-                format: "png",
-                dynamic: true,
-                size: 1024,
-              })
-            )
-            .setColor("RANDOM")
-            .setTitle("Usage")
-            .addField(prefix + "set mute @mention\n", "Mute a user")
-            .addField(
-              prefix + "set mute time X Y @mention\n",
-              "Where X = time => 10\nWhere Y = format => s/seconds m/minutes h/hours d/days"
-            )
-            .addField(
-              prefix + "set mute time 10 m @mention\n",
-              "example time usage"
-            )
-            .addField(prefix + "set unmute @mention", "Unmutes the target");
-          return message.channel.send({
-            embed: logsmessage2,
-          });
-        }
-
-        //if no fourth argument
-        if (!args[3]) {
-          //construct embed
-          const logsmessage2 = new Discord.MessageEmbed()
-            .setAuthor(
-              message.author.username,
-              message.author.avatarURL({
-                format: "png",
-                dynamic: true,
-                size: 1024,
-              })
-            )
-            .setColor("RANDOM")
-            .setTitle("Usage")
-            .addField(prefix + "set mute @mention\n", "Mute a user")
-            .addField(
-              prefix + "set mute time X Y @mention\n",
-              "Where X = time => 10\nWhere Y = format => s/seconds m/minutes h/hours d/days"
-            )
-            .addField(
-              prefix + "set mute time 10 m @mention\n",
-              "example time usage"
-            )
-            .addField(prefix + "set unmute @mention", "Unmutes the target");
-          return message.channel.send({
-            embed: logsmessage2,
-          });
-        }
-
-        //if fourth argument is seconds
-        if (
-          args[3].toLowerCase() == "s" ||
-          args[3].toLowerCase() == "sec" ||
-          args[3].toLowerCase() == "seconds"
-        ) {
-          //seconds to miliseconds
-          let settime = Math.floor(args[2] * 1000);
-          return HitOrMiss(true, settime);
-        }
-
-        //if fourth argument is minutes
-        if (
-          args[3].toLowerCase() == "m" ||
-          args[3].toLowerCase() == "min" ||
-          args[3].toLowerCase() == "minutes"
-        ) {
-          //minutes to miliseconds
-          let settime = Math.floor(args[2] * 60000);
-          return HitOrMiss(true, settime);
-        }
-
-        //if fourth argument is hours
-        if (
-          args[3].toLowerCase() == "h" ||
-          args[3].toLowerCase() == "hour" ||
-          args[3].toLowerCase() == "hours"
-        ) {
-          //hours to miliseconds
-          let settime = Math.floor(args[2] * 3600000);
-          return HitOrMiss(true, settime);
-        }
-
-        //if fourth argument is days
-        if (
-          args[3].toLowerCase() == "d" ||
-          args[3].toLowerCase() == "day" ||
-          args[3].toLowerCase() == "days"
-        ) {
-          //days to miliseconds
-          let settime = Math.floor(args[2] * 86400000);
-          return HitOrMiss(true, settime);
-        }
+      //if second argument is minutes
+      if (
+        args[1].toLowerCase() == "m" ||
+        args[1].toLowerCase() == "min" ||
+        args[1].toLowerCase() == "minutes"
+      ) {
+        //minutes to miliseconds
+        let settime = Math.floor(args[0] * 60000);
+        return HitOrMiss(true, settime);
       }
 
-      //if no time argument, ignore time and just pass normal mute
+      //if second argument is hours
+      if (
+        args[1].toLowerCase() == "h" ||
+        args[1].toLowerCase() == "hour" ||
+        args[1].toLowerCase() == "hours"
+      ) {
+        //hours to miliseconds
+        let settime = Math.floor(args[0] * 3600000);
+        return HitOrMiss(true, settime);
+      }
+
+      //if second argument is days
+      if (
+        args[1].toLowerCase() == "d" ||
+        args[1].toLowerCase() == "day" ||
+        args[1].toLowerCase() == "days"
+      ) {
+        //days to miliseconds
+        let settime = Math.floor(args[0] * 86400000);
+        return HitOrMiss(true, settime);
+      }
+
+      //invalid arg
+      let settime = Math.floor(1 * 3600000);
+      return HitOrMiss(true, settime);
+    } else {
+      //if no time mention
       return HitOrMiss(true);
-    }
-
-    //unmute
-    if (args[0] == `unmute`) {
-      //trigger unmute
-      return HitOrMiss(false);
-    }
-
-    //prefix
-    if (args[0] == `prefix`) {
-      //if no second arguments
-      if (!args[1]) return message.channel.send(`Specify a prefix!!`);
-
-      //define arguments for prefix
-      let zwargs = message.content.slice(prefix.length + 11);
-
-      //put new prefix in the database
-      prefixstart.prefix = zwargs;
-
-      //run database
-      setGuild.run(prefixstart);
-
-      //notify user
-      message.channel.send("Prefix set to " + zwargs);
-      //LOGS
-      if (logger == "0") {
-      } else {
-        logMe();
-      }
     }
   },
 };

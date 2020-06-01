@@ -123,7 +123,7 @@ client.once("ready", () => {
             )
             .run();
         }
-        if (data.cid == "710893984360169522") {
+        if (data.cid == "710893984360169522" || data.cid == "693386614277144646") {
           //if no channel?
           if (!client.channels.cache.get(data.cid)) {
             return db
@@ -307,7 +307,7 @@ client.once("ready", () => {
       }
     }
   }
-
+  
   //start Website
   dashboard.run(
     client,

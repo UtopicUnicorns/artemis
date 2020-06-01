@@ -137,31 +137,53 @@ exports.run = (client, config) => {
         `(${req.session.user.id}) ${req.session.user.username}: Is browsing /(userpanel)).`
       );
 
-      //Start user panel
+      //Start data1
       function data1(user) {
+        //empty array
         const array = [];
+
+        //guild images
         const image = [];
+
+        //counter
         let count = -1;
+
+        //map guild icons
         client.guilds.cache.map((guild) =>
           image.push(guild.iconURL({ format: "jpg" }))
         );
+
+        //loop trough data
         for (const data of getScore.all(user.id)) {
+
+          //loop trough the images
           for (let i of image) {
+            //check if it exists
             if (!i) {
             } else {
+              //if guild data exists
               if (i.includes(data.guild)) {
+                //Translation
                 if (data.translate == "2") {
                   var translation = "ON";
                 } else {
                   var translation = "OFF";
                 }
+
+                //stream notifications
                 if (data.stream == "2") {
                   var streaming = "OFF";
                 } else {
                   var streaming = "ON";
                 }
+
+                //up counter
                 count++;
+
+                //guild data
                 let guildsizeget = client.guilds.cache.get(data.guild);
+
+                //push into array
                 array.push(
                   '<button class="collapsible"><img src ="' +
                     i +
@@ -202,6 +224,8 @@ exports.run = (client, config) => {
             }
           }
         }
+
+        //return array after formatting
         return array.toString().replace(/,/g, "");
       }
 
