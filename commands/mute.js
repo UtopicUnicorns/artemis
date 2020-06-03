@@ -43,9 +43,16 @@ module.exports = {
     //define member
     const member = message.mentions.members.first();
 
+    //if no member
+    if (!member) return message.reply('Provide a user!');
+
     //if member is you
+    try {
     if (message.author.id == member.id)
       return message.reply("You can not mute yourself");
+    } catch {
+      return message.reply('Discord API error!');
+    }
 
     //Start after use log function
     function logMe() {
@@ -100,9 +107,13 @@ module.exports = {
           let array = [];
 
           //push channels into the array
-          message.client.channels.cache
-            .filter((channel) => channel.guild.id === message.guild.id)
-            .map((channels) => array.push(channels.id));
+          try {
+            message.client.channels.cache
+              .filter((channel) => channel.guild.id === message.guild.id)
+              .map((channels) => array.push(channels.id));
+          } catch {
+            return message.reply("Are your channels set up properly?\nElse Discord API error.");
+          }
 
           //counter
           let count = "0";

@@ -166,7 +166,7 @@ module.exports = {
         autoMod: `0`,
         prefix: `!`,
         leveling: `1`,
-        wmessage: '',
+        wmessage: "",
       };
       setGuild.run(guildfailsafe);
     }
@@ -506,6 +506,9 @@ module.exports = {
 
           //if user responds
           collector.on("collect", async (m) => {
+            //clean
+            message.delete();
+
             //if message is equal to captcha
             if (m.content.toUpperCase() === captcha.value) {
               //if anti raid is on
@@ -657,7 +660,12 @@ module.exports = {
                 }
 
                 //send image
-                await generalChannel1.send(sMessage.slice(0, 2000), attachment);
+                if (generalChannel1) {
+                  await generalChannel1.send(
+                    sMessage.slice(0, 2000),
+                    attachment
+                  );
+                }
 
                 //give access to all other channels
                 setTimeout(() => {
@@ -678,19 +686,50 @@ module.exports = {
                     }, 200);
                   }
                 }, 2000);
+                //clean
+                message.delete();
+
+                //clean up
+                message.channel.messages.fetch().then((messages) => {
+                  let cleanUp = messages.filter((msg) =>
+                    msg.content.toLowerCase().startsWith(`<@${member.id}>`)
+                  );
+                  message.channel.bulkDelete(cleanUp);
+                });
+
+                setTimeout(() => {
+                  message.channel.messages.fetch().then((messages) => {
+                    let cleanUp2 = messages.filter(
+                      (m) => m.author.id === member.id
+                    );
+                    message.channel.bulkDelete(cleanUp2);
+                  });
+                }, 3000);
 
                 //notify user
-                return message.channel.send(`${member} has been approved.`);
+                return message.channel
+                  .send(`${member} has been approved.`)
+                  .then((message) => {
+                    message.delete({
+                      timeout: 5000,
+                      reason: "It had to be done.",
+                    });
+                  });
               }
 
               //if user failed verification
-            } else message.channel.send("Failed Verification!");
-            collector.stop();
+            } else {
+              message.reply(
+                `Failed Verification!\nTry again with:\n${prefix}verify`
+              );
+              collector.stop();
+            }
           });
         }
 
         //start verification is message says so
         if (message.content == prefix + "verify") {
+          message.delete();
           verifyHuman(message);
         }
       }

@@ -153,11 +153,22 @@ module.exports = {
     }
     if (muteChannel1 == `0`) {
     } else {
+      //empty array
       let array = [];
+
+      //push channels into array
+      try {
       guildMember.client.channels.cache
         .filter((channel) => channel.guild.id === guildMember.guild.id)
         .map((channels) => array.push(channels.id));
+      } catch {
+        console.log('');
+      }
+
+      //count
       let count = "0";
+
+      //loop trough array
       for (let i of array) {
         count++;
         setTimeout(() => {
