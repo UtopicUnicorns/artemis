@@ -10,6 +10,8 @@ dbinit.dbinit();
 module.exports = {
   name: "nick",
   description: "[mod] Change a user nickname",
+  explain: `This command allows you to change the nickname of the @mentioned user.\n
+  Note that depending on role, permissions and hierachy the bot may not be able to change the nickname.`,
   async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

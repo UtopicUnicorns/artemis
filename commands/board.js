@@ -10,6 +10,7 @@ dbinit.dbinit();
 module.exports = {
   name: "board",
   description: "[level] Show leaderboard",
+  explain: `The \`board\` command will show you the top 10 users with the most points, points are based on user messages and/or thanking.`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
@@ -60,7 +61,7 @@ module.exports = {
               "Place: (" + counter + ")",
               `${user.user} \ ${user.user.username}` +
                 "\n" +
-                data.points +
+                data.points.toLocaleString() +
                 " points (level " +
                 data.level +
                 ")"

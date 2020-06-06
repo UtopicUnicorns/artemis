@@ -10,6 +10,11 @@ dbinit.dbinit();
 module.exports = {
   name: "automod",
   description: `[server] Turn on or off automod!`,
+  explain: `Automod affects how users experience the chat, it actively blocks discord links, 
+  blocks certain words if set up, mutes users who mass ping multiple users and stops users from verifying if strict mode is on.\n
+  \`automod on\` will enable the automod\n
+  \`automod off\` will turn automod off\n
+  \`automod strict\` will prevent users from verifying, useful in raids\n`,
   execute(message) {
     //define prefix
     const prefixstart = getGuild.get(message.guild.id);

@@ -834,7 +834,7 @@ exports.run = (client, config) => {
               '<tr style="text-align:left; border-bottom: 1px solid black"><td>' +
                 command.name +
                 "</td><td>" +
-                command.description +
+                command.explain +
                 "</td></tr>"
             );
         }
@@ -861,7 +861,7 @@ exports.run = (client, config) => {
               '<tr style="text-align:left; border-bottom: 1px solid black"><td>' +
                 command.name +
                 "</td><td>" +
-                command.description +
+                command.explain +
                 "</td></tr>"
             );
         }
@@ -888,7 +888,7 @@ exports.run = (client, config) => {
               '<tr style="text-align:left; border-bottom: 1px solid black"><td>' +
                 command.name +
                 "</td><td>" +
-                command.description +
+                command.explain +
                 "</td></tr>"
             );
         }
@@ -915,7 +915,7 @@ exports.run = (client, config) => {
               '<tr style="text-align:left; border-bottom: 1px solid black"><td>' +
                 command.name +
                 "</td><td>" +
-                command.description +
+                command.explain +
                 "</td></tr>"
             );
         }
@@ -942,7 +942,7 @@ exports.run = (client, config) => {
               '<tr style="text-align:left; border-bottom: 1px solid black"><td>' +
                 command.name +
                 "</td><td>" +
-                command.description +
+                command.explain +
                 "</td></tr>"
             );
         }
@@ -969,7 +969,7 @@ exports.run = (client, config) => {
               '<tr style="text-align:left; border-bottom: 1px solid black"><td>' +
                 command.name +
                 "</td><td>" +
-                command.description +
+                command.explain +
                 "</td></tr>"
             );
         }
@@ -996,7 +996,7 @@ exports.run = (client, config) => {
               '<tr style="text-align:left; border-bottom: 1px solid black"><td>' +
                 command.name +
                 "</td><td>" +
-                command.description +
+                command.explain +
                 "</td></tr>"
             );
         }
@@ -1023,7 +1023,7 @@ exports.run = (client, config) => {
               '<tr style="text-align:left; border-bottom: 1px solid black"><td>' +
                 command.name +
                 "</td><td>" +
-                command.description +
+                command.explain +
                 "</td></tr>"
             );
         }
@@ -1050,7 +1050,7 @@ exports.run = (client, config) => {
               '<tr style="text-align:left; border-bottom: 1px solid black"><td>' +
                 command.name +
                 "</td><td>" +
-                command.description +
+                command.explain +
                 "</td></tr>"
             );
         }

@@ -10,6 +10,9 @@ dbinit.dbinit();
 module.exports = {
   name: "warnings",
   description: "[mod] Look up user warning",
+  explain: `Using this command without arguments will show a top 25 of warning holders along with the latest provided reason.\n
+  Using \`warnings @mention\` will show a small log of the user mentioned.\n
+  Using \`warnings reset @mention\` will reset the warning points for the user.`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

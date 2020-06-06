@@ -10,6 +10,8 @@ dbinit.dbinit();
 module.exports = {
   name: "streamping",
   description: `[stream][mod] Turn on or off stream notification @here pings!`,
+  explain: `This command shows you if you have @here pings enabled for the stream notifications.\n
+  Use the artemis website to turn it off or on.`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

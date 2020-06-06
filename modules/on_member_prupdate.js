@@ -122,7 +122,6 @@ module.exports = {
                         `${user.user}/${user.user.username} went live!`
                       )
                       .addField(TDET, "\n" + TURL)
-                      .setImage()
                       .setTimestamp();
 
                     //if there is an image

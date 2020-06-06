@@ -10,6 +10,7 @@ dbinit.dbinit();
 module.exports = {
   name: "numbers",
   description: "[level] Display role sizes",
+  explain: `This command displays all self-asignable roles alongside their sizes.`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

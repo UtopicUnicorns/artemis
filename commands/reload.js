@@ -10,6 +10,7 @@ dbinit.dbinit();
 module.exports = {
   name: "reload",
   description: "[mod] reload a command",
+  explain: `This command allows you to reload a specified command to update new code and such.`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

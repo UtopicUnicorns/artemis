@@ -10,6 +10,7 @@ dbinit.dbinit();
 module.exports = {
   name: "man",
   description: "[linux] Shows linux manual pages",
+  explain: `This command shows you manual pages for linux terminal commands.`,
   async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

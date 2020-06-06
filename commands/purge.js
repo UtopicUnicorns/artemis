@@ -10,6 +10,9 @@ dbinit.dbinit();
 module.exports = {
   name: "purge",
   description: "[mod] Purge a mentioned user or a specified ammount",
+  explain: `This command allows you to purge up to 100 messages from the channel you use this command in or from the specified user.\n
+  \`purge @mention 2-100\`\n
+  \`purge 2-100\``,
   async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

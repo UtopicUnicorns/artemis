@@ -10,6 +10,8 @@ dbinit.dbinit();
 module.exports = {
   name: "hug",
   description: "[fun] Hug someone",
+  explain: `Sends a random hugging give including the user your specify.\n
+  \`hug @mention\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

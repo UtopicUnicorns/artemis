@@ -10,6 +10,8 @@ dbinit.dbinit();
 module.exports = {
   name: "p",
   description: "[fun] Ping a website",
+  explain: `Provide a website URL and Artemis will try to get a response from the website.\n
+  Useful as an *IsItDown* feature.`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

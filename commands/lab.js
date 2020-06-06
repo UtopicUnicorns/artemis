@@ -10,6 +10,7 @@ dbinit.dbinit();
 module.exports = {
   name: "lab",
   description: "[hidden] the lab",
+  explain: `UtopicUnicorn's laboratory.`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
@@ -24,6 +25,6 @@ module.exports = {
     setUsage.run(usage);
 
     //experimental
-    message.reply('Nothing here');
+    message.reply("Nothing here");
   },
 };

@@ -10,6 +10,7 @@ dbinit.dbinit();
 module.exports = {
   name: "info",
   description: "[general] Display server info",
+  explain: `This command will show you server statistics.`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

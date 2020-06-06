@@ -10,6 +10,8 @@ dbinit.dbinit();
 module.exports = {
   name: "stream",
   description: `[stream] turn on or off your own stream notifications`,
+  explain: `This command shows you if you allow the bot to notify others if you go live on Twitch.\n
+  Change this on the artemis website to turn it on or off.`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

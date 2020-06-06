@@ -10,6 +10,8 @@ dbinit.dbinit();
 module.exports = {
   name: "opt",
   description: `[general] opt in out out from translation`,
+  explain: `This command shows you if you have Automatic translation enabled for your messages.\n
+  By default this setting is OFF, but you can turn it on trough the Artemis website.`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

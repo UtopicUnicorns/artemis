@@ -10,6 +10,11 @@ dbinit.dbinit();
 module.exports = {
   name: "support",
   description: "[mod] Set a support channel",
+  explain: `This command allows you to view, modify and answer support tickets.\n
+  \`support view CaseNUM\` will show you the support ticket linked to this number.\n
+  \`support answer caseNUM\` will add your answer to the ticket number, everything that comes after this command in the same message will count as an answer.\n
+  \`support user @mention\` will show the last 25 tickets of a user.\n
+  \`support user userID\` will show the last 25 tickets of a user.`,
   execute(message) {
     //load prefix
     const prefixstart = getGuild.get(message.guild.id);

@@ -10,6 +10,8 @@ dbinit.dbinit();
 module.exports = {
   name: "fbi",
   description: "[fun] Harmless fun",
+  explain: `Generate a fake wanted poster for the user mentioned.\n
+  \`fbi @mention\`\n\`fbi userID\``,
   async execute(message) {
     //start prefix
     const prefixstart = getGuild.get(message.guild.id);
@@ -65,7 +67,7 @@ module.exports = {
 
     //Avatar shot
     const userImage = await Canvas.loadImage(
-      user.user.displayAvatarURL({ format: 'png', dynamic: true, size: 1024 })
+      user.user.displayAvatarURL({ format: "png", dynamic: true, size: 1024 })
     );
     ctx.drawImage(userImage, 222, 225, 200, 200);
 

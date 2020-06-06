@@ -10,6 +10,8 @@ dbinit.dbinit();
 module.exports = {
   name: "forceremove",
   description: "[mod] remove a database entry",
+  explain: `Removes every trace of the mentioned userID from the database.\n
+  This will also completely wipe any userinfo, warnings, mutes and personal user settings.`,
   async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

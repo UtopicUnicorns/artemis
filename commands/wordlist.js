@@ -10,6 +10,9 @@ dbinit.dbinit();
 module.exports = {
   name: "wordlist",
   description: "[server] Add or remove bad words from the wordlist",
+  explain: `This command manages the banned wordlist which will be active when automod is ON.\n
+  \`wordlist add Word1 Word2 Word3\` will add words to the banned list.\n
+  \`wordlist del Word1 Word2 Word3\` will delete the words from the banned list.`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

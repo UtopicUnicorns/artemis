@@ -10,6 +10,9 @@ dbinit.dbinit();
 module.exports = {
   name: "wallpaper",
   description: "[fun] Random wallpaper",
+  explain: `This command will show you a random wallpaper.\n
+  use \`wallpaper s\` for a single screen wallpaper.\n
+  use \`wallpaper d\` for a double screen wallpaper.`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

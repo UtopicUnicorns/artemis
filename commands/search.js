@@ -10,6 +10,7 @@ dbinit.dbinit();
 module.exports = {
   name: "search",
   description: "[general] Search the internet",
+  explain: `Using this command allows you to search the internet from a command.`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

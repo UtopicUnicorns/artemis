@@ -10,13 +10,15 @@ dbinit.dbinit();
 module.exports = {
   name: "approve",
   description: "[mod] Force a user trough verification",
+  explain: `Force approve a member trough the verification process.
+  You can use either \`approve @mention\` or \`approve userID\``,
   async execute(message) {
     //define prefix
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
 
     //if no proper perms
-    //if (!message.member.permissions.has("KICK_MEMBERS")) return;
+    if (!message.member.permissions.has("KICK_MEMBERS")) return;
 
     //form guild channels
     const guildChannels = getGuild.get(message.guild.id);
@@ -60,11 +62,7 @@ module.exports = {
     //if there is the role
     if (roleadd) {
       setTimeout(async () => {
-        try {
-          await user.user.roles.add(roleadd).catch(console.error);
-        } catch {
-          return message.reply("Discord API error, try again later.");
-        }
+        await user.user.roles.add(roleadd).catch(console.error);
       }, 5000);
     }
 

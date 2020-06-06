@@ -11,6 +11,7 @@ module.exports = {
   name: "btw",
   description:
     "[linux] Shows a random Distribution (Anonymous donation command)",
+  explain: `The \`btw\` command picks a random linux distribution from the distrowatch.com website and turns it into an *I am using Arch BTW* meme.`,
   async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

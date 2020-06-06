@@ -10,6 +10,7 @@ dbinit.dbinit();
 module.exports = {
   name: "rules",
   description: "[mod] Show rules",
+  explain: `This command will show you the server rules.`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

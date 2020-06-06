@@ -10,6 +10,7 @@ dbinit.dbinit();
 module.exports = {
   name: "food",
   description: "[fun] Random food picture",
+  explain: `This command will show you a random food item, no idea why.`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

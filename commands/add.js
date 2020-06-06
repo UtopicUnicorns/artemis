@@ -10,6 +10,9 @@ dbinit.dbinit();
 module.exports = {
   name: "add",
   description: "[mscore] Give a user points or take them",
+  explain: `This command will allow you to add or remove points from a user. 
+  using \`add -50\` will substract 50 points from a user and using \`add 50\` will add 50 points to a user.
+  The points will affect a users level and/or level role if that has been set up.`,
   execute(message) {
     //load prefix
     const prefixstart = getGuild.get(message.guild.id);

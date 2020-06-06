@@ -10,6 +10,7 @@ dbinit.dbinit();
 module.exports = {
   name: "wiki",
   description: "[fun] Wikipedia stuff",
+  explain: `This command allows you to search entries of wikipedia.`,
   async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

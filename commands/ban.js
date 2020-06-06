@@ -10,6 +10,7 @@ dbinit.dbinit();
 module.exports = {
   name: "ban",
   description: "[mod] Ban a user",
+  explain: `\`ban @mention\`\nWill surely ban a user if the bot is able to, this depends on the permissions and hierarchy of the roles.`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

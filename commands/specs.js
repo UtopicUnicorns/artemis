@@ -10,6 +10,8 @@ dbinit.dbinit();
 module.exports = {
   name: "specs",
   description: "[linux] Add your hardware specifications to !userinfo",
+  explain: `This command allows you to add your system settings to your userinfo profile.\n
+  For this you need to do \`neofetch --stdout\` in your terminal of choice and then paste it after the command.`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

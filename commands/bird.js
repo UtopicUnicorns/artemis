@@ -10,6 +10,7 @@ dbinit.dbinit();
 module.exports = {
   name: "bird",
   description: "[fun] Random bird picture",
+  explain: `Using \`bird\` will display a random bird picture from the some-random-api.ml website.`,
   execute(message) {
     //define prefix
     const prefixstart = getGuild.get(message.guild.id);

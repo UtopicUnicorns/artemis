@@ -10,6 +10,9 @@ dbinit.dbinit();
 module.exports = {
   name: "np",
   description: "[music] Shows the queue list",
+  explain: `This command will show you the playlist of the bot.\n
+  You as a user can add songs to the list and the bot will play it.\n
+  The number before the song name can also be used with the command \`skip\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

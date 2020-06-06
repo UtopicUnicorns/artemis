@@ -10,6 +10,9 @@ dbinit.dbinit();
 module.exports = {
   name: "package",
   description: "[linux] Searches Ubuntu/Mint packages",
+  explain: `Limited package search for both Arch repositories and Ubuntu.\n
+  \`package arch Query\`\n
+  \`package ubuntu Query\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

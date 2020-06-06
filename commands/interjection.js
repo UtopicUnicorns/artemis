@@ -10,6 +10,7 @@ dbinit.dbinit();
 module.exports = {
   name: "interjection",
   description: "[linux] What you are referring to as Linux(donation command)",
+  explain: `This command will post a cheezy linux meme.`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
@@ -42,6 +43,6 @@ is basically GNU with Linux added, or GNU/Linux.  All the so-called "Linux"
 distributions are really distributions of GNU/Linux.`;
 
     //send shit
-    return message.channel.send(interject, {split: true,});
+    return message.channel.send(interject, { split: true });
   },
 };

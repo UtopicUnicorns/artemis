@@ -10,6 +10,9 @@ dbinit.dbinit();
 module.exports = {
   name: "skip",
   description: "[music] Skip a song!",
+  explain: `When the bot is playing music you will have the option to skip songs.\n
+  When using plain \`skip\` or \`skip 0\` then the current song playing will be skipped.\n
+  using \`skip 3\` will skip the 3rd song in the playlist, you can see the playlist with the command \`np\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

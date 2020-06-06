@@ -10,6 +10,7 @@ dbinit.dbinit();
 module.exports = {
   name: "stop",
   description: "[music] Stop all songs in the queue!",
+  explain: `When the bot is playing music, then you can use this command to stop it.`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

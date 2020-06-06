@@ -10,6 +10,9 @@ dbinit.dbinit();
 module.exports = {
   name: "react",
   description: "[server] Add CUSTOM EMOTE reactions to a message",
+  explain: `This command will try to add custome emoji reactions to a specified message in the channel you use this command in.\n
+  \`react messageID emojiName1 emojiName2\`\n
+  Do not that the emojis have to be custom!`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

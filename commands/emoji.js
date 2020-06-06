@@ -10,6 +10,7 @@ dbinit.dbinit();
 module.exports = {
   name: "emoji",
   description: "[fun] Show an emoji",
+  explain: `This command will show you a big version of the emoji you put in, make sure it's a custom emoji and that you actually have access to the emoji itself.`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
@@ -39,7 +40,7 @@ module.exports = {
 
     //start request
     request(
-      "https://cdn.discordapp.com/emojis/" + EID + ".gif",
+      "https://cdn.discordapp.com/emojis/" + EId + ".gif",
       {
         json: true,
       },

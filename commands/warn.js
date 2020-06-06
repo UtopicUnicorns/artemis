@@ -10,6 +10,8 @@ dbinit.dbinit();
 module.exports = {
   name: "warn",
   description: "[mod] Warn a user",
+  explain: `Using \`warn @mention\` will warn the user, adding text after the mention will be teh reason why the user got a warning.\n
+  After 3 warnings the user will get muted if there is a mute channel set up.`,
   async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

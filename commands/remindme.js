@@ -10,6 +10,10 @@ dbinit.dbinit();
 module.exports = {
   name: "remindme",
   description: "[general] set a reminder",
+  explain: `This command will allow you to set a reminder for yourself.\n
+  \`remindme 10 hours *Reminder Text Here*\` will set a reminder.\n
+  \`remindme delete clear\` will clear all your reminders.\n
+  \`remindme delete DeletionKey\` will remove the specified reminder.`,
   async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

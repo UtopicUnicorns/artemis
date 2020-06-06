@@ -10,6 +10,7 @@ dbinit.dbinit();
 module.exports = {
   name: "plant",
   description: "[fun] Search plants",
+  explain: `This command will allow you to search some plants by their English names.`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

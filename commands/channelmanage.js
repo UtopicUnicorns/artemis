@@ -10,6 +10,7 @@ dbinit.dbinit();
 module.exports = {
   name: "channelmanage",
   description: "[server] Show preset channels",
+  explain: `This command shows you which channels are asigned to the bot.\nThe channels have to be set up trough the artemis website.`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
@@ -32,13 +33,13 @@ module.exports = {
       .setColor("RANDOM")
       .setDescription("edit the channels on https://artemisbot.eu/")
       .addField(
-        "General Channel: ",
+        "Welcome Channel: ",
         message.guild.channels.cache.find(
           (channel) => channel.id === channelget.generalChannel
         )
       )
       .addField(
-        "Mute Channel: ",
+        "Mute/Verify Channel: ",
         message.guild.channels.cache.find(
           (channel) => channel.id === channelget.muteChannel
         )

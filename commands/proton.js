@@ -10,6 +10,8 @@ dbinit.dbinit();
 module.exports = {
   name: "proton",
   description: "[linux] Search the ProtonDB",
+  explain: `This command will search steam and the protonDB API for the game you specified.\n
+  It will return how it runs on linux, if it's native and so forth.`,
   execute(message) {
     //Build prefix
     const prefixstart = getGuild.get(message.guild.id);

@@ -10,6 +10,8 @@ dbinit.dbinit();
 module.exports = {
   name: "rolemanage",
   description: "[mscore] Manage self assignable roles",
+  explain: `This command will allow you to make roles self assignable/ready for reaction roles.\n
+  By using \`rolemanage roleName\roleID\` you add or remove the self asignable role.`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
@@ -79,11 +81,14 @@ module.exports = {
 
     //does not exist
     if (!rolechecker) {
-      return console.log(args + " is not a role.");
+      return message.reply(`${args} is not a role!`);
     }
 
+    //init db
+    const getRoles2 = db.prepare("SELECT * FROM roles WHERE roles = ?");
+
     //pull data from database
-    let rolecheck = getRoles.get(rolechecker.id);
+    let rolecheck = getRoles2.get(rolechecker.id);
 
     //if role is not in database add it
     if (!rolecheck) {

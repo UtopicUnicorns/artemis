@@ -10,6 +10,7 @@ dbinit.dbinit();
 module.exports = {
   name: "level",
   description: "[level] Show your points and level",
+  explain: `This command will show you your level, points, points to next level and warning amount via a nice and neat image.`,
   async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
@@ -94,7 +95,7 @@ module.exports = {
         ctx.shadowBlur = 5;
         ctx.fillStyle = "#ffffff";
         ctx.fillText(
-          `Level: ${mathlev}\nPoints to next level: ${math3}`,
+          `Level: ${mathlev}\nPoints to next level: ${math3.toLocaleString()}`,
           175,
           135
         );
@@ -121,7 +122,11 @@ module.exports = {
         ctx.shadowColor = "black";
         ctx.shadowBlur = 5;
         ctx.fillStyle = "#ffffff";
-        ctx.fillText(`${mathpoint} / ${math2} points`, 50, 235);
+        ctx.fillText(
+          `${mathpoint.toLocaleString()} / ${math2.toLocaleString()} points`,
+          50,
+          235
+        );
         const attachment = new Discord.MessageAttachment(
           canvas.toBuffer(),
           "level.png"

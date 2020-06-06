@@ -5,6 +5,8 @@ npm.npm();
 //load databases
 dbinit = require("./dbinit.js");
 dbinit.dbinit();
+
+//start
 module.exports = {
   onMessage: async function (message) {
     //Disboard
@@ -705,6 +707,8 @@ module.exports = {
                     message.channel.bulkDelete(cleanUp2);
                   });
                 }, 3000);
+                
+                collector.stop();
 
                 //notify user
                 return message.channel

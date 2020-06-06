@@ -13,8 +13,10 @@ musicPlay = new Set();
 module.exports = {
   name: "play",
   description: "[music] Play a song!",
+  explain: `To use this command you have to be in a voice channel.\n
+  To play a song simply use the following command:\n
+  \`play YoutubeURL/SearchQuery\``,
   async execute(message) {
-    //start prefix
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;

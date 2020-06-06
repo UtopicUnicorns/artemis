@@ -10,6 +10,10 @@ dbinit.dbinit();
 module.exports = {
   name: "userinfo",
   description: "[general] Displays your own or mentioned user info",
+  explain: `This command will show extensive information about the user your mention or yourself.\n
+  \`userinfo\` will show info about yourself.\n
+  \`userinfo @mention\` will show info about the mentioned user.\n
+  To see info silently you can use \`userinfo userID\``,
   execute(message) {
     //form prefix
     const prefixstart = getGuild.get(message.guild.id);

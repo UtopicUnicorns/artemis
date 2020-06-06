@@ -10,6 +10,8 @@ dbinit.dbinit();
 module.exports = {
   name: "join",
   description: "[level] Join a self assignable role",
+  explain: `This command allows you to join a self-asignable role.\n
+  \`join roleName\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
@@ -58,6 +60,9 @@ module.exports = {
       //if user has role
       if (checking) return message.reply("You already have this role.");
 
+      //clean
+      message.delete();
+
       //add role
       member.roles.add(role).catch(console.error);
 
@@ -68,12 +73,24 @@ module.exports = {
         .addField("Joined: ", `${role}`);
 
       //send embed
-      return message.channel.send({
-        embed,
-      });
+      return message.channel
+        .send({
+          embed,
+        })
+        .then((message) => {
+          message.delete({
+            timeout: 5000,
+            reason: "It had to be done.",
+          });
+        });
     }
 
     //error
-    message.reply("Invalid role!");
+    message.reply("Invalid role!").then((message) => {
+      message.delete({
+        timeout: 5000,
+        reason: "It had to be done.",
+      });
+    });
   },
 };

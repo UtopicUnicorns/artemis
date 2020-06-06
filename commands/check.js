@@ -10,6 +10,8 @@ dbinit.dbinit();
 module.exports = {
   name: "check",
   description: "[server] Role check",
+  explain: `This command allows you to see which user have what role and which do not.\n
+  \`check not RoleName/RoleID\`\n\`check yes RoleName/RoleID\``,
   async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

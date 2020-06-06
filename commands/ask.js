@@ -10,6 +10,7 @@ dbinit.dbinit();
 module.exports = {
   name: "ask",
   description: "[linux] Ask Ubuntu api",
+  explain: `By using the AskUbuntu API you can get somewhat flawed answers if you use \`ask QuerY\``,
   execute(message) {
     //start prefix
     const prefixstart = getGuild.get(message.guild.id);

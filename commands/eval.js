@@ -10,6 +10,8 @@ dbinit.dbinit();
 module.exports = {
   name: "eval",
   description: "[eval] Eval",
+  explain: `The eval command is a tool that allows the user to execute custom commands not covered in any other commands.\n
+  Note that this command is extremely powerful!`,
   async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

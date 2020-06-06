@@ -10,6 +10,7 @@ dbinit.dbinit();
 module.exports = {
   name: "ping",
   description: "[general] ping",
+  explain: `This command will return a pong and latency information.`,
   async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

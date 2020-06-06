@@ -10,6 +10,7 @@ dbinit.dbinit();
 module.exports = {
   name: "avatar",
   description: "[fun] Show a user avatar",
+  explain: `This will show a users profile picture, either use \`avatar @mention\`, \`avatar userID\` or \`avatar\``,
   execute(message) {
     //define prefix
     const prefixstart = getGuild.get(message.guild.id);

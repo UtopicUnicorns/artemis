@@ -10,6 +10,9 @@ dbinit.dbinit();
 module.exports = {
   name: "xkcd",
   description: "[fun] Xkcd images",
+  explain: `\`xkcd\` Will show the latest xkcd\n
+  \`xkcd NUM\` will show the published comic number you entered\n
+  \`xkcd random\` will show you a random comic`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

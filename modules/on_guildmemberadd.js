@@ -6,7 +6,7 @@ module.exports = {
   onGuildMemberAdd: async function (guildMember) {
     //ignore bots
     if (guildMember.user.bot) return;
-    
+
     //load shit
     const guildChannels = getGuild.get(guildMember.guild.id);
     if (guildChannels) {
@@ -158,11 +158,11 @@ module.exports = {
 
       //push channels into array
       try {
-      guildMember.client.channels.cache
-        .filter((channel) => channel.guild.id === guildMember.guild.id)
-        .map((channels) => array.push(channels.id));
+        guildMember.client.channels.cache
+          .filter((channel) => channel.guild.id === guildMember.guild.id)
+          .map((channels) => array.push(channels.id));
       } catch {
-        console.log('');
+        console.log("");
       }
 
       //count
@@ -225,9 +225,7 @@ module.exports = {
       const prefixstart = getGuild.get(guildMember.guild.id);
       const prefix = prefixstart.prefix;
       return muteChannel1.send(
-        ageA.join(" ") +
-          " " +
-          `${guildMember.user}` +
+        `${guildMember.user}` +
           "\nWelcome, you need to verify yourself first!\nTo begin write `" +
           prefix +
           "verify`"
@@ -264,7 +262,11 @@ module.exports = {
           canvas.height / 2.0
         );
         const avatar = await Canvas.loadImage(
-          guildMember.user.displayAvatarURL({ format: 'png', dynamic: true, size: 1024 })
+          guildMember.user.displayAvatarURL({
+            format: "png",
+            dynamic: true,
+            size: 1024,
+          })
         );
         ctx.drawImage(avatar, 600, 25, 50, 50);
         ctx.beginPath();
@@ -272,7 +274,11 @@ module.exports = {
         ctx.closePath();
         ctx.clip();
         const guildlogo = await Canvas.loadImage(
-          guildMember.guild.iconURL({ format: 'png', dynamic: true, size: 1024 })
+          guildMember.guild.iconURL({
+            format: "png",
+            dynamic: true,
+            size: 1024,
+          })
         );
         ctx.drawImage(guildlogo, 25, 25, 200, 200);
         const attachment = new Discord.MessageAttachment(

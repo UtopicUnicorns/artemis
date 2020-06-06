@@ -10,6 +10,7 @@ dbinit.dbinit();
 module.exports = {
   name: "resume",
   description: "[music] Resume the music",
+  explain: `If the bot is playing music and the music is currently paused, then this command will unpause it.`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

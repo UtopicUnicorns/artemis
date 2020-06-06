@@ -10,6 +10,14 @@ dbinit.dbinit();
 module.exports = {
   name: "levelmanage",
   description: "[mscore] Manage level up roles",
+  explain: `This command allows you to set up level role rewards.\n
+  \`levelmanage lvl05 RoleName/RoleID\`\n
+  \`levelmanage lvl10 RoleName/RoleID\`\n
+  \`levelmanage lvl15 RoleName/RoleID\`\n
+  \`levelmanage lvl20 RoleName/RoleID\`\n
+  \`levelmanage lvl30 RoleName/RoleID\`\n
+  \`levelmanage lvl50 RoleName/RoleID\`\n
+  \`levelmanage lvl85 RoleName/RoleID\`\n`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

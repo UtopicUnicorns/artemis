@@ -10,6 +10,11 @@ dbinit.dbinit();
 module.exports = {
   name: "mute",
   description: "[mod] mute MENTION\n[mod]mute 2 m MENTION",
+  explain: `This command allows you to mute a user.\n
+  A muted user will not be able to see any channels beside the mute channel(or none).\n
+  You can also specify the time by using the following command:\n
+  \`mute 5 h @mention\`\n
+  This will mute the user for 5 hours.`,
   async execute(message) {
     //set prefix
     const prefixstart = getGuild.get(message.guild.id);
@@ -44,14 +49,14 @@ module.exports = {
     const member = message.mentions.members.first();
 
     //if no member
-    if (!member) return message.reply('Provide a user!');
+    if (!member) return message.reply("Provide a user!");
 
     //if member is you
     try {
-    if (message.author.id == member.id)
-      return message.reply("You can not mute yourself");
+      if (message.author.id == member.id)
+        return message.reply("You can not mute yourself");
     } catch {
-      return message.reply('Discord API error!');
+      return message.reply("Discord API error!");
     }
 
     //Start after use log function
@@ -112,7 +117,9 @@ module.exports = {
               .filter((channel) => channel.guild.id === message.guild.id)
               .map((channels) => array.push(channels.id));
           } catch {
-            return message.reply("Are your channels set up properly?\nElse Discord API error.");
+            return message.reply(
+              "Are your channels set up properly?\nElse Discord API error."
+            );
           }
 
           //counter

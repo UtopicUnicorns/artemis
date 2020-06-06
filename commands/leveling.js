@@ -10,6 +10,7 @@ dbinit.dbinit();
 module.exports = {
   name: "leveling",
   description: `[mscore] Turn on or off leveling for your server!`,
+  explain: `This command will allow you to turn off or on point/level gaining for your server.`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

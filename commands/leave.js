@@ -10,6 +10,8 @@ dbinit.dbinit();
 module.exports = {
   name: "leave",
   description: "[level] Leave a self assignable role",
+  explain: `This command allows you to leave a self asignable role.\n
+  \`leave roleName\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
@@ -56,6 +58,9 @@ module.exports = {
       //if user does not have role
       if (!checking) return message.reply("You do not have this role.");
 
+      //clean
+      message.delete();
+
       //remove role
       member.roles.remove(role).catch(console.error);
 
@@ -66,12 +71,24 @@ module.exports = {
         .addField("Left: ", `${role}`);
 
       //send embed
-      return message.channel.send({
-        embed,
-      });
+      return message.channel
+        .send({
+          embed,
+        })
+        .then((message) => {
+          message.delete({
+            timeout: 5000,
+            reason: "It had to be done.",
+          });
+        });
     }
 
     //error
-    message.reply("Invalid role!");
+    message.reply("Invalid role!").then((message) => {
+      message.delete({
+        timeout: 5000,
+        reason: "It had to be done.",
+      });
+    });
   },
 };

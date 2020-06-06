@@ -10,6 +10,8 @@ dbinit.dbinit();
 module.exports = {
   name: "kick",
   description: "[mod] Kick a user from the server",
+  explain: `This command will surely kick an @mentioned user.\n
+  This will only kick the user, it does not ban, mute or whatever to the user.`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

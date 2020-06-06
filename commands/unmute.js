@@ -10,6 +10,7 @@ dbinit.dbinit();
 module.exports = {
   name: "unmute",
   description: "[mod] unmute MENTION",
+  explain: `When a user is muted you can use this command with the users mention to unmute the user!`,
   async execute(message) {
     //set prefix
     const prefixstart = getGuild.get(message.guild.id);

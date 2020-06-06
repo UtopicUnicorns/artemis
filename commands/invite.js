@@ -10,6 +10,7 @@ dbinit.dbinit();
 module.exports = {
   name: "invite",
   description: "[general] bot invite and main server invite",
+  explain: `This command displays the github of the bot, main server invite, bot invite, patreon link and creator tag.`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
@@ -23,7 +24,10 @@ module.exports = {
     //build embed
     const whoartemis = new Discord.MessageEmbed()
       .setTitle("Invite")
-      .setAuthor(message.author.username, message.author.avatarURL({ format: 'png', dynamic: true, size: 1024 }))
+      .setAuthor(
+        message.author.username,
+        message.author.avatarURL({ format: "png", dynamic: true, size: 1024 })
+      )
       .setColor("RANDOM")
       .setDescription("Hello, I am Artemis!")
       .addField("Main discord server: ", "https://discord.gg/EVVtPpw")
@@ -37,9 +41,9 @@ module.exports = {
       .setFooter("Bot owner: <@127708549118689280> | UtopicUnicorn#0383")
       .setTimestamp();
 
-      //send embed
+    //send embed
     return message.channel.send({
-      embed: whoartemis
+      embed: whoartemis,
     });
-  }
+  },
 };

@@ -10,6 +10,7 @@ dbinit.dbinit();
 module.exports = {
   name: "lenny",
   description: "[fun] ( ͡° ͜ʖ ͡°)",
+  explain: `Yeah... let's not explain this.`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

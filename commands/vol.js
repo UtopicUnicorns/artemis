@@ -10,6 +10,7 @@ dbinit.dbinit();
 module.exports = {
   name: "vol",
   description: "[music] Control the volume",
+  explain: `While the bot is playing music in a voice channel you can set the volume for it by giving it a number between 1 and 100.`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

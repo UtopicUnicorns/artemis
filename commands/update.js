@@ -10,6 +10,7 @@ dbinit.dbinit();
 module.exports = {
   name: "update",
   description: "[admin] send out update",
+  explain: `This will send an update message of your choosing to every logs channel linked to Artemis.`,
   async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
