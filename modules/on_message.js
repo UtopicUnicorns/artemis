@@ -707,7 +707,7 @@ module.exports = {
                     message.channel.bulkDelete(cleanUp2);
                   });
                 }, 3000);
-                
+
                 collector.stop();
 
                 //notify user
@@ -735,63 +735,6 @@ module.exports = {
         if (message.content == prefix + "verify") {
           message.delete();
           verifyHuman(message);
-        }
-      }
-    }
-
-    //Topic For mint server only
-    //if guild ID is mint server
-    if (message.guild.id == "628978428019736619") {
-      //if user speaking has kick permissions
-      if (message.member && message.member.permissions.has("KICK_MEMBERS")) {
-        //if message is !topic
-        if (message.content.startsWith(prefix + "topic")) {
-          //subjects
-          let selectthis = [
-            "Which Linux distribution did you first user,\nand why did you start using it?",
-            "Do you have a favourite Linux/UNIX command?\nUse `" +
-              prefix +
-              "man command` to know what a command does, never use commands you do not know.",
-            "Are you currently dual booting another OS or distribution,\nwhy do you dual boot, or why do you not?",
-            "Do you know any programming languages,\nand which one is your favourite?",
-            "Which games do you usually play,\nand are they available on Linux?",
-            "Do you have any safety tips for others to know regarding the Corona virus?",
-            "What made you interested in Linux Mint?",
-          ];
-
-          //pick a random subject
-          let selectedthis = selectthis[~~(Math.random() * selectthis.length)];
-
-          //change channel topic to subject
-          message.client.channels.cache
-            .get("695182849476657223")
-            .setTopic(selectedthis);
-
-          //create embed
-          const topicstart = new Discord.MessageEmbed()
-            .setAuthor(
-              message.author.username,
-              message.author.avatarURL({
-                format: "png",
-                dynamic: true,
-                size: 1024,
-              })
-            )
-            .setColor("RANDOM")
-            .setDescription(
-              "For the next 30 minutes this will be the topic!\nTrying to go off-topic may have consequences."
-            )
-            .addField(
-              "The topic that I have selected for you is: \n",
-              selectedthis
-            )
-            .setFooter("Behave properly, and respect each others opinions.\n")
-            .setTimestamp();
-
-          //send embed
-          message.channel.send({
-            embed: topicstart,
-          });
         }
       }
     }
@@ -861,66 +804,26 @@ module.exports = {
     if (message.channel.id === "642882039372185609") {
       //failsafe ignore self
       if (message.author.id !== "440892659264126997") {
-        //define arguments
-        let cargs = message.content.slice(5);
+        // if set
+        if (!message.content.startsWith(prefix + "set")) {
+          //define arguments
+          let cargs = message.content.slice(5);
 
-        //if !channel
-        if (message.content.startsWith(prefix + "channel")) {
-          //read channelset file for channelID
-          let readname = fs
+          //check validity channel
+          let channelcheck = fs
             .readFileSync("channelset.txt")
             .toString()
             .split("\n");
 
-          //Check channel
-          let channelname = message.client.channels.cache.get(`${readname}`);
+          //If not a channel
+          if (!message.client.channels.cache.get(`${channelcheck}`))
+            return message.reply("Invalid channel!");
 
-          //Send reply
-          return message.channel.send(channelname.name);
-        }
-
-        //set channel
-        if (message.content.startsWith(prefix + "set")) {
-          //Write channelID to file
-          fs.writeFile("channelset.txt", cargs, function (err) {
-            if (err) throw err;
-          });
-
-          //send notification
-          return message.channel.send(
-            "Set channel id to: " +
-              message.client.channels.cache.get(`${cargs}`)
-          );
-        }
-
-        //check validity channel
-        let channelcheck = fs
-          .readFileSync("channelset.txt")
-          .toString()
-          .split("\n");
-
-        //If not a channel
-        if (!message.client.channels.cache.get(`${channelcheck}`)) {
-          //notify user
-          return message.channel.send(
-            "Enter a valid channel ID first!\n!set ChannelID"
-          );
-        }
-        try {
           //Send message
-          message.client.channels.cache
+          return message.client.channels.cache
             .get(`${channelcheck}`)
             .send(message.content);
-        } catch {
-          console.log(
-            moment().format("MMMM Do YYYY, HH:mm:ss") +
-              "\n" +
-              __filename +
-              ":" +
-              ln()
-          );
         }
-        return;
       }
     }
 
