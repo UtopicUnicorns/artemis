@@ -28,6 +28,8 @@ module.exports = {
       response,
       body
     ) {
+      //if err
+      if (!body) return message.reply('An error has occured!');
       //process body
       let test = htmlText(body).split("\n");
 
