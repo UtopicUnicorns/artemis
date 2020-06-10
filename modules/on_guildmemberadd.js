@@ -1,7 +1,12 @@
+//load modules
 npm = require("./NPM.js");
 npm.npm();
+
+//load database
 dbinit = require("./dbinit.js");
 dbinit.dbinit();
+
+//start
 module.exports = {
   onGuildMemberAdd: async function (guildMember) {
     //ignore bots
@@ -9,6 +14,7 @@ module.exports = {
 
     //filter
     let filter = [
+      "🅿🆄🆂🆂🆈",
       "4r5e",
       "5h1t",
       "5hit",
@@ -463,42 +469,46 @@ module.exports = {
       "xxx",
     ];
 
+    //if guild is Mint, apply filter
     if (guildMember.guild.id == "628978428019736619") {
+      //loop trough filter
       for (let i of filter) {
-        if (guildMember.user.username.toLowerCase().includes(i))
-          guildMember.ban();
+        //if matches, ban user
+        if (
+          guildMember.user.username
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase()
+            .includes(i)
+        )
+          return guildMember.ban();
       }
     }
 
-    //load shit
+    //load guild channels
     const guildChannels = getGuild.get(guildMember.guild.id);
-    if (guildChannels) {
-      var thisguild = guildMember.client.guilds.cache.get(guildChannels.guild);
-    }
-    if (thisguild) {
-      var generalChannel1 = guildMember.client.channels.cache.get(
-        guildChannels.generalChannel
-      );
-      if (!generalChannel1) {
-        var generalChannel1 = "0";
-      }
-      var muteChannel1 = guildMember.client.channels.cache.get(
-        guildChannels.muteChannel
-      );
-      if (!muteChannel1) {
-        var muteChannel1 = "0";
-      }
-      var logsChannel1 = guildMember.client.channels.cache.get(
-        guildChannels.logsChannel
-      );
-      if (!logsChannel1) {
-        var logsChannel1 = "0";
-      }
-    } else {
-      var generalChannel1 = "0";
-      var muteChannel1 = "0";
-      var logsChannel1 = "0";
-    }
+
+    //if no entry
+    if (!guildChannels) return;
+
+    //if guild does not exist
+    if (!guildMember.client.guilds.cache.get(guildChannels.guild)) return;
+
+    //define general channel
+    const generalChannel1 = guildMember.client.channels.cache.get(
+      guildChannels.generalChannel
+    );
+
+    //define mute channel
+    const muteChannel1 = guildMember.client.channels.cache.get(
+      guildChannels.muteChannel
+    );
+
+    //define logs channel
+    const logsChannel1 = guildMember.client.channels.cache.get(
+      guildChannels.logsChannel
+    );
+
     if (guildMember.guild.id == "628978428019736619") {
       rolearray = [
         "674208095626592266",
@@ -512,12 +522,18 @@ module.exports = {
       }
     }
 
-    //account age check
+    //define members role
     let roleadd1 = guildMember.guild.roles.cache.find(
       (r) => r.name === "~/Members"
     );
+
+    //redefine user
     let user = guildMember.user;
+
+    //load userscore
     let userscore2 = getScore.get(user.id, guildMember.guild.id);
+
+    //if no userscore
     if (!userscore2) {
       userscore2 = {
         id: `${guildMember.guild.id}-${user.id}`,
@@ -531,162 +547,101 @@ module.exports = {
         stream: 0,
         notes: 0,
       };
+
+      //run database
       setScore.run(userscore2);
-    } else {
-      if (userscore2.muted == "1") {
-        if (muteChannel1 == "0") {
-        } else {
-          let count = "0";
-          let array = [];
-          guildMember.client.channels.cache
-            .filter((channel) => channel.guild.id === guildMember.guild.id)
-            .map((channels) => array.push(channels.id));
-          for (let i of array) {
-            count++;
-            setTimeout(() => {
-              let channel = guildMember.guild.channels.cache.find(
-                (channel) => channel.id === i
-              );
-              if (channel) {
-                if (muteChannel1) {
-                  if (i !== muteChannel1.id) {
-                    channel.createOverwrite(user, {
-                      VIEW_CHANNEL: false,
-                      READ_MESSAGES: false,
-                      SEND_MESSAGES: false,
-                      READ_MESSAGE_HISTORY: false,
-                      ADD_REACTIONS: false,
-                    });
-                  }
-                  let channel2 = guildMember.guild.channels.cache.find(
-                    (channel) => channel.id === muteChannel1.id
-                  );
-                  channel2.createOverwrite(user, {
-                    VIEW_CHANNEL: true,
-                    READ_MESSAGES: true,
-                    SEND_MESSAGES: true,
-                    READ_MESSAGE_HISTORY: true,
-                    ATTACH_FILES: false,
-                  });
-                }
-              }
-            }, 200 * count);
-          }
-          return muteChannel1.send(
-            `${user}` +
-              ", You have been muted by our system due to breaking rules, trying to leave and rejoin will not work!"
-          );
-        }
-      }
     }
+
+    //get user account age
     var cdate = moment.utc(user.createdAt).format("YYYYMMDD");
     let ageS = moment(cdate, "YYYYMMDD").fromNow(true);
     let ageA = ageS.split(" ");
 
     //logs
-    if (logsChannel1 == `0`) {
-    } else {
-      try {
-        const embed = new Discord.MessageEmbed()
-          .setTitle(`User joined`)
-          .setColor(`RANDOM`)
-          .setDescription(`${guildMember.user}`)
-          .addField(
-            `This user has joined us.`,
+    if (logsChannel1) {
+      //form embed
+      const embed = new Discord.MessageEmbed()
+        .setTitle(`User joined`)
+        .setColor(`RANDOM`)
+        .setDescription(`${guildMember.user}`)
+        .addField(
+          `This user has joined us.`,
+          "\n" +
+            guildMember.user.username +
             "\n" +
-              guildMember.user.username +
-              "\n" +
-              guildMember.user.id +
-              "\nAccount age: " +
-              ageA.join(" ")
-          )
-          .setTimestamp();
-        logsChannel1.send({
-          embed,
-        });
-      } catch {
-        console.log(
-          moment().format("MMMM Do YYYY, HH:mm:ss") +
-            "\n" +
-            __filename +
-            ":" +
-            ln()
-        );
-      }
+            guildMember.user.id +
+            "\nAccount age: " +
+            ageA.join(" ")
+        )
+        .setTimestamp();
+
+      //send logs
+      logsChannel1.send({
+        embed,
+      });
     }
-    if (muteChannel1 == `0`) {
-    } else {
+
+    //if there is a mute channel
+    if (muteChannel1) {
       //empty array
       let array = [];
 
       //push channels into array
-      try {
-        guildMember.client.channels.cache
-          .filter((channel) => channel.guild.id === guildMember.guild.id)
-          .map((channels) => array.push(channels.id));
-      } catch {
-        console.log("");
-      }
+      guildMember.client.channels.cache
+        .filter((channel) => channel.guild.id === guildMember.guild.id)
+        .map((channels) => array.push(channels.id));
 
       //count
       let count = "0";
 
       //loop trough array
       for (let i of array) {
+        //update count
         count++;
+
+        //anti api spam
         setTimeout(() => {
           let channel = guildMember.guild.channels.cache.find(
             (channel) => channel.id === i
           );
           if (channel) {
-            if (muteChannel1) {
-              if (i !== muteChannel1.id) {
-                channel.createOverwrite(user, {
-                  VIEW_CHANNEL: false,
-                  READ_MESSAGES: false,
-                  SEND_MESSAGES: false,
-                  READ_MESSAGE_HISTORY: false,
-                  ADD_REACTIONS: false,
-                });
-              }
-              let channel2 = guildMember.guild.channels.cache.find(
-                (channel) => channel.id === muteChannel1.id
-              );
-              channel2.createOverwrite(user, {
-                VIEW_CHANNEL: true,
-                READ_MESSAGES: true,
-                SEND_MESSAGES: true,
-                READ_MESSAGE_HISTORY: true,
-                ATTACH_FILES: false,
+            if (i !== muteChannel1.id) {
+              channel.createOverwrite(user, {
+                VIEW_CHANNEL: false,
+                READ_MESSAGES: false,
+                SEND_MESSAGES: false,
+                READ_MESSAGE_HISTORY: false,
+                ADD_REACTIONS: false,
               });
             }
+            let channel2 = guildMember.guild.channels.cache.find(
+              (channel) => channel.id === muteChannel1.id
+            );
+            channel2.createOverwrite(user, {
+              VIEW_CHANNEL: true,
+              READ_MESSAGES: true,
+              SEND_MESSAGES: true,
+              READ_MESSAGE_HISTORY: true,
+              ATTACH_FILES: false,
+            });
           }
         }, 200 * count);
       }
 
       //if Anti raid is on
       if (guildChannels.autoMod == "strict") {
-        try {
-          return muteChannel1.send(
-            ageA.join(" ") +
-              " " +
-              `${guildMember.user}` +
-              "\nAutomod Strict is on!\nThis means that every user gets dumped into this channel.\nAutomod strict is usually enabled if there is a raid going on."
-          );
-        } catch {
-          console.log(
-            moment().format("MMMM Do YYYY, HH:mm:ss") +
-              "\n" +
-              __filename +
-              ":" +
-              ln()
-          );
-        }
+        //notify user
+        return muteChannel1.send(
+          `${guildMember.user}` +
+            "\nAutomod Strict is on!\nThis means that every user gets dumped into this channel.\nAutomod strict is usually enabled if there is a raid going on."
+        );
       }
 
-      //if there is a mute channel
+      //define prefix
       const prefixstart = getGuild.get(guildMember.guild.id);
       const prefix = prefixstart.prefix;
+
+      //notify user to verify
       return muteChannel1.send(
         `${guildMember.user}` +
           "\nWelcome, you need to verify yourself first!\nTo begin write `" +
@@ -699,59 +654,59 @@ module.exports = {
     if (roleadd1) {
       guildMember.roles.add(roleadd1).catch(console.error);
     }
-    if (generalChannel1 == "0") {
-    } else {
-      try {
-        const canvas = Canvas.createCanvas(700, 250);
-        const ctx = canvas.getContext("2d");
-        const background = await Canvas.loadImage(
-          "./modules/img/mintwelcome.png"
-        );
-        ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-        ctx.font = "30px Zelda";
-        ctx.shadowColor = "black";
-        ctx.shadowBlur = 5;
-        ctx.fillStyle = "#FFFFFF";
-        ctx.fillText(
-          guildMember.user.username,
-          canvas.width / 3.0,
-          canvas.height / 2.0
-        );
-        ctx.font = "21px sans-serif";
-        ctx.fillStyle = "#ffffff";
-        ctx.fillText(
-          "\nAccount age: " + ageA.join(" ") + "\nID: " + guildMember.id,
-          canvas.width / 3.0,
-          canvas.height / 2.0
-        );
-        const avatar = await Canvas.loadImage(
-          guildMember.user.displayAvatarURL({
-            format: "png",
-            dynamic: true,
-            size: 1024,
-          })
-        );
-        ctx.drawImage(avatar, 600, 25, 50, 50);
-        ctx.beginPath();
-        ctx.arc(125, 125, 100, 0, Math.PI * 2, true);
-        ctx.closePath();
-        ctx.clip();
-        const guildlogo = await Canvas.loadImage(
-          guildMember.guild.iconURL({
-            format: "png",
-            dynamic: true,
-            size: 1024,
-          })
-        );
-        ctx.drawImage(guildlogo, 25, 25, 200, 200);
-        const attachment = new Discord.MessageAttachment(
-          canvas.toBuffer(),
-          "welcome-image.png"
-        );
-        await generalChannel1.send(attachment);
-      } catch {
-        console.log("");
-      }
+
+    //if general channel
+    if (generalChannel1) {
+      //build canvas
+      const canvas = Canvas.createCanvas(700, 250);
+      const ctx = canvas.getContext("2d");
+      const background = await Canvas.loadImage(
+        "./modules/img/mintwelcome.png"
+      );
+      ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+      ctx.font = "30px Zelda";
+      ctx.shadowColor = "black";
+      ctx.shadowBlur = 5;
+      ctx.fillStyle = "#FFFFFF";
+      ctx.fillText(
+        guildMember.user.username,
+        canvas.width / 3.0,
+        canvas.height / 2.0
+      );
+      ctx.font = "21px sans-serif";
+      ctx.fillStyle = "#ffffff";
+      ctx.fillText(
+        "\nAccount age: " + ageA.join(" ") + "\nID: " + guildMember.id,
+        canvas.width / 3.0,
+        canvas.height / 2.0
+      );
+      const avatar = await Canvas.loadImage(
+        guildMember.user.displayAvatarURL({
+          format: "png",
+          dynamic: true,
+          size: 1024,
+        })
+      );
+      ctx.drawImage(avatar, 600, 25, 50, 50);
+      ctx.beginPath();
+      ctx.arc(125, 125, 100, 0, Math.PI * 2, true);
+      ctx.closePath();
+      ctx.clip();
+      const guildlogo = await Canvas.loadImage(
+        guildMember.guild.iconURL({
+          format: "png",
+          dynamic: true,
+          size: 1024,
+        })
+      );
+      ctx.drawImage(guildlogo, 25, 25, 200, 200);
+      const attachment = new Discord.MessageAttachment(
+        canvas.toBuffer(),
+        "welcome-image.png"
+      );
+
+      //send canvas
+      await generalChannel1.send(attachment);
     }
   },
 };

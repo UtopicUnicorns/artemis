@@ -24,13 +24,8 @@ module.exports = {
     //form args
     let args = message.content.slice(prefix.length + 7);
 
-    //options
-    const options = {
-      lang: "en",
-    };
-
     //google start
-    googleIt({ options, query: args, disableConsole: true })
+    googleIt({ query: args, disableConsole: true })
       .then((results) => {
         //form embed
         let embed = new Discord.MessageEmbed()
