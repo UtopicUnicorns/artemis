@@ -312,7 +312,7 @@ module.exports = {
             .setDescription("Case has been resumed")
             .addField("Asked by: ", `${user}`)
             .addField("Context link: ", prevCaseGet.murl)
-            .addField("Question: ", prevCaseGet.question)
+            .addField("Question: ", prevCaseGet.question + '.')
             .addField("\u200b", "\u200b")
             .addField("Answer: ", prevCaseGet.answer)
             .setColor("RANDOM")
@@ -444,7 +444,7 @@ module.exports = {
         .addField("Example command usage: \n", prefix + "help")
         .addField(
           "Support my work: ",
-          "https://www.patreon.com/utopicunicorn\nhttps://artemisbot.eu"
+          "https://www.paypal.com/paypalme2/UtopicUnicorn\nhttps://artemisbot.eu"
         )
         .setTimestamp();
 

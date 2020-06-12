@@ -37,7 +37,7 @@ module.exports = {
         "Bot Invite: ",
         "https://discordapp.com/api/oauth2/authorize?client_id=440892659264126997&permissions=8&scope=bot"
       )
-      .addField("Support my work: ", "https://www.patreon.com/utopicunicorn")
+      .addField("Support my work: ", "https://www.paypal.com/paypalme2/UtopicUnicorn")
       .setFooter("Bot owner: <@127708549118689280> | UtopicUnicorn#0383")
       .setTimestamp();
 

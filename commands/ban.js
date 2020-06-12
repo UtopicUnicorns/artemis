@@ -31,51 +31,58 @@ module.exports = {
     if (!member)
       return message.reply("You need to mention the user you wish to ban!");
 
-    //define guildchannels
-    const guildChannels = getGuild.get(message.guild.id);
-
-    //define logs channel
-    var logger = message.guild.channels.cache.get(guildChannels.logsChannel);
-
-    //if no logs channel
-    if (!logger) var logger = "0";
-    if (logger !== "0") {
-      //build embed
-      const logsmessage = new Discord.MessageEmbed()
-        .setTitle(prefix + "ban")
-        .setAuthor(
-          message.author.username,
-          message.author.avatarURL({ format: "png", dynamic: true, size: 1024 })
-        )
-        .setDescription("Used by: " + `${message.author}`)
-        .setURL(message.url)
-        .setColor("RANDOM")
-        .addField("Usage:\n", message.content, true)
-        .addField("Channel", message.channel, true)
-        .setFooter("Message ID: " + message.id)
-        .setTimestamp();
-
-      //send embed
-      logger
-        .send({
-          embed: logsmessage,
-        })
-        .catch((error) =>
-          //error handle
-          console.log(
-            moment().format("MMMM Do YYYY, HH:mm:ss") +
-              "\n" +
-              __filename +
-              ":" +
-              ln()
-          )
-        );
-    }
-
     //ban the user
-    return member.members
-      .ban()
-      .then(() => message.reply(`${member.user.tag} was banned.`))
-      .catch((error) => message.reply("Sorry, an error occured."));
+    member.ban();
+    message.reply(`${member} has been banned!`);
+
+    //form guild channels
+    const guildChannels2 = getGuild.get(message.guild.id);
+
+    //form logs channel
+    var logger = message.guild.channels.cache.get(guildChannels2.logsChannel);
+
+    //if no log channel
+    if (!logger) var logger = "0";
+
+    //if logs channel
+    if (logger !== "0") {
+      //anti api spam
+      setTimeout(() => {
+        //form embed
+        const logsmessage = new Discord.MessageEmbed()
+          .setTitle(prefix + "ban")
+          .setAuthor(
+            message.author.username,
+            message.author.avatarURL({
+              format: "png",
+              dynamic: true,
+              size: 1024,
+            })
+          )
+          .setDescription("Used by: " + `${message.author}`)
+          .setURL(message.url)
+          .setColor("RANDOM")
+          .addField("Usage:\n", message.content, true)
+          .addField("Channel", message.channel, true)
+          .setFooter("Message ID: " + message.id)
+          .setTimestamp();
+
+        //send embed
+        logger
+          .send({
+            embed: logsmessage,
+          })
+          .catch((error) =>
+            //error
+            console.log(
+              moment().format("MMMM Do YYYY, HH:mm:ss") +
+                "\n" +
+                __filename +
+                ":" +
+                ln()
+            )
+          );
+      }, 3500);
+    }
   },
 };

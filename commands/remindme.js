@@ -27,6 +27,65 @@ module.exports = {
     //form args
     const args = message.content.slice(prefix.length + 9).split(" ");
 
+    //if no args
+    if (!args[0]) {
+      //pull reminders
+      const reminders = db
+        .prepare("SELECT * FROM remind WHERE uid = ? ORDER BY time DESC;")
+        .all(message.author.id);
+
+      //empty string
+      let str = "";
+
+      //loop trough reminders
+      for (const data of reminders) {
+        //define guild name
+        let guildname = message.client.guilds.cache.get(data.gid);
+
+        //define channel name
+        let channelname = guildname.channels.cache.find(
+          (channel) => channel.id === data.cid
+        );
+
+        //define time
+        let timers = data.time;
+
+        //form string
+        str +=
+          "\nWhen: " +
+          moment(timers, "YYYYMMDDHHmmss").fromNow() +
+          "\n" +
+          `${guildname}` +
+          "\n" +
+          `${channelname}` +
+          "\nReminder: " +
+          data.reminder +
+          "\nDeletion key: " +
+          data.mid +
+          "\n";
+      }
+
+      //form embed
+      const embed = new Discord.MessageEmbed()
+        .setAuthor(
+          message.author.username,
+          message.author.avatarURL({ format: "png", dynamic: true, size: 1024 })
+        )
+        .setTitle("Remindme")
+        .setColor(`RANDOM`)
+        .setDescription("Reminders:\n" + str)
+        .addField(prefix + "remindme ", "10 s reason")
+        .addField(prefix + "remindme ", "10 m reason")
+        .addField(prefix + "remindme ", "10 h reason")
+        .addField(prefix + "remindme ", "delete DELETIONKEY")
+        .addField(prefix + "remindme ", "delete clear");
+
+      //send embed
+      return message.channel.send({
+        embed,
+      });
+    }
+
     //if delete
     if (args[0] == "delete") {
       //exact match

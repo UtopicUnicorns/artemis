@@ -50,16 +50,18 @@ module.exports = {
       .setTimestamp();
 
     //if no log
-    if (!banLog) embed.addField("Banned by:\n", "Probably Artemis");
-
-    //define
-    const { executor, target } = banLog;
-
-    //if target
-    if (target.id === user.id) {
-      embed.addField("Banned by:\n", `${executor}`);
-    } else {
+    if (!banLog) {
       embed.addField("Banned by:\n", "Probably Artemis");
+    } else {
+      //define
+      const { executor, target } = banLog;
+
+      //if target
+      if (target.id === user.id) {
+        embed.addField("Banned by:\n", `${executor}`);
+      } else {
+        embed.addField("Banned by:\n", "Probably Artemis");
+      }
     }
 
     //send log
