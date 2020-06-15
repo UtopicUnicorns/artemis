@@ -151,7 +151,6 @@ module.exports = {
                       READ_MESSAGE_HISTORY: true,
                       ATTACH_FILES: false,
                     });
-                    return channel.send(`${member}` + "\nYou have been muted!");
                   }
                 }
 
@@ -225,12 +224,12 @@ module.exports = {
                 //notify user and yourself about the mute
                 message.reply(
                   `${member}` +
-                    " is temp muted!\n" +
+                    " is temp muted!\nUser will be unmuted in: " +
                     moment(datefor, "YYYYMMDDHHmmss").fromNow()
                 );
                 muteChannel1.send(
                   `${member}` +
-                    ", You have been temp muted!\n" +
+                    ", You have been temp muted!\nYou will be unmuted in: " +
                     moment(datefor, "YYYYMMDDHHmmss").fromNow()
                 );
                 return logMe();

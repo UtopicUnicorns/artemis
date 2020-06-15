@@ -705,8 +705,20 @@ module.exports = {
         "welcome-image.png"
       );
 
+      //load wmessage
+      const wmessageStart = getGuild.get(guildMember.guild.id);
+      const wmessage = wmessageStart.wmessage;
+
+      //check if message
+      if (!wmessage) {
+        //send just a member call
+        var sMessage = `${guildMember.user}`;
+      } else {
+        var sMessage = `${guildMember.user}, ${wmessage}`;
+      }
+
       //send canvas
-      await generalChannel1.send(attachment);
+      await generalChannel1.send(sMessage.slice(0, 2000), attachment);
     }
   },
 };

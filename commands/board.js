@@ -38,7 +38,7 @@ module.exports = {
         //pull data from database
         const top10 = db
           .prepare(
-            "SELECT * FROM scores WHERE guild = ? ORDER BY points DESC LIMIT 10;"
+            "SELECT * FROM scores WHERE guild = ? ORDER BY points DESC;"
           )
           .all(message.guild.id);
 
@@ -54,7 +54,7 @@ module.exports = {
         //loop trough data
         for (const data of top10) {
           //only do stuff if member exists
-          if (message.guild.members.cache.get(data.user)) {
+          if (message.guild.members.cache.get(data.user) && counter <= 9) {
             counter++;
             let user = message.guild.members.cache.get(data.user);
             embed.addField(

@@ -12,7 +12,9 @@ module.exports = {
   description: "[mod] Purge a mentioned user or a specified ammount",
   explain: `This command allows you to purge up to 100 messages from the channel you use this command in or from the specified user.\n
   \`purge @mention 2-100\`\n
-  \`purge 2-100\``,
+  \`purge 2-100\`\n
+  \`purge WORD\`\n
+  \`purge WORD 2-100\``,
   async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
@@ -29,19 +31,13 @@ module.exports = {
     //define user
     const user = message.mentions.users.first();
 
-    //define amount
-    const amount = !!parseInt(message.content.split(" ")[1])
-      ? parseInt(message.content.split(" ")[1])
-      : parseInt(message.content.split(" ")[2]);
+    //define args
+    const args = message.content.slice(prefix.length + 6).split(" ");
 
-    //if no amount
-    if (!amount) return message.reply("Must specify an amount to delete!");
-
-    //if no user and no amount
-    if (!amount && !user)
-      return message.reply(
-        "Must specify a user and amount, or just an amount, of messages to purge!"
-      );
+    //when no args
+    if (!args[0]) {
+      return message.reply("Specify a user, amount or word to purge.");
+    }
 
     //fetch messages
     message.channel.messages
@@ -49,23 +45,84 @@ module.exports = {
         limit: 100,
       })
       .then((messages) => {
-        //if user defined
-        if (user) {
-          //filter by user
-          const filterBy = user ? user.id : Client.user.id;
+        //if arg 0 is number
+        if (args[0].match(/^[0-9]+$/) != null) {
+          //set ammount
+          let amount = args[0];
 
           //define messages
-          messages = messages
-            .filter((m) => m.author.id === filterBy)
-            .array()
-            .slice(0, amount);
-        } else {
           messages = messages.array().slice(0, amount);
+
+          //purge
+          return message.channel
+            .bulkDelete(messages)
+            .catch((error) => console.log(error.stack));
         }
-        //purge
-        message.channel
-          .bulkDelete(messages)
-          .catch((error) => console.log(error.stack));
+
+        //word filter
+        if (!user) {
+          if (args[0]) {
+            //if no second arg
+            if (!args[1]) {
+              //word to purge
+              let fuckOff = args[0].toLowerCase();
+
+              //set ammount
+              let amount = 99;
+
+              //define messages
+              messages = messages
+                .filter((m) => m.content.includes(fuckOff))
+                .array()
+                .slice(0, amount);
+
+              //purge
+              return message.channel
+                .bulkDelete(messages)
+                .catch((error) => console.log(error.stack));
+            }
+
+            //if number is defined
+            if (args[1].match(/^[0-9]+$/) != null) {
+              //word to purge
+              let fuckOff = args[0].toLowerCase();
+
+              //set ammount
+              let amount = args[1];
+
+              //define messages
+              messages = messages
+                .filter((m) => m.content.toLowerCase().includes(fuckOff))
+                .array()
+                .slice(0, amount);
+
+              //purge
+              return message.channel
+                .bulkDelete(messages)
+                .catch((error) => console.log(error.stack));
+            }
+          }
+        }
+
+        //if user defined
+        if (user) {
+          //if number is specified
+          if (args[1].match(/^[0-9]+$/) != null) {
+            //set ammount
+            let amount = args[1];
+
+            //define messages
+            messages = messages
+              .filter((m) => m.author.id === user.id)
+              .array()
+              .slice(0, amount);
+
+            //purge
+            return message.channel
+              .bulkDelete(messages)
+              .catch((error) => console.log(error.stack));
+          }
+        }
       });
   },
 };

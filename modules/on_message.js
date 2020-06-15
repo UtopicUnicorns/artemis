@@ -312,7 +312,7 @@ module.exports = {
             .setDescription("Case has been resumed")
             .addField("Asked by: ", `${user}`)
             .addField("Context link: ", prevCaseGet.murl)
-            .addField("Question: ", prevCaseGet.question + '.')
+            .addField("Question: ", prevCaseGet.question + ".")
             .addField("\u200b", "\u200b")
             .addField("Answer: ", prevCaseGet.answer)
             .setColor("RANDOM")
@@ -798,6 +798,28 @@ module.exports = {
       }
     }
   } */
+    //tts
+    if (message.channel.id === "697519952483188836") {
+      //check for voice channel
+      const voiceChannel = message.member.voice.channel;
+
+      //if user is not in one
+      if (!voiceChannel) return;
+
+      //check for permissions
+      const permissions = voiceChannel.permissionsFor(message.client.user);
+
+      //if no permissions
+      if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) return;
+
+      //handle text
+      let Text2TTS = message.content.slice(0, 199);
+
+      //connect
+      var connection = await voiceChannel.join();
+      var connection = await voiceChannel.join();
+      const dispatcher = connection.play(discordTTS.getVoiceStream(Text2TTS));
+    }
 
     //Artemis Talk
     //if sentient channel

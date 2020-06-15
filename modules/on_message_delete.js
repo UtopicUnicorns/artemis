@@ -53,7 +53,7 @@ module.exports = {
         })
       )
       .setColor("RANDOM")
-      .addField("Deleted Message:\n", message.content)
+      .addField("Deleted Message:\n", message.content + '.')
       .addField("Channel", message.channel)
       .setFooter(
         "Message ID: " +
