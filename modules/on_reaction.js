@@ -49,8 +49,17 @@ module.exports = {
           "You did not set up a Highlights channel!"
         );
 
+      //fetch
+      let fetch1 = await reaction.message.client.channels.cache
+        .get("654447738070761505")
+        .messages.fetch();
+      let fetch2 = await fetch1
+        .filter((msg) => msg.embeds)
+        .map((msg) => msg.embeds[0]);
+      if (fetch2[0].footer.text.includes(reaction.message.id)) return;
+
       //if author is Artemis
-      if (reaction.message.author.id == "440892659264126997") return;
+      if (reaction.message.author.bot) return;
 
       //form embed
       const embed = new Discord.MessageEmbed()
