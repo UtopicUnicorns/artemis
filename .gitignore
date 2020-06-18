@@ -6,3 +6,6 @@ scores.sqlite-wal
 node_modules/*
 music/*
 pics/*
+*.mp3
+*.pcm
+hello.txt

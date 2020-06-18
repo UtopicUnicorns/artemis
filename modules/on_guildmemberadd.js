@@ -54,7 +54,6 @@ module.exports = {
       "bitches",
       "bitchin",
       "bitching",
-      "bloody",
       "blow job",
       "blowjob",
       "blowjobs",
@@ -70,8 +69,6 @@ module.exports = {
       "booooooobs",
       "breasts",
       "buceta",
-      "bugger",
-      "bum",
       "bunny fucker",
       "butt",
       "butthole",
@@ -129,7 +126,6 @@ module.exports = {
       "cyberfuckers",
       "cyberfucking",
       "d1ck",
-      "damn",
       "dick",
       "dickhead",
       "dildo",
@@ -231,7 +227,6 @@ module.exports = {
       "goddamn",
       "goddamned",
       "hardcoresex",
-      "hell",
       "heshe",
       "hoar",
       "hoare",
@@ -244,7 +239,6 @@ module.exports = {
       "hitler",
       "jack-off",
       "jackoff",
-      "jap",
       "jerk-off",
       "jism",
       "jiz",
@@ -327,7 +321,6 @@ module.exports = {
       "niggaz",
       "nigger",
       "niggers",
-      "nob",
       "nob jokey",
       "nobhead",
       "nobjocky",
@@ -464,9 +457,7 @@ module.exports = {
       "whoar",
       "whore",
       "willies",
-      "willy",
       "xrated",
-      "xxx",
     ];
 
     //if guild is Mint, apply filter
@@ -592,40 +583,40 @@ module.exports = {
         .map((channels) => array.push(channels.id));
 
       //count
-      let count = "0";
+      //let count = "0";
 
       //loop trough array
       for (let i of array) {
         //update count
-        count++;
+        //count++;
 
         //anti api spam
-        setTimeout(() => {
-          let channel = guildMember.guild.channels.cache.find(
-            (channel) => channel.id === i
-          );
-          if (channel) {
-            if (i !== muteChannel1.id) {
-              channel.createOverwrite(user, {
-                VIEW_CHANNEL: false,
-                READ_MESSAGES: false,
-                SEND_MESSAGES: false,
-                READ_MESSAGE_HISTORY: false,
-                ADD_REACTIONS: false,
-              });
-            }
-            let channel2 = guildMember.guild.channels.cache.find(
-              (channel) => channel.id === muteChannel1.id
-            );
-            channel2.createOverwrite(user, {
-              VIEW_CHANNEL: true,
-              READ_MESSAGES: true,
-              SEND_MESSAGES: true,
-              READ_MESSAGE_HISTORY: true,
-              ATTACH_FILES: false,
+        // setTimeout(async () => {
+        let channel = guildMember.guild.channels.cache.find(
+          (channel) => channel.id === i
+        );
+        if (channel) {
+          if (i !== muteChannel1.id) {
+            await channel.createOverwrite(user, {
+              VIEW_CHANNEL: false,
+              READ_MESSAGES: false,
+              SEND_MESSAGES: false,
+              READ_MESSAGE_HISTORY: false,
+              ADD_REACTIONS: false,
             });
           }
-        }, 200 * count);
+          let channel2 = guildMember.guild.channels.cache.find(
+            (channel) => channel.id === muteChannel1.id
+          );
+          await channel2.createOverwrite(user, {
+            VIEW_CHANNEL: true,
+            READ_MESSAGES: true,
+            SEND_MESSAGES: true,
+            READ_MESSAGE_HISTORY: true,
+            ATTACH_FILES: false,
+          });
+        }
+        //}, 200 * count);
       }
 
       //if Anti raid is on

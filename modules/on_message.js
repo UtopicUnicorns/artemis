@@ -556,7 +556,7 @@ module.exports = {
                     await message.member.roles
                       .add(roleadd)
                       .catch(console.error);
-                  }, 5000);
+                  }, 10000);
                 }
 
                 //build image
@@ -616,49 +616,7 @@ module.exports = {
                   //send just a member call
                   var sMessage = `${member}`;
                 } else {
-                  //empty array
-                  var sMessage1 = [];
-
-                  //split message
-                  let a = wmessage.split(" ");
-
-                  //Push member into array
-                  sMessage1.push(`${member}\n`);
-
-                  //loop trough array
-                  for (let i of a) {
-                    //if it starts with #
-                    if (i.startsWith("#")) {
-                      //split regex
-                      let CD = i.split("\r");
-
-                      //loop trough new array
-                      for (let n of CD) {
-                        //split regex
-                        let pEnd = n.split("\n");
-
-                        //if word starts with #
-                        if (pEnd[0].startsWith("#")) {
-                          //push channel into array
-                          sMessage1.push(
-                            `${message.guild.channels.cache.find(
-                              (channel) =>
-                                channel.name === pEnd[0].replace("#", "")
-                            )}`
-                          );
-                        } else {
-                          //push rest into array
-                          sMessage1.push(n);
-                        }
-                      }
-                    } else {
-                      //push other stuff into array
-                      sMessage1.push(i);
-                    }
-                  }
-
-                  //join the args
-                  var sMessage = sMessage1.join(" ");
+                  var sMessage = `${member}, ${wmessage}`;
                 }
 
                 //send image
@@ -669,25 +627,37 @@ module.exports = {
                   );
                 }
 
+                //define count
+                //let countAPI = "0";
+
                 //give access to all other channels
-                setTimeout(() => {
-                  let array2 = [];
-                  message.client.channels.cache
-                    .filter((channel) => channel.guild.id === message.guild.id)
-                    .map((channels) => array2.push(channels.id));
-                  for (let i of array2) {
-                    setTimeout(() => {
-                      let channel = message.guild.channels.cache.find(
-                        (channel) => channel.id === i
-                      );
-                      if (channel) {
-                        if (channel.permissionOverwrites.get(member.id)) {
-                          channel.permissionOverwrites.get(member.id).delete();
-                        }
-                      }
-                    }, 200);
+                //setTimeout(() => {
+                let array2 = [];
+                message.client.channels.cache
+                  .filter((channel) => channel.guild.id === message.guild.id)
+                  .map((channels) => array2.push(channels.id));
+                for (let i of array2) {
+                  // setTimeout(async () => {
+                  //increase count
+                  // countAPI++;
+
+                  //define channel
+                  let channel = message.guild.channels.cache.find(
+                    (channel) => channel.id === i
+                  );
+
+                  //if channel
+                  if (channel) {
+                    //remove member from list
+                    if (channel.permissionOverwrites.get(member.id)) {
+                      await channel.permissionOverwrites
+                        .get(member.id)
+                        .delete();
+                    }
                   }
-                }, 2000);
+                  // }, 200 * countAPI);
+                }
+                //}, 2000);
                 //clean
                 message.delete();
 

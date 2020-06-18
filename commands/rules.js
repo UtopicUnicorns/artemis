@@ -24,46 +24,54 @@ module.exports = {
     usage.number++;
     setUsage.run(usage);
 
+    //rules
+    let rules = [
+      "Disrespectful speech including usernames, voicechat, nicknames and DM's is forbidden.",
+      "Spamming and flooding is forbidden, except for happy birthday spam.",
+      "NSFW content is forbidden, inside the adult and secret channel nsfw is allowed within the boundaries of the Discord ToS.",
+      "Support questions go into the support channels, the same counts for other topics belong in their respective channels.",
+      "Spreading personal info is forbidden, when the other parties and a staff member agree then it may be allowed.",
+      "Keep discussions respectful.",
+      "Advertising is forbidden unless you have explicit permission from a staff member.",
+      "Politics talk is strictly forbidden in all channels other than the politics channels.",
+      "When the rules do not cover a specific situation, then the staff are free to do as they see fit.",
+      "Keep the Discord ToS in mind, depending on this we may or may not remove a message or take action even if it is not covered by our rules.",
+    ];
     //form embed
     let embed = new Discord.MessageEmbed()
       .setTitle("Server Rules")
+      .setAuthor(
+        message.author.username,
+        message.author.avatarURL({
+          format: "png",
+          dynamic: true,
+          size: 1024,
+        })
+      )
       .setColor(`RANDOM`)
-      .setThumbnail(message.guild.iconURL({ format: "jpg" }))
-      .addField(
-        "(1)\n",
-        "Hatespeech by the means of messaging or usernames is forbidden."
+      .setThumbnail(
+        message.guild.iconURL({
+          format: "png",
+          dynamic: true,
+          size: 1024,
+        })
       )
-      .addField("(2)\n", "No spamming. No exceptions!")
-      .addField("(3)\n", "Gore, nudity and general NSFW content is forbidden!")
-      .addField("(4)\n", "Do not be a dick, be reasonable.")
-      .addField("(5)\n", "Use the appropriate channels.")
-      .addField(
-        "(6)\n",
-        "No selfbots or regular bots, we already have a proper bot here."
-      )
-      .addField("(7)\n", "Extensive cursing is forbidden.")
-      .addField(
-        "(8)\n",
-        "Spreading personal info from yourself or someone else even with consent is strictly forbidden!"
-      )
-      .addField(
-        "(9)\n",
-        "In-case these rules do not cover a specific situation, mods are allowed to follow their own judgement."
-      )
-      .addField(
-        "(10)\n",
-        "We all have our preferences, but do not force it upon one another."
-      )
-      .addField(
-        "(11)\n",
-        "This is a Linux based server, keep distro trashtalking and/or editor shittalk to yourself."
-      )
-      .addField("(12)\n", "Advertising is forbidden.")
       .setURL("https://discord.gg/dSCqtqj")
       .setFooter(
         "Violating these rules may cause a kick, mute or ban from the server."
-      )
-      .setTimestamp();
+      );
+
+    //count
+    let count = "0";
+
+    //loop rules
+    for (let i of rules) {
+      //up count
+      count++;
+
+      //shoot field
+      embed.addField(`(${count}) `, `${i}`);
+    }
 
     //send embed
     return message.channel.send({

@@ -155,7 +155,6 @@ exports.run = (client, config) => {
 
         //loop trough data
         for (const data of getScore.all(user.id)) {
-
           //loop trough the images
           for (let i of image) {
             //check if it exists
@@ -303,7 +302,7 @@ exports.run = (client, config) => {
                           size: 1024,
                         }) +
                         '" width="20px" height="20px"> ' +
-                        thisss.user.username +
+                        thisss.user.username.replace(/[^a-zA-Z0-9]/g, "") +
                         '</td><td style="width: 150px;">Lvl: ' +
                         data2.level +
                         " Pts: " +
