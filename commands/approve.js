@@ -28,6 +28,13 @@ module.exports = {
       guildChannels.generalChannel
     );
 
+    //form mute channel
+    var muteChannel1 = message.guild.channels.cache.get(
+      guildChannels.muteChannel
+    );
+
+    if (!muteChannel1) return message.reply("No mute/verify channel set up!");
+
     if (!generalChannel1)
       return message.reply("No welcome/general channel set up!");
 
@@ -127,35 +134,39 @@ module.exports = {
       message.reply("Failed to load cavas, but user should be approved!");
     }
 
-    //define count
-    //let countAPI = "0";
+    //if not mint server
+    if (message.guild.id !== "628978428019736619") {
+      //array for chaNNELS
+      let array2 = [];
 
-    //give access to all other channels
-    //setTimeout(() => {
-    let array2 = [];
-    message.client.channels.cache
-      .filter((channel) => channel.guild.id === message.guild.id)
-      .map((channels) => array2.push(channels.id));
-    for (let i of array2) {
-      // setTimeout(async () => {
-      //increase count
-      //countAPI++;
+      //fetch channels
+      message.client.channels.cache
+        .filter((channel) => channel.guild.id === message.guild.id)
+        .map((channels) => array2.push(channels.id));
 
-      //define channel
-      let channel = message.guild.channels.cache.find(
-        (channel) => channel.id === i
-      );
+      //loop trough channels
+      for (let i of array2) {
+        //define channel
+        let channel = message.guild.channels.cache.find(
+          (channel) => channel.id === i
+        );
 
-      //if channel
-      if (channel) {
-        //remove user from list
-        if (channel.permissionOverwrites.get(user.user.id)) {
-          await channel.permissionOverwrites.get(user.user.id).delete();
+        //if channel
+        if (channel) {
+          //remove user from list
+          if (channel.permissionOverwrites.get(user.user.id)) {
+            await channel.permissionOverwrites.get(user.user.id).delete();
+          }
         }
       }
-      // }, 200 * countAPI);
+    } else {
+      let channel = message.guild.channels.cache.find(
+        (channel) => channel.id === muteChannel1.id
+      );
+      if (channel.permissionOverwrites.get(user.user.id)) {
+        await channel.permissionOverwrites.get(user.user.id).delete();
+      }
     }
-    // }, 2000);
 
     //notify user
     return message.channel.send(`${user} has been approved.`);

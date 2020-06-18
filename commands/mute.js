@@ -122,57 +122,70 @@ module.exports = {
             );
           }
 
-          //counter
-          let count = "0";
+          //if not mint server
+          if (message.guild.id !== "628978428019736619") {
+            //counter
+            let count = "0";
 
-          //start array loop
-          for (let i of array) {
-            //update count
-            count++;
+            //start array loop
+            for (let i of array) {
+              //update count
+              count++;
 
-            //timeout to prevent api spam
-            setTimeout(() => {
-              //define channel
-              let channel = message.guild.channels.cache.find(
-                (channel) => channel.id === i
-              );
+              //timeout to prevent api spam
+              setTimeout(() => {
+                //define channel
+                let channel = message.guild.channels.cache.find(
+                  (channel) => channel.id === i
+                );
 
-              //if channel exists
-              if (channel) {
-                //if there is a mute channel
-                if (muteChannel1) {
-                  //if current loop is mute channel
-                  if (i == muteChannel1.id) {
-                    //give proper perms
-                    channel.createOverwrite(member, {
-                      VIEW_CHANNEL: true,
-                      READ_MESSAGES: true,
-                      SEND_MESSAGES: true,
-                      READ_MESSAGE_HISTORY: true,
-                      ATTACH_FILES: false,
-                    });
+                //if channel exists
+                if (channel) {
+                  //if there is a mute channel
+                  if (muteChannel1) {
+                    //if current loop is mute channel
+                    if (i == muteChannel1.id) {
+                      //give proper perms
+                      channel.createOverwrite(member, {
+                        VIEW_CHANNEL: true,
+                        READ_MESSAGES: true,
+                        SEND_MESSAGES: true,
+                        READ_MESSAGE_HISTORY: true,
+                        ATTACH_FILES: false,
+                      });
+                    }
                   }
+
+                  //give proper perms for teh rest of teh channels
+                  channel.createOverwrite(member, {
+                    VIEW_CHANNEL: false,
+                    READ_MESSAGES: false,
+                    SEND_MESSAGES: false,
+                    READ_MESSAGE_HISTORY: false,
+                    ADD_REACTIONS: false,
+                  });
                 }
-
-                //give proper perms for teh rest of teh channels
-                channel.createOverwrite(member, {
-                  VIEW_CHANNEL: false,
-                  READ_MESSAGES: false,
-                  SEND_MESSAGES: false,
-                  READ_MESSAGE_HISTORY: false,
-                  ADD_REACTIONS: false,
-                });
-              }
-            }, 200 * count);
+              }, 200 * count);
+            }
+          } else {
+            let channel = message.guild.channels.cache.find(
+              (channel) => channel.id === muteChannel1.id
+            );
+            channel.createOverwrite(member, {
+              VIEW_CHANNEL: true,
+              READ_MESSAGES: true,
+              SEND_MESSAGES: true,
+              READ_MESSAGE_HISTORY: true,
+              ATTACH_FILES: false,
+            });
           }
-
           //if there is a members role
           if (memberrole) {
             //timeout to prevent API spam
             setTimeout(() => {
               //Remove member role
               member.roles.remove(memberrole).catch(console.log(""));
-            }, 10000);
+            }, 2000);
           }
 
           //define userscore again

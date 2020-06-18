@@ -97,57 +97,69 @@ module.exports = {
         if (userscore.muted == `1`) {
           return message.reply(`${member}` + " is already muted!");
         } else {
-          //create array to fetch stuff
-          let array = [];
+          //if not mint server
+          if (message.guild.id !== "628978428019736619") {
+            //create array to fetch stuff
+            let array = [];
 
-          //push channels into the array
-          message.client.channels.cache
-            .filter((channel) => channel.guild.id === message.guild.id)
-            .map((channels) => array.push(channels.id));
+            //push channels into the array
+            message.client.channels.cache
+              .filter((channel) => channel.guild.id === message.guild.id)
+              .map((channels) => array.push(channels.id));
 
-          //counter
-          let count = "0";
+            //counter
+            let count = "0";
 
-          //start array loop
-          for (let i of array) {
-            //update count
-            count++;
+            //start array loop
+            for (let i of array) {
+              //update count
+              count++;
 
-            //timeout to prevent api spam
-            setTimeout(() => {
-              //define channel
-              let channel = message.guild.channels.cache.find(
-                (channel) => channel.id === i
-              );
+              //timeout to prevent api spam
+              setTimeout(() => {
+                //define channel
+                let channel = message.guild.channels.cache.find(
+                  (channel) => channel.id === i
+                );
 
-              //if channel exists
-              if (channel) {
-                //if there is a mute channel
-                if (muteChannel1) {
-                  //if current loop is mute channel
-                  if (i == muteChannel1.id) {
-                    //give proper perms
-                    channel.createOverwrite(member, {
-                      VIEW_CHANNEL: true,
-                      READ_MESSAGES: true,
-                      SEND_MESSAGES: true,
-                      READ_MESSAGE_HISTORY: true,
-                      ATTACH_FILES: false,
-                    });
-                    return channel.send(`${member}` + "\nYou have been muted!");
+                //if channel exists
+                if (channel) {
+                  //if there is a mute channel
+                  if (muteChannel1) {
+                    //if current loop is mute channel
+                    if (i == muteChannel1.id) {
+                      //give proper perms
+                      channel.createOverwrite(member, {
+                        VIEW_CHANNEL: true,
+                        READ_MESSAGES: true,
+                        SEND_MESSAGES: true,
+                        READ_MESSAGE_HISTORY: true,
+                        ATTACH_FILES: false,
+                      });
+                      return channel.send(
+                        `${member}` + "\nYou have been muted!"
+                      );
+                    }
                   }
-                }
 
-                //give proper perms for teh rest of teh channels
-                channel.createOverwrite(member, {
-                  VIEW_CHANNEL: false,
-                  READ_MESSAGES: false,
-                  SEND_MESSAGES: false,
-                  READ_MESSAGE_HISTORY: false,
-                  ADD_REACTIONS: false,
-                });
-              }
-            }, 200 * count);
+                  //give proper perms for teh rest of teh channels
+                  channel.createOverwrite(member, {
+                    VIEW_CHANNEL: false,
+                    READ_MESSAGES: false,
+                    SEND_MESSAGES: false,
+                    READ_MESSAGE_HISTORY: false,
+                    ADD_REACTIONS: false,
+                  });
+                }
+              }, 200 * count);
+            }
+          } else {
+            let channel = message.guild.channels.cache.find(
+              (channel) => channel.id === muteChannel1.id
+            );
+            if (channel.permissionOverwrites.get(member.id)) {
+              await channel.permissionOverwrites.get(member.id).delete();
+            }
           }
 
           //if there is a members role
@@ -156,7 +168,7 @@ module.exports = {
             setTimeout(() => {
               //Remove member role
               member.roles.remove(memberrole).catch(console.log(""));
-            }, 10000);
+            }, 2000);
           }
 
           //define userscore again
