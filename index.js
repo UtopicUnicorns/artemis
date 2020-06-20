@@ -410,6 +410,17 @@ client.on("guildCreate", (guild) => {
         wmessage: ``,
       };
       setGuild.run(newGuild);
+
+      settingsfailsafe = getSettings.get(guild.id);
+      if (!settingsfailsafe) {
+        settingsfailsafe = {
+          guild: guild.id,
+          leavejoin: `0`,
+          deletemsg: `0`,
+          editmsg: `0`,
+        };
+        setSettings.run(settingsfailsafe);
+      }
     }
   }
 

@@ -26,134 +26,88 @@ module.exports = {
     usage.number++;
     setUsage.run(usage);
 
-    //failsafe?
-    if (await musicPlay.has(message.guild.id + "yes")) {
-      return message.reply(
-        "Please wait for the previous song to complete their download!"
-      );
-    }
+    try {
+      //form args
+      const args = message.content.slice(prefix.length + 5);
 
-    //Form args
-    let args = message.content.toLowerCase().slice(prefix.length + 5);
+      //form queue
+      const queue = message.client.queue;
 
-    //If no args, give context
-    if (!args) {
-      const embed = new Discord.MessageEmbed()
-        .setTitle("Usage")
-        .setAuthor(
-          message.author.username,
-          message.author.avatarURL({ format: "png", dynamic: true, size: 1024 })
-        )
-        .setColor("RANDOM")
-        .addField(
-          "Usage:\n",
-          prefix + "play song query" + "\n" + prefix + "play youtubeURL"
-        )
-        .addField("It is possible to see the queue:", prefix + "np")
-        .addField(prefix + "skip", prefix + "skip 4")
-        .addField(prefix + "pause", prefix + "resume");
-      return message.channel.send(embed);
-    }
+      //form guild queue
+      const serverQueue = message.client.queue.get(message.guild.id);
 
-    //voicechannel check
-    const voiceChannel1 = message.member.voice.channel;
-    if (!voiceChannel1) return message.reply("Join a voicechannel first!");
-    const permissions1 = voiceChannel1.permissionsFor(message.client.user);
-    if (!permissions1.has("CONNECT") || !permissions1.has("SPEAK"))
-      return message.reply(
-        "It looks like I have no permission to talk in the channel you are in."
-      );
+      //form voice channel
+      const voiceChannel = message.member.voice.channel;
 
-    //Shorten some stuff
-    const queue = message.client.queue;
-    const serverQueue = message.client.queue.get(message.guild.id);
-    const voiceChannel = message.member.voice.channel;
+      //if no channel
+      if (!voiceChannel)
+        return message.channel.send(
+          "You need to be in a voice channel to play music!"
+        );
 
-    //No voice channel
-    if (!voiceChannel) return;
+      //check permissions
+      const permissions = voiceChannel.permissionsFor(message.client.user);
 
-    //check permissions
-    const permissions = voiceChannel.permissionsFor(message.client.user);
-    if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) return;
-
-    //See what to actually download
-    let openmusicurl2 = await youtube.searchVideos(args, 4);
-    if (!openmusicurl2)
-      return message.reply("Sorry, something went wrong. try again.");
-
-    //if no url
-    if (!openmusicurl2[0]) return message.reply("Song not found");
-
-    //construct filenames and such
-    let openmusicurl = openmusicurl2[0].url;
-
-    const id = openmusicurl2[0].id;
-    const file = "./music/" + openmusicurl2[0].title + ".mp3";
-
-    //Delete user message
-    message.delete();
-
-    //return console.log(file);
-
-    //check if download exists
-    if (fs.existsSync(file)) {
-      var song = {
-        title: openmusicurl2[0].title,
-        thumb: openmusicurl2[0].thumbnails.default.url,
-        webs: "https://www.youtube.com/watch?v=" + openmusicurl2[0].id,
-        url: file,
-      };
-
-      //If no song
-      if (!song) {
-        return message.reply("No song found!");
+      //if no perms
+      if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) {
+        return message.channel.send(
+          "I need the permissions to join and speak in your voice channel!"
+        );
       }
 
-      //construct server queue if there is none
-      //else skip to else
+      //get video info
+      //See what to actually download
+      const musicInfo = await youtube.searchVideos(args, 4);
+
+      //form final URL
+      const songInfo = await ytdl.getInfo(
+        "https://www.youtube.com/watch?v=" + musicInfo[0].id
+      );
+
+      //form song
+      const song = {
+        title: musicInfo[0].title,
+        url: songInfo.video_url,
+        thumb: musicInfo[0].thumbnails.high.url,
+      };
+
+      //if no queue
       if (!serverQueue) {
+        //build queue
         const queueContruct = {
           textChannel: message.channel,
           voiceChannel: voiceChannel,
           connection: null,
           songs: [],
-          volume: 10,
+          volume: 5,
           playing: true,
         };
+
+        //set the queue
         queue.set(message.guild.id, queueContruct);
+
+        //push song
         queueContruct.songs.push(song);
+
         try {
-          //join members voice channel
+          //form connection
           var connection = await voiceChannel.join();
+
+          //redefine conn
           queueContruct.connection = connection;
 
-          //start playing song
+          //push play song
           this.play(message, queueContruct.songs[0]);
-
-          //send a new embed
-          const rembed = new Discord.MessageEmbed()
-            .setTitle(song.title)
-            .setAuthor(
-              message.author.username,
-              message.author.avatarURL({
-                format: "png",
-                dynamic: true,
-                size: 1024,
-              })
-            )
-            .setThumbnail(song.thumb)
-            .setColor("RANDOM")
-            .setDescription("Started playing: ")
-            .addField(song.title, song.webs);
-          return message.channel.send(rembed);
         } catch (err) {
-          return message.channel.send("error");
+          console.log(err);
+          queue.delete(message.guild.id);
+          return message.channel.send(err);
         }
       } else {
         //push song into queue
         serverQueue.songs.push(song);
 
-        //send embed to notify
+        //form embed
         const rembed = new Discord.MessageEmbed()
           .setTitle(song.title)
           .setAuthor(
@@ -164,146 +118,60 @@ module.exports = {
               size: 1024,
             })
           )
-          .setThumbnail(song.thumb)
+          .setImage(song.thumb)
           .setColor("RANDOM")
           .setDescription("Song was added to the queue")
-          .addField(song.title, song.webs);
+          .addField(song.title, song.url);
+
+        //send embed
         return message.channel.send(rembed);
       }
+    } catch (error) {
+      console.log(error);
+      message.channel.send(error.message);
     }
-
-    //basically a small shortcut
-    let stream = await ytdl(id, {
-      quality: "highestaudio",
-    });
-    if (!stream) return message.reply("An error has occured, try again!");
-
-    //Add to failsafe
-    musicPlay.add(message.guild.id + "yes");
-
-    //send a reply
-    let messageA = message.reply(
-      "Downloading:\n\uD83C\uDFB5" + openmusicurl2[0].title
-    );
-
-    //Start downloading and converting
-    ffmpeg(stream)
-      .audioBitrate(320)
-      .save(file)
-      .on("progress", (p) => {
-        //edit previous reply
-        messageA.then((messageA) => {
-          messageA.edit(
-            "Downloading:\n\uD83C\uDFB5" +
-              openmusicurl2[0].title +
-              "\nProgress: kb/" +
-              p.targetSize
-          );
-        });
-      })
-      .on("end", async () => {
-        //delete failsafe
-        musicPlay.delete(message.guild.id + "yes");
-
-        //add downloaded song to queue
-        var song = {
-          title: openmusicurl2[0].title,
-          thumb: openmusicurl2[0].thumbnails.default.url,
-          webs: "https://www.youtube.com/watch?v=" + openmusicurl2[0].id,
-          url: file,
-        };
-
-        //If no song
-        if (!song) {
-          return message.reply("No song found!");
-        }
-
-        //construct server queue if there is none
-        //else skip to else
-        if (!serverQueue) {
-          const queueContruct = {
-            textChannel: message.channel,
-            voiceChannel: voiceChannel,
-            connection: null,
-            songs: [],
-            volume: 30,
-            playing: true,
-          };
-          queue.set(message.guild.id, queueContruct);
-          queueContruct.songs.push(song);
-          try {
-            //join members voice channel
-            var connection = await voiceChannel.join();
-            queueContruct.connection = connection;
-
-            //start playing song
-            this.play(message, queueContruct.songs[0]);
-
-            //send a new embed
-            const rembed = new Discord.MessageEmbed()
-              .setTitle(song.title)
-              .setAuthor(
-                message.author.username,
-                message.author.avatarURL({
-                  format: "png",
-                  dynamic: true,
-                  size: 1024,
-                })
-              )
-              .setThumbnail(song.thumb)
-              .setColor("RANDOM")
-              .setDescription("Started playing: ")
-              .addField(song.title, song.webs);
-            return message.channel.send(rembed);
-          } catch (err) {
-            return message.channel.send("error");
-          }
-        } else {
-          //push song into queue
-          serverQueue.songs.push(song);
-
-          //send embed to notify
-          const rembed = new Discord.MessageEmbed()
-            .setTitle(song.title)
-            .setAuthor(
-              message.author.username,
-              message.author.avatarURL({
-                format: "png",
-                dynamic: true,
-                size: 1024,
-              })
-            )
-            .setThumbnail(song.thumb)
-            .setColor("RANDOM")
-            .setDescription("Song was added to the queue")
-            .addField(song.title, song.webs);
-          return message.channel.send(rembed);
-        }
-      });
   },
+
   play(message, song) {
+    //form queue
     const queue = message.client.queue;
+
+    //form guild
     const guild = message.guild;
+
+    //form guild queue
     const serverQueue = queue.get(message.guild.id);
+
+    //if no song
     if (!song) {
+      //leave vc
       serverQueue.voiceChannel.leave();
+
+      //clear queue
       queue.delete(guild.id);
       return;
     }
+
+    //build dispatcher
     const dispatcher = serverQueue.connection
-      .play(song.url)
+      .play(ytdl(song.url))
       .on("finish", () => {
         serverQueue.songs.shift();
         this.play(message, serverQueue.songs[0]);
-        if (serverQueue.songs[0]) {
-          message.channel.send(
-            "\uD83C\uDFB5Now playing: " + serverQueue.songs[0].title
-          );
-        }
       })
-      .on("error", (error) => {
-        console.error(error);
-      });
-    dispatcher.setVolumeLogarithmic(serverQueue.volume / 50);
+      .on("error", (error) => console.error(error));
+
+    //set volume
+    dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
+    //form embed
+    const srembed = new Discord.MessageEmbed()
+      .setTitle(serverQueue.songs[0].title)
+      .setImage(serverQueue.songs[0].thumb)
+      .setColor("RANDOM")
+      .setDescription("Started playing")
+      .addField(serverQueue.songs[0].title, serverQueue.songs[0].url);
+
+    //send embed
+    message.channel.send(srembed);
   },
 };

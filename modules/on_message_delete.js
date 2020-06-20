@@ -18,6 +18,23 @@ module.exports = {
     //if no guild
     if (!message.client.guilds.cache.get(guildChannels.guild)) return;
 
+    //load logger settings
+    let loggerSettings = getSettings.get(message.guild.id);
+
+    //setting failsafe
+    if (!loggerSettings) {
+      loggerSettings = {
+        guild: message.guild.id,
+        leavejoin: `0`,
+        deletemsg: `0`,
+        editmsg: `0`,
+      };
+      setSettings.run(loggerSettings);
+    }
+
+    //if off
+    if (loggerSettings.deletemsg !== "1") return;
+
     //define logs channel
     const logsChannel1 = message.guild.channels.cache.get(
       guildChannels.logsChannel
@@ -53,7 +70,7 @@ module.exports = {
         })
       )
       .setColor("RANDOM")
-      .addField("Deleted Message:\n", message.content + '.')
+      .addField("Deleted Message:\n", message.content + ".")
       .addField("Channel", message.channel)
       .setFooter(
         "Message ID: " +

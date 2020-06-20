@@ -56,6 +56,12 @@ setLevel = db.prepare(
   "INSERT OR REPLACE INTO level (guild, lvl5, lvl10, lvl15, lvl20, lvl30, lvl50, lvl85) VALUES (@guild, @lvl5, @lvl10, @lvl15, @lvl20, @lvl30, @lvl50, @lvl85);"
 );
 
+//run Settings
+getSettings = db.prepare("SELECT * FROM settings WHERE guild = ?");
+setSettings = db.prepare(
+  "INSERT OR REPLACE INTO settings (guild, leavejoin, deletemsg, editmsg) VALUES (@guild, @leavejoin, @deletemsg, @editmsg);"
+);
+
 //start
 exports.run = (client, config) => {
   // App view
@@ -694,6 +700,89 @@ exports.run = (client, config) => {
                     data.guild +
                     'rapp2`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
 
+                  //logsettings initiate
+                  let loggerSettings = getSettings.get(data.guild);
+
+                  //setting failsafe
+                  if (!loggerSettings) {
+                    loggerSettings = {
+                      guild: data.guild,
+                      leavejoin: `0`,
+                      deletemsg: `0`,
+                      editmsg: `0`,
+                    };
+                    setSettings.run(loggerSettings);
+                  }
+
+                  //logs leavejoin
+                  if (loggerSettings.leavejoin == "1") {
+                    var leavejoin = "ON";
+                  } else {
+                    var leavejoin = "OFF";
+                  }
+                  let rapp5t =
+                    '<tr style="text-align:left; border-bottom: 1px solid black"><td>Logs: Join/Leave message: </td><td><div id="' +
+                    data.guild +
+                    'rapp5">' +
+                    leavejoin +
+                    "</div></td></tr>";
+                  let rapp5 =
+                    '<tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><select name="data2"><option value="lj ' +
+                    data.guild +
+                    ' OFF">off</option><option value="lj ' +
+                    data.guild +
+                    ' ON">on</option></select>';
+                  let rapp5b =
+                    '<input type="submit" class="button" onclick="document.getElementById(`' +
+                    data.guild +
+                    'rapp5`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
+
+                  //logs msgedit
+                  if (loggerSettings.editmsg == "1") {
+                    var editmsg = "ON";
+                  } else {
+                    var editmsg = "OFF";
+                  }
+                  let rapp6t =
+                    '<tr style="text-align:left; border-bottom: 1px solid black"><td>Logs: Edit Message: </td><td><div id="' +
+                    data.guild +
+                    'rapp6">' +
+                    editmsg +
+                    "</div></td></tr>";
+                  let rapp6 =
+                    '<tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><select name="data2"><option value="em ' +
+                    data.guild +
+                    ' OFF">off</option><option value="em ' +
+                    data.guild +
+                    ' ON">on</option></select>';
+                  let rapp6b =
+                    '<input type="submit" class="button" onclick="document.getElementById(`' +
+                    data.guild +
+                    'rapp6`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
+
+                  //logs deletemsg
+                  if (loggerSettings.deletemsg == "1") {
+                    var deletemsg = "ON";
+                  } else {
+                    var deletemsg = "OFF";
+                  }
+                  let rapp7t =
+                    '<tr style="text-align:left; border-bottom: 1px solid black"><td>Logs: Delete Message: </td><td><div id="' +
+                    data.guild +
+                    'rapp7">' +
+                    deletemsg +
+                    "</div></td></tr>";
+                  let rapp7 =
+                    '<tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><select name="data2"><option value="dm ' +
+                    data.guild +
+                    ' OFF">off</option><option value="dm ' +
+                    data.guild +
+                    ' ON">on</option></select>';
+                  let rapp7b =
+                    '<input type="submit" class="button" onclick="document.getElementById(`' +
+                    data.guild +
+                    'rapp7`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
+
                   //prefix
                   let rapp3t =
                     '<tr style="text-align:left; border-bottom: 1px solid black"><td>Server prefix:</td><td><div id="' +
@@ -738,6 +827,15 @@ exports.run = (client, config) => {
                       rapp4t +
                       rapp4 +
                       rapp4b +
+                      rapp5t +
+                      rapp5 +
+                      rapp5b +
+                      rapp6t +
+                      rapp6 +
+                      rapp6b +
+                      rapp7t +
+                      rapp7 +
+                      rapp7b +
                       rapp1t +
                       rapp1 +
                       rapp1b +
@@ -1390,6 +1488,54 @@ exports.run = (client, config) => {
               let channelstuff = getGuild2.get(data2[1]);
               channelstuff.leveling = `2`;
               setGuild.run(channelstuff);
+              return res.status(204).send();
+            }
+          }
+
+          //Logs leavejoin
+          if (data2[0] == "lj") {
+            if (data2[2] == "ON") {
+              let channelstuff = getSettings.get(data2[1]);
+              channelstuff.leavejoin = `1`;
+              setSettings.run(channelstuff);
+              return res.status(204).send();
+            }
+            if (data2[2] == "OFF") {
+              let channelstuff = getSettings.get(data2[1]);
+              channelstuff.leavejoin = `0`;
+              setSettings.run(channelstuff);
+              return res.status(204).send();
+            }
+          }
+
+          //Logs editmsg
+          if (data2[0] == "em") {
+            if (data2[2] == "ON") {
+              let channelstuff = getSettings.get(data2[1]);
+              channelstuff.editmsg = `1`;
+              setSettings.run(channelstuff);
+              return res.status(204).send();
+            }
+            if (data2[2] == "OFF") {
+              let channelstuff = getSettings.get(data2[1]);
+              channelstuff.editmsg = `0`;
+              setSettings.run(channelstuff);
+              return res.status(204).send();
+            }
+          }
+
+          //Logs deletemsg
+          if (data2[0] == "dm") {
+            if (data2[2] == "ON") {
+              let channelstuff = getSettings.get(data2[1]);
+              channelstuff.deletemsg = `1`;
+              setSettings.run(channelstuff);
+              return res.status(204).send();
+            }
+            if (data2[2] == "OFF") {
+              let channelstuff = getSettings.get(data2[1]);
+              channelstuff.deletemsg = `0`;
+              setSettings.run(channelstuff);
               return res.status(204).send();
             }
           }

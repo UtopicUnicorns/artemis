@@ -139,7 +139,7 @@ module.exports = {
           READ_MESSAGE_HISTORY: true,
           ATTACH_FILES: false,
         });
-        return channel.send(
+        channel.send(
           `${member}` + "\nYou collected 3 warnings, you have been muted!"
         );
       }
@@ -154,7 +154,7 @@ module.exports = {
         //anti api spam
         setTimeout(() => {
           //remove role
-          member.roles.remove(memberrole).catch(console.log());
+          member.roles.remove(memberrole).catch(console.log(''));
         }, 2500);
       }
 

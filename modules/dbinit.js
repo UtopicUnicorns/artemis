@@ -186,7 +186,32 @@ exports.dbinit = function () {
     db.pragma("journal_mode = wal");
   }
 
-  //support cases
+  //////////////////////
+  //settings        DB//
+  //////////////////////
+  const table12 = db
+    .prepare(
+      "SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'settings';"
+    )
+    .get();
+  if (!table12["count(*)"]) {
+    db.prepare(
+      "CREATE TABLE settings (guild TEXT PRIMARY KEY, leavejoin, deletemsg, editmsg );"
+    ).run();
+    db.prepare(
+      "CREATE UNIQUE INDEX idx_settings_id ON settings (guild);"
+    ).run();
+    db.pragma("synchronous = 1");
+    db.pragma("journal_mode = wal");
+  }
+
+  //run Settings
+  getSettings = db.prepare("SELECT * FROM settings WHERE guild = ?");
+  setSettings = db.prepare(
+    "INSERT OR REPLACE INTO settings (guild, leavejoin, deletemsg, editmsg) VALUES (@guild, @leavejoin, @deletemsg, @editmsg);"
+  );
+
+  //run support cases
   getSupCase = db.prepare("SELECT * FROM supcase WHERE scase = ?");
   setSupCase = db.prepare(
     "INSERT OR REPLACE INTO supcase (scase, askby, question, solveby, answer, murl) VALUES (@scase, @askby, @question, @solveby, @answer, @murl);"

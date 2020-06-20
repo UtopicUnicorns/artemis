@@ -135,6 +135,18 @@ module.exports = {
       });
     }
 
+    //setting failsafe
+    settingsfailsafe = getSettings.get(message.guild.id);
+    if (!settingsfailsafe) {
+      settingsfailsafe = {
+        guild: message.guild.id,
+        leavejoin: `0`,
+        deletemsg: `0`,
+        editmsg: `0`,
+      };
+      setSettings.run(settingsfailsafe);
+    }
+
     //userfailsafe db
     userfailsafe = getScore.get(message.author.id, message.guild.id);
     if (!userfailsafe) {
@@ -774,7 +786,7 @@ module.exports = {
     }
   } */
     //tts
-    if (message.channel.id === "697519952483188836") {
+    /* if (message.channel.id === "697519952483188836") {
       //check for voice channel
       const voiceChannel = message.member.voice.channel;
 
@@ -794,7 +806,7 @@ module.exports = {
       var connection = await voiceChannel.join();
       var connection = await voiceChannel.join();
       const dispatcher = connection.play(discordTTS.getVoiceStream(Text2TTS));
-    }
+    } */
 
     //Artemis Talk
     //if sentient channel

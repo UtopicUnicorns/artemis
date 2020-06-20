@@ -35,11 +35,62 @@ module.exports = {
 
         //if leveling is on for guild
       } else {
+        //select guilds
+        let guildSelect = db.prepare("SELECT DISTINCT guild from scores").all();
+
+        //array to fill
+        let pointArray = [];
+
+        //loop trough guild select
+        for (let i of guildSelect) {
+          //fetch current guild
+          let guildSelect2 = db
+            .prepare("SELECT * FROM scores WHERE guild = ?;")
+            .all(i.guild);
+
+          //empty point
+          let pointCount = 0;
+
+          //loop trough current guild
+          for (let a of guildSelect2) {
+            //add the points
+            pointCount = pointCount + a.points;
+          }
+
+          //form json obj
+          let obj = {
+            guild: i.guild,
+            total: pointCount,
+          };
+
+          //push json
+          pointArray.push(obj);
+        }
+
+        //sort by points
+        pointArray.sort(function (b, a) {
+          return a.total - b.total;
+        });
+
+        //leaderboard count
+        let finalCount = 0;
+
+        //Final string to call
+        let finalString = "";
+
+        //Final output
+        for (let i of pointArray) {
+          //increase counter
+          finalCount++;
+
+          //if guild is current guild
+          if (i.guild == message.guild.id)
+            finalString += `Guild ranking position: Rank ${finalCount}, Total guild points: ${i.total.toLocaleString()}`;
+        }
+
         //pull data from database
         const top10 = db
-          .prepare(
-            "SELECT * FROM scores WHERE guild = ? ORDER BY points DESC;"
-          )
+          .prepare("SELECT * FROM scores WHERE guild = ? ORDER BY points DESC;")
           .all(message.guild.id);
 
         //small counter
@@ -68,6 +119,7 @@ module.exports = {
             );
           }
         }
+        embed.addField("rank:", finalString);
 
         //send embed
         message.channel.send({
