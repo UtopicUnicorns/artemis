@@ -50,8 +50,11 @@ module.exports = {
             size: 1024,
           })
         )
+        .setThumbnail(
+          oldMember.user.avatarURL({ format: "png", dynamic: true, size: 1024 })
+        )
         .setTitle(`Nickname changed!`)
-        .setColor(`RANDOM`)
+        .setColor("#0e6251")
         .setDescription(`${oldMember.user}`)
         .addField(
           `Name changed: `,

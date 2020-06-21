@@ -43,8 +43,11 @@ module.exports = {
         user.username,
         user.avatarURL({ format: "png", dynamic: true, size: 1024 })
       )
+      .setThumbnail(
+        user.avatarURL({ format: "png", dynamic: true, size: 1024 })
+      )
       .setDescription("Banned user: " + `${user}`)
-      .setColor("RANDOM")
+      .setColor('#ecf0f1')
       .addField("Banned by:\n", "Probably Artemis")
       .setFooter("User ID: " + user.id + "\nUser: " + user.tag)
       .setTimestamp();

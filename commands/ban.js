@@ -59,9 +59,16 @@ module.exports = {
               size: 1024,
             })
           )
+          .setThumbnail(
+            message.author.avatarURL({
+              format: "png",
+              dynamic: true,
+              size: 1024,
+            })
+          )
           .setDescription("Used by: " + `${message.author}`)
           .setURL(message.url)
-          .setColor("RANDOM")
+          .setColor("#f0f3f4")
           .addField("Usage:\n", message.content, true)
           .addField("Channel", message.channel, true)
           .setFooter("Message ID: " + message.id)

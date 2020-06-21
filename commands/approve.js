@@ -134,38 +134,12 @@ module.exports = {
       message.reply("Failed to load cavas, but user should be approved!");
     }
 
-    //if not mint server
-    if (message.guild.id !== "628978428019736619") {
-      //array for chaNNELS
-      let array2 = [];
-
-      //fetch channels
-      message.client.channels.cache
-        .filter((channel) => channel.guild.id === message.guild.id)
-        .map((channels) => array2.push(channels.id));
-
-      //loop trough channels
-      for (let i of array2) {
-        //define channel
-        let channel = message.guild.channels.cache.find(
-          (channel) => channel.id === i
-        );
-
-        //if channel
-        if (channel) {
-          //remove user from list
-          if (channel.permissionOverwrites.get(user.user.id)) {
-            await channel.permissionOverwrites.get(user.user.id).delete();
-          }
-        }
-      }
-    } else {
-      let channel = message.guild.channels.cache.find(
-        (channel) => channel.id === muteChannel1.id
-      );
-      if (channel.permissionOverwrites.get(user.user.id)) {
-        await channel.permissionOverwrites.get(user.user.id).delete();
-      }
+    //block mute channel
+    let channel = message.guild.channels.cache.find(
+      (channel) => channel.id === muteChannel1.id
+    );
+    if (channel.permissionOverwrites.get(user.user.id)) {
+      await channel.permissionOverwrites.get(user.user.id).delete();
     }
 
     //notify user

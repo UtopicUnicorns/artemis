@@ -82,67 +82,20 @@ module.exports = {
       //define member
       const member = message.mentions.members.first();
 
-      //if not mint server
-      if (message.guild.id !== "628978428019736619") {
-        //empty array
-        let array = [];
-
-        //push channels into array
-        message.client.channels.cache
-          .filter((channel) => channel.guild.id === message.guild.id)
-          .map((channels) => array.push(channels.id));
-
-        //count
-        let count = "0";
-
-        //remove rights from all channels in array
-        for (let i of array) {
-          setTimeout(() => {
-            count++;
-            let channel = message.guild.channels.cache.find(
-              (channel) => channel.id === i
-            );
-            if (channel) {
-              if (muteChannel1) {
-                if (i == muteChannel1.id) {
-                  channel.createOverwrite(member, {
-                    VIEW_CHANNEL: true,
-                    READ_MESSAGES: true,
-                    SEND_MESSAGES: true,
-                    READ_MESSAGE_HISTORY: true,
-                    ATTACH_FILES: false,
-                  });
-                  return channel.send(
-                    `${member}` +
-                      "\nYou collected 3 warnings, you have been muted!"
-                  );
-                }
-              }
-              channel.createOverwrite(member, {
-                VIEW_CHANNEL: false,
-                READ_MESSAGES: false,
-                SEND_MESSAGES: false,
-                READ_MESSAGE_HISTORY: false,
-                ADD_REACTIONS: false,
-              });
-            }
-          }, 200 * count);
-        }
-      } else {
-        let channel = message.guild.channels.cache.find(
-          (channel) => channel.id === muteChannel1.id
-        );
-        channel.createOverwrite(member, {
-          VIEW_CHANNEL: true,
-          READ_MESSAGES: true,
-          SEND_MESSAGES: true,
-          READ_MESSAGE_HISTORY: true,
-          ATTACH_FILES: false,
-        });
-        channel.send(
-          `${member}` + "\nYou collected 3 warnings, you have been muted!"
-        );
-      }
+      //unblock mute channel
+      let channel = message.guild.channels.cache.find(
+        (channel) => channel.id === muteChannel1.id
+      );
+      channel.createOverwrite(member, {
+        VIEW_CHANNEL: true,
+        READ_MESSAGES: true,
+        SEND_MESSAGES: true,
+        READ_MESSAGE_HISTORY: true,
+        ATTACH_FILES: false,
+      });
+      channel.send(
+        `${member}` + "\nYou collected 3 warnings, you have been muted!"
+      );
 
       //fetch role
       let memberrole = message.guild.roles.cache.find(
@@ -154,7 +107,7 @@ module.exports = {
         //anti api spam
         setTimeout(() => {
           //remove role
-          member.roles.remove(memberrole).catch(console.log(''));
+          member.roles.remove(memberrole).catch(console.log(""));
         }, 2500);
       }
 
@@ -189,9 +142,16 @@ module.exports = {
               size: 1024,
             })
           )
+          .setThumbnail(
+            message.author.avatarURL({
+              format: "png",
+              dynamic: true,
+              size: 1024,
+            })
+          )
           .setDescription("Used by: " + `${message.author}`)
           .setURL(message.url)
-          .setColor("RANDOM")
+          .setColor("#e74c3c")
           .addField("Usage:\n", message.content, true)
           .addField("Channel", message.channel, true)
           .setFooter("Message ID: " + message.id)

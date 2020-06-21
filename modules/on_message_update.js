@@ -56,7 +56,7 @@ module.exports = {
           //form embed
           const embed = new Discord.MessageEmbed()
             .setTitle(`Message edited`)
-            .setColor(`RANDOM`)
+            .setColor('#d4ac0d')
             .setAuthor(
               user.user.username + "#" + user.user.discriminator,
               user.user.displayAvatarURL({

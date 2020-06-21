@@ -69,7 +69,10 @@ module.exports = {
           size: 1024,
         })
       )
-      .setColor("RANDOM")
+      .setThumbnail(
+        message.author.avatarURL({ format: "png", dynamic: true, size: 1024 })
+      )
+      .setColor('#e74c3c')
       .addField("Deleted Message:\n", message.content + ".")
       .addField("Channel", message.channel)
       .setFooter(

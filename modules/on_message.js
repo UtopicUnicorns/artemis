@@ -639,34 +639,8 @@ module.exports = {
                   );
                 }
 
-                //if not mint server
-                if (message.guild.id !== "628978428019736619") {
-                  //array holding channels
-                  let array2 = [];
-
-                  //fetch channels
-                  message.client.channels.cache
-                    .filter((channel) => channel.guild.id === message.guild.id)
-                    .map((channels) => array2.push(channels.id));
-
-                  //loop trough channels
-                  for (let i of array2) {
-                    //define channel
-                    let channel = message.guild.channels.cache.find(
-                      (channel) => channel.id === i
-                    );
-
-                    //if channel
-                    if (channel) {
-                      //remove member from list
-                      if (channel.permissionOverwrites.get(member.id)) {
-                        await channel.permissionOverwrites
-                          .get(member.id)
-                          .delete();
-                      }
-                    }
-                  }
-                } else {
+                //block mute channel
+                if (muteChannel1) {
                   let channel = message.guild.channels.cache.find(
                     (channel) => channel.id === muteChannel1.id
                   );

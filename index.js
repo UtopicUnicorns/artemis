@@ -88,17 +88,6 @@ client.once("ready", () => {
     });
   }, 60000);
 
-  //Wipe music
-  const musicf = fs.readdirSync("./music");
-  for (const file of musicf) {
-    fs.unlink("./music/" + file, (err) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-    });
-  }
-
   //Reminder run
   setInterval(() => {
     //pull reminder data
@@ -327,17 +316,6 @@ client.once("ready", () => {
 
 //Reconnect
 client.once("shardReconnecting", (id) => {
-  //Wipe music
-  /* const musicf = fs.readdirSync("./music");
-  for (const file of musicf) {
-    fs.unlink("./music/" + file, (err) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-    });
-  } */
-
   //reconnect console message fuck you too
   console.log(
     moment().format("MMMM Do YYYY, HH:mm:ss") +

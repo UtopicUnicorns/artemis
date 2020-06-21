@@ -34,8 +34,8 @@ module.exports = {
 
     //form embed
     const embed = new Discord.MessageEmbed()
-      .setTitle(`User joined`)
-      .setColor(`RANDOM`)
+      .setTitle(`User left`)
+      .setColor('#85c1e9')
       .setAuthor(
         guildMember.user.username + "#" + guildMember.user.discriminator,
         guildMember.user.displayAvatarURL({

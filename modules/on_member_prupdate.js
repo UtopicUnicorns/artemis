@@ -115,6 +115,13 @@ module.exports = {
                           size: 1024,
                         })
                       )
+                      .setThumbnail(
+                        user.user.avatarURL({
+                          format: "png",
+                          dynamic: true,
+                          size: 1024,
+                        })
+                      )
                       .setTitle(TSTA)
                       .setColor(`RANDOM`)
                       .setURL(TURL)
@@ -160,8 +167,11 @@ module.exports = {
               user.user.username,
               user.user.avatarURL({ format: "png", dynamic: true, size: 1024 })
             )
+            .setThumbnail(
+              user.user.avatarURL({ format: "png", dynamic: true, size: 1024 })
+            )
             .setTitle(`Username changed!`)
-            .setColor(`RANDOM`)
+            .setColor('#d35400')
             .setDescription(`${user.user}`)
             .addField(
               `Name changed: `,
