@@ -25,39 +25,46 @@ module.exports = {
     let args = message.content.slice(prefix.length + 7);
 
     //google start
-    googleIt({ query: args, disableConsole: true })
-      .then((results) => {
-        //form embed
-        let embed = new Discord.MessageEmbed()
-          .setAuthor(
-            message.author.username,
-            message.author.avatarURL({
-              format: "png",
-              dynamic: true,
-              size: 1024,
-            })
-          )
-          .setTitle(results[0].title)
-          .setURL(results[0].link)
-          .setDescription(results[0].snippet + "\n\n" + results[0].link)
-          .setColor("RANDOM")
-          .setFooter(
-            results[1].snippet +
-              "\n" +
-              results[1].link +
-              "\n\n" +
-              results[2].snippet +
-              "\n" +
-              results[2].link
-          );
+    googleIt({ query: args, disableConsole: true }).then((results) => {
+      //form embed
+      let embed = new Discord.MessageEmbed()
+        .setAuthor(
+          message.author.username,
+          message.author.avatarURL({
+            format: "png",
+            dynamic: true,
+            size: 1024,
+          })
+        )
+        .setThumbnail(
+          message.author.avatarURL({
+            format: "png",
+            dynamic: true,
+            size: 1024,
+          })
+        )
+        .setTitle(`Search results for: ${args.slice(0, 20)}`)
+        .setColor("RANDOM");
 
-        //send embed
-        message.channel.send({
-          embed,
-        });
-      })
-      .catch((e) => {
-        message.reply("No results, or an error occured.");
-      });
+      //build counter
+      let count = 0;
+
+      //loop trough results
+      for (let i of results) {
+        //define stuff
+        let a = i.title;
+        let b = i.link;
+        let c = i.snippet.slice(0, 150);
+
+        //up counter
+        count++;
+
+        //if 5 return
+        if (count < 6) embed.addField(`\u200b`, `${count}. [${a}](${b})\n${c}...`);
+      }
+
+      //send embed
+      message.channel.send({ embed });
+    });
   },
 };

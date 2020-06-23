@@ -272,9 +272,11 @@ module.exports = {
       } else {
         //if no support session
         if (
-          message.content.startsWith("help") ||
-          message.content.startsWith("resume")
+          message.content.toLowerCase().startsWith("help") ||
+          message.content.toLowerCase().startsWith("resume") ||
+          message.content.toLowerCase().startsWith("!support")
         ) {
+          supportGet.add(message.guild.id);
         } else {
           //Timeout notification
           if (supportGet.has(message.guild.id)) {
@@ -289,17 +291,17 @@ module.exports = {
             //remove user from the set after 20 minutes
             setTimeout(() => {
               supportGet.delete(message.guild.id);
-            }, 600000);
+            }, 1200000);
           }
         }
 
         //if message is resume
         if (message.content.toLowerCase().startsWith("resume")) {
           //create args
-          let prevCase = message.content.slice(7);
+          let prevCase = message.content.slice(7).split(" ");
 
           //get the case entry
-          let prevCaseGet = getSupCase.get(prevCase);
+          let prevCaseGet = getSupCase.get(prevCase[0]);
 
           //If no entry
           if (!prevCaseGet)
@@ -308,7 +310,12 @@ module.exports = {
             );
 
           //define user
-          let user = message.guild.members.cache.get(prevCaseGet.askby);
+          var user = message.guild.members.cache.get(prevCaseGet.askby);
+
+          //if no user
+          if (!user) {
+            var user = message.guild.members.cache.get(message.author.id);
+          }
 
           //reply to user
           const supTic3 = new Discord.MessageEmbed()
@@ -336,7 +343,19 @@ module.exports = {
           //if mint server
           if (message.guild.id == "628978428019736619") {
             //tag scholar role
-            message.channel.send("Calling the <@&629302830532132864>");
+            if (prevCase[1].toLowerCase() == "--silent") {
+            } else {
+              message.channel.send("Calling the <@&629302830532132864>");
+            }
+          }
+
+          //if ttc server
+          if (message.guild.id == "572855720777744395") {
+            //tag scholar role
+            if (prevCase[1].toLowerCase() == "--silent") {
+            } else {
+              message.channel.send("Calling the <@&685589719022567441>");
+            }
           }
 
           //send support embed

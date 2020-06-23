@@ -44,7 +44,7 @@ module.exports = {
       serverQueue.connection.dispatcher.setVolume(args[0] / 100);
 
       //set volume
-      serverQueue.volume = args[0];
+      serverQueue.volume = args[0] / 5;
 
       //notify
       return message.reply("Set volume to " + args[0] + "%");
@@ -53,10 +53,10 @@ module.exports = {
     //reset
     if (args[0] == "reset") {
       //reset volume
-      serverQueue.connection.dispatcher.setVolume(10 / 100);
+      serverQueue.connection.dispatcher.setVolume(5 / 5);
 
       //reset volume
-      serverQueue.volume = 10;
+      serverQueue.volume = 2;
 
       //notify
       return message.reply("Set volume to 10%");

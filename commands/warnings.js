@@ -50,8 +50,8 @@ module.exports = {
 
           //add field with info
           embed.addField(
-            user.user.username,
-            `Warnings: ${data.warning} | Reason: ${data.notes}`
+            `\u200b`,
+            `${user} / ${user.user.username}\nWarnings: ${data.warning} | Reason: ${data.notes}`
           );
         }
       }

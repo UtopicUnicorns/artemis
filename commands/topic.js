@@ -38,6 +38,16 @@ module.exports = {
       "Which games do you usually play,\nand are they available on Linux?",
       "Do you have any safety tips for others to know regarding the Corona virus?",
       "What made you interested in Linux Mint?",
+      "What is your favorite editor?",
+      "Do you prefer using the terminal or a gui?",
+      "What distribution made you stop 'distro' hopping, why?\nIf you distro hop what distribution are you considering next, why?",
+      "What is your biggest pet peeve with linux?",
+      "What is the oddest thing yourve put linux on?",
+      "What is your favourite desktop environment or/and window manager?",
+      "What is a handy lesser known terminal command?",
+      "Mechanical or membrane keyboard? Why?",
+      "Do you know any games that run exceptionally well on Linux?",
+      "Which distributions have you tried before, and which one suited you the best and which one the worst, elaborate your answer.",
     ];
 
     //pick a random subject
