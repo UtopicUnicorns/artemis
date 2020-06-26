@@ -115,20 +115,6 @@ module.exports = {
         if (userscore.muted == `1`) {
           return message.reply(`${member}` + " is already muted!");
         } else {
-          //create array to fetch stuff
-          let array = [];
-
-          //push channels into the array
-          try {
-            message.client.channels.cache
-              .filter((channel) => channel.guild.id === message.guild.id)
-              .map((channels) => array.push(channels.id));
-          } catch {
-            return message.reply(
-              "Are your channels set up properly?\nElse Discord API error."
-            );
-          }
-
           //unblock mute channel
           let channel = message.guild.channels.cache.find(
             (channel) => channel.id === muteChannel1.id
@@ -195,96 +181,27 @@ module.exports = {
 
             //if there is a mute channel
             if (muteChannel1) {
-              try {
-                //notify user and yourself about the mute
-                message.reply(
-                  `${member}` +
-                    " is temp muted!\nUser will be unmuted in: " +
-                    moment(datefor, "YYYYMMDDHHmmss").fromNow()
-                );
-                muteChannel1.send(
-                  `${member}` +
-                    ", You have been temp muted!\nYou will be unmuted in: " +
-                    moment(datefor, "YYYYMMDDHHmmss").fromNow()
-                );
-                return logMe();
-              } catch {
-                return logMe();
-              }
+              //notify user and yourself about the mute
+              message.reply(
+                `${member}` +
+                  " is temp muted!\nUser will be unmuted in: " +
+                  moment(datefor, "YYYYMMDDHHmmss").fromNow()
+              );
+              muteChannel1.send(
+                `${member}` +
+                  ", You have been temp muted!\nYou will be unmuted in: " +
+                  moment(datefor, "YYYYMMDDHHmmss").fromNow()
+              );
+              return logMe();
             }
           }
 
           //run logger
           logMe();
 
-          try {
-            //notify you
-            message.channel.send(`${member}` + " has been muted!");
-            return logMe();
-          } catch {
-            return logMe();
-          }
+          //notify you
+          return message.channel.send(`${member}` + " has been muted!");
         }
-        //If false unmute
-      } else {
-        //define userscore
-        let userscore = getScore.get(member.id, message.guild.id);
-
-        //if user is not muted return
-        if (userscore.muted == `0`)
-          return message.channel.send(`${member}` + " Is not muted!");
-
-        //check if role exists
-        if (memberrole) {
-          //add member role
-          setTimeout(() => {
-            //Remove member role
-            member.roles.add(memberrole).catch(console.error);
-          }, 10000);
-        }
-
-        //look an array fetcher
-        let array2 = [];
-
-        //push channels into array
-        message.client.channels.cache
-          .filter((channel) => channel.guild.id === message.guild.id)
-          .map((channels) => array2.push(channels.id));
-
-        //start array loop
-        for (let i of array2) {
-          //timeout to prevent API spam
-          setTimeout(() => {
-            //define channel
-            let channel = message.guild.channels.cache.find(
-              (channel) => channel.id === i
-            );
-
-            //if channel exists
-            if (channel) {
-              //if member is in the current channel permission list
-              if (channel.permissionOverwrites.get(member.id)) {
-                //remove member from channel list
-                channel.permissionOverwrites.get(member.id).delete();
-              }
-            }
-          }, 200);
-        }
-
-        //Set muted score to false/0
-        userscore.muted = `0`;
-
-        //reset warnings
-        userscore.warning = `0`;
-
-        //run database
-        setScore.run(userscore);
-
-        //notify
-        message.reply(`${member}` + " has been unmuted!");
-
-        //logger
-        return logMe();
       }
     }
 

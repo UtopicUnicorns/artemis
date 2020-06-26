@@ -173,6 +173,7 @@ module.exports = {
         cCheck = {
           cid: message.channel.id,
           gid: message.guild.id,
+          inuse: `0`,
         };
         setSupport.run(cCheck);
         return message.reply(

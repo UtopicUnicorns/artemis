@@ -6,6 +6,9 @@ npm.npm();
 dbinit = require("./dbinit.js");
 dbinit.dbinit();
 
+//set
+supportGet = new Set();
+
 //start
 module.exports = {
   onMessage: async function (message) {
@@ -247,27 +250,21 @@ module.exports = {
 
     //if current channel is support channel
     if (supportID) {
-      //check channelname
-      let nameSup = message.guild.channels.cache.find(
-        (channel) => channel.id === message.channel.id
-      );
-      let cCname = nameSup.name;
-      let eCname = "\u231B";
-
-      //if channel starts with hourglass
-      if (nameSup.name.startsWith("\u231B")) {
+      //if channel inuse is 1
+      if (supportID.inuse == "1") {
         //if user says done
         if (message.content.toLowerCase() == "done") {
-          //define new name
-          let changeC = message.channel.name;
-          let changeCC = changeC.split("");
-          let changeCCC = changeCC.slice(1);
-          message.channel.setName(changeCCC.join());
-          return message.reply(
-            "Wrapping this up, we are done here!\nYou can resume your session if needed with `resume caseNum`\n\nTo the person who answered:\nUse" +
-              prefix +
-              "`support answer caseNum <Answer>`"
-          );
+          //Write database
+          supportID.inuse = `0`;
+          setSupport.run(supportID);
+
+          //notify user
+          return message.reply(`
+            Wrapping this up, we are done here!\n
+            You can resume your session if needed with 
+            \`resume caseNum\`
+            \nTo the person who answered use:
+              \`${prefix}support answer caseNum <Answer>\``);
         }
       } else {
         //if no support session
@@ -281,8 +278,9 @@ module.exports = {
           //Timeout notification
           if (supportGet.has(message.guild.id)) {
           } else {
+            //notify
             message.reply(
-              "There is no support session running right now, please open one with by just saying `help`\nOr resume a case with `resume caseNum`"
+              "There is no help session activated, start one bu simply writing:\n`help`\nOr resume a case with:\n`resume CaseNum`"
             );
 
             //add user to the set
@@ -291,7 +289,7 @@ module.exports = {
             //remove user from the set after 20 minutes
             setTimeout(() => {
               supportGet.delete(message.guild.id);
-            }, 1200000);
+            }, 1800000);
           }
         }
 
@@ -337,13 +335,16 @@ module.exports = {
             .setColor("RANDOM")
             .setTimestamp();
 
-          //change channelname
-          message.channel.setName(`${eCname}` + cCname);
+          //Write database
+          supportID.inuse = `1`;
+          setSupport.run(supportID);
 
           //if mint server
           if (message.guild.id == "628978428019736619") {
             //tag scholar role
-            if (prevCase[1].toLowerCase() == "--silent") {
+            if (prevCase[1]) {
+              if (prevCase[1].toLowerCase() == "--silent") {
+              }
             } else {
               message.channel.send("Calling the <@&629302830532132864>");
             }
@@ -352,7 +353,9 @@ module.exports = {
           //if ttc server
           if (message.guild.id == "572855720777744395") {
             //tag scholar role
-            if (prevCase[1].toLowerCase() == "--silent") {
+            if (prevCase[1]) {
+              if (prevCase[1].toLowerCase() == "--silent") {
+              }
             } else {
               message.channel.send("Calling the <@&685589719022567441>");
             }
@@ -428,6 +431,12 @@ module.exports = {
               message.channel.send("Calling the <@&629302830532132864>");
             }
 
+            //if ttc server
+            if (message.guild.id == "572855720777744395") {
+              //tag scholar role
+              message.channel.send("Calling the <@&685589719022567441>");
+            }
+
             //reply to user
             const supTic2 = new Discord.MessageEmbed()
               .setTitle("Support case: " + caseNum)
@@ -440,8 +449,9 @@ module.exports = {
               .setColor("RANDOM")
               .setTimestamp();
 
-            //change channelname
-            message.channel.setName(`${eCname}` + cCname);
+            //Write database
+            supportID.inuse = `1`;
+            setSupport.run(supportID);
 
             //send support embed
             message.reply({

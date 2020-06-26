@@ -28,6 +28,5 @@ exports.npm = function () {
   ping = new Set();
   msgRecently = new Set();
   noticeset = new Set();
-  supportGet = new Set();
   congratulationsRecently = new Set();
 };

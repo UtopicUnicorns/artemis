@@ -214,32 +214,18 @@ module.exports = {
           }, 10000);
         }
 
-        //look an array fetcher
-        let array2 = [];
+        //fetch mute channel
+        let channel = message.guild.channels.cache.find(
+          (channel) => channel.id === muteChannel1.id
+        );
 
-        //push channels into array
-        message.client.channels.cache
-          .filter((channel) => channel.guild.id === message.guild.id)
-          .map((channels) => array2.push(channels.id));
-
-        //start array loop
-        for (let i of array2) {
-          //timeout to prevent API spam
-          setTimeout(() => {
-            //define channel
-            let channel = message.guild.channels.cache.find(
-              (channel) => channel.id === i
-            );
-
-            //if channel exists
-            if (channel) {
-              //if member is in the current channel permission list
-              if (channel.permissionOverwrites.get(member.id)) {
-                //remove member from channel list
-                channel.permissionOverwrites.get(member.id).delete();
-              }
-            }
-          }, 200);
+        //if channel exists
+        if (channel) {
+          //if member is in the current channel permission list
+          if (channel.permissionOverwrites.get(member.id)) {
+            //remove member from channel list
+            channel.permissionOverwrites.get(member.id).delete();
+          }
         }
 
         //Set muted score to false/0

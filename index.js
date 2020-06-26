@@ -170,38 +170,54 @@ client.once("ready", () => {
 
   //support run
   setInterval(() => {
+    //fetch support channels
     const supportDb = db.prepare("SELECT * FROM support").all();
+
+    //loop trough channels
     for (const data of supportDb) {
+      //if channel exists
       if (client.channels.cache.get(data.cid)) {
-        if (client.channels.cache.get(data.cid).name.startsWith("\u231B")) {
+        //if channel is in use
+        if (data.inuse == "1") {
+          //fetch messages
           client.channels.cache
             .get(data.cid)
             .messages.fetch()
             .then((messages) => {
+              //grab time stamp
               let supportChannelTime = messages.map(
                 (msg) => msg.createdTimestamp
               );
+
+              //define time stamp
               let timenow2 = moment(supportChannelTime[0]).format(
                 "YYYYMMDDHHmmss"
               );
+
+              //split time
               let split = moment(timenow2, "YYYYMMDDHHmmss")
                 .fromNow()
                 .split(" ");
+
+              //if time split contains words
               if (
                 split[1] == "hour" ||
                 split[1] == "hours" ||
                 split[1] == "day" ||
                 split[1] == "days"
               ) {
-                let changeCC = client.channels.cache
-                  .get(data.cid)
-                  .name.split("");
-                let changeCCC = changeCC.slice(1);
-                client.channels.cache.get(data.cid).setName(changeCCC.join());
+                //load database
+                let supportID = getSupport.get(data.cid, data.gid);
+
+                //alter db
+                supportID.inuse = `0`;
+                setSupport.run(supportID);
+
+                //send notification
                 client.channels.cache
                   .get(data.cid)
                   .send(
-                    "Support session expired!\nYou can resume a session with: `resume caseNum`\nOr start a new session by simply typing:\n`help`"
+                    "Support session expired!\nYou can resume a session with:\n`resume caseNum`\nOr start a new session by simply typing:\n`help`"
                   );
               }
             });

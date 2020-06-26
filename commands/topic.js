@@ -24,9 +24,6 @@ module.exports = {
     usage.number++;
     setUsage.run(usage);
 
-    //if guild ID is mint server
-    if (message.guild.id !== "628978428019736619") return;
-
     //subjects
     let selectthis = [
       "Which Linux distribution did you first user,\nand why did you start using it?",

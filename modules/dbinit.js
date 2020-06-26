@@ -148,7 +148,9 @@ exports.dbinit = function () {
     )
     .get();
   if (!table9["count(*)"]) {
-    db.prepare("CREATE TABLE support (cid TEXT PRIMARY KEY, gid TEXT);").run();
+    db.prepare(
+      "CREATE TABLE support (cid TEXT PRIMARY KEY, gid TEXT, inuse TEXT);"
+    ).run();
     db.prepare("CREATE UNIQUE INDEX idx_support_id ON support (cid);").run();
     db.pragma("synchronous = 1");
     db.pragma("journal_mode = wal");
@@ -226,7 +228,7 @@ exports.dbinit = function () {
   //Run support DB
   getSupport = db.prepare("SELECT * FROM support WHERE cid = ? AND gid = ?");
   setSupport = db.prepare(
-    "INSERT OR REPLACE INTO support (cid, gid) VALUES (@cid, @gid);"
+    "INSERT OR REPLACE INTO support (cid, gid, inuse) VALUES (@cid, @gid, @inuse);"
   );
 
   //Run remind DB

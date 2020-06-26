@@ -107,111 +107,113 @@ module.exports = {
     }
 
     //exact match
-    if (
-      args[1].toLowerCase() == "s" ||
-      args[1].toLowerCase() == "sec" ||
-      args[1].toLowerCase() == "seconds"
-    ) {
-      //convert time
-      let settime = Math.floor(args[0] * 1000);
+    if (args[1]) {
+      if (
+        args[1].toLowerCase() == "s" ||
+        args[1].toLowerCase() == "sec" ||
+        args[1].toLowerCase() == "seconds"
+      ) {
+        //convert time
+        let settime = Math.floor(args[0] * 1000);
 
-      //form reminder text
-      let remindtext = args.slice(2).join(" ");
+        //form reminder text
+        let remindtext = args.slice(2).join(" ");
 
-      //form time
-      let datefor = moment().add(settime, "ms").format("YYYYMMDDHHmmss");
+        //form time
+        let datefor = moment().add(settime, "ms").format("YYYYMMDDHHmmss");
 
-      //form new database entry
-      timerset = {
-        mid: message.id,
-        cid: message.channel.id,
-        gid: message.guild.id,
-        uid: message.author.id,
-        time: datefor,
-        reminder: remindtext,
-      };
+        //form new database entry
+        timerset = {
+          mid: message.id,
+          cid: message.channel.id,
+          gid: message.guild.id,
+          uid: message.author.id,
+          time: datefor,
+          reminder: remindtext,
+        };
 
-      //run database
-      setRemind.run(timerset);
+        //run database
+        setRemind.run(timerset);
 
-      //notify
-      return message.reply(
-        moment(datefor, "YYYYMMDDHHmmss").format("DD/MM/YYYY H:mm:ss") +
-          " " +
-          moment(datefor, "YYYYMMDDHHmmss").fromNow()
-      );
-    }
+        //notify
+        return message.reply(
+          moment(datefor, "YYYYMMDDHHmmss").format("DD/MM/YYYY H:mm:ss") +
+            " " +
+            moment(datefor, "YYYYMMDDHHmmss").fromNow()
+        );
+      }
 
-    //exact match
-    if (
-      args[1].toLowerCase() == "m" ||
-      args[1].toLowerCase() == "min" ||
-      args[1].toLowerCase() == "minutes"
-    ) {
-      //convert time
-      let settime = Math.floor(args[0] * 60000);
+      //exact match
+      if (
+        args[1].toLowerCase() == "m" ||
+        args[1].toLowerCase() == "min" ||
+        args[1].toLowerCase() == "minutes"
+      ) {
+        //convert time
+        let settime = Math.floor(args[0] * 60000);
 
-      //form reminder text
-      let remindtext = args.slice(2).join(" ");
+        //form reminder text
+        let remindtext = args.slice(2).join(" ");
 
-      //form time
-      let datefor = moment().add(settime, "ms").format("YYYYMMDDHHmmss");
+        //form time
+        let datefor = moment().add(settime, "ms").format("YYYYMMDDHHmmss");
 
-      //form new database entry
-      timerset = {
-        mid: message.id,
-        cid: message.channel.id,
-        gid: message.guild.id,
-        uid: message.author.id,
-        time: datefor,
-        reminder: remindtext,
-      };
+        //form new database entry
+        timerset = {
+          mid: message.id,
+          cid: message.channel.id,
+          gid: message.guild.id,
+          uid: message.author.id,
+          time: datefor,
+          reminder: remindtext,
+        };
 
-      //run database
-      setRemind.run(timerset);
+        //run database
+        setRemind.run(timerset);
 
-      //notify
-      return message.reply(
-        moment(datefor, "YYYYMMDDHHmmss").format("DD/MM/YYYY H:mm:ss") +
-          " " +
-          moment(datefor, "YYYYMMDDHHmmss").fromNow()
-      );
-    }
+        //notify
+        return message.reply(
+          moment(datefor, "YYYYMMDDHHmmss").format("DD/MM/YYYY H:mm:ss") +
+            " " +
+            moment(datefor, "YYYYMMDDHHmmss").fromNow()
+        );
+      }
 
-    //exact match
-    if (
-      args[1].toLowerCase() == "h" ||
-      args[1].toLowerCase() == "hour" ||
-      args[1].toLowerCase() == "hours"
-    ) {
-      //convert time
-      let settime = Math.floor(args[0] * 3600000);
+      //exact match
+      if (
+        args[1].toLowerCase() == "h" ||
+        args[1].toLowerCase() == "hour" ||
+        args[1].toLowerCase() == "hours"
+      ) {
+        //convert time
+        let settime = Math.floor(args[0] * 3600000);
 
-      //form reminder text
-      let remindtext = args.slice(2).join(" ");
+        //form reminder text
+        let remindtext = args.slice(2).join(" ");
 
-      //form time
-      let datefor = moment().add(settime, "ms").format("YYYYMMDDHHmmss");
+        //form time
+        let datefor = moment().add(settime, "ms").format("YYYYMMDDHHmmss");
 
-      //form new database entry
-      timerset = {
-        mid: message.id,
-        cid: message.channel.id,
-        gid: message.guild.id,
-        uid: message.author.id,
-        time: datefor,
-        reminder: remindtext,
-      };
+        //form new database entry
+        timerset = {
+          mid: message.id,
+          cid: message.channel.id,
+          gid: message.guild.id,
+          uid: message.author.id,
+          time: datefor,
+          reminder: remindtext,
+        };
 
-      //run database
-      setRemind.run(timerset);
+        //run database
+        setRemind.run(timerset);
 
-      //notify
-      return message.reply(
-        moment(datefor, "YYYYMMDDHHmmss").format("DD/MM/YYYY H:mm:ss") +
-          " " +
-          moment(datefor, "YYYYMMDDHHmmss").fromNow()
-      );
+        //notify
+        return message.reply(
+          moment(datefor, "YYYYMMDDHHmmss").format("DD/MM/YYYY H:mm:ss") +
+            " " +
+            moment(datefor, "YYYYMMDDHHmmss").fromNow()
+        );
+      }
     }
 
     //pull reminders
