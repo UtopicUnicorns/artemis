@@ -82,20 +82,25 @@ module.exports = {
       //define member
       const member = message.mentions.members.first();
 
-      //unblock mute channel
-      let channel = message.guild.channels.cache.find(
-        (channel) => channel.id === muteChannel1.id
-      );
-      channel.createOverwrite(member, {
-        VIEW_CHANNEL: true,
-        READ_MESSAGES: true,
-        SEND_MESSAGES: true,
-        READ_MESSAGE_HISTORY: true,
-        ATTACH_FILES: false,
-      });
-      channel.send(
-        `${member}` + "\nYou collected 3 warnings, you have been muted!"
-      );
+      //if channel
+      if (muteChannel1) {
+        //unblock mute channel
+        let channel = message.guild.channels.cache.find(
+          (channel) => channel.id === muteChannel1.id
+        );
+
+        //Overwrite channel
+        channel.createOverwrite(member, {
+          VIEW_CHANNEL: true,
+          READ_MESSAGES: true,
+          SEND_MESSAGES: true,
+          READ_MESSAGE_HISTORY: true,
+          ATTACH_FILES: false,
+        });
+        channel.send(
+          `${member}` + "\nYou collected 3 warnings, you have been muted!"
+        );
+      }
 
       //fetch role
       let memberrole = message.guild.roles.cache.find(

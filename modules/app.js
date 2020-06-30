@@ -138,11 +138,6 @@ exports.run = (client, config) => {
         test: test,
       });
     } else {
-      //log
-      console.log(
-        `(${req.session.user.id}) ${req.session.user.username}: Is browsing /(userpanel)).`
-      );
-
       //Start data1
       function data1(user) {
         //empty array
@@ -190,40 +185,42 @@ exports.run = (client, config) => {
 
                 //push into array
                 array.push(
-                  '<button class="collapsible"><img src ="' +
-                    i +
-                    '" width="30px" height="30px" style="border-radius: 50%;"><div class="textcol">' +
-                    `${client.guilds.cache.get(data.guild)}` +
-                    " (" +
-                    guildsizeget.memberCount +
-                    " members)" +
-                    '</div></button><div class="colpanel"><table width="100%" style="border-collapse: collapse;" align="center"><tr style="text-align:left"><th>Level:</th><th>' +
-                    data.level +
-                    '</th></tr><tr style="text-align:left; border-bottom: 1px solid black"><td>Points:</td><td>' +
-                    data.points +
-                    '</td></tr><tr style="text-align:left; border-bottom: 1px solid black"><td>Warning points:</td><td>' +
-                    data.warning +
-                    '</td></tr><tr style="text-align:left; border-bottom: 1px solid black"><td>Auto Translation:</td><td><div id="' +
-                    count +
-                    'TRA">' +
-                    translation +
-                    '</div></td></tr><tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><select name="data3"><option value="' +
-                    count +
-                    ' TR OFF">off</option><option value="' +
-                    count +
-                    ' TR ON">on</option></select><input type="submit" class="button" onclick="document.getElementById(`' +
-                    count +
-                    'TRA`).innerHTML = `Changed!`" value="Save"></form></td></tr><tr style="text-align:left; border-bottom: 1px solid black"><td>Stream Notifications:</td><td><div id="' +
-                    count +
-                    'STR">' +
-                    streaming +
-                    '</div></td></tr><tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><select name="data3"><option value="' +
-                    count +
-                    ' ST OFF">off</option><option value="' +
-                    count +
-                    ' ST ON">on</option></select><input type="submit" class="button" onclick="document.getElementById(`' +
-                    count +
-                    'STR`).innerHTML = `Changed!`" value="Save"></form></td></tr></table></div>\n'
+                  `<button class="collapsible"><img src ="${i}" width="30px" height="30px" style="border-radius: 50%;">
+                  <div class="textcol">
+                  ${client.guilds.cache.get(data.guild)}
+                  (${guildsizeget.memberCount} members)
+                    </div></button>
+                    <div class="content">
+                    <table width="100%" style="border-collapse: collapse;" align="center">
+                    <tr style="text-align:left"><th>Level:</th><th>${
+                      data.level
+                    }</th></tr>
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td>Points:</td>
+                    <td>${data.points}</td></tr>
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td>Warning points:</td>
+                    <td>${data.warning}</td></tr>
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td>Auto Translation:</td>
+                    <td><div id="${count}TRA">${translation}</div></td></tr>
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td></td><td>
+                    <form action="/" method="post">
+                    <select name="data3">
+                    <option value="${count} TR OFF">off</option>
+                    <option value="${count} TR ON">on</option>
+                    </select>
+                    <br><input type="submit" class="button" onclick="document.getElementById('${count}TRA').innerHTML = 'Changed!'" value="Save">
+                    </form>
+                    </td></tr>
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td>Stream Notifications:</td>
+                    <td><div id="${count}STR">${streaming}</div></td></tr>
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td></td><td>
+                    <form action="/" method="post">
+                    <select name="data3">
+                    <option value="${count} ST OFF">off</option>
+                    <option value="${count} ST ON">on</option>
+                    </select>
+                    <br><input type="submit" class="button" onclick="document.getElementById('${count}STR').innerHTML = 'Changed!'" value="Save">
+                    </form>
+                    </td></tr></table></div>\n`
                 );
               }
             }
@@ -265,64 +262,89 @@ exports.run = (client, config) => {
         test: test,
       });
     } else {
-      //log
-      console.log(
-        `(${req.session.user.id}) ${req.session.user.username}: Is browsing /board.`
-      );
-
       //Leaderboard
       function data8(user) {
+        //empty array
         let array = [];
+
+        //guild ID
         let gid = [];
+
+        //push guild ID
         client.guilds.cache.map((guild) => gid.push(guild.id));
+
+        //scroll trough guild ID
         for (let i of gid) {
+          //loop trough called guild data
           for (const data of getGuild.all(i)) {
+            //get guild
             let gettheguild = client.guilds.cache.get(data.guild);
+
+            //catch user
             let thiss = gettheguild.members.cache.get(user.id);
+
+            //if User
             if (thiss) {
-              let top1 =
-                '<button class="collapsible"><img src ="' +
-                gettheguild.iconURL({ format: "jpg" }) +
-                '" width="30px" height="30px" style="border-radius: 50%;"><div class="textcol">' +
-                `${client.guilds.cache.get(data.guild)}` +
-                '</div></button><div class="colpanel"><table width="100%" style="table-layout: fixed; max-width: 100px; border-collapse: collapse;" align="center">';
-              array.push(top1);
+              //first push
+              array.push(
+                `<button class="collapsible">
+                <img src ="${gettheguild.iconURL({
+                  format: "jpg",
+                })}" width="30px" height="30px" style="border-radius: 50%;">
+                <div class="textcol">${client.guilds.cache.get(
+                  data.guild
+                )}</div>
+                </button>
+                <div class="content">
+                <table width="100%" style="table-layout: fixed; max-width: 100px; border-collapse: collapse;" align="center">`
+              );
+
+              //second counter
               let count2 = 0;
+
+              //select by points
               const leader = db
                 .prepare(
                   "SELECT * FROM scores WHERE guild = ? ORDER BY points DESC;"
                 )
                 .all(gettheguild.id);
+
+              //loop trough data
               for (const data2 of leader) {
+                //get user data
                 let thisss = gettheguild.members.cache.get(data2.user);
+
+                //if user
                 if (thisss) {
+                  //if has more than 5 points
                   if (data2.points > 5) {
+                    //upp counter
                     count2++;
-                    array.push(
-                      '<tr style="text-align:left; border-bottom: 1px solid black"><td style="width: 300px;">(' +
-                        count2 +
-                        ') <img src ="' +
-                        thisss.user.avatarURL({
-                          format: "png",
-                          dynamic: true,
-                          size: 1024,
-                        }) +
-                        '" width="20px" height="20px"> ' +
-                        thisss.user.username.replace(/[^a-zA-Z0-9]/g, "") +
-                        '</td><td style="width: 150px;">Lvl: ' +
-                        data2.level +
-                        " Pts: " +
-                        data2.points +
-                        "</td></tr>"
-                    );
+
+                    //second push
+                    array.push(`
+                      <tr style="text-align:left; border-bottom: 1px solid black"><td style="width: 300px;">(${count2}) 
+                      <img src ="${thisss.user.avatarURL({
+                        format: "png",
+                        dynamic: true,
+                        size: 128,
+                      })}" width="20px" height="20px">
+                      ${thisss.user.username.replace(/[^a-zA-Z0-9]/g, "")}
+                      </td>
+                      <td style="width: 150px;">Lvl: ${data2.level} | Pts: ${
+                      data2.points
+                    }</td></tr>`);
                   }
                 }
               }
-              let bot1 = "</table></div>";
-              array.push(bot1);
+
+              //final push
+              array.push(`</table></div>`);
             }
           }
         }
+
+        //return array
         return array.toString().replace(/,/g, "");
       }
 
@@ -357,11 +379,6 @@ exports.run = (client, config) => {
         test: test,
       });
     } else {
-      //log
-      console.log(
-        `(${req.session.user.id}) ${req.session.user.username}: Is browsing /control.`
-      );
-
       //control panel
       function data2(user) {
         //empty array
@@ -397,12 +414,15 @@ exports.run = (client, config) => {
                   rolec.toString().includes("true")
                 ) {
                   //build top part of array
-                  let top1 =
-                    '<button class="collapsible"><img src ="' +
-                    gettheguild.iconURL({ format: "jpg" }) +
-                    '" width="30px" height="30px" style="border-radius: 50%;"><div class="textcol">' +
-                    `${client.guilds.cache.get(data.guild)}` +
-                    '</div></button><div class="colpanel"><table width="100%" style="border-collapse: collapse;" align="center">';
+                  let top1 = `<button class="collapsible">
+                    <img src ="${gettheguild.iconURL({
+                      format: "jpg",
+                    })}" width="30px" height="30px" style="border-radius: 50%;">
+                    <div class="textcol">${client.guilds.cache.get(
+                      data.guild
+                    )}</div></button>
+                    <div class="content">
+                    <table width="100%" style="border-collapse: collapse;" align="center">`;
 
                   //build bottom part of array
                   let bot1 = "</table></div>";
@@ -416,12 +436,6 @@ exports.run = (client, config) => {
                   } else {
                     var se1 = s1.name;
                   }
-                  let a1 =
-                    '<tr style="text-align:left"><td><br><h2>Set up #Channels</h2></td></tr><tr style="text-align:left; border-bottom: 1px solid black"><td>Welcome</td><td><div id="' +
-                    data.guild +
-                    'a1">#' +
-                    se1 +
-                    "</div></td></tr>";
 
                   //2
                   let s2 = gettheguild.channels.cache.find(
@@ -432,12 +446,6 @@ exports.run = (client, config) => {
                   } else {
                     var se2 = s2.name;
                   }
-                  let a2 =
-                    '<tr style="text-align:left; border-bottom: 1px solid black"><td>Logs</td><td><div id="' +
-                    data.guild +
-                    'a2">#' +
-                    se2 +
-                    "</div></td></tr>";
 
                   //3
                   let s3 = gettheguild.channels.cache.find(
@@ -448,12 +456,6 @@ exports.run = (client, config) => {
                   } else {
                     var se3 = s3.name;
                   }
-                  let a3 =
-                    '<tr style="text-align:left; border-bottom: 1px solid black"><td>Mute/Verify</td><td><div id="' +
-                    data.guild +
-                    'a3">#' +
-                    se3 +
-                    "</div></td></tr>";
 
                   //4
                   let s4 = gettheguild.channels.cache.find(
@@ -464,12 +466,6 @@ exports.run = (client, config) => {
                   } else {
                     var se4 = s4.name;
                   }
-                  let a4 =
-                    '<tr style="text-align:left; border-bottom: 1px solid black"><td>Highlights</td><td><div id="' +
-                    data.guild +
-                    'a4">#' +
-                    se4 +
-                    "</div></td></tr>";
 
                   //5
                   let s5 = gettheguild.channels.cache.find(
@@ -480,12 +476,6 @@ exports.run = (client, config) => {
                   } else {
                     var se5 = s5.name;
                   }
-                  let a5 =
-                    '<tr style="text-align:left; border-bottom: 1px solid black"><td>Reaction Roles</td><td><div id="' +
-                    data.guild +
-                    'a5">#' +
-                    se5 +
-                    "</div></td></tr>";
 
                   //6
                   let s6 = gettheguild.channels.cache.find(
@@ -496,139 +486,164 @@ exports.run = (client, config) => {
                   } else {
                     var se6 = s6.name;
                   }
-                  let a6 =
-                    '<tr style="text-align:left; border-bottom: 1px solid black"><td>Stream Notification</td><td><div id="' +
-                    data.guild +
-                    'a6">#' +
-                    se6 +
-                    "</div></td></tr>";
 
-                  //start forms
-                  //build general
-                  let ct1 =
-                    '<tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><select name="data2"><option value="" selected disabled hidden>Choose General Channel</option>' +
-                    `<option value="1 ${data.guild} disable">DISABLE</option>`;
-                  let c1 = gettheguild.channels.cache
-                    .filter((channel) => channel.type === "text")
-                    .map(
-                      (channels) =>
-                        '<option value="1 ' +
-                        data.guild +
-                        " " +
-                        channels.id +
-                        '">#' +
-                        channels.name +
-                        "</option>"
-                    );
-                  let cb1 =
-                    '</select><input type="submit" class="button" onclick="document.getElementById(`' +
-                    data.guild +
-                    'a1`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
+                  //start channel build
+                  let channelPush = `
+                  <!--//build general-->
+                    <tr style="text-align:left"><td><br><h2>Set up #Channels</h2></td></tr>
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td>Welcome</td>
+                    <td><div id="${data.guild}a1">#${se1}</div></td></tr>
 
-                  //build logs
-                  let ct2 =
-                    '<tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><select name="data2"><option value="" selected disabled hidden>Choose Logs Channel</option>' +
-                    `<option value="2 ${data.guild} disable">DISABLE</option>`;
-                  let c2 = gettheguild.channels.cache
-                    .filter((channel) => channel.type === "text")
-                    .map(
-                      (channels) =>
-                        '<option value="2 ' +
-                        data.guild +
-                        " " +
-                        channels.id +
-                        '">#' +
-                        channels.name +
-                        "</option>"
-                    );
-                  let cb2 =
-                    '</select><input type="submit" class="button" onclick="document.getElementById(`' +
-                    data.guild +
-                    'a2`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td></td><td>
+                    <form action="/" method="post">
+                    <select name="data2">
+                    <option value="" selected disabled hidden>Choose General Channel</option>
+                    <option value="1 ${data.guild} disable">DISABLE</option>
+                    
+                    ${gettheguild.channels.cache
+                      .filter((channel) => channel.type === "text")
+                      .map(
+                        (channels) =>
+                          `<option value="1 ${data.guild} ${channels.id}">#${channels.name}</option>`
+                      )}
 
-                  //build mute
-                  let ct3 =
-                    '<tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><select name="data2"><option value="" selected disabled hidden>Choose Mute Channel</option>' +
-                    `<option value="3 ${data.guild} disable">DISABLE</option>`;
-                  let c3 = gettheguild.channels.cache
-                    .filter((channel) => channel.type === "text")
-                    .map(
-                      (channels) =>
-                        '<option value="3 ' +
-                        data.guild +
-                        " " +
-                        channels.id +
-                        '">#' +
-                        channels.name +
-                        "</option>"
-                    );
-                  let cb3 =
-                    '</select><input type="submit" class="button" onclick="document.getElementById(`' +
-                    data.guild +
-                    'a3`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
+                    </select>
+                    <br><input type="submit" class="button" onclick="document.getElementById('${
+                      data.guild
+                    }a1').innerHTML = 'Changed!'" value="Save">
+                    </form></td></tr>
+                    
 
-                  //build highlights
-                  let ct4 =
-                    '<tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><select name="data2"><option value="" selected disabled hidden>Choose HighLight Channel</option>' +
-                    `<option value="4 ${data.guild} disable">DISABLE</option>`;
-                  let c4 = gettheguild.channels.cache
-                    .filter((channel) => channel.type === "text")
-                    .map(
-                      (channels) =>
-                        '<option value="4 ' +
-                        data.guild +
-                        " " +
-                        channels.id +
-                        '">#' +
-                        channels.name +
-                        "</option>"
-                    );
-                  let cb4 =
-                    '</select><input type="submit" class="button" onclick="document.getElementById(`' +
-                    data.guild +
-                    'a4`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
+                  <!--//build logs-->
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td>Logs</td>
+                    <td><div id="${data.guild}a2">#${se2}</div></td></tr>
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td></td>
+                    <td><form action="/" method="post">
+                    <select name="data2">
+                    <option value="" selected disabled hidden>Choose Logs Channel</option>
+                    <option value="2 ${data.guild} disable">DISABLE</option>
+                    ${gettheguild.channels.cache
+                      .filter((channel) => channel.type === "text")
+                      .map(
+                        (channels) =>
+                          '<option value="2 ' +
+                          data.guild +
+                          " " +
+                          channels.id +
+                          '">#' +
+                          channels.name +
+                          "</option>"
+                      )}
+                      </select>
+                    <br><input type="submit" class="button" onclick="document.getElementById('${
+                      data.guild
+                    }a2').innerHTML = 'Changed!'" value="Save">
+                    </form></td></tr>
 
-                  //build reaction roles
-                  let ct5 =
-                    '<tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><select name="data2"><option value="" selected disabled hidden>Choose Roles Channel</option>' +
-                    `<option value="5 ${data.guild} disable">DISABLE</option>`;
-                  let c5 = gettheguild.channels.cache
-                    .filter((channel) => channel.type === "text")
-                    .map(
-                      (channels) =>
-                        '<option value="5 ' +
-                        data.guild +
-                        " " +
-                        channels.id +
-                        '">#' +
-                        channels.name +
-                        "</option>"
-                    );
-                  let cb5 =
-                    '</select><input type="submit" class="button" onclick="document.getElementById(`' +
-                    data.guild +
-                    'a5`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
+                  <!--//build mute-->
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td>Mute/Verify</td>
+                    <td><div id="${data.guild}a3">#${se3}</div></td></tr>
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td></td>
+                    <td><form action="/" method="post">
+                    <select name="data2">
+                    <option value="" selected disabled hidden>Choose Mute Channel</option>
+                    <option value="3 ${data.guild} disable">DISABLE</option>
+                    ${gettheguild.channels.cache
+                      .filter((channel) => channel.type === "text")
+                      .map(
+                        (channels) =>
+                          '<option value="3 ' +
+                          data.guild +
+                          " " +
+                          channels.id +
+                          '">#' +
+                          channels.name +
+                          "</option>"
+                      )}
+                      </select>
+                    <br><input type="submit" class="button" onclick="document.getElementById('${
+                      data.guild
+                    }a3').innerHTML = 'Changed!'" value="Save">
+                    </form></td></tr>
 
-                  //build stream notification channel
-                  let ct6 =
-                    '<tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><select name="data2"><option value="" selected disabled hidden>Choose Stream Channel</option>' +
-                    `<option value="6 ${data.guild} disable">DISABLE</option>`;
-                  let c6 = gettheguild.channels.cache
-                    .filter((channel) => channel.type === "text")
-                    .map(
-                      (channels) =>
-                        '<option value="6 ' +
-                        data.guild +
-                        " " +
-                        channels.id +
-                        '">#' +
-                        channels.name +
-                        "</option>"
-                    );
-                  let cb6 =
-                    '</select><input type="submit" class="button" onclick="document.getElementById(`' +
-                    data.guild +
-                    'a6`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
+                  <!--//build highlights-->
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td>Highlights</td>
+                    <td><div id="${data.guild}a4">#${se4}</div></td></tr>
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td></td>
+                    <td><form action="/" method="post">
+                    <select name="data2">
+                    <option value="" selected disabled hidden>Choose HighLight Channel</option>
+                    <option value="4 ${data.guild} disable">DISABLE</option>
+                    ${gettheguild.channels.cache
+                      .filter((channel) => channel.type === "text")
+                      .map(
+                        (channels) =>
+                          '<option value="4 ' +
+                          data.guild +
+                          " " +
+                          channels.id +
+                          '">#' +
+                          channels.name +
+                          "</option>"
+                      )}
+                      </select>
+                    <br><input type="submit" class="button" onclick="document.getElementById('${
+                      data.guild
+                    }a4').innerHTML = 'Changed!'" value="Save">
+                    </form></td></tr>
+
+                  <!--//build reaction roles-->
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td>Reaction Roles</td>
+                    <td><div id="${data.guild}a5">#${se5}</div></td></tr>
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td></td>
+                    <td><form action="/" method="post">
+                    <select name="data2">
+                    <option value="" selected disabled hidden>Choose Roles Channel</option>
+                    <option value="5 ${data.guild} disable">DISABLE</option>
+                    ${gettheguild.channels.cache
+                      .filter((channel) => channel.type === "text")
+                      .map(
+                        (channels) =>
+                          '<option value="5 ' +
+                          data.guild +
+                          " " +
+                          channels.id +
+                          '">#' +
+                          channels.name +
+                          "</option>"
+                      )}
+                      </select>
+                    <br><input type="submit" class="button" onclick="document.getElementById('${
+                      data.guild
+                    }a5').innerHTML = 'Changed!'" value="Save">
+                    </form></td></tr>
+
+                  <!--//build stream notification channel-->
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td>Stream Notification</td>
+                    <td><div id="${data.guild}a6">#${se6}</div></td></tr>
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td></td>
+                    <td><form action="/" method="post">
+                    <select name="data2">
+                    <option value="" selected disabled hidden>Choose Stream Channel</option>
+                    <option value="6 ${data.guild} disable">DISABLE</option>
+                    ${gettheguild.channels.cache
+                      .filter((channel) => channel.type === "text")
+                      .map(
+                        (channels) =>
+                          '<option value="6 ' +
+                          data.guild +
+                          " " +
+                          channels.id +
+                          '">#' +
+                          channels.name +
+                          "</option>"
+                      )}
+                      </select>
+                    <br><input type="submit" class="button" onclick="document.getElementById('${
+                      data.guild
+                    }a6).innerHTML = 'Changed!'" value="Save">
+                    </form></td></tr>
+                    `;
 
                   //start rest
                   //Automod
@@ -650,7 +665,7 @@ exports.run = (client, config) => {
                     data.guild +
                     ' ON">on</option></select>';
                   let rapp1b =
-                    '<input type="submit" class="button" onclick="document.getElementById(`' +
+                    '<br><input type="submit" class="button" onclick="document.getElementById(`' +
                     data.guild +
                     'rapp1`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
 
@@ -673,7 +688,7 @@ exports.run = (client, config) => {
                     data.guild +
                     ' ON">on</option></select>';
                   let rapp4b =
-                    '<input type="submit" class="button" onclick="document.getElementById(`' +
+                    '<br><input type="submit" class="button" onclick="document.getElementById(`' +
                     data.guild +
                     'rapp4`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
 
@@ -696,7 +711,7 @@ exports.run = (client, config) => {
                     data.guild +
                     ' ON">on</option></select>';
                   let rapp2b =
-                    '<input type="submit" class="button" onclick="document.getElementById(`' +
+                    '<br><input type="submit" class="button" onclick="document.getElementById(`' +
                     data.guild +
                     'rapp2`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
 
@@ -733,7 +748,7 @@ exports.run = (client, config) => {
                     data.guild +
                     ' ON">on</option></select>';
                   let rapp5b =
-                    '<input type="submit" class="button" onclick="document.getElementById(`' +
+                    '<br><input type="submit" class="button" onclick="document.getElementById(`' +
                     data.guild +
                     'rapp5`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
 
@@ -756,7 +771,7 @@ exports.run = (client, config) => {
                     data.guild +
                     ' ON">on</option></select>';
                   let rapp6b =
-                    '<input type="submit" class="button" onclick="document.getElementById(`' +
+                    '<br><input type="submit" class="button" onclick="document.getElementById(`' +
                     data.guild +
                     'rapp6`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
 
@@ -779,7 +794,7 @@ exports.run = (client, config) => {
                     data.guild +
                     ' ON">on</option></select>';
                   let rapp7b =
-                    '<input type="submit" class="button" onclick="document.getElementById(`' +
+                    '<br><input type="submit" class="button" onclick="document.getElementById(`' +
                     data.guild +
                     'rapp7`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
 
@@ -795,7 +810,7 @@ exports.run = (client, config) => {
                     data.guild +
                     '" /><input type="text" name="data2" value="prefix">';
                   let rapp3b =
-                    '<input type="submit" class="button" onclick="document.getElementById(`' +
+                    '<br><input type="submit" class="button" onclick="document.getElementById(`' +
                     data.guild +
                     'rapp3`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
 
@@ -811,7 +826,7 @@ exports.run = (client, config) => {
                     data.wmessage +
                     "</textarea>";
                   let wm3 =
-                    '<input type="submit" class="button" onclick="document.getElementById(`' +
+                    '<br><input type="submit" class="button" onclick="document.getElementById(`' +
                     data.guild +
                     'wmD`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
 
@@ -842,30 +857,7 @@ exports.run = (client, config) => {
                       rapp2t +
                       rapp2 +
                       rapp2b +
-                      a1 +
-                      ct1 +
-                      c1 +
-                      cb1 +
-                      a2 +
-                      ct2 +
-                      c2 +
-                      cb2 +
-                      a3 +
-                      ct3 +
-                      c3 +
-                      cb3 +
-                      a4 +
-                      ct4 +
-                      c4 +
-                      cb4 +
-                      a5 +
-                      ct5 +
-                      c5 +
-                      cb5 +
-                      a6 +
-                      ct6 +
-                      c6 +
-                      cb6 +
+                      channelPush +
                       bot1 +
                       "\n"
                   );
@@ -909,17 +901,12 @@ exports.run = (client, config) => {
         test: test,
       });
     } else {
-      //log
-      console.log(
-        `(${req.session.user.id}) ${req.session.user.username}: Is browsing /command.`
-      );
-
       //commands panel
       //mod
       function commands2() {
         let str1 = [];
         let top1 =
-          '<button class="collapsible"><img src ="/static/images/artava.png" width="30px" height="30px" style="border-radius: 50%;"><div class="textcol">Mod Commands</div></button><div class="colpanel"><table width="100%" style="border-collapse: collapse;" align="center">';
+          '<button class="collapsible"><img src ="/static/images/artava.png" width="30px" height="30px" style="border-radius: 50%;"><div class="textcol">Mod Commands</div></button><div class="content"><table width="100%" style="border-collapse: collapse;" align="center">';
         let bot1 = "</table></div>";
         const commandFiles = fs
           .readdirSync("/root/Server/commands")
@@ -946,7 +933,7 @@ exports.run = (client, config) => {
       function commands3() {
         let str1 = [];
         let top1 =
-          '<button class="collapsible"><img src ="/static/images/artava.png" width="30px" height="30px" style="border-radius: 50%;"><div class="textcol">Server Commands</div></button><div class="colpanel"><table width="100%" style="border-collapse: collapse;" align="center">';
+          '<button class="collapsible"><img src ="/static/images/artava.png" width="30px" height="30px" style="border-radius: 50%;"><div class="textcol">Server Commands</div></button><div class="content"><table width="100%" style="border-collapse: collapse;" align="center">';
         let bot1 = "</table></div>";
         const commandFiles = fs
           .readdirSync("/root/Server/commands")
@@ -973,7 +960,7 @@ exports.run = (client, config) => {
       function commands4() {
         let str1 = [];
         let top1 =
-          '<button class="collapsible"><img src ="/static/images/artava.png" width="30px" height="30px" style="border-radius: 50%;"><div class="textcol">Mscore Commands</div></button><div class="colpanel"><table width="100%" style="border-collapse: collapse;" align="center">';
+          '<button class="collapsible"><img src ="/static/images/artava.png" width="30px" height="30px" style="border-radius: 50%;"><div class="textcol">Mscore Commands</div></button><div class="content"><table width="100%" style="border-collapse: collapse;" align="center">';
         let bot1 = "</table></div>";
         const commandFiles = fs
           .readdirSync("/root/Server/commands")
@@ -1000,7 +987,7 @@ exports.run = (client, config) => {
       function commands5() {
         let str1 = [];
         let top1 =
-          '<button class="collapsible"><img src ="/static/images/artava.png" width="30px" height="30px" style="border-radius: 50%;"><div class="textcol">General Commands</div></button><div class="colpanel"><table width="100%" style="border-collapse: collapse;" align="center">';
+          '<button class="collapsible"><img src ="/static/images/artava.png" width="30px" height="30px" style="border-radius: 50%;"><div class="textcol">General Commands</div></button><div class="content"><table width="100%" style="border-collapse: collapse;" align="center">';
         let bot1 = "</table></div>";
         const commandFiles = fs
           .readdirSync("/root/Server/commands")
@@ -1027,7 +1014,7 @@ exports.run = (client, config) => {
       function commands6() {
         let str1 = [];
         let top1 =
-          '<button class="collapsible"><img src ="/static/images/artava.png" width="30px" height="30px" style="border-radius: 50%;"><div class="textcol">Level Commands</div></button><div class="colpanel"><table width="100%" style="border-collapse: collapse;" align="center">';
+          '<button class="collapsible"><img src ="/static/images/artava.png" width="30px" height="30px" style="border-radius: 50%;"><div class="textcol">Level Commands</div></button><div class="content"><table width="100%" style="border-collapse: collapse;" align="center">';
         let bot1 = "</table></div>";
         const commandFiles = fs
           .readdirSync("/root/Server/commands")
@@ -1054,7 +1041,7 @@ exports.run = (client, config) => {
       function commands7() {
         let str1 = [];
         let top1 =
-          '<button class="collapsible"><img src ="/static/images/artava.png" width="30px" height="30px" style="border-radius: 50%;"><div class="textcol">Linux Commands</div></button><div class="colpanel"><table width="100%" style="border-collapse: collapse;" align="center">';
+          '<button class="collapsible"><img src ="/static/images/artava.png" width="30px" height="30px" style="border-radius: 50%;"><div class="textcol">Linux Commands</div></button><div class="content"><table width="100%" style="border-collapse: collapse;" align="center">';
         let bot1 = "</table></div>";
         const commandFiles = fs
           .readdirSync("/root/Server/commands")
@@ -1081,7 +1068,7 @@ exports.run = (client, config) => {
       function commands8() {
         let str1 = [];
         let top1 =
-          '<button class="collapsible"><img src ="/static/images/artava.png" width="30px" height="30px" style="border-radius: 50%;"><div class="textcol">Fun Commands</div></button><div class="colpanel"><table width="100%" style="border-collapse: collapse;" align="center">';
+          '<button class="collapsible"><img src ="/static/images/artava.png" width="30px" height="30px" style="border-radius: 50%;"><div class="textcol">Fun Commands</div></button><div class="content"><table width="100%" style="border-collapse: collapse;" align="center">';
         let bot1 = "</table></div>";
         const commandFiles = fs
           .readdirSync("/root/Server/commands")
@@ -1108,7 +1095,7 @@ exports.run = (client, config) => {
       function commands9() {
         let str1 = [];
         let top1 =
-          '<button class="collapsible"><img src ="/static/images/artava.png" width="30px" height="30px" style="border-radius: 50%;"><div class="textcol">Stream Commands</div></button><div class="colpanel"><table width="100%" style="border-collapse: collapse;" align="center">';
+          '<button class="collapsible"><img src ="/static/images/artava.png" width="30px" height="30px" style="border-radius: 50%;"><div class="textcol">Stream Commands</div></button><div class="content"><table width="100%" style="border-collapse: collapse;" align="center">';
         let bot1 = "</table></div>";
         const commandFiles = fs
           .readdirSync("/root/Server/commands")
@@ -1135,7 +1122,7 @@ exports.run = (client, config) => {
       function commands10() {
         let str1 = [];
         let top1 =
-          '<button class="collapsible"><img src ="/static/images/artava.png" width="30px" height="30px" style="border-radius: 50%;"><div class="textcol">Music Commands</div></button><div class="colpanel"><table width="100%" style="border-collapse: collapse;" align="center">';
+          '<button class="collapsible"><img src ="/static/images/artava.png" width="30px" height="30px" style="border-radius: 50%;"><div class="textcol">Music Commands</div></button><div class="content"><table width="100%" style="border-collapse: collapse;" align="center">';
         let bot1 = "</table></div>";
         const commandFiles = fs
           .readdirSync("/root/Server/commands")

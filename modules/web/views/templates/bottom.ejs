@@ -1,17 +1,19 @@
-<script type="text/javascript">
-    var TabbedPanels1 = new Spry.Widget.TabbedPanels("TabbedPanels1");
-    var coll = document.getElementsByClassName("collapsible");
-    var i;
+<!--CUT bottom-->
+</div>
+</th>
+</tr>
+</table>
 
-    for (i = 0; i < coll.length; i++) {
-        coll[i].addEventListener("click", function () {
-            this.classList.toggle("active");
-            var content = this.nextElementSibling;
-            if (content.style.maxHeight) {
-                content.style.maxHeight = null;
-            } else {
-                content.style.maxHeight = content.scrollHeight + "px";
-            }
-        });
-    }
-</script>
+<!--End actual content-->
+</div>
+
+<!--Collapse-->
+<script src="/static/modules/cl.js"></script>
+
+<!--Pixels-->
+<script src="/static/modules/px.js"></script>
+
+<!--Moving background-->
+<script src="/static/modules/jq.js"></script>
+<script src="/static/modules/bg.js"></script>
+</body>

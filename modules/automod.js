@@ -28,13 +28,22 @@ module.exports = {
       let wargs = message.content.toLowerCase().split(" ");
 
       //loop trough args
-      for (i in wargs) {
+      for (let i of wargs) {
         //loop trough words
         for (const data of allwords) {
           //if message includes a bad word
-          if (wargs.includes(data.words)) {
-            //delete message
-            return message.delete();
+          if (i.includes(data.words)) {
+            //if bad word is regex'd
+            if (i.match(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/)) {
+              //delete message
+              return message.delete();
+            }
+
+            //if bad word is literally bad word
+            if (i == data.words) {
+              //delete message
+              return message.delete();
+            }
           }
         }
       }

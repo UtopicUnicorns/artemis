@@ -6,25 +6,25 @@
     name="description"
     content="The home website for the discord bot Artemis, this website contains your dashboard and a control panel for mods+."
   />
-  <meta property="og:image" content="/static/images/artava.png" />
+  <meta property="og:image" content="./images/artava.png" />
   <meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
 
   <!--Title-->
-  <title><%= test.client.user.username %></title>
+  <title>Artemis</title>
 
   <!--favicon-->
-  <link rel="shortcut icon" href="/static/images/logo2.svg" type="image/x-icon" />
-  <link rel="icon" href="/static/images/logo2.svg" type="image/x-icon" />
+  <link rel="shortcut icon" href="./images/logo2.svg" type="image/x-icon" />
+  <link rel="icon" href="./images/logo2.svg" type="image/x-icon" />
 
   <!--Style shit-->
-  <link href="/static/modules/style.css" rel="stylesheet" type="text/css" />
+  <link href="./modules/style.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
   <!--title-->
   <div class="container2">
     <div class="glitch">
       Project Artemis
-      <img src="/static/images/logo2.svg" height="50px" width="50px" />
+      <img src="./images/logo2.svg" height="50px" width="50px" />
     </div>
     <p class="subtitle">Discord Bot</p>
   </div>
@@ -45,16 +45,16 @@
       <button
         class="buttonlogin"
         style="background-color: rgba(255, 217, 0, 0.05);"
-        onclick="location.href='/logout'"
+        onclick="location.href='file:///home/librorum/Downloads/WEBSITE/index.html'"
         type="button"
       >
         <img
-          src="https://cdn.discordapp.com/avatars/<%- userInfo.id %>/<%- userInfo.avatar %>.png"
+          src="./images/unk.jpg"
           height="10px"
           width="10px"
           style="border-radius: 20px;"
         />
-        <%- userInfo.username %> Click here to logout
+        Click here to login
       </button>
       <button
         class="buttonlogin"
@@ -62,17 +62,12 @@
         type="button"
       >
         <img
-          src="/static/images/artava.png"
+          src="./images/artava.png"
           height="10px"
           width="10px"
           style="border-radius: 20px;"
         />
-        <%- test.client.users.cache.size.toLocaleString() %> users / 
-        <%- test.client.guilds.cache.size.toLocaleString() %> guilds | 
-        <% let t = test.db.prepare("SELECT number FROM usage;").all(); %> 
-        <% let str = 0; for (let i in t) str += t[i].number; %> 
-        <%- str.toLocaleString() %>
-        commands used
+        6,873 users / 64 guilds | 38,612 commands used
       </button>
       <br /><br />
 
@@ -154,3 +149,35 @@
           <!--Box-->
           <div class="contentbox">
             <!--CUT top-->
+
+            <!--A button collapsible-->
+            <button class="collapsible">test</button>
+            <div class="content">
+              test<br />test<br />test<br />test<br />test<br />test<br />test<br />test<br />
+            </div>
+
+            <!--A button collapsible-->
+            <button class="collapsible">test</button>
+            <div class="content">
+              test<br />test<br />test<br />test<br />test<br />test<br />test<br />test<br />
+            </div>
+
+            <!--CUT bottom-->
+          </div>
+        </th>
+      </tr>
+    </table>
+
+    <!--End actual content-->
+  </div>
+
+  <!--Collapse-->
+  <script src="./modules/cl.js"></script>
+
+  <!--Pixels-->
+  <script src="./modules/px.js"></script>
+
+  <!--Moving background-->
+  <script src="./modules/jq.js"></script>
+  <script src="./modules/bg.js"></script>
+</body>

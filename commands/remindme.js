@@ -42,6 +42,9 @@ module.exports = {
         //define guild name
         let guildname = message.client.guilds.cache.get(data.gid);
 
+        //if no guild
+        if (!guildname) return;
+
         //define channel name
         let channelname = guildname.channels.cache.find(
           (channel) => channel.id === data.cid

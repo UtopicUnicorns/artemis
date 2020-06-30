@@ -45,16 +45,16 @@
       <button
         class="buttonlogin"
         style="background-color: rgba(255, 217, 0, 0.05);"
-        onclick="location.href='/logout'"
+        onclick="location.href='/auth/discord'"
         type="button"
       >
         <img
-          src="https://cdn.discordapp.com/avatars/<%- userInfo.id %>/<%- userInfo.avatar %>.png"
+          src="/static/images/unk.jpg"
           height="10px"
           width="10px"
           style="border-radius: 20px;"
         />
-        <%- userInfo.username %> Click here to logout
+        Click here to login
       </button>
       <button
         class="buttonlogin"
@@ -109,41 +109,6 @@
       >
         Add Bot
       </button>
-      <br /><br />
-
-      <!--Site menu-->
-      <button
-        class="buttonmenu"
-        style="background-color: rgba(255, 0, 221, 0.05);"
-        onclick="location.href='/'"
-        type="button"
-      >
-        User<br />Control
-      </button>
-      <button
-        class="buttonmenu"
-        style="background-color: rgba(255, 153, 0, 0.05);"
-        onclick="location.href='/board'"
-        type="button"
-      >
-        Leader<br />Board
-      </button>
-      <button
-        class="buttonmenu"
-        style="background-color: rgba(208, 255, 0, 0.05);"
-        onclick="location.href='/control'"
-        type="button"
-      >
-        Server<br />Control
-      </button>
-      <button
-        class="buttonmenu"
-        style="background-color: rgba(140, 0, 255, 0.05);"
-        onclick="location.href='/command'"
-        type="button"
-      >
-        Commands
-      </button>
     </div>
 
     <!-- Actual content-->
@@ -154,3 +119,4 @@
           <!--Box-->
           <div class="contentbox">
             <!--CUT top-->
+

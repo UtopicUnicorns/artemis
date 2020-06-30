@@ -280,7 +280,7 @@ module.exports = {
           } else {
             //notify
             message.reply(
-              "There is no help session activated, start one bu simply writing:\n`help`\nOr resume a case with:\n`resume CaseNum`"
+              "There is no help session activated, start one by simply writing:\n`help`\nOr resume a case with:\n`resume CaseNum`"
             );
 
             //add user to the set
@@ -749,7 +749,11 @@ module.exports = {
 
         //return if has role
         if (haverole) {
-          return message.reply("You already have access to the dark side!");
+          let arole = message.guild.roles.cache.find(
+            (r) => r.id == "701396956009857083"
+          );
+          amember.roles.remove(arole).catch(console.error);
+          return message.reply("Removed role");
 
           //else give role
         } else {
@@ -788,28 +792,6 @@ module.exports = {
       }
     }
   } */
-    //tts
-    /* if (message.channel.id === "697519952483188836") {
-      //check for voice channel
-      const voiceChannel = message.member.voice.channel;
-
-      //if user is not in one
-      if (!voiceChannel) return;
-
-      //check for permissions
-      const permissions = voiceChannel.permissionsFor(message.client.user);
-
-      //if no permissions
-      if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) return;
-
-      //handle text
-      let Text2TTS = message.content.slice(0, 199);
-
-      //connect
-      var connection = await voiceChannel.join();
-      var connection = await voiceChannel.join();
-      const dispatcher = connection.play(discordTTS.getVoiceStream(Text2TTS));
-    } */
 
     //Artemis Talk
     //if sentient channel

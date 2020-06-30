@@ -67,18 +67,27 @@ client.once("ready", () => {
   //look at that a fucking welcome message to the console
   console.log(
     moment().format("MMMM Do YYYY, HH:mm:ss") +
-      "\n" +
-      __filename +
-      ":" +
-      ln() +
-      `\nBot has started, with ${client.users.cache.size} users.\nI am in ${client.guilds.cache.size} guilds:\n` +
-      client.guilds.cache
-        .filter((guild) => guild.owner !== undefined)
-        .map(
-          (guild) => `${guild.id}/${guild.name}\nUsers: ${guild.memberCount}`
-        )
-        .join("\n\n")
+      `\nBot has started, with ${client.users.cache.size} users.\n
+      I am in ${client.guilds.cache.size} guilds`
   );
+
+  //form embed
+  let embed = new Discord.MessageEmbed()
+    .setColor("RANDOM")
+    .setThumbnail("https://artemisbot.eu/static/images/artava.png")
+    .setAuthor(
+      "Artemis Client",
+      "https://artemisbot.eu/static/images/artava.png"
+    )
+    .addField(
+      "Ram: ",
+      (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2) + "MB"
+    )
+    .addField("Total servers", client.guilds.cache.size)
+    .addField("Total users: ", client.users.cache.size);
+
+  //send embed
+  client.channels.cache.get("701764606053580870").send({ embed });
 
   //change bot Status
   setInterval(() => {
@@ -335,18 +344,27 @@ client.once("shardReconnecting", (id) => {
   //reconnect console message fuck you too
   console.log(
     moment().format("MMMM Do YYYY, HH:mm:ss") +
-      `\n${id} ` +
-      __filename +
-      ":" +
-      ln() +
-      `\nBot has reconnected, with ${client.users.cache.size} users.\nI am in ${client.guilds.cache.size} guilds:\n` +
-      client.guilds.cache
-        .filter((guild) => guild.owner !== undefined)
-        .map(
-          (guild) => `${guild.id}/${guild.name}\nUsers: ${guild.memberCount}`
-        )
-        .join("\n\n")
+      `\nBot has reconnected, with ${client.users.cache.size} users.\n
+      I am in ${client.guilds.cache.size} guilds`
   );
+
+  //form embed
+  let embed = new Discord.MessageEmbed()
+    .setColor("RANDOM")
+    .setThumbnail("https://artemisbot.eu/static/images/artava.png")
+    .setAuthor(
+      "Artemis Client",
+      "https://artemisbot.eu/static/images/artava.png"
+    )
+    .addField(
+      "Ram: ",
+      (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2) + "MB"
+    )
+    .addField("Total servers", client.guilds.cache.size)
+    .addField("Total users: ", client.users.cache.size);
+
+  //send embed
+  client.channels.cache.get("701764606053580870").send({ embed });
 
   //next
 });
