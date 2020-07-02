@@ -102,9 +102,6 @@ module.exports = {
                     json: true,
                   },
                   function (err, res, body) {
-                    //if guild wants @here stuff
-                    if (streamNotif == "2") streamChannel1.send("@here");
-
                     //build embed
                     const embed = new Discord.MessageEmbed()
                       .setAuthor(
@@ -132,13 +129,23 @@ module.exports = {
                       .setTimestamp();
 
                     //if there is an image
-                    if (body.results[0])
-                      embed.setImage(`${body.results[0].background_image}`);
+                    if (body) {
+                      if (body.results[0])
+                        embed.setImage(`${body.results[0].background_image}`);
+                    }
 
-                    //send embed
-                    return newPresence.client.channels.cache.get(TSID).send({
-                      embed,
-                    });
+                    //if guild wants @here stuff
+                    if (streamNotif == "2") {
+                      return newPresence.client.channels.cache
+                        .get(TSID)
+                        .send("@here", {
+                          embed,
+                        });
+                    } else {
+                      return newPresence.client.channels.cache.get(TSID).send({
+                        embed,
+                      });
+                    }
                   }
                 );
               }
@@ -171,7 +178,7 @@ module.exports = {
               user.user.avatarURL({ format: "png", dynamic: true, size: 1024 })
             )
             .setTitle(`Username changed!`)
-            .setColor('#d35400')
+            .setColor("#d35400")
             .setDescription(`${user.user}`)
             .addField(
               `Name changed: `,

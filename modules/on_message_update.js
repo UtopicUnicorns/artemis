@@ -12,6 +12,9 @@ module.exports = {
     //if bot
     if (newMessage.author.bot) return;
 
+    //if no newguild
+    if (!newMessage) return;
+    
     //load prefix
     const prefixstart = getGuild.get(newMessage.guild.id);
     const prefix = prefixstart.prefix;

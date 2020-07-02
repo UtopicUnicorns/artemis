@@ -33,14 +33,38 @@ module.exports = {
         for (const data of allwords) {
           //if message includes a bad word
           if (i.includes(data.words)) {
+            //bad Word
+            let badWord = i.normalize("NFD");
+
+            //regex
+            let regex = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/;
+
             //if bad word is regex'd
-            if (i.match(/[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]/)) {
-              //delete message
-              return message.delete();
+            if (badWord.match(regex)) {
+              //split word
+              let word2 = badWord.split(data.words);
+
+              //split entry 0
+              var splitF = word2[0][word2[0].length - 1];
+
+              //split entry 1
+              var splitL = word2[1].split("");
+
+              //if no F
+              if (!splitF) var splitF = "";
+
+              //if no L
+              if (!splitL[0]) var splitL = ["", ""];
+
+              //join words
+              let wordJoin = splitF + data.words + splitL[0];
+
+              //if it contains regex
+              if (wordJoin.match(regex)) return message.delete();
             }
 
             //if bad word is literally bad word
-            if (i == data.words) {
+            if (badWord == data.words) {
               //delete message
               return message.delete();
             }

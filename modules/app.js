@@ -291,12 +291,12 @@ exports.run = (client, config) => {
                 <img src ="${gettheguild.iconURL({
                   format: "jpg",
                 })}" width="30px" height="30px" style="border-radius: 50%;">
-                <div class="textcol">${client.guilds.cache.get(
-                  data.guild
-                )}</div>
+                <div class="textcol">${client.guilds.cache.get(data.guild)} (${
+                  gettheguild.memberCount
+                } Members)</div>
                 </button>
                 <div class="content">
-                <table width="100%" style="table-layout: fixed; max-width: 100px; border-collapse: collapse;" align="center">`
+                <table width="100%" style="border-collapse: collapse;" align="center">`
               );
 
               //second counter
@@ -320,20 +320,47 @@ exports.run = (client, config) => {
                   if (data2.points > 5) {
                     //upp counter
                     count2++;
-
-                    //second push
-                    array.push(`
-                      <tr style="text-align:left; border-bottom: 1px solid black"><td style="width: 300px;">(${count2}) 
+                    
+                    //if even
+                    if (count2 % 2 == 0) {
+                      //second push
+                      array.push(`
+                      <tr style="text-align:left; border-bottom: 1px solid black"><td style="width: 50%;">(${count2}) 
+                      <a href ="${thisss.user.avatarURL({
+                        format: "png",
+                        dynamic: true,
+                        size: 1024,
+                      })}" target="_blank">
                       <img src ="${thisss.user.avatarURL({
                         format: "png",
                         dynamic: true,
                         size: 128,
-                      })}" width="20px" height="20px">
-                      ${thisss.user.username.replace(/[^a-zA-Z0-9]/g, "")}
+                      })}" width="20px" height="20px"></a>
+                      ${thisss.user.username.replace(/\</g, "&lt;")}
                       </td>
-                      <td style="width: 150px;">Lvl: ${data2.level} | Pts: ${
-                      data2.points
-                    }</td></tr>`);
+                      <td style="width: 50%;">Level: ${data2.level} | Points: ${
+                        data2.points
+                      }</td></tr>`);
+                    } else {
+                      //second push
+                      array.push(`
+                      <tr style="text-align:left; border-bottom: 1px solid black; background-color: rgba(60, 255, 0, 0.03);"><td style="width: 50%;">(${count2}) 
+                      <a href ="${thisss.user.avatarURL({
+                        format: "png",
+                        dynamic: true,
+                        size: 1024,
+                      })}" target="_blank">
+                      <img src ="${thisss.user.avatarURL({
+                        format: "png",
+                        dynamic: true,
+                        size: 128,
+                      })}" width="20px" height="20px"></a>
+                      ${thisss.user.username.replace(/\</g, "&lt;")}
+                      </td>
+                      <td style="width: 50%;">Level: ${data2.level} | Points: ${
+                        data2.points
+                      }</td></tr>`);
+                    }
                   }
                 }
               }
@@ -345,7 +372,7 @@ exports.run = (client, config) => {
         }
 
         //return array
-        return array.toString().replace(/,/g, "");
+        return array.join(" ");
       }
 
       //client
@@ -1598,10 +1625,10 @@ exports.run = (client, config) => {
   const httpServer = http.createServer(app);
 
   httpsServer.listen(443, () => {
-    console.log("HTTPS Server running on port 443");
+    //console.log("HTTPS Server running on port 443");
   });
 
   httpServer.listen(80, () => {
-    console.log("HTTP Server running on port 80");
+    //console.log("HTTP Server running on port 80");
   });
 };

@@ -149,7 +149,7 @@ body {
   font-size: 16px;
   
   border-radius: 50px;
-  box-shadow: 5px 5px 10px 0 rgba(255, 255, 255, 0.836);
+  box-shadow: 0px 0px 15px 0 rgba(255, 255, 255, 1);
   cursor: pointer;
   animation: glitch 2s 2s infinite;
 }
@@ -182,7 +182,7 @@ body {
   font-size: 16px;
   
   border-radius: 50px;
-  box-shadow: 5px 5px 10px 0 rgba(255, 255, 255, 0.836);
+  box-shadow: 0px 0px 15px 0 rgba(255, 255, 255, 1);
   cursor: pointer;
   animation: glitch 2s 2s infinite;
 }
@@ -213,7 +213,7 @@ body {
   color: rgb(223, 191, 191);
   font-family: Quicksand;
   border-radius: 50px;
-  box-shadow: 5px 5px 10px 0 rgba(255, 255, 255, 0.836);
+  box-shadow: 0px 0px 15px 0 rgba(255, 255, 255, 1);
   cursor: pointer;
   animation: glitch 2s 2s infinite;
 }
@@ -332,7 +332,7 @@ select:focus {
   border: dashed;
   border-color: rgba(255, 255, 255, 0);
   border-radius: 5px;
-  box-shadow: 5px 5px 10px 0 rgba(255, 255, 255, 0.836);
+  box-shadow: 0px 0px 15px 0 rgba(255, 255, 255, 1);
   display: inline-block;
   cursor: pointer;
   color: rgb(223, 191, 191);

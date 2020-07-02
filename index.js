@@ -65,12 +65,6 @@ for (const file of commandFiles) {
 //Bot ready
 client.once("ready", () => {
   //look at that a fucking welcome message to the console
-  console.log(
-    moment().format("MMMM Do YYYY, HH:mm:ss") +
-      `\nBot has started, with ${client.users.cache.size} users.\n
-      I am in ${client.guilds.cache.size} guilds`
-  );
-
   //form embed
   let embed = new Discord.MessageEmbed()
     .setColor("RANDOM")
@@ -79,12 +73,14 @@ client.once("ready", () => {
       "Artemis Client",
       "https://artemisbot.eu/static/images/artava.png"
     )
+    .setDescription("Bot Started")
     .addField(
       "Ram: ",
       (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2) + "MB"
     )
     .addField("Total servers", client.guilds.cache.size)
-    .addField("Total users: ", client.users.cache.size);
+    .addField("Total users: ", client.users.cache.size)
+    .setTimestamp();
 
   //send embed
   client.channels.cache.get("701764606053580870").send({ embed });
@@ -145,8 +141,6 @@ client.once("ready", () => {
               )
               .run();
           }
-          //just notify the user
-          client.channels.cache.get(data.cid).send("<@" + data.uid + "> PING!");
         }
 
         //build embed
@@ -165,7 +159,7 @@ client.once("ready", () => {
           .setColor("RANDOM");
 
         //send embed
-        client.channels.cache.get(data.cid).send({
+        client.channels.cache.get(data.cid).send("<@" + data.uid + "> PING!", {
           embed: reminderemb2,
         });
 
@@ -342,12 +336,6 @@ client.once("ready", () => {
 //Reconnect
 client.once("shardReconnecting", (id) => {
   //reconnect console message fuck you too
-  console.log(
-    moment().format("MMMM Do YYYY, HH:mm:ss") +
-      `\nBot has reconnected, with ${client.users.cache.size} users.\n
-      I am in ${client.guilds.cache.size} guilds`
-  );
-
   //form embed
   let embed = new Discord.MessageEmbed()
     .setColor("RANDOM")
@@ -356,12 +344,14 @@ client.once("shardReconnecting", (id) => {
       "Artemis Client",
       "https://artemisbot.eu/static/images/artava.png"
     )
+    .setDescription("Bot Reconnected")
     .addField(
       "Ram: ",
       (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2) + "MB"
     )
     .addField("Total servers", client.guilds.cache.size)
-    .addField("Total users: ", client.users.cache.size);
+    .addField("Total users: ", client.users.cache.size)
+    .setTimestamp();
 
   //send embed
   client.channels.cache.get("701764606053580870").send({ embed });
