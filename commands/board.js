@@ -99,7 +99,7 @@ module.exports = {
         //build embed
         const embed = new Discord.MessageEmbed()
           .setTitle("Leaderboard")
-          .setDescription("Full leaderboard on https://artemisbot.eu/")
+          .setDescription(`Full leaderboard on https://artemisbot.eu/${message.guild.id}`)
           .setColor("RANDOM");
 
         //loop trough data

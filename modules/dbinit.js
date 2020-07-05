@@ -207,6 +207,27 @@ exports.dbinit = function () {
     db.pragma("journal_mode = wal");
   }
 
+  //////////////////////
+  //UWU             DB//
+  //////////////////////
+  const table13 = db
+    .prepare(
+      "SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'uwu';"
+    )
+    .get();
+  if (!table13["count(*)"]) {
+    db.prepare("CREATE TABLE uwu (cid TEXT PRIMARY KEY, gid TEXT);").run();
+    db.prepare("CREATE UNIQUE INDEX idx_uwu_id ON support (cid);").run();
+    db.pragma("synchronous = 1");
+    db.pragma("journal_mode = wal");
+  }
+
+  //run uwu
+  getUwu = db.prepare("SELECT * FROM uwu WHERE cid = ? AND gid = ?");
+  setUwu = db.prepare(
+    "INSERT OR REPLACE INTO uwu (cid, gid) VALUES (@cid, @gid);"
+  );
+
   //run Settings
   getSettings = db.prepare("SELECT * FROM settings WHERE guild = ?");
   setSettings = db.prepare(

@@ -729,6 +729,59 @@ module.exports = {
       }
     }
 
+    //UWU channel
+    let uwuID = getUwu.get(message.channel.id, message.guild.id);
+
+    //if uwu
+    if (uwuID) {
+      //function hookSend
+      async function hookSend(message) {
+        //fetch hooks
+        const webhooks = await message.channel.fetchWebhooks();
+
+        //select first hook
+        const webhook = webhooks.first();
+
+        //if no hook
+        if (!webhook) {
+          //create hook
+          message.channel
+            .createWebhook("ArtemisHook", {
+              avatar: "https://artemisbot.eu/static/images/artava.png",
+            })
+            .then((webhook) => message.reply(`Created webhook ${webhook}`))
+            .catch(console.error);
+        } else {
+          //delete message
+          message.delete();
+
+          //UWU
+          v = message.content;
+          if (!message.content) return;
+          if (!message.content.startsWith("http")) {
+            v = v.replace(/(?:r|l)/g, "w");
+            v = v.replace(/(?:R|L)/g, "W");
+            v = v.replace(/n([aeiou])/g, "ny$1");
+            v = v.replace(/N([aeiou])/g, "Ny$1");
+            v = v.replace(/N([AEIOU])/g, "Ny$1");
+            v = v.replace(/ove/g, "uv");
+          }
+          //send content
+          await webhook.send(v, {
+            username: message.author.username,
+            avatarURL: message.author.displayAvatarURL({
+              format: "png",
+              dynamic: true,
+              size: 128,
+            }),
+          });
+        }
+      }
+
+      //init the function
+      hookSend(message);
+    }
+
     //Secret adult role
     //if guild ID is mint server
     if (message.guild.id == "628978428019736619") {

@@ -320,7 +320,7 @@ exports.run = (client, config) => {
                   if (data2.points > 5) {
                     //upp counter
                     count2++;
-                    
+
                     //if even
                     if (count2 % 2 == 0) {
                       //second push
@@ -1195,6 +1195,148 @@ exports.run = (client, config) => {
       });
     }
   });
+
+  ///////////////////
+  // leaderboards
+  ///////////////////
+  //guild ID
+  let guildID = [];
+
+  //push guild ID
+  client.guilds.cache.map((guild) => guildID.push(guild.id));
+
+  //for each in array
+  for (let i of guildID) {
+    //
+    //loop trough called guild data
+    for (const data of getGuild.all(i)) {
+      //
+
+      //form render
+      app.get("/" + data.guild, (req, res) => {
+        //Leaderboard
+        function dataLboard() {
+          //empty array
+          let array = [];
+
+          //scroll trough guild ID
+
+          //get guild
+          let gettheguild = client.guilds.cache.get(data.guild);
+
+          //first push
+          array.push(
+            `<button class="collapsible" id="focus">
+                <img src ="${gettheguild.iconURL({
+                  format: "jpg",
+                })}" width="30px" height="30px" style="border-radius: 50%;">
+                <div class="textcol">${client.guilds.cache.get(data.guild)} (${
+              gettheguild.memberCount
+            } Members)</div>
+                </button>
+                <div class="content">
+                <table width="100%" style="border-collapse: collapse;" align="center">`
+          );
+
+          //second counter
+          let count2 = 0;
+
+          //select by points
+          const leader = db
+            .prepare(
+              "SELECT * FROM scores WHERE guild = ? ORDER BY points DESC;"
+            )
+            .all(gettheguild.id);
+
+          //loop trough data
+          for (const data2 of leader) {
+            //get user data
+            let thisss = gettheguild.members.cache.get(data2.user);
+
+            //if user
+            if (thisss) {
+              //if has more than 5 points
+              if (data2.points > 5) {
+                //upp counter
+                count2++;
+
+                //if even
+                if (count2 % 2 == 0) {
+                  //second push
+                  array.push(`
+                      <tr style="text-align:left; border-bottom: 1px solid black"><td style="width: 50%;">(${count2}) 
+                      <a href ="${thisss.user.avatarURL({
+                        format: "png",
+                        dynamic: true,
+                        size: 1024,
+                      })}" target="_blank">
+                      <img src ="${thisss.user.avatarURL({
+                        format: "png",
+                        dynamic: true,
+                        size: 128,
+                      })}" width="20px" height="20px"></a>
+                      ${thisss.user.username.replace(/\</g, "&lt;")}
+                      </td>
+                      <td style="width: 50%;">Level: ${data2.level} | Points: ${
+                    data2.points
+                  }</td></tr>`);
+                } else {
+                  //second push
+                  array.push(`
+                      <tr style="text-align:left; border-bottom: 1px solid black; background-color: rgba(60, 255, 0, 0.03);"><td style="width: 50%;">(${count2}) 
+                      <a href ="${thisss.user.avatarURL({
+                        format: "png",
+                        dynamic: true,
+                        size: 1024,
+                      })}" target="_blank">
+                      <img src ="${thisss.user.avatarURL({
+                        format: "png",
+                        dynamic: true,
+                        size: 128,
+                      })}" width="20px" height="20px"></a>
+                      ${thisss.user.username.replace(/\</g, "&lt;")}
+                      </td>
+                      <td style="width: 50%;">Level: ${data2.level} | Points: ${
+                    data2.points
+                  }</td></tr>`);
+                }
+              }
+            }
+          }
+
+          //final push
+          array.push(`</table></div>`);
+
+          //return array
+          return array.join(" ");
+        }
+
+        //client
+        const test = {
+          client: client,
+          db: db,
+        };
+
+        if (!req.session.user) {
+        //Render
+        res.render("lb", {
+          page: data.guild,
+          test: test,
+          dataLboard: dataLboard(),
+          userInfo: req.session.user,
+        });
+      } else {
+        //Render
+        res.render("lb2", {
+          page: data.guild,
+          test: test,
+          dataLboard: dataLboard(),
+          userInfo: req.session.user,
+        });
+      }
+      });
+    }
+  }
 
   //////
   //post

@@ -25,10 +25,48 @@ module.exports = {
     setUsage.run(usage);
 
     //define args
-    const args = message.content.slice(prefix.length + 7);
+    const args = message.content.toLowerCase().slice(prefix.length + 7);
 
     //if no args
     if (!args) return message.reply("Specify a command to reload!");
+
+    //other args
+    const sargs = message.content
+      .toLowerCase()
+      .slice(prefix.length + 7)
+      .split(" ");
+
+    //if sargs is module
+    if (sargs[0] == "module") {
+      //if no sargs 1
+      if (!sargs[1]) {
+        let moduleName = [];
+        Object.keys(require.cache).forEach(function (key) {
+          let delReq = require.cache[key];
+          if (delReq.id.includes("/root/Server/modules/"))
+            return moduleName.push(delReq.id);
+        });
+        return message.reply(moduleName);
+      } else {
+        //if sargs 1
+        let moduleName = [];
+        Object.keys(require.cache).forEach(function (key) {
+          let delReq = require.cache[key];
+          if (delReq.id.includes(`/root/Server/modules/${sargs[1]}`)) {
+            delete require.cache[key];
+            return moduleName.push(delReq.id);
+          }
+        });
+
+        //handle array
+        if (moduleName.length < 1) {
+          console.log(moduleName);
+          return message.reply("No module found!");
+        } else {
+          return message.reply(`${moduleName} has been reloaded!`);
+        }
+      }
+    }
 
     //define commandname
     const commandName = args;

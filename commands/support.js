@@ -136,7 +136,17 @@ module.exports = {
       if (!prevCaseGet) return message.reply("Invalid case number.");
 
       //define user
-      let user = message.guild.members.cache.get(prevCaseGet.askby);
+      var user = message.guild.members.cache.get(prevCaseGet.askby);
+
+      //if no user
+      if (!user) var user = message.guild.members.cache.get(message.author.id);
+
+      //define answer
+      var question = prevCaseGet.question;
+
+      //if no answer
+      if (question.length < 4)
+        var question = "The user opened an empty support ticket, sorry";
 
       const supTic4 = new Discord.MessageEmbed()
         .setTitle("Support case: " + prevCaseGet.scase)
@@ -151,7 +161,7 @@ module.exports = {
         .setDescription("Viewing case")
         .addField("Asked by: ", `${user}`)
         .addField("Context link: ", prevCaseGet.murl)
-        .addField("Question: ", prevCaseGet.question)
+        .addField("Question: ", question.slice(0, 1000))
         .addField("\u200b", "\u200b")
         .addField("Answer: ", prevCaseGet.answer)
         .setColor("RANDOM")
@@ -177,14 +187,14 @@ module.exports = {
         };
         setSupport.run(cCheck);
         return message.reply(
-          "Added: " + message.channel + " to the support channel list!"
+          `Added: ${message.channel} to the support channel list!`
         );
       } else {
         db.prepare(
           `DELETE FROM support WHERE cid = '${message.channel.id}' AND gid = '${message.guild.id}'`
         ).run();
         return message.reply(
-          "Removed: " + message.channel + " from the support channel list!"
+          `Removed: ${message.channel} from the support channel list!`
         );
       }
     }
