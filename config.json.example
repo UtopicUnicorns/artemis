@@ -1,0 +1,9 @@
+{
+    "token": "BOT_TOKEN",
+    "yandex": "YANDEX_KEY",
+    "youtubekey": "YOUTUBEAPI_KEY",
+    "askkey": "ASKUBUNTU_KEY",
+    "SESSION_SECRET": "SESSION_SECRET",
+    "CLIENT_SECRET": "CLIENT_SECRET",
+    "REDIRECT_URI": "CALLBACK_URL"
+}
