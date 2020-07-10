@@ -26,7 +26,7 @@ module.exports = {
 
     //rules
     let rules = [
-      "Disrespectful speech including usernames, voicechat, nicknames and DM's is forbidden.",
+      "Hate and disrespectful speech including usernames, voicechat, nicknames and DM's is forbidden.",
       "Spamming and flooding is forbidden, except for happy birthday spam.",
       "NSFW content is forbidden, inside the adult and secret channel nsfw is allowed within the boundaries of the Discord ToS.",
       "Support questions go into the support channels, the same counts for other topics belong in their respective channels.",

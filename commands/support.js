@@ -14,7 +14,10 @@ module.exports = {
   \`support view CaseNUM\` will show you the support ticket linked to this number.\n
   \`support answer caseNUM\` will add your answer to the ticket number, everything that comes after this command in the same message will count as an answer.\n
   \`support user @mention\` will show the last 25 tickets of a user.\n
-  \`support user userID\` will show the last 25 tickets of a user.`,
+  \`support user userID\` will show the last 25 tickets of a user.\n
+  \`support search kde\` //No filter\n
+  \`support search --a kde\` //Answered only cases\n
+  \`support search --u kde\` //Unanswered only cases`,
   execute(message) {
     //load prefix
     const prefixstart = getGuild.get(message.guild.id);
@@ -38,6 +41,119 @@ module.exports = {
           prefix +
           "support answer caseNum <answer>`"
       );
+    }
+
+    //search
+    if (args[0].toLowerCase() == "search") {
+      //def user
+      let user = message.guild.members.cache.get(message.author.id);
+
+      //init db
+      let searchCase = db.prepare("SELECT * FROM supcase;").all();
+
+      //form array
+      let supCaseArray = [];
+
+      //Search db
+      for (let i of searchCase) {
+        //first switch case
+        switch (args[1].toLowerCase()) {
+          //if answered
+          case "--a":
+            //define args
+            let sargs1 = message.content
+              .toLowerCase()
+              .slice(prefix.length + 19);
+
+            //if args match question
+            if (
+              i.question
+                .toLowerCase()
+                .includes(sargs1.toLowerCase().slice(2)) &&
+              i.answer !== "None given"
+            )
+              supCaseArray.push(
+                `Support case: ${i.scase}\n${i.question.slice(0, 250)}`
+              );
+            break;
+
+          //if unanswered
+          case "--u":
+            //define args
+            let sargs2 = message.content
+              .toLowerCase()
+              .slice(prefix.length + 19);
+
+            //if args match question
+            if (
+              i.question
+                .toLowerCase()
+                .includes(sargs2.toLowerCase().slice(2)) &&
+              i.answer == "None given"
+            )
+              supCaseArray.push(
+                `Support case: ${i.scase}\n${i.question.slice(0, 250)}`
+              );
+            break;
+
+          //if default
+          default:
+            //define args
+            let sargs3 = message.content
+              .toLowerCase()
+              .slice(prefix.length + 15);
+
+            //if args match question
+            if (
+              i.question.toLowerCase().includes(sargs3.toLowerCase().slice(2))
+            )
+              supCaseArray.push(
+                `Support case: ${i.scase}\n${i.question.slice(0, 250)}`
+              );
+        }
+      }
+
+      //build embed
+      const embed = new Discord.MessageEmbed()
+        .setTitle(`Searching support database`)
+        .setAuthor(
+          user.user.username + "#" + user.user.discriminator,
+          user.user.displayAvatarURL({
+            format: "png",
+            dynamic: true,
+            size: 1024,
+          })
+        )
+        .setDescription(`Use ${prefix}support view CaseNum`)
+        .setColor("RANDOM")
+        .setTimestamp();
+
+      //if array is empty
+      if (supCaseArray < 1)
+        embed.addField(
+          "No cases found!",
+          "None of the cases in the database matched your search!"
+        );
+
+      //counter
+      let counter = 0;
+
+      //loop array
+      for (let i of supCaseArray) {
+        //upp counter
+        counter++;
+
+        //if counter is not 10
+        if (counter < 11) {
+          //add Field
+          embed.addField("Found: ", i);
+        }
+      }
+
+      //send embed
+      return message.reply({
+        embed: embed,
+      });
     }
 
     //Answer

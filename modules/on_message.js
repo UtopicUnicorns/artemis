@@ -245,6 +245,140 @@ module.exports = {
     const commandName = args.shift().toLowerCase();
     const command = message.client.commands.get(commandName);
 
+    //message includes previous message link
+    //redo args for this
+    let linkArgs = message.content.toLowerCase().split(" ");
+
+    //if args
+    if (linkArgs) {
+      //form check url
+      let checkUrl = `https://discordapp.com/channels/${message.guild.id}/`;
+      let checkUrlSecond = `https://discord.com/channels/${message.guild.id}/`;
+
+      //loop trough args
+      for (let i of linkArgs) {
+        //if starts with check url Second
+        if (i.startsWith(checkUrlSecond)) {
+          //define current channel
+          const curChannel = message.channel.id;
+
+          //split
+          let checkUrl2 = i.slice(checkUrlSecond.length).split("/");
+
+          //checker
+          if (checkUrl2[0] && checkUrl2[1]) {
+            //fetch channel
+            let fetchChannel = message.client.channels.cache.get(
+              `${checkUrl2[0]}`
+            );
+
+            //if fetch channel exists
+            if (fetchChannel) {
+              //fetch message
+              fetchChannel.messages
+                .fetch(`${checkUrl2[1]}`)
+                .then((message) => {
+                  //form embed
+                  const embed = new Discord.MessageEmbed()
+                    .setTitle("Message link contents")
+                    .setAuthor(
+                      message.author.username,
+                      message.author.avatarURL({
+                        format: "png",
+                        dynamic: true,
+                        size: 1024,
+                      })
+                    )
+                    .setThumbnail(
+                      message.author.avatarURL({
+                        format: "png",
+                        dynamic: true,
+                        size: 1024,
+                      })
+                    )
+                    .setDescription(`${message.content.slice(0, 1500)}`)
+                    .addField("Found in channel: ", message.channel)
+                    .setColor("RANDOM")
+                    .setFooter(
+                      moment
+                        .utc(message.createdTimestamp)
+                        .format("dddd, MMMM Do YYYY, HH:mm:ss")
+                    );
+
+                  if (message.content) {
+                    //send embed
+                    message.client.channels.cache.get(curChannel).send({
+                      embed: embed,
+                    });
+                  }
+                })
+                .catch(console.log(""));
+            }
+          }
+        }
+
+        //if args start with checkUrl
+        if (i.startsWith(checkUrl)) {
+          //define current channel
+          const curChannel = message.channel.id;
+
+          //split
+          let checkUrl2 = i.slice(checkUrl.length).split("/");
+
+          //checker
+          if (checkUrl2[0] && checkUrl2[1]) {
+            //fetch channel
+            let fetchChannel = message.client.channels.cache.get(
+              `${checkUrl2[0]}`
+            );
+
+            //if fetch channel exists
+            if (fetchChannel) {
+              //fetch message
+              fetchChannel.messages
+                .fetch(`${checkUrl2[1]}`)
+                .then((message) => {
+                  //form embed
+                  const embed = new Discord.MessageEmbed()
+                    .setTitle("Message link contents")
+                    .setAuthor(
+                      message.author.username,
+                      message.author.avatarURL({
+                        format: "png",
+                        dynamic: true,
+                        size: 1024,
+                      })
+                    )
+                    .setThumbnail(
+                      message.author.avatarURL({
+                        format: "png",
+                        dynamic: true,
+                        size: 1024,
+                      })
+                    )
+                    .setDescription(`${message.content.slice(0, 1500)}`)
+                    .addField("Found in channel: ", message.channel)
+                    .setColor("RANDOM")
+                    .setFooter(
+                      moment
+                        .utc(message.createdTimestamp)
+                        .format("dddd, MMMM Do YYYY, HH:mm:ss")
+                    );
+
+                  if (message.content) {
+                    //send embed
+                    message.client.channels.cache.get(curChannel).send({
+                      embed: embed,
+                    });
+                  }
+                })
+                .catch(console.log(""));
+            }
+          }
+        }
+      }
+    }
+
     //support channel stuff
     let supportID = getSupport.get(message.channel.id, message.guild.id);
 
@@ -780,45 +914,6 @@ module.exports = {
 
       //init the function
       hookSend(message);
-    }
-
-    //Secret adult role
-    //if guild ID is mint server
-    if (message.guild.id == "628978428019736619") {
-      //define member
-      let amember = message.guild.members.cache.get(message.author.id);
-
-      //If message is
-      if (
-        message.content
-          .toLowerCase()
-          .startsWith("i want to enter the dark side, i accept the risk") &&
-        amember.roles.cache.find((r) => r.id === `629020299261902889`)
-      ) {
-        //check if user has the role
-        let haverole = amember.roles.cache.find(
-          (r) => r.id === `701396956009857083`
-        );
-
-        //return if has role
-        if (haverole) {
-          let arole = message.guild.roles.cache.find(
-            (r) => r.id == "701396956009857083"
-          );
-          amember.roles.remove(arole).catch(console.error);
-          return message.reply("Removed role");
-
-          //else give role
-        } else {
-          let arole = message.guild.roles.cache.find(
-            (r) => r.id == "701396956009857083"
-          );
-          amember.roles.add(arole).catch(console.error);
-
-          //notify user
-          return message.reply("You have been granted access!");
-        }
-      }
     }
 
     /*   //EVENT

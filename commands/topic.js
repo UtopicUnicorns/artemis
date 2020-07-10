@@ -26,7 +26,7 @@ module.exports = {
 
     //subjects
     let selectthis = [
-      "Which Linux distribution did you first user,\nand why did you start using it?",
+      "Which Linux distribution did you first use,\nand why did you start using it?",
       "Do you have a favourite Linux/UNIX command?\nUse `" +
         prefix +
         "man command` to know what a command does, never use commands you do not know.",
