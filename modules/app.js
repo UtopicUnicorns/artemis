@@ -447,7 +447,7 @@ exports.run = (client, config) => {
                     })}" width="30px" height="30px" style="border-radius: 50%;">
                     <div class="textcol">${client.guilds.cache.get(
                       data.guild
-                    )}</div></button>
+                    )} (${gettheguild.memberCount} Members)</div></button>
                     <div class="content">
                     <table width="100%" style="border-collapse: collapse;" align="center">`;
 
@@ -1318,25 +1318,331 @@ exports.run = (client, config) => {
         };
 
         if (!req.session.user) {
-        //Render
-        res.render("lb", {
-          page: data.guild,
-          test: test,
-          dataLboard: dataLboard(),
-          userInfo: req.session.user,
-        });
-      } else {
-        //Render
-        res.render("lb2", {
-          page: data.guild,
-          test: test,
-          dataLboard: dataLboard(),
-          userInfo: req.session.user,
-        });
-      }
+          //Render
+          res.render("lb", {
+            page: data.guild,
+            test: test,
+            dataLboard: dataLboard(),
+            userInfo: req.session.user,
+          });
+        } else {
+          //Render
+          res.render("lb2", {
+            page: data.guild,
+            test: test,
+            dataLboard: dataLboard(),
+            userInfo: req.session.user,
+          });
+        }
       });
     }
   }
+
+  //////////////////
+  // control page 2
+  //////////////////
+  app.get("/control2", (req, res) => {
+    //check if user is logged in
+    if (!req.session.user) {
+      const test = {
+        client: client,
+        db: db,
+      };
+      res.render("control2", {
+        page: "dashboard",
+        test: test,
+      });
+    } else {
+      //control panel
+      function dataControl(user) {
+        //empty array
+        let array = [];
+
+        //empty guild ID
+        let gid = [];
+
+        //push guilds into gid
+        client.guilds.cache.map((guild) => gid.push(guild.id));
+
+        //loop gid
+        for (let i of gid) {
+          //loop trough database entries
+          for (const data of getLevel.all(i)) {
+            //define guild
+            let gettheguild = client.guilds.cache.get(data.guild);
+
+            //get user
+            let thiss = gettheguild.members.cache.get(user.id);
+
+            //if user exists
+            if (thiss) {
+              //check if user has certain perms
+              let rolec = thiss.permissions.has("KICK_MEMBERS");
+
+              //if no guild owner
+              if (!gettheguild.owner) {
+              } else {
+                //if user is guild owner or has proper perms
+                if (
+                  gettheguild.owner.id == user.id ||
+                  rolec.toString().includes("true")
+                ) {
+                  //build top part of array
+                  let top1 = `<button class="collapsible">
+                    <img src ="${gettheguild.iconURL({
+                      format: "jpg",
+                    })}" width="30px" height="30px" style="border-radius: 50%;">
+                    <div class="textcol">${client.guilds.cache.get(
+                      data.guild
+                    )} (${gettheguild.memberCount} Members)</div></button>
+                    <div class="content">
+                    <table width="100%" style="border-collapse: collapse;" align="center">`;
+
+                  //build bottom part of array
+                  let bot1 = "</table></div>";
+
+                  //1
+                  let s1 = gettheguild.roles.cache.find(
+                    (r) => r.id === data.lvl5
+                  );
+                  if (!s1) {
+                    var se1 = "None Set";
+                  } else {
+                    var se1 = s1.name;
+                  }
+
+                  //2
+                  let s2 = gettheguild.roles.cache.find(
+                    (r) => r.id === data.lvl10
+                  );
+                  if (!s2) {
+                    var se2 = "None Set";
+                  } else {
+                    var se2 = s2.name;
+                  }
+
+                  //3
+                  let s3 = gettheguild.roles.cache.find(
+                    (r) => r.id === data.lvl15
+                  );
+                  if (!s3) {
+                    var se3 = "None Set";
+                  } else {
+                    var se3 = s3.name;
+                  }
+
+                  //4
+                  let s4 = gettheguild.roles.cache.find(
+                    (r) => r.id === data.lvl20
+                  );
+                  if (!s4) {
+                    var se4 = "None Set";
+                  } else {
+                    var se4 = s4.name;
+                  }
+
+                  //5
+                  let s5 = gettheguild.roles.cache.find(
+                    (r) => r.id === data.lvl30
+                  );
+                  if (!s5) {
+                    var se5 = "None Set";
+                  } else {
+                    var se5 = s5.name;
+                  }
+
+                  //6
+                  let s6 = gettheguild.roles.cache.find(
+                    (r) => r.id === data.lvl50
+                  );
+                  if (!s6) {
+                    var se6 = "None Set";
+                  } else {
+                    var se6 = s6.name;
+                  }
+
+                  //7
+                  let s7 = gettheguild.roles.cache.find(
+                    (r) => r.id === data.lvl85
+                  );
+                  if (!s7) {
+                    var se7 = "None Set";
+                  } else {
+                    var se7 = s7.name;
+                  }
+
+                  //start channel build
+                  let channelPush = `
+                  <!--//build level 5-->
+                    <tr style="text-align:left"><td><br><h2>Set up #Level-up Roles</h2></td></tr>
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td>Level 5</td>
+                    <td><div id="${data.guild}a1">@${se1}</div></td></tr>
+
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td></td><td>
+                    <form action="/" method="post">
+                    <select name="data2">
+                    <option value="" selected disabled hidden>Choose Level 5</option>
+                    <option value="11 ${data.guild} disable">DISABLE</option>
+                    
+                    ${gettheguild.roles.cache.map(
+                      (roles) =>
+                        `<option value="11 ${data.guild} ${roles.id}">@${roles.name}</option>`
+                    )}
+
+                    </select>
+                    <br><input type="submit" class="button" onclick="document.getElementById('${
+                      data.guild
+                    }a1').innerHTML = 'Changed!'" value="Save">
+                    </form></td></tr>
+                    
+
+                  <!--//build level 10-->
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td>Level 10</td>
+                    <td><div id="${data.guild}a2">@${se2}</div></td></tr>
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td></td>
+                    <td><form action="/" method="post">
+                    <select name="data2">
+                    <option value="" selected disabled hidden>Choose Level 10</option>
+                    <option value="12 ${data.guild} disable">DISABLE</option>
+
+                    ${gettheguild.roles.cache.map(
+                      (roles) =>
+                        `<option value="12 ${data.guild} ${roles.id}">@${roles.name}</option>`
+                    )}
+
+                      </select>
+                    <br><input type="submit" class="button" onclick="document.getElementById('${
+                      data.guild
+                    }a2').innerHTML = 'Changed!'" value="Save">
+                    </form></td></tr>
+
+                  <!--//build level 15-->
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td>Level 15</td>
+                    <td><div id="${data.guild}a3">@${se3}</div></td></tr>
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td></td>
+                    <td><form action="/" method="post">
+                    <select name="data2">
+                    <option value="" selected disabled hidden>Choose Level 15</option>
+                    <option value="13 ${data.guild} disable">DISABLE</option>
+                    
+                    ${gettheguild.roles.cache.map(
+                      (roles) =>
+                        `<option value="13 ${data.guild} ${roles.id}">@${roles.name}</option>`
+                    )}
+
+                      </select>
+                    <br><input type="submit" class="button" onclick="document.getElementById('${
+                      data.guild
+                    }a3').innerHTML = 'Changed!'" value="Save">
+                    </form></td></tr>
+
+                  <!--//build level 20-->
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td>Level 20</td>
+                    <td><div id="${data.guild}a4">@${se4}</div></td></tr>
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td></td>
+                    <td><form action="/" method="post">
+                    <select name="data2">
+                    <option value="" selected disabled hidden>Choose Level 20</option>
+                    <option value="14 ${data.guild} disable">DISABLE</option>
+                   
+                    ${gettheguild.roles.cache.map(
+                      (roles) =>
+                        `<option value="14 ${data.guild} ${roles.id}">@${roles.name}</option>`
+                    )}
+
+                      </select>
+                    <br><input type="submit" class="button" onclick="document.getElementById('${
+                      data.guild
+                    }a4').innerHTML = 'Changed!'" value="Save">
+                    </form></td></tr>
+
+                  <!--//build level 30-->
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td>Level 30</td>
+                    <td><div id="${data.guild}a5">@${se5}</div></td></tr>
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td></td>
+                    <td><form action="/" method="post">
+                    <select name="data2">
+                    <option value="" selected disabled hidden>Choose Level 30</option>
+                    <option value="15 ${data.guild} disable">DISABLE</option>
+                    
+                    ${gettheguild.roles.cache.map(
+                      (roles) =>
+                        `<option value="15 ${data.guild} ${roles.id}">@${roles.name}</option>`
+                    )}
+
+                      </select>
+                    <br><input type="submit" class="button" onclick="document.getElementById('${
+                      data.guild
+                    }a5').innerHTML = 'Changed!'" value="Save">
+                    </form></td></tr>
+
+                  <!--//build level 50-->
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td>Level 50</td>
+                    <td><div id="${data.guild}a6">@${se6}</div></td></tr>
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td></td>
+                    <td><form action="/" method="post">
+                    <select name="data2">
+                    <option value="" selected disabled hidden>Choose Level 50</option>
+                    <option value="16 ${data.guild} disable">DISABLE</option>
+                    
+                    ${gettheguild.roles.cache.map(
+                      (roles) =>
+                        `<option value="16 ${data.guild} ${roles.id}">@${roles.name}</option>`
+                    )}
+
+                      </select>
+                    <br><input type="submit" class="button" onclick="document.getElementById('${
+                      data.guild
+                    }a6).innerHTML = 'Changed!'" value="Save">
+                    </form></td></tr>
+
+                    <!--//build 85-->
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td>Level 85</td>
+                    <td><div id="${data.guild}a7">@${se7}</div></td></tr>
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td></td>
+                    <td><form action="/" method="post">
+                    <select name="data2">
+                    <option value="" selected disabled hidden>Choose Level 85</option>
+                    <option value="17 ${data.guild} disable">DISABLE</option>
+                    
+                    ${gettheguild.roles.cache.map(
+                      (roles) =>
+                        `<option value="17 ${data.guild} ${roles.id}">@${roles.name}</option>`
+                    )}
+
+                      </select>
+                    <br><input type="submit" class="button" onclick="document.getElementById('${
+                      data.guild
+                    }a7).innerHTML = 'Changed!'" value="Save">
+                    </form></td></tr>
+                    `;
+
+                  //Form webpage
+                  array.push(top1 + channelPush + bot1 + "\n");
+                }
+              }
+            }
+            //
+          }
+        }
+        return array.toString().replace(/,/g, "");
+      }
+
+      //client
+      const test = {
+        client: client,
+        db: db,
+      };
+
+      //Render
+      res.render("control2", {
+        page: "control2",
+        test: test,
+        dataControl: dataControl(req.session.user),
+        userInfo: req.session.user,
+      });
+    }
+  });
 
   //////
   //post
@@ -1711,6 +2017,182 @@ exports.run = (client, config) => {
               return res.status(204).send();
             }
           }
+
+          //level 5
+          if (data2[0] == "11") {
+            //if data arg 2 is disable
+            if (data2[2] == "disable") {
+              let rolestuff = getLevel.get(data2[1]);
+              rolestuff.lvl5 = `0`;
+              setLevel.run(rolestuff);
+              return res.status(204).send();
+            }
+
+            //check if channel exists
+            let findme = gettheguild.roles.cache.find((r) => r.id === data2[2]);
+
+            //If no channel
+            if (!findme) return res.status(204).send();
+
+            //define channel
+            let rolestuff = getLevel.get(data2[1]);
+
+            //set channel
+            rolestuff.lvl5 = findme.id;
+            setLevel.run(rolestuff);
+            return res.status(204).send();
+          }
+
+          //level 10
+          if (data2[0] == "12") {
+            //if data arg 2 is disable
+            if (data2[2] == "disable") {
+              let rolestuff = getLevel.get(data2[1]);
+              rolestuff.lvl10 = `0`;
+              setLevel.run(rolestuff);
+              return res.status(204).send();
+            }
+
+            //check if channel exists
+            let findme = gettheguild.roles.cache.find((r) => r.id === data2[2]);
+
+            //If no channel
+            if (!findme) return res.status(204).send();
+
+            //define channel
+            let rolestuff = getLevel.get(data2[1]);
+
+            //set channel
+            rolestuff.lvl10 = findme.id;
+            setLevel.run(rolestuff);
+            return res.status(204).send();
+          }
+
+          //level 15
+          if (data2[0] == "13") {
+            //if data arg 2 is disable
+            if (data2[2] == "disable") {
+              let rolestuff = getLevel.get(data2[1]);
+              rolestuff.lvl15 = `0`;
+              setLevel.run(rolestuff);
+              return res.status(204).send();
+            }
+
+            //check if channel exists
+            let findme = gettheguild.roles.cache.find((r) => r.id === data2[2]);
+
+            //If no channel
+            if (!findme) return res.status(204).send();
+
+            //define channel
+            let rolestuff = getLevel.get(data2[1]);
+
+            //set channel
+            rolestuff.lvl15 = findme.id;
+            setLevel.run(rolestuff);
+            return res.status(204).send();
+          }
+
+          //level 20
+          if (data2[0] == "14") {
+            //if data arg 2 is disable
+            if (data2[2] == "disable") {
+              let rolestuff = getLevel.get(data2[1]);
+              rolestuff.lvl20 = `0`;
+              setLevel.run(rolestuff);
+              return res.status(204).send();
+            }
+
+            //check if channel exists
+            let findme = gettheguild.roles.cache.find((r) => r.id === data2[2]);
+
+            //If no channel
+            if (!findme) return res.status(204).send();
+
+            //define channel
+            let rolestuff = getLevel.get(data2[1]);
+
+            //set channel
+            rolestuff.lvl20 = findme.id;
+            setLevel.run(rolestuff);
+            return res.status(204).send();
+          }
+
+          //level 30
+          if (data2[0] == "15") {
+            //if data arg 2 is disable
+            if (data2[2] == "disable") {
+              let rolestuff = getLevel.get(data2[1]);
+              rolestuff.lvl30 = `0`;
+              setLevel.run(rolestuff);
+              return res.status(204).send();
+            }
+
+            //check if channel exists
+            let findme = gettheguild.roles.cache.find((r) => r.id === data2[2]);
+
+            //If no channel
+            if (!findme) return res.status(204).send();
+
+            //define channel
+            let rolestuff = getLevel.get(data2[1]);
+
+            //set channel
+            rolestuff.lvl30 = findme.id;
+            setLevel.run(rolestuff);
+            return res.status(204).send();
+          }
+
+          //level 50
+          if (data2[0] == "16") {
+            //if data arg 2 is disable
+            if (data2[2] == "disable") {
+              let rolestuff = getLevel.get(data2[1]);
+              rolestuff.lvl50 = `0`;
+              setLevel.run(rolestuff);
+              return res.status(204).send();
+            }
+
+            //check if channel exists
+            let findme = gettheguild.roles.cache.find((r) => r.id === data2[2]);
+
+            //If no channel
+            if (!findme) return res.status(204).send();
+
+            //define channel
+            let rolestuff = getLevel.get(data2[1]);
+
+            //set channel
+            rolestuff.lvl50 = findme.id;
+            setLevel.run(rolestuff);
+            return res.status(204).send();
+          }
+
+          //level 85
+          if (data2[0] == "17") {
+            //if data arg 2 is disable
+            if (data2[2] == "disable") {
+              let rolestuff = getLevel.get(data2[1]);
+              rolestuff.lvl85 = `0`;
+              setLevel.run(rolestuff);
+              return res.status(204).send();
+            }
+
+            //check if channel exists
+            let findme = gettheguild.roles.cache.find((r) => r.id === data2[2]);
+
+            //If no channel
+            if (!findme) return res.status(204).send();
+
+            //define channel
+            let rolestuff = getLevel.get(data2[1]);
+
+            //set channel
+            rolestuff.lvl85 = findme.id;
+            setLevel.run(rolestuff);
+            return res.status(204).send();
+          }
+
           //end stuff
           return res.status(204).send();
         }

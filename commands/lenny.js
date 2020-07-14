@@ -23,7 +23,7 @@ module.exports = {
 
     //if proper channels
     if (
-      message.channel.id === "701399878412140544" ||
+      message.channel.id === "692762201991282778" ||
       message.channel.id === "702267558195232868" ||
       message.channel.id === "729049434276757545"
     ) {

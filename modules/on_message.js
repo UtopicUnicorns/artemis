@@ -15,87 +15,90 @@ module.exports = {
     //Disboard
     //If it's the disboard bot
     if (message.author.id == "302050872383242240") {
-      //if the disboard response is bump done
-      if (message.embeds[0].description.includes("Bump done")) {
-        //define guild channel
-        let guildChannels2 = getGuild.get(message.guild.id);
+      //if this
+      if (message.embeds[0]) {
+        //if the disboard response is bump done
+        if (message.embeds[0].description.includes("Bump done")) {
+          //define guild channel
+          let guildChannels2 = getGuild.get(message.guild.id);
 
-        //proceed if valid guild
-        if (guildChannels2) {
-          //proceed if point gathering/leveling is on
-          if (guildChannels2.leveling == "2") {
-            //fetch latest message that bumped
-            message.channel.messages.fetch().then((messages) => {
-              let dbumper = messages
-                .filter((msg) =>
-                  msg.content.toLowerCase().startsWith("!d bump")
-                )
-                .map((msg) => msg.author.id);
-              message.channel.send(
-                "You bumped!\nand we will ping you in 2 hours for your next bump.\n<@" +
-                  dbumper[0] +
-                  ">"
-              );
+          //proceed if valid guild
+          if (guildChannels2) {
+            //proceed if point gathering/leveling is on
+            if (guildChannels2.leveling == "2") {
+              //fetch latest message that bumped
+              message.channel.messages.fetch().then((messages) => {
+                let dbumper = messages
+                  .filter((msg) =>
+                    msg.content.toLowerCase().startsWith("!d bump")
+                  )
+                  .map((msg) => msg.author.id);
+                message.channel.send(
+                  "You bumped!\nand we will ping you in 2 hours for your next bump.\n<@" +
+                    dbumper[0] +
+                    ">"
+                );
 
-              //define database entry
-              let settime = 7200000;
-              let remindtext = "Time for your next `!d bump`";
-              let datefor = moment()
-                .add(settime, "ms")
-                .format("YYYYMMDDHHmmss");
-              timerset = {
-                mid: message.id,
-                cid: message.channel.id,
-                gid: message.guild.id,
-                uid: dbumper[0],
-                time: datefor,
-                reminder: remindtext,
-              };
+                //define database entry
+                let settime = 7200000;
+                let remindtext = "Time for your next `!d bump`";
+                let datefor = moment()
+                  .add(settime, "ms")
+                  .format("YYYYMMDDHHmmss");
+                timerset = {
+                  mid: message.id,
+                  cid: message.channel.id,
+                  gid: message.guild.id,
+                  uid: dbumper[0],
+                  time: datefor,
+                  reminder: remindtext,
+                };
 
-              //run db
-              setRemind.run(timerset);
-            });
+                //run db
+                setRemind.run(timerset);
+              });
 
-            //If leveling is off
-          } else {
-            //fetch latest message
-            message.channel.messages.fetch().then((messages) => {
-              let dbumper = messages
-                .filter((msg) =>
-                  msg.content.toLowerCase().startsWith("!d bump")
-                )
-                .map((msg) => msg.author.id);
-              message.channel.send(
-                "You bumped!\nThis action gave you 20 points, and we will ping you in 2 hours for your next bump.\n<@" +
-                  dbumper[0] +
-                  ">"
-              );
-              const pointsToAdd = parseInt(20, 10);
-              let userscore = getScore.get(dbumper[0], message.guild.id);
-              if (!userscore) return;
-              userscore.points += pointsToAdd;
-              let userLevel = Math.floor(0.5 * Math.sqrt(userscore.points));
-              userscore.level = userLevel;
-              setScore.run(userscore);
+              //If leveling is off
+            } else {
+              //fetch latest message
+              message.channel.messages.fetch().then((messages) => {
+                let dbumper = messages
+                  .filter((msg) =>
+                    msg.content.toLowerCase().startsWith("!d bump")
+                  )
+                  .map((msg) => msg.author.id);
+                message.channel.send(
+                  "You bumped!\nThis action gave you 20 points, and we will ping you in 2 hours for your next bump.\n<@" +
+                    dbumper[0] +
+                    ">"
+                );
+                const pointsToAdd = parseInt(20, 10);
+                let userscore = getScore.get(dbumper[0], message.guild.id);
+                if (!userscore) return;
+                userscore.points += pointsToAdd;
+                let userLevel = Math.floor(0.5 * Math.sqrt(userscore.points));
+                userscore.level = userLevel;
+                setScore.run(userscore);
 
-              //define database entry
-              let settime = 7200000;
-              let remindtext = "Time for your next `!d bump`";
-              let datefor = moment()
-                .add(settime, "ms")
-                .format("YYYYMMDDHHmmss");
-              timerset = {
-                mid: message.id,
-                cid: message.channel.id,
-                gid: message.guild.id,
-                uid: dbumper[0],
-                time: datefor,
-                reminder: remindtext,
-              };
+                //define database entry
+                let settime = 7200000;
+                let remindtext = "Time for your next `!d bump`";
+                let datefor = moment()
+                  .add(settime, "ms")
+                  .format("YYYYMMDDHHmmss");
+                timerset = {
+                  mid: message.id,
+                  cid: message.channel.id,
+                  gid: message.guild.id,
+                  uid: dbumper[0],
+                  time: datefor,
+                  reminder: remindtext,
+                };
 
-              //run db
-              setRemind.run(timerset);
-            });
+                //run db
+                setRemind.run(timerset);
+              });
+            }
           }
         }
       }
@@ -386,6 +389,13 @@ module.exports = {
     if (supportID) {
       //if channel inuse is 1
       if (supportID.inuse == "1") {
+        //if help
+        if (message.content.toLowerCase() == "help") {
+          return message.reply(
+            "This support channel is currently in use, please wait for the current session to end, or use a different channel!"
+          );
+        }
+
         //if user says done
         if (message.content.toLowerCase() == "done") {
           //Write database
