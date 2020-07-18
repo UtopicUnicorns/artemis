@@ -463,20 +463,6 @@ emitter.add({
   ignoreFirst: true,
 });
 
-//news Mint
-emitter.add({
-  url: "https://www.theregister.com/headlines.rss",
-  refresh: 10000,
-  ignoreFirst: true,
-});
-
-//news Mint
-emitter.add({
-  url: "https://www.theregister.com/headlines.rss",
-  refresh: 10000,
-  ignoreFirst: true,
-});
-
 //Pop_OS
 emitter.add({
   url: "https://www.reddit.com/r/pop_os/new.rss",
@@ -512,24 +498,6 @@ emitter.on("item:new", (item) => {
         )
         .setTimestamp();
       return client.channels.cache.get("656194923107713024").send({
-        embed: redditmessage,
-      });
-    }
-
-    //mint news
-    if (item.link.startsWith("https://go.theregister.com/")) {
-      const redditmessage = new Discord.MessageEmbed()
-        .setTitle(item.title.substr(0, 100))
-        .setURL(item.link)
-        .setColor("RANDOM")
-        .setDescription(reddittext3)
-        .addField(
-          item.link + "\n",
-          "https://www.reddit.com" + item.author,
-          true
-        )
-        .setTimestamp();
-      return client.channels.cache.get("729601973027864586").send({
         embed: redditmessage,
       });
     }

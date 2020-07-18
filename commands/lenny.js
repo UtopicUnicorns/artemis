@@ -21,76 +21,81 @@ module.exports = {
     usage.number++;
     setUsage.run(usage);
 
-    //if proper channels
-    if (
-      message.channel.id === "692762201991282778" ||
-      message.channel.id === "702267558195232868" ||
-      message.channel.id === "729049434276757545"
-    ) {
-      //define args
-      let args = message.content.slice(prefix.length + 6).split(" ");
+    //channel list
+    let channelAllow = [
+      "692762201991282778",
+      "702267558195232868",
+      "605900394803232778",
+      "729049434276757545",
+    ];
 
-      //if no args
-      if (!args[0]) {
-        //random number
-        let num = Math.floor(Math.random() * 1424 + 1);
+    //loop
+    for (let i of channelAllow) {
+      //if not channel
+      if (message.channel.id == i) {
+        //define args
+        let args = message.content
+          .toLowerCase()
+          .slice(prefix.length + 6)
+          .split(" ");
 
-        //build embed
-        const embed = new Discord.MessageEmbed().setImage(
-          "https://aranym.com/ecchi/" + num + ".jpg"
-        );
+        //if no args
+        if (!args[0]) {
+          request(`https://aranym.com/categories`, (err, res, body) => {
+            //if err
+            if (!body) return message.reply("An error occured");
 
-        //send embed
-        return message.channel.send({
-          embed: embed,
+            //split body
+            body = body.split("\n");
+
+            return message.reply(
+              `\`\`\`diff\n- Pick a category:\n\n+ ${body.join(
+                `\n+ `
+              )}\n\n\`\`\``
+            );
+          });
+        }
+
+        //if args[1]
+        if (args[1]) {
+          //build embed
+          const embed = new Discord.MessageEmbed().setImage(
+            `https://aranym.com/${args[0]}/${args[1]}.jpg`
+          );
+
+          //send embed
+          return message.channel.send({
+            embed: embed,
+          });
+        }
+
+        //request
+        request(`https://aranym.com/${args[0]}/filenames`, (err, res, body) => {
+          //if err
+          if (!body) return message.reply("Category not found!");
+
+          //sort body
+          body = body.split("\n");
+          body = body.slice(Math.max(body.length - 3, 0));
+          body = body[0].split(".");
+
+          //define number
+          number = body[0];
+
+          //define random
+          let num = Math.floor(Math.random() * number + 1);
+
+          //build embed
+          const embed = new Discord.MessageEmbed().setImage(
+            `https://aranym.com/${args[0]}/${num}.jpg`
+          );
+
+          //send embed
+          return message.channel.send({
+            embed: embed,
+          });
         });
       }
-      if (args[0].match(/^[0-9]+$/) != null) {
-        //define number
-        let num = args[0];
-
-        //build embed
-        const embed = new Discord.MessageEmbed().setImage(
-          "https://aranym.com/ecchi/" + num + ".jpg"
-        );
-
-        //send embed
-        return message.channel.send({
-          embed: embed,
-        });
-      }
-
-      if (args[0].toLowerCase() == "h" && !args[1]) {
-        //define number
-        let num = Math.floor(Math.random() * 757 + 1);
-
-        //build embed
-        const embed = new Discord.MessageEmbed().setImage(
-          "https://aranym.com/hentai/" + num + ".jpg"
-        );
-
-        //send embed
-        return message.channel.send({
-          embed: embed,
-        });
-      }
-      if (args[1].match(/^[0-9]+$/) != null) {
-        //define number
-        let num = args[1];
-
-        //build embed
-        const embed = new Discord.MessageEmbed().setImage(
-          "https://aranym.com/hentai/" + num + ".jpg"
-        );
-
-        //send embed
-        return message.channel.send({
-          embed: embed,
-        });
-      }
-    } else {
-      //if no proper channel
-      message.reply("( ͡° ͜ʖ ͡°)");
     }
   },
 };
