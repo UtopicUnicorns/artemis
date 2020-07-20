@@ -6,6 +6,9 @@ npm.npm();
 dbinit = require("../modules/dbinit.js");
 dbinit.dbinit();
 
+//set
+let ping = new Set();
+
 //start
 module.exports = {
   name: "p",

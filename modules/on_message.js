@@ -68,7 +68,7 @@ module.exports = {
                   )
                   .map((msg) => msg.author.id);
                 message.channel.send(
-                  "You bumped!\nThis action gave you 20 points, and we will ping you in 2 hours for your next bump.\n<@" +
+                  "You bumped!\nIn 2 hours we will ping you.\n<@" +
                     dbumper[0] +
                     ">"
                 );

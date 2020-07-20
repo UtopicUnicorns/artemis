@@ -22,7 +22,6 @@ exports.npm = function () {
   https = require("https");
   Stream = require("stream");
   youtube = new YouTube(configfile.youtubekey);
-  ping = new Set();
   msgRecently = new Set();
   noticeset = new Set();
   congratulationsRecently = new Set();

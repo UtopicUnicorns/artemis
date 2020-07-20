@@ -39,7 +39,7 @@ module.exports = {
       "Do you prefer using the terminal or a gui?",
       "What distribution made you stop 'distro' hopping, why?\nIf you distro hop what distribution are you considering next, why?",
       "What is your biggest pet peeve with linux?",
-      "What is the oddest thing yourve put linux on?",
+      "What is the oddest thing you have put linux on?",
       "What is your favourite desktop environment or/and window manager?",
       "What is a handy lesser known terminal command?",
       "Mechanical or membrane keyboard? Why?",
