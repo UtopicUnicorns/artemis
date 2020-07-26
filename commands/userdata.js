@@ -51,7 +51,7 @@ module.exports = {
     for (let i of getScore2) {
       //if guild exists
       if (message.client.guilds.cache.get(i.guild)) {
-        guildArray.push(message.client.guilds.cache.get(i.guild).name);
+        guildArray.push(message.client.guilds.cache.get(i.guild).name + ' ' + message.client.guilds.cache.get(i.guild).id);
       } else {
         guildArray.push(i.guild);
       }

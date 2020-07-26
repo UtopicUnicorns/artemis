@@ -24,82 +24,130 @@ module.exports = {
 
           //proceed if valid guild
           if (guildChannels2) {
-            //proceed if point gathering/leveling is on
-            if (guildChannels2.leveling == "2") {
-              //fetch latest message that bumped
-              message.channel.messages.fetch().then((messages) => {
-                let dbumper = messages
-                  .filter((msg) =>
-                    msg.content.toLowerCase().startsWith("!d bump")
-                  )
-                  .map((msg) => msg.author.id);
-                message.channel.send(
-                  "You bumped!\nand we will ping you in 2 hours for your next bump.\n<@" +
-                    dbumper[0] +
-                    ">"
-                );
+            //fetch latest message that bumped
+            message.channel.messages.fetch().then((messages) => {
+              let dbumper = messages
+                .filter((msg) =>
+                  msg.content.toLowerCase().startsWith("!d bump")
+                )
+                .map((msg) => msg.author.id);
+              message.channel.send(
+                "You bumped for Disboard!\nIn 2 hours we will ping you.\n<@" +
+                  dbumper[0] +
+                  ">"
+              );
 
-                //define database entry
-                let settime = 7200000;
-                let remindtext = "Time for your next `!d bump`";
-                let datefor = moment()
-                  .add(settime, "ms")
-                  .format("YYYYMMDDHHmmss");
-                timerset = {
-                  mid: message.id,
-                  cid: message.channel.id,
-                  gid: message.guild.id,
-                  uid: dbumper[0],
-                  time: datefor,
-                  reminder: remindtext,
-                };
+              //define database entry
+              let settime = 7200000;
+              let remindtext = "Time for your next `!d bump`";
+              let datefor = moment()
+                .add(settime, "ms")
+                .format("YYYYMMDDHHmmss");
+              timerset = {
+                mid: message.id,
+                cid: message.channel.id,
+                gid: message.guild.id,
+                uid: dbumper[0],
+                time: datefor,
+                reminder: remindtext,
+              };
 
-                //run db
-                setRemind.run(timerset);
-              });
-
-              //If leveling is off
-            } else {
-              //fetch latest message
-              message.channel.messages.fetch().then((messages) => {
-                let dbumper = messages
-                  .filter((msg) =>
-                    msg.content.toLowerCase().startsWith("!d bump")
-                  )
-                  .map((msg) => msg.author.id);
-                message.channel.send(
-                  "You bumped!\nIn 2 hours we will ping you.\n<@" +
-                    dbumper[0] +
-                    ">"
-                );
-                const pointsToAdd = parseInt(20, 10);
-                let userscore = getScore.get(dbumper[0], message.guild.id);
-                if (!userscore) return;
-                userscore.points += pointsToAdd;
-                let userLevel = Math.floor(0.5 * Math.sqrt(userscore.points));
-                userscore.level = userLevel;
-                setScore.run(userscore);
-
-                //define database entry
-                let settime = 7200000;
-                let remindtext = "Time for your next `!d bump`";
-                let datefor = moment()
-                  .add(settime, "ms")
-                  .format("YYYYMMDDHHmmss");
-                timerset = {
-                  mid: message.id,
-                  cid: message.channel.id,
-                  gid: message.guild.id,
-                  uid: dbumper[0],
-                  time: datefor,
-                  reminder: remindtext,
-                };
-
-                //run db
-                setRemind.run(timerset);
-              });
-            }
+              //run db
+              setRemind.run(timerset);
+            });
           }
+        }
+      }
+    }
+
+    //DC Servers
+    //If it's the Servers bot
+    if (message.author.id == "509430136442191873") {
+      //if this
+      if (message.embeds[0]) {
+        //if the Servers response is bump done
+        if (
+          message.embeds[0].description.includes("Bumped to the top! Whoo!")
+        ) {
+          //define guild channel
+          let guildChannels2 = getGuild.get(message.guild.id);
+
+          //proceed if valid guild
+          if (guildChannels2) {
+            //fetch latest message that bumped
+            message.channel.messages.fetch().then((messages) => {
+              let dbumper = messages
+                .filter((msg) =>
+                  msg.content.toLowerCase().startsWith("dc!bump")
+                )
+                .map((msg) => msg.author.id);
+              message.channel.send(
+                "You bumped for D.C Servers!\nIn 2 hours we will ping you.\n<@" +
+                  dbumper[0] +
+                  ">"
+              );
+
+              //define database entry
+              let settime = 7200000;
+              let remindtext = "Time for your next `dc!bump`";
+              let datefor = moment()
+                .add(settime, "ms")
+                .format("YYYYMMDDHHmmss");
+              timerset = {
+                mid: message.id,
+                cid: message.channel.id,
+                gid: message.guild.id,
+                uid: dbumper[0],
+                time: datefor,
+                reminder: remindtext,
+              };
+
+              //run db
+              setRemind.run(timerset);
+            });
+          }
+        }
+      }
+    }
+
+    //DiscordServers
+    //If it's the DiscordServers bot
+    if (message.author.id == "115385224119975941") {
+      //if this
+      //if the disboard response is bump done
+      if (message.content.startsWith("Head over to")) {
+        //define guild channel
+        let guildChannels2 = getGuild.get(message.guild.id);
+
+        //proceed if valid guild
+        if (guildChannels2) {
+          //fetch latest message that bumped
+          message.channel.messages.fetch().then((messages) => {
+            let dbumper = messages
+              .filter((msg) => msg.content.toLowerCase().startsWith("|bump"))
+              .map((msg) => msg.author.id);
+            message.channel.send(
+              "You bumped for DiscordServers!\nIn 12 hours we will ping you.\n<@" +
+                dbumper[0] +
+                ">"
+            );
+
+            //define database entry
+            let settime = 43200000;
+            let remindtext = "Time for your next `|bump`";
+            let datefor = moment().add(settime, "ms").format("YYYYMMDDHHmmss");
+            timerset = {
+              mid: message.id,
+              cid: message.channel.id,
+              gid: message.guild.id,
+              uid: dbumper[0],
+              time: datefor,
+              reminder: remindtext,
+            };
+
+            //run db
+            setRemind.run(timerset);
+          });
         }
       }
     }
@@ -505,6 +553,17 @@ module.exports = {
             }
           }
 
+          //if Lubuntu server
+          if (message.guild.id == "621525140412563496") {
+            //tag scholar role
+            if (prevCase[1]) {
+              if (prevCase[1].toLowerCase() == "--silent") {
+              }
+            } else {
+              message.channel.send("Calling the <@&736466297285771264>");
+            }
+          }
+
           //send support embed
           message.reply({
             embed: supTic3,
@@ -579,6 +638,12 @@ module.exports = {
             if (message.guild.id == "572855720777744395") {
               //tag scholar role
               message.channel.send("Calling the <@&685589719022567441>");
+            }
+
+            //if lubuntu server
+            if (message.guild.id == "621525140412563496") {
+              //tag scholar role
+              message.channel.send("Calling the <@&736466297285771264>");
             }
 
             //reply to user
@@ -1355,65 +1420,6 @@ module.exports = {
               "\n" +
               user.username +
               " has gotten 20 points for their effort!"
-          );
-        }
-      }
-
-      //if message is love
-      if (message.content.toLowerCase().includes("love")) {
-        //define user
-        const user =
-          message.mentions.users.first() ||
-          message.client.users.cache.get(args[0]);
-
-        //if no user
-        if (!user) return;
-
-        //if user is self
-        if (user == message.author) return;
-
-        //if user already did this in the past 20 minutes
-        if (congratulationsRecently.has(message.author.id + message.guild.id)) {
-          return;
-        } else {
-          //add user to the set
-          congratulationsRecently.add(message.author.id) + message.guild.id;
-
-          //remove user from the set after 20 minutes
-          setTimeout(() => {
-            congratulationsRecently.delete(
-              message.author.id + message.guild.id
-            );
-          }, 600000);
-
-          //add points
-          const pointsToAdd = parseInt(20, 10);
-
-          //pull data
-          let userscore = getScore.get(user.id, message.guild.id);
-
-          //if user is not in db
-          if (!userscore) return;
-
-          //add the points
-          userscore.points += pointsToAdd;
-
-          //calc level
-          let userLevel = Math.floor(0.5 * Math.sqrt(userscore.points));
-
-          //define level
-          userscore.level = userLevel;
-
-          //run db
-          setScore.run(userscore);
-
-          //norify user
-          return message.reply(
-            "gave love to " +
-              user.username +
-              "\n" +
-              user.username +
-              " gets 20 points!"
           );
         }
       }

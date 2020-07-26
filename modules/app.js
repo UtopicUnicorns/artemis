@@ -123,6 +123,21 @@ exports.run = (client, config) => {
     d(null, u);
   });
 
+  ////////////////
+  // spectrum page
+  ////////////////
+  app.get("/spectrum", (req, res) => {
+    //check if user is logged in
+    const test = {
+      client: client,
+      db: db,
+    };
+    res.render("spectrum", {
+      page: "spectrum",
+      test: test,
+    });
+  });
+
   /////////////
   // Index page
   /////////////
