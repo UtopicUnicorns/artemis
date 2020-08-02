@@ -10,8 +10,8 @@ dbinit.dbinit();
 module.exports = {
   name: "ban",
   description: "[mod] Ban a user",
-  explain: `\`ban @mention\`\nWill surely ban a user if the bot is able to, this depends on the permissions and hierarchy of the roles.`,
-  execute(message) {
+  explain: `\`ban @mention @mention @mention userID\`\nWill surely ban a user if the bot is able to, this depends on the permissions and hierarchy of the roles.`,
+  async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
@@ -24,16 +24,29 @@ module.exports = {
     usage.number++;
     setUsage.run(usage);
 
-    //define member
-    const member = message.mentions.members.first();
+    //args
+    let args = message.content.slice(prefix.length + 4).split(" ");
 
-    //if no user
-    if (!member)
+    //if no args
+    if (!args[0])
       return message.reply("You need to mention the user you wish to ban!");
 
-    //ban the user
-    member.ban();
-    message.reply(`${member} has been banned!`);
+    //loop
+    for (let i of args) {
+      //return just numbers
+      let numbers = i.replace(/[^0-9]/gi, "");
+
+      //form member
+      let member = message.guild.members.cache.get(numbers);
+
+      //if member
+      if (member) {
+        await member.ban({ days: 7, reason: "Artemis Rules!" });
+        message.reply(`${member} has been banned!`)
+      } else {
+        message.reply(`I could not ban ${i}!`);
+      }
+    }
 
     //form guild channels
     const guildChannels2 = getGuild.get(message.guild.id);

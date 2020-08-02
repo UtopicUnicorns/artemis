@@ -198,7 +198,7 @@ exports.dbinit = function () {
     .get();
   if (!table12["count(*)"]) {
     db.prepare(
-      "CREATE TABLE settings (guild TEXT PRIMARY KEY, leavejoin, deletemsg, editmsg );"
+      "CREATE TABLE settings (guild TEXT PRIMARY KEY, leavejoin TEXT, deletemsg TEXT, editmsg TEXT, bumpping TEXT);"
     ).run();
     db.prepare(
       "CREATE UNIQUE INDEX idx_settings_id ON settings (guild);"
@@ -231,7 +231,7 @@ exports.dbinit = function () {
   //run Settings
   getSettings = db.prepare("SELECT * FROM settings WHERE guild = ?");
   setSettings = db.prepare(
-    "INSERT OR REPLACE INTO settings (guild, leavejoin, deletemsg, editmsg) VALUES (@guild, @leavejoin, @deletemsg, @editmsg);"
+    "INSERT OR REPLACE INTO settings (guild, leavejoin, deletemsg, editmsg, bumpping) VALUES (@guild, @leavejoin, @deletemsg, @editmsg, @bumpping);"
   );
 
   //run support cases

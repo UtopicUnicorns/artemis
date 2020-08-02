@@ -59,7 +59,7 @@ setLevel = db.prepare(
 //run Settings
 getSettings = db.prepare("SELECT * FROM settings WHERE guild = ?");
 setSettings = db.prepare(
-  "INSERT OR REPLACE INTO settings (guild, leavejoin, deletemsg, editmsg) VALUES (@guild, @leavejoin, @deletemsg, @editmsg);"
+  "INSERT OR REPLACE INTO settings (guild, leavejoin, deletemsg, editmsg, bumpping) VALUES (@guild, @leavejoin, @deletemsg, @editmsg, @bumpping);"
 );
 
 //start
@@ -767,6 +767,7 @@ exports.run = (client, config) => {
                       leavejoin: `0`,
                       deletemsg: `0`,
                       editmsg: `0`,
+                      bumpping: `0`,
                     };
                     setSettings.run(loggerSettings);
                   }
@@ -840,6 +841,29 @@ exports.run = (client, config) => {
                     data.guild +
                     'rapp7`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
 
+                    //Bump pings
+                  if (loggerSettings.bumpping == "1") {
+                    var bumpmsg = "OFF";
+                  } else {
+                    var bumpmsg = "ON";
+                  }
+                  let rapp8t =
+                    '<tr style="text-align:left; border-bottom: 1px solid black"><td>Bump Notifications: </td><td><div id="' +
+                    data.guild +
+                    'rapp8">' +
+                    bumpmsg +
+                    "</div></td></tr>";
+                  let rapp8 =
+                    '<tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><select name="data2"><option value="bp ' +
+                    data.guild +
+                    ' OFF">off</option><option value="bp ' +
+                    data.guild +
+                    ' ON">on</option></select>';
+                  let rapp8b =
+                    '<br><input type="submit" class="button" onclick="document.getElementById(`' +
+                    data.guild +
+                    'rapp8`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
+
                   //prefix
                   let rapp3t =
                     '<tr style="text-align:left; border-bottom: 1px solid black"><td>Server prefix:</td><td><div id="' +
@@ -893,6 +917,9 @@ exports.run = (client, config) => {
                       rapp7t +
                       rapp7 +
                       rapp7b +
+                      rapp8t +
+                      rapp8 +
+                      rapp8b +
                       rapp1t +
                       rapp1 +
                       rapp1b +
@@ -2012,6 +2039,22 @@ exports.run = (client, config) => {
             if (data2[2] == "OFF") {
               let channelstuff = getSettings.get(data2[1]);
               channelstuff.deletemsg = `0`;
+              setSettings.run(channelstuff);
+              return res.status(204).send();
+            }
+          }
+
+          //bump notifications
+          if (data2[0] == "bp") {
+            if (data2[2] == "ON") {
+              let channelstuff = getSettings.get(data2[1]);
+              channelstuff.bumpping = `0`;
+              setSettings.run(channelstuff);
+              return res.status(204).send();
+            }
+            if (data2[2] == "OFF") {
+              let channelstuff = getSettings.get(data2[1]);
+              channelstuff.bumpping = `1`;
               setSettings.run(channelstuff);
               return res.status(204).send();
             }

@@ -8,7 +8,7 @@ dbinit.dbinit();
 
 //start
 module.exports = {
-  name: "interjection",
+  name: "rms",
   description: "[linux] What you are referring to as Linux(donation command)",
   explain: `This command will post a cheezy linux meme.`,
   execute(message) {
@@ -17,7 +17,7 @@ module.exports = {
     const prefix = prefixstart.prefix;
 
     //update usage
-    usage = getUsage.get("interjection");
+    usage = getUsage.get("rms");
     usage.number++;
     setUsage.run(usage);
 

@@ -72,7 +72,7 @@ module.exports = {
 
               //define messages
               messages = messages
-                .filter((m) => m.content.includes(fuckOff))
+                .filter((m) => m.content.toLowerCase().includes(fuckOff))
                 .array()
                 .slice(0, amount);
 

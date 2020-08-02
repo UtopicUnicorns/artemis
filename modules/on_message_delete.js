@@ -72,7 +72,7 @@ module.exports = {
       .setThumbnail(
         message.author.avatarURL({ format: "png", dynamic: true, size: 1024 })
       )
-      .setColor('#e74c3c')
+      .setColor("#e74c3c")
       .addField("Deleted Message:\n", message.content + ".")
       .addField("Channel", message.channel)
       .setFooter(
@@ -92,12 +92,14 @@ module.exports = {
       );
     } else {
       const { executor, target } = deletionLog;
-      if (target.id === message.author.id) {
-        embed.setDescription(
-          `Message by: ${message.author} \nDeleted by: ${executor}`
-        );
-      } else {
-        return;
+      if (target && message.author) {
+        if (target.id === message.author.id) {
+          embed.setDescription(
+            `Message by: ${message.author} \nDeleted by: ${executor}`
+          );
+        } else {
+          return;
+        }
       }
     }
 

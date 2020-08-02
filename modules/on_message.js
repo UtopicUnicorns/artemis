@@ -12,142 +12,204 @@ supportGet = new Set();
 //start
 module.exports = {
   onMessage: async function (message) {
-    //Disboard
-    //If it's the disboard bot
-    if (message.author.id == "302050872383242240") {
-      //if this
-      if (message.embeds[0]) {
-        //if the disboard response is bump done
-        if (message.embeds[0].description.includes("Bump done")) {
-          //define guild channel
-          let guildChannels2 = getGuild.get(message.guild.id);
-
-          //proceed if valid guild
-          if (guildChannels2) {
-            //fetch latest message that bumped
-            message.channel.messages.fetch().then((messages) => {
-              let dbumper = messages
-                .filter((msg) =>
-                  msg.content.toLowerCase().startsWith("!d bump")
-                )
-                .map((msg) => msg.author.id);
-              message.channel.send(
-                "You bumped for Disboard!\nIn 2 hours we will ping you.\n<@" +
-                  dbumper[0] +
-                  ">"
-              );
-
-              //define database entry
-              let settime = 7200000;
-              let remindtext = "Time for your next `!d bump`";
-              let datefor = moment()
-                .add(settime, "ms")
-                .format("YYYYMMDDHHmmss");
-              timerset = {
-                mid: message.id,
-                cid: message.channel.id,
-                gid: message.guild.id,
-                uid: dbumper[0],
-                time: datefor,
-                reminder: remindtext,
-              };
-
-              //run db
-              setRemind.run(timerset);
-            });
-          }
-        }
-      }
+    //init something
+    if (message.guild) {
+      var bumps = getSettings.get(message.guild.id);
     }
 
-    //DC Servers
-    //If it's the Servers bot
-    if (message.author.id == "509430136442191873") {
-      //if this
-      if (message.embeds[0]) {
-        //if the Servers response is bump done
-        if (
-          message.embeds[0].description.includes("Bumped to the top! Whoo!")
-        ) {
-          //define guild channel
-          let guildChannels2 = getGuild.get(message.guild.id);
+    //if bump
+    if (bumps) {
+      if (bumps.bumpping !== "1") {
+        //Disboard
+        //If it's the disboard bot
+        if (message.author.id == "302050872383242240") {
+          //if this
+          if (message.embeds[0]) {
+            //if the disboard response is bump done
+            if (message.embeds[0].description.includes("Bump done")) {
+              //define guild channel
+              let guildChannels2 = getGuild.get(message.guild.id);
 
-          //proceed if valid guild
-          if (guildChannels2) {
-            //fetch latest message that bumped
-            message.channel.messages.fetch().then((messages) => {
-              let dbumper = messages
-                .filter((msg) =>
-                  msg.content.toLowerCase().startsWith("dc!bump")
-                )
-                .map((msg) => msg.author.id);
-              message.channel.send(
-                "You bumped for D.C Servers!\nIn 2 hours we will ping you.\n<@" +
-                  dbumper[0] +
-                  ">"
-              );
+              //proceed if valid guild
+              if (guildChannels2) {
+                //fetch latest message that bumped
+                message.channel.messages.fetch().then((messages) => {
+                  let dbumper = messages
+                    .filter((msg) =>
+                      msg.content.toLowerCase().startsWith("!d bump")
+                    )
+                    .map((msg) => msg.author.id);
+                  message.channel.send(
+                    "You bumped for Disboard!\nIn 2 hours we will ping you.\n<@" +
+                      dbumper[0] +
+                      ">"
+                  );
 
-              //define database entry
-              let settime = 7200000;
-              let remindtext = "Time for your next `dc!bump`";
-              let datefor = moment()
-                .add(settime, "ms")
-                .format("YYYYMMDDHHmmss");
-              timerset = {
-                mid: message.id,
-                cid: message.channel.id,
-                gid: message.guild.id,
-                uid: dbumper[0],
-                time: datefor,
-                reminder: remindtext,
-              };
+                  //define database entry
+                  let settime = 7200000;
+                  let remindtext = "Time for your next `!d bump`";
+                  let datefor = moment()
+                    .add(settime, "ms")
+                    .format("YYYYMMDDHHmmss");
+                  timerset = {
+                    mid: message.id,
+                    cid: message.channel.id,
+                    gid: message.guild.id,
+                    uid: dbumper[0],
+                    time: datefor,
+                    reminder: remindtext,
+                  };
 
-              //run db
-              setRemind.run(timerset);
-            });
+                  //run db
+                  setRemind.run(timerset);
+                });
+              }
+            }
           }
         }
-      }
-    }
 
-    //DiscordServers
-    //If it's the DiscordServers bot
-    if (message.author.id == "115385224119975941") {
-      //if this
-      //if the disboard response is bump done
-      if (message.content.startsWith("Head over to")) {
-        //define guild channel
-        let guildChannels2 = getGuild.get(message.guild.id);
+        //DC Servers
+        //If it's the Servers bot
+        if (message.author.id == "509430136442191873") {
+          //if this
+          if (message.embeds[0]) {
+            //if the Servers response is bump done
+            if (
+              message.embeds[0].description.includes("Bumped to the top! Whoo!")
+            ) {
+              //define guild channel
+              let guildChannels2 = getGuild.get(message.guild.id);
 
-        //proceed if valid guild
-        if (guildChannels2) {
-          //fetch latest message that bumped
-          message.channel.messages.fetch().then((messages) => {
-            let dbumper = messages
-              .filter((msg) => msg.content.toLowerCase().startsWith("|bump"))
-              .map((msg) => msg.author.id);
-            message.channel.send(
-              "You bumped for DiscordServers!\nIn 12 hours we will ping you.\n<@" +
-                dbumper[0] +
-                ">"
-            );
+              //proceed if valid guild
+              if (guildChannels2) {
+                //fetch latest message that bumped
+                message.channel.messages.fetch().then((messages) => {
+                  let dbumper = messages
+                    .filter((msg) =>
+                      msg.content.toLowerCase().startsWith("dc!bump")
+                    )
+                    .map((msg) => msg.author.id);
+                  message.channel.send(
+                    "You bumped for D.C Servers!\nIn 2 hours we will ping you.\n<@" +
+                      dbumper[0] +
+                      ">"
+                  );
 
-            //define database entry
-            let settime = 43200000;
-            let remindtext = "Time for your next `|bump`";
-            let datefor = moment().add(settime, "ms").format("YYYYMMDDHHmmss");
-            timerset = {
-              mid: message.id,
-              cid: message.channel.id,
-              gid: message.guild.id,
-              uid: dbumper[0],
-              time: datefor,
-              reminder: remindtext,
-            };
+                  //define database entry
+                  let settime = 7200000;
+                  let remindtext = "Time for your next `dc!bump`";
+                  let datefor = moment()
+                    .add(settime, "ms")
+                    .format("YYYYMMDDHHmmss");
+                  timerset = {
+                    mid: message.id,
+                    cid: message.channel.id,
+                    gid: message.guild.id,
+                    uid: dbumper[0],
+                    time: datefor,
+                    reminder: remindtext,
+                  };
 
-            //run db
-            setRemind.run(timerset);
-          });
+                  //run db
+                  setRemind.run(timerset);
+                });
+              }
+            }
+          }
+        }
+
+        //discordlist Servers
+        //If it's the Servers bot
+        if (message.author.id == "212681528730189824") {
+          //if this
+          if (message.embeds[0]) {
+            //if the Servers response is bump done
+            if (message.embeds[0].description.includes("Server bumped!")) {
+              //define guild channel
+              let guildChannels2 = getGuild.get(message.guild.id);
+
+              //proceed if valid guild
+              if (guildChannels2) {
+                //fetch latest message that bumped
+                message.channel.messages.fetch().then((messages) => {
+                  let dbumper = messages
+                    .filter((msg) =>
+                      msg.content.toLowerCase().startsWith("dlm!bump")
+                    )
+                    .map((msg) => msg.author.id);
+                  message.channel.send(
+                    "You bumped for DiscordList.io!\nIn 8 hours we will ping you.\n<@" +
+                      dbumper[0] +
+                      ">"
+                  );
+
+                  //define database entry
+                  let settime = 28800000;
+                  let remindtext = "Time for your next `dlm!bump`";
+                  let datefor = moment()
+                    .add(settime, "ms")
+                    .format("YYYYMMDDHHmmss");
+                  timerset = {
+                    mid: message.id,
+                    cid: message.channel.id,
+                    gid: message.guild.id,
+                    uid: dbumper[0],
+                    time: datefor,
+                    reminder: remindtext,
+                  };
+
+                  //run db
+                  setRemind.run(timerset);
+                });
+              }
+            }
+          }
+        }
+
+        //DiscordServers
+        //If it's the DiscordServers bot
+        if (message.author.id == "115385224119975941") {
+          //if this
+          //if the disboard response is bump done
+          if (message.content.startsWith("Head over to")) {
+            //define guild channel
+            let guildChannels2 = getGuild.get(message.guild.id);
+
+            //proceed if valid guild
+            if (guildChannels2) {
+              //fetch latest message that bumped
+              message.channel.messages.fetch().then((messages) => {
+                let dbumper = messages
+                  .filter((msg) =>
+                    msg.content.toLowerCase().startsWith("|bump")
+                  )
+                  .map((msg) => msg.author.id);
+                message.channel.send(
+                  "You bumped for DiscordServers!\nIn 12 hours we will ping you.\n<@" +
+                    dbumper[0] +
+                    ">"
+                );
+
+                //define database entry
+                let settime = 43200000;
+                let remindtext = "Time for your next `|bump`";
+                let datefor = moment()
+                  .add(settime, "ms")
+                  .format("YYYYMMDDHHmmss");
+                timerset = {
+                  mid: message.id,
+                  cid: message.channel.id,
+                  gid: message.guild.id,
+                  uid: dbumper[0],
+                  time: datefor,
+                  reminder: remindtext,
+                };
+
+                //run db
+                setRemind.run(timerset);
+              });
+            }
+          }
         }
       }
     }

@@ -1,0 +1,539 @@
+/*Theme labels that are descendants of a window*/
+window label {
+  padding: 4px 9px 4px;
+  background-color: transparent;
+}
+
+/*Theme notebooks, and anything within*/
+notebook {
+  background-color: transparent;
+}
+
+/*///////*/
+/* ENTRY */
+/*///////*/
+entry {
+  background-image: linear-gradient(#111111, #111111);
+  border-radius: 0px 0px 25px 25px;
+}
+
+entry:hover,
+entry:focus,
+entry:active {
+  background-image: linear-gradient(#111111, #333333);
+  border: 1px solid @main_colour;
+  border-radius: 0px 0px 25px 25px;
+}
+
+entry:disabled {
+  background-image: linear-gradient(#111111, #111111);
+  border-radius: 0px 0px 25px 25px;
+}
+
+entry,
+GtkComboBox.combobox-entry .button {
+  background-image: linear-gradient(#111111, #111111);
+  border-radius: 0px 0px 25px 25px;
+}
+
+.linked:not(.vertical) > entry {
+  border-radius: 0px 0px 25px 25px;
+}
+
+.linked:not(.vertical) > entry:first-child {
+  border-radius: 0px 0px 25px 25px;
+}
+
+.linked:not(.vertical) > entry:last-child {
+  border-radius: 0px 0px 25px 25px;
+}
+
+.linked:not(.vertical) > entry:only-child {
+  border-radius: 0px 0px 25px 25px;
+}
+
+.linked:not(.vertical) > entry + entry {
+  border-radius: 0px 0px 25px 25px;
+}
+
+.linked.vertical > entry {
+  border-radius: 0px 0px 25px 25px;
+}
+
+.linked.vertical > entry:first-child {
+  border-radius: 0px 0px 25px 25px;
+}
+
+.linked.vertical > entry:last-child {
+  border-radius: 0px 0px 25px 25px;
+}
+
+.linked.vertical > entry + entry {
+  border-radius: 0px 0px 25px 25px;
+}
+
+combobox,
+notebook > entry {
+  background-color: transparent;
+}
+
+/*/////////*/
+/*SCROLLBAR*/
+/*/////////*/
+scrollbar slider {
+  background-color: @main_colour;
+  border: 1px solid @main_colour;
+  min-width: 5px;
+  min-height: 5px;
+}
+
+scrollbar slider:hover {
+  background-color: @main_colour;
+  border: 1px solid @main_colour;
+}
+
+scrollbar slider:active {
+  background-color: @main_colour;
+  border: 1px solid @main_colour;
+}
+
+/*Boxes n stuff*/
+/*/////////////*/
+box * {
+}
+
+window * {
+  opacity: 0.95;
+}
+
+actionbar > * {
+}
+
+notebook > * {
+}
+
+.titlebar,
+headerbar {
+  background-color: @main_bg_colour;
+  background-clip: border-box;
+  min-height: 42px;
+  color: @main_text_colour;
+
+  text-shadow: 2px 2px 2px black;
+}
+
+.titlebar *,
+headerbar * {
+  background-color: @main_bg_colour;
+  background-clip: border-box;
+  min-height: 42px;
+  color: @main_text_colour;
+  text-shadow: 2px 2px 2px black;
+}
+
+.titlebar > *,
+headerbar > * {
+  background-color: @main_bg_colour;
+  background-clip: border-box;
+  min-height: 42px;
+  color: @main_text_colour;
+  text-shadow: 2px 2px 2px black;
+}
+
+.background {
+  opacity: 0.95;
+  background-color: @main_bg_colour;
+  color: @main_text_colour;
+  text-shadow: 2px 2px 2px black;
+}
+
+iconview,
+.view {
+  opacity: 1;
+  border: 1px solid @main_colour;
+  color: @main_text_colour;
+  text-shadow: 2px 2px 2px black;
+}
+
+iconview,
+.view > * {
+  opacity: 1;
+  border-radius: 0px;
+  border: 1px solid transparent;
+  color: @main_text_colour;
+  text-shadow: 2px 2px 2px black;
+}
+
+iconview:hover,
+iconview:active,
+iconview:selected,
+.view:hover,
+.view:active,
+.view:selected {
+  border-radius: 0px;
+  background-color: #333333;
+  -gtk-outline-radius: 25px;
+}
+
+iconview:disabled,
+.view:disabled {
+  color: @main_text_colour;
+  text-shadow: 2px 2px 2px black;
+}
+
+/*Theme any widget named main-entry*/
+#main-entry {
+  background-color: transparent;
+}
+
+/*Theme all widgets with the style class entry*/
+.entry {
+  padding: 4px 9px 4px;
+}
+
+/*Theme the entry of a GtkSpinButton*/
+spinbutton entry {
+}
+
+/*LABELS*/
+/*//////*/
+label {
+  background-color: transparent;
+  border: 1px solid transparent;
+}
+
+label:focus {
+  border: 1px solid @main_colour;
+}
+
+/*BUTTONS*/
+/*///////*/
+button {
+  padding: 4px 9px 4px;
+  background-image: linear-gradient(transparent, transparent);
+  border: 1px solid transparent;
+  transition: 350ms;
+}
+
+button:hover,
+button:focus {
+  background-image: linear-gradient(transparent, transparent);
+  border: 1px solid @main_colour;
+}
+
+button:active {
+  background-image: linear-gradient(transparent, @main_colour);
+  border: 1px solid @main_colour;
+}
+
+/*Check Buttons*/
+/*/////////////*/
+checkbutton {
+  background-color: transparent;
+  transition: 350ms;
+}
+
+checkbutton:checked {
+  background-color: transparent;
+}
+
+checkbutton:indeterminate {
+  background-color: transparent;
+}
+
+check {
+  background-color: #ff0000;
+  -gtk-icon-shadow: none;
+}
+
+check:hover {
+  background-color: @main_colour;
+  -gtk-icon-shadow: none;
+}
+
+check:active {
+  background-color: @main_text_colour;
+}
+
+check:disabled {
+  background-color: #666666;
+}
+
+check:indeterminate {
+  background-color: #ffcc00;
+}
+
+check:indeterminate:hover {
+  background-color: @main_colour;
+}
+
+check:indeterminate:active {
+  background-color: #ffccaa;
+}
+
+check:indeterminate:disabled {
+  background-color: #666666;
+}
+
+check:checked {
+  background-color: #008000;
+}
+
+check:checked:hover {
+  background-color: @main_colour;
+}
+
+check:checked:active {
+  background-color: #008000;
+}
+
+check:checked:disabled {
+  background-color: #666666;
+}
+
+/*Radio Buttons*/
+/*/////////////*/
+radio {
+  background-color: #ff0000;
+}
+
+radio:hover {
+  background-color: @main_colour;
+}
+
+radio:active {
+  background-color: #ff0000;
+}
+
+radio:disabled {
+  background-color: #666666;
+}
+
+radio:indeterminate {
+  background-color: #ffdd00;
+}
+
+radio:indeterminate:hover {
+  background-color: @main_colour;
+}
+
+radio:indeterminate:active {
+  background-color: #ffdd00;
+}
+
+radio:indeterminate:disabled {
+  background-color: #666666;
+}
+
+radio:checked {
+  background-color: #008000;
+}
+
+radio:checked:hover {
+  background-color: @main_colour;
+}
+
+radio:checked:active {
+  background-color: #008000;
+}
+
+radio:checked:disabled {
+  background-color: #008000;
+}
+
+/*SWITCH*/
+/*//////*/
+switch {
+  padding: 4px 9px 4px;
+  min-width: 32px;
+  background-color: transparent;
+}
+
+switch:checked {
+  background-color: transparent;
+}
+
+switch:checked:disabled {
+  background-color: transparent;
+}
+
+switch:disabled {
+  background-color: transparent;
+}
+
+switch slider {
+  border-radius: 25px;
+  min-width: 16px;
+  min-height: 16px;
+  margin: -2px 0;
+  padding: 0;
+  background-color: #ff0000;
+  border: 3px double @main_bg_colour;
+  transition: 350ms;
+}
+
+switch:hover slider {
+  background-color: #ff0000;
+  border: 3px double @main_text_colour;
+}
+
+switch:checked slider {
+  background-color: #008000;
+  border: 3px double @main_bg_colour;
+}
+
+switch:checked:hover slider {
+  background-color: #008000;
+  border: 3px double @main_text_colour;
+}
+
+switch:disabled slider,
+switch:disabled:checked slider {
+  background-color: #444444;
+  border: 3px double @main_bg_colour;
+}
+
+progressbar progress {
+  background-color:@main_colour;
+}
+
+slider {
+  min-width: 10px;
+  min-height: 10px;
+  border-radius: 25px;
+  background-color: @main_colour;
+  transition: 350ms;
+}
+
+slider:hover {
+  min-width: 15px;
+  min-height: 15px;
+  border-radius: 0px 0px 25px 25px;
+  background-color: @main_colour;
+}
+
+/*ROWS*/
+/*////*/
+row {
+  border: 1px solid transparent;
+  transition: 350ms;
+}
+row:selected,
+row:hover {
+  border: 1px solid @main_colour;
+}
+
+/*///////*/
+/* PANES */
+/*///////*/
+paned.horizontal > separator.wide {
+  background-color: @main_bg_colour;
+  border: none;
+}
+
+paned.vertical > separator.wide {
+  background-color: @main_bg_colour;
+  border: none;
+}
+
+/*FALLBACK*/
+/*////////*/
+.gtkstyle-fallback {
+  background-color: @main_bg_colour;
+  color: @main_text_colour;
+  text-shadow: 2px 2px 2px black;
+  transition: 350ms;
+}
+
+.gtkstyle-fallback:hover {
+  background-color: @main_bg_colour;
+  color: @main_text_colour;
+  text-shadow: 2px 2px 2px black;
+}
+
+.gtkstyle-fallback:active {
+  background-color: @main_bg_colour;
+  color: @main_text_colour;
+  text-shadow: 2px 2px 2px black;
+}
+
+.gtkstyle-fallback:disabled {
+  background-color: @main_bg_colour;
+  color: @main_text_colour;
+  text-shadow: 2px 2px 2px black;
+}
+
+.gtkstyle-fallback:selected {
+  background-color: @main_colour;
+  border: 1px solid @main_colour;
+  color: @main_text_colour;
+  text-shadow: 2px 2px 2px black;
+}
+
+/****************************/
+/*COLOURS INCLUDING TITLEBAR*/
+/****************************/
+@define-color theme_fg_color @main_text_colour;
+@define-color theme_inverted_fg_color @main_colour;
+@define-color theme_text_color @main_text_colour;
+@define-color theme_bg_color @main_bg_colour;
+@define-color theme_base_color @main_bg_colour;
+@define-color theme_selected_bg_color @main_colour;
+@define-color theme_selected_fg_color @main_colour;
+@define-color insensitive_bg_color @main_bg_colour;
+@define-color insensitive_fg_color rgba(207, 216, 220, 0.28);
+@define-color insensitive_base_color @main_bg_colour;
+@define-color theme_unfocused_fg_color rgba(207, 216, 220, 0.28);
+@define-color theme_unfocused_inverted_fg_color rgba(207, 216, 220, 0.4);
+@define-color theme_unfocused_text_color rgba(207, 216, 220, 0.28);
+@define-color theme_unfocused_inverted_text_color rgba(207, 216, 220, 0.28);
+@define-color theme_unfocused_bg_color @main_bg_colour;
+@define-color theme_unfocused_base_color @main_bg_colour;
+@define-color theme_unfocused_selected_bg_color @main_colour;
+@define-color theme_unfocused_selected_fg_color @main_text_colour;
+@define-color unfocused_insensitive_color rgba(207, 216, 220, 0.28);
+@define-color placeholder_text_color #333333;
+@define-color borders @main_bg_colour;
+@define-color unfocused_borders @main_bg_colour;
+@define-color warning_color @main_colour;
+@define-color error_color #FF0000;
+@define-color success_color #008000;
+@define-color link_color @main_colour;
+@define-color wm_bg_a @main_bg_colour;
+@define-color wm_bg_b @main_bg_colour;
+@define-color wm_bg_c @main_bg_colour;
+@define-color content_view_bg @main_bg_colour;
+@define-color budgie_tasklist_indicator_color @main_colour;
+@define-color budgie_tasklist_indicator_color_active @main_colour;
+@define-color budgie_tasklist_indicator_color_active_window @main_colour;
+@define-color budgie_tasklist_indicator_color_attention @main_colour;
+
+/*COLOUR*/
+@import url("../colours.css");
+
+
+/*GLOBAL*/
+/*//////*/
+*:disabled {
+  background-color: transparent;
+}
+
+* {
+  all: unset;
+  color: @main_text_colour;
+  text-shadow: 2px 2px 2px black;
+  border: 1px solid transparent;
+  border-radius: 0px 0px 25px 25px;
+  -gtk-outline-radius: 0px 0px 25px 25px;
+  transition: 350ms;
+}
+
+*:hover {
+  background-color: #333333;
+  border-radius: 0px 0px 25px 25px;
+}
+
+*:selected {
+  background-color: #333333;
+  border-radius: 0px;
+}
