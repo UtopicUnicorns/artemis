@@ -426,7 +426,6 @@ module.exports = {
       "teez",
       "testical",
       "testicle",
-      "tit",
       "titfuck",
       "tits",
       "titt",

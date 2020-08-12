@@ -259,6 +259,7 @@ module.exports = {
         leavejoin: `0`,
         deletemsg: `0`,
         editmsg: `0`,
+        bumpping: `0`,
       };
       setSettings.run(settingsfailsafe);
     }
@@ -367,6 +368,7 @@ module.exports = {
       //form check url
       let checkUrl = `https://discordapp.com/channels/${message.guild.id}/`;
       let checkUrlSecond = `https://discord.com/channels/${message.guild.id}/`;
+      let checkUrlThird = `https://canary.discordapp.com/channels/${message.guild.id}/`;
 
       //loop trough args
       for (let i of linkArgs) {
@@ -489,6 +491,66 @@ module.exports = {
             }
           }
         }
+
+        //if args start with checkUrlThird
+        if (i.startsWith(checkUrlThird)) {
+          //define current channel
+          const curChannel = message.channel.id;
+
+          //split
+          let checkUrl2 = i.slice(checkUrlThird.length).split("/");
+
+          //checker
+          if (checkUrl2[0] && checkUrl2[1]) {
+            //fetch channel
+            let fetchChannel = message.client.channels.cache.get(
+              `${checkUrl2[0]}`
+            );
+
+            //if fetch channel exists
+            if (fetchChannel) {
+              //fetch message
+              fetchChannel.messages
+                .fetch(`${checkUrl2[1]}`)
+                .then((message) => {
+                  //form embed
+                  const embed = new Discord.MessageEmbed()
+                    .setTitle("Message link contents")
+                    .setAuthor(
+                      message.author.username,
+                      message.author.avatarURL({
+                        format: "png",
+                        dynamic: true,
+                        size: 1024,
+                      })
+                    )
+                    .setThumbnail(
+                      message.author.avatarURL({
+                        format: "png",
+                        dynamic: true,
+                        size: 1024,
+                      })
+                    )
+                    .setDescription(`${message.content.slice(0, 1500)}`)
+                    .addField("Found in channel: ", message.channel)
+                    .setColor("RANDOM")
+                    .setFooter(
+                      moment
+                        .utc(message.createdTimestamp)
+                        .format("dddd, MMMM Do YYYY, HH:mm:ss")
+                    );
+
+                  if (message.content) {
+                    //send embed
+                    message.client.channels.cache.get(curChannel).send({
+                      embed: embed,
+                    });
+                  }
+                })
+                .catch(console.log(""));
+            }
+          }
+        }
       }
     }
 
@@ -511,6 +573,11 @@ module.exports = {
           //Write database
           supportID.inuse = `0`;
           setSupport.run(supportID);
+
+          //if mint
+          if (message.guild.id == "628978428019736619") {
+            message.channel.setParent("629017150266540062");
+          }
 
           //notify user
           return message.reply(`
@@ -592,6 +659,11 @@ module.exports = {
           //Write database
           supportID.inuse = `1`;
           setSupport.run(supportID);
+
+          //if mint
+          if (message.guild.id == "628978428019736619") {
+            message.channel.setParent("739592358177276026");
+          }
 
           //if mint server
           if (message.guild.id == "628978428019736619") {
@@ -712,8 +784,12 @@ module.exports = {
             const supTic2 = new Discord.MessageEmbed()
               .setTitle("Support case: " + caseNum)
               .setAuthor(
-                m.author.username,
-                m.author.avatarURL({ format: "png", dynamic: true, size: 1024 })
+                message.author.username,
+                message.author.avatarURL({
+                  format: "png",
+                  dynamic: true,
+                  size: 1024,
+                })
               )
               .setDescription("Your case has been submitted!")
               .addField("Your case number is: ", caseNum)
@@ -723,6 +799,11 @@ module.exports = {
             //Write database
             supportID.inuse = `1`;
             setSupport.run(supportID);
+
+            //if mint
+            if (message.guild.id == "628978428019736619") {
+              message.channel.setParent("739592358177276026");
+            }
 
             //send support embed
             message.reply({

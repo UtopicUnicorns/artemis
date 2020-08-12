@@ -222,6 +222,12 @@ client.once("ready", () => {
                   .send(
                     "Support session expired!\nYou can resume a session with:\n`resume caseNum`\nOr start a new session by simply typing:\n`help`"
                   );
+                //if mint
+                if (data.gid == "628978428019736619") {
+                  client.channels.cache
+                    .get(data.cid)
+                    .setParent("629017150266540062");
+                }
               }
             });
         }
@@ -521,7 +527,7 @@ emitter.on("item:new", (item) => {
     }
   } catch {
     //log JK fuck you
-    console.log('');
+    console.log("");
   }
 
   //next
