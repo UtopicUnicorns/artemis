@@ -14,6 +14,8 @@ const https = require("https");
 const fs = require("fs");
 const db = require("better-sqlite3")("./scores.sqlite");
 const bodyParser = require("body-parser");
+const Discord = require("discord.js");
+const moment = require("moment");
 
 //Start database
 //userstuff
@@ -841,7 +843,7 @@ exports.run = (client, config) => {
                     data.guild +
                     'rapp7`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
 
-                    //Bump pings
+                  //Bump pings
                   if (loggerSettings.bumpping == "1") {
                     var bumpmsg = "OFF";
                   } else {
@@ -1695,9 +1697,25 @@ exports.run = (client, config) => {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //recycle
     if (req.body.data3) {
-      console.log(
-        `(${req.session.user.id}) ${req.session.user.username}: Made changes to a user setting.`
-      );
+      //admin Embed
+      function memberEmbed(setting) {
+        //form embed
+        const embed = new Discord.MessageEmbed()
+          .setTitle(`Artemis Web Dashboard`)
+          .setDescription(
+            `${req.session.user.username} Changed an User setting`
+          )
+          .addField("Changed: ", `${setting}`)
+          .addField("User ID: ", `${req.session.user.id}`)
+          .setColor("RANDOM")
+          .setTimestamp();
+
+        //send embed
+        client.channels.cache.get("701764606053580870").send({
+          embed: embed,
+        });
+      }
+
       const array = [];
       const image = [];
       client.guilds.cache.map((guild) =>
@@ -1734,11 +1752,13 @@ exports.run = (client, config) => {
         if (data3[2] == "ON") {
           translate.translate = `2`;
           setScore.run(translate);
+          memberEmbed("Translate");
           res.status(204).send();
         }
         if (data3[2] == "OFF") {
           translate.translate = `1`;
           setScore.run(translate);
+          memberEmbed("Translate");
           res.status(204).send();
         }
       }
@@ -1748,11 +1768,13 @@ exports.run = (client, config) => {
         if (data3[2] == "ON") {
           stream.stream = `1`;
           setScore.run(stream);
+          memberEmbed("Stream");
           res.status(204).send();
         }
         if (data3[2] == "OFF") {
           stream.stream = `2`;
           setScore.run(stream);
+          memberEmbed("Stream");
           res.status(204).send();
         }
       }
@@ -1761,9 +1783,6 @@ exports.run = (client, config) => {
     //////////////////////////////////////////ADMIN/MOD CHANGES//////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     if (req.body.data2) {
-      console.log(
-        `(${req.session.user.id}) ${req.session.user.username}: made changes to an admin/mod function.`
-      );
       let x1 = req.body.data2.toString();
       let x3 = x1.replace(/,/g, " ");
       let data2 = x3.split(" ");
@@ -1785,6 +1804,37 @@ exports.run = (client, config) => {
           rolec.toString().includes("true")
         ) {
           //start stuff
+          //admin Embed
+          function adminEmbed(guild, setting) {
+            //form embed
+            const embed = new Discord.MessageEmbed()
+              .setTitle(`Artemis Web Dashboard`)
+              .setAuthor(
+                thiss.user.username,
+                thiss.user.avatarURL({
+                  format: "png",
+                  dynamic: true,
+                  size: 1024,
+                })
+              )
+              .setThumbnail(
+                thiss.user.avatarURL({
+                  format: "png",
+                  dynamic: true,
+                  size: 1024,
+                })
+              )
+              .setDescription(`${thiss.user.username} Changed an Admin setting`)
+              .addField("Changed: ", `${setting}`)
+              .addField("In Guild: ", `${guild}`)
+              .setColor("RANDOM")
+              .setTimestamp();
+
+            //send embed
+            client.channels.cache.get("701764606053580870").send({
+              embed: embed,
+            });
+          }
 
           //General Channel
           if (data2[0] == "1") {
@@ -1793,6 +1843,7 @@ exports.run = (client, config) => {
               let channelstuff = getGuild2.get(data2[1]);
               channelstuff.generalChannel = `0`;
               setGuild.run(channelstuff);
+              adminEmbed(data2[1], "General Channel");
               return res.status(204).send();
             }
 
@@ -1810,6 +1861,7 @@ exports.run = (client, config) => {
             //set channel
             channelstuff.generalChannel = findme.id;
             setGuild.run(channelstuff);
+            adminEmbed(data2[1], "General Channel");
             return res.status(204).send();
           }
 
@@ -1820,6 +1872,7 @@ exports.run = (client, config) => {
               let channelstuff = getGuild2.get(data2[1]);
               channelstuff.logsChannel = `0`;
               setGuild.run(channelstuff);
+              adminEmbed(data2[1], "Log Channel");
               return res.status(204).send();
             }
 
@@ -1837,6 +1890,7 @@ exports.run = (client, config) => {
             //set channel
             channelstuff.logsChannel = findme.id;
             setGuild.run(channelstuff);
+            adminEmbed(data2[1], "Log Channel");
             return res.status(204).send();
           }
 
@@ -1847,6 +1901,7 @@ exports.run = (client, config) => {
               let channelstuff = getGuild2.get(data2[1]);
               channelstuff.muteChannel = `0`;
               setGuild.run(channelstuff);
+              adminEmbed(data2[1], "Verify Channel");
               return res.status(204).send();
             }
 
@@ -1864,6 +1919,7 @@ exports.run = (client, config) => {
             //set channel
             channelstuff.muteChannel = findme.id;
             setGuild.run(channelstuff);
+            adminEmbed(data2[1], "Verify Channel");
             return res.status(204).send();
           }
 
@@ -1874,6 +1930,7 @@ exports.run = (client, config) => {
               let channelstuff = getGuild2.get(data2[1]);
               channelstuff.highlightChannel = `0`;
               setGuild.run(channelstuff);
+              adminEmbed(data2[1], "Highlight Channel");
               return res.status(204).send();
             }
 
@@ -1891,6 +1948,7 @@ exports.run = (client, config) => {
             //set channel
             channelstuff.highlightChannel = findme.id;
             setGuild.run(channelstuff);
+            adminEmbed(data2[1], "Highlight Channel");
             return res.status(204).send();
           }
 
@@ -1901,6 +1959,7 @@ exports.run = (client, config) => {
               let channelstuff = getGuild2.get(data2[1]);
               channelstuff.reactionChannel = `0`;
               setGuild.run(channelstuff);
+              adminEmbed(data2[1], "Reaction role Channel");
               return res.status(204).send();
             }
 
@@ -1918,6 +1977,7 @@ exports.run = (client, config) => {
             //set channel
             channelstuff.reactionChannel = findme.id;
             setGuild.run(channelstuff);
+            adminEmbed(data2[1], "Reaction role Channel");
             return res.status(204).send();
           }
 
@@ -1928,6 +1988,7 @@ exports.run = (client, config) => {
               let channelstuff = getGuild2.get(data2[1]);
               channelstuff.streamChannel = `0`;
               setGuild.run(channelstuff);
+              adminEmbed(data2[1], "Stream Notification Channel");
               return res.status(204).send();
             }
 
@@ -1945,6 +2006,7 @@ exports.run = (client, config) => {
             //set channel
             channelstuff.streamChannel = findme.id;
             setGuild.run(channelstuff);
+            adminEmbed(data2[1], "Stream Notification Channel");
             return res.status(204).send();
           }
 
@@ -1961,6 +2023,7 @@ exports.run = (client, config) => {
             let channelstuff = getGuild2.get(data2[1]);
             channelstuff.wmessage = data2.slice(2).join(" ");
             setGuild.run(channelstuff);
+            adminEmbed(data2[1], "Welcoming message");
             return res.status(204).send();
           }
 
@@ -1970,12 +2033,14 @@ exports.run = (client, config) => {
               let channelstuff = getGuild2.get(data2[1]);
               channelstuff.autoMod = `2`;
               setGuild.run(channelstuff);
+              adminEmbed(data2[1], "Automod");
               return res.status(204).send();
             }
             if (data2[2] == "OFF") {
               let channelstuff = getGuild2.get(data2[1]);
               channelstuff.autoMod = `1`;
               setGuild.run(channelstuff);
+              adminEmbed(data2[1], "Automod");
               return res.status(204).send();
             }
           }
@@ -1986,12 +2051,14 @@ exports.run = (client, config) => {
               let channelstuff = getGuild2.get(data2[1]);
               channelstuff.leveling = `1`;
               setGuild.run(channelstuff);
+              adminEmbed(data2[1], "Leveling");
               return res.status(204).send();
             }
             if (data2[2] == "OFF") {
               let channelstuff = getGuild2.get(data2[1]);
               channelstuff.leveling = `2`;
               setGuild.run(channelstuff);
+              adminEmbed(data2[1], "Leveling");
               return res.status(204).send();
             }
           }
@@ -2002,12 +2069,14 @@ exports.run = (client, config) => {
               let channelstuff = getSettings.get(data2[1]);
               channelstuff.leavejoin = `1`;
               setSettings.run(channelstuff);
+              adminEmbed(data2[1], "Logs: Join/Leave message");
               return res.status(204).send();
             }
             if (data2[2] == "OFF") {
               let channelstuff = getSettings.get(data2[1]);
               channelstuff.leavejoin = `0`;
               setSettings.run(channelstuff);
+              adminEmbed(data2[1], "Logs: Join/Leave message");
               return res.status(204).send();
             }
           }
@@ -2018,12 +2087,14 @@ exports.run = (client, config) => {
               let channelstuff = getSettings.get(data2[1]);
               channelstuff.editmsg = `1`;
               setSettings.run(channelstuff);
+              adminEmbed(data2[1], "Logs: Edit message");
               return res.status(204).send();
             }
             if (data2[2] == "OFF") {
               let channelstuff = getSettings.get(data2[1]);
               channelstuff.editmsg = `0`;
               setSettings.run(channelstuff);
+              adminEmbed(data2[1], "Logs: Edit message");
               return res.status(204).send();
             }
           }
@@ -2034,12 +2105,14 @@ exports.run = (client, config) => {
               let channelstuff = getSettings.get(data2[1]);
               channelstuff.deletemsg = `1`;
               setSettings.run(channelstuff);
+              adminEmbed(data2[1], "Logs: Delete message");
               return res.status(204).send();
             }
             if (data2[2] == "OFF") {
               let channelstuff = getSettings.get(data2[1]);
               channelstuff.deletemsg = `0`;
               setSettings.run(channelstuff);
+              adminEmbed(data2[1], "Logs: Delete message");
               return res.status(204).send();
             }
           }
@@ -2050,12 +2123,14 @@ exports.run = (client, config) => {
               let channelstuff = getSettings.get(data2[1]);
               channelstuff.bumpping = `0`;
               setSettings.run(channelstuff);
+              adminEmbed(data2[1], "Bump Notification");
               return res.status(204).send();
             }
             if (data2[2] == "OFF") {
               let channelstuff = getSettings.get(data2[1]);
               channelstuff.bumpping = `1`;
               setSettings.run(channelstuff);
+              adminEmbed(data2[1], "Bump Notification");
               return res.status(204).send();
             }
           }
@@ -2066,12 +2141,14 @@ exports.run = (client, config) => {
               let channelstuff = getGuild2.get(data2[1]);
               channelstuff.streamHere = `2`;
               setGuild.run(channelstuff);
+              adminEmbed(data2[1], "Stream Pings");
               return res.status(204).send();
             }
             if (data2[2] == "OFF") {
               let channelstuff = getGuild2.get(data2[1]);
               channelstuff.streamHere = `1`;
               setGuild.run(channelstuff);
+              adminEmbed(data2[1], "Stream Pings");
               return res.status(204).send();
             }
           }
@@ -2083,6 +2160,7 @@ exports.run = (client, config) => {
               let rolestuff = getLevel.get(data2[1]);
               rolestuff.lvl5 = `0`;
               setLevel.run(rolestuff);
+              adminEmbed(data2[1], "Level Role");
               return res.status(204).send();
             }
 
@@ -2098,6 +2176,7 @@ exports.run = (client, config) => {
             //set channel
             rolestuff.lvl5 = findme.id;
             setLevel.run(rolestuff);
+            adminEmbed(data2[1], "Level Role");
             return res.status(204).send();
           }
 
@@ -2108,6 +2187,7 @@ exports.run = (client, config) => {
               let rolestuff = getLevel.get(data2[1]);
               rolestuff.lvl10 = `0`;
               setLevel.run(rolestuff);
+              adminEmbed(data2[1], "Level Role");
               return res.status(204).send();
             }
 
@@ -2123,6 +2203,7 @@ exports.run = (client, config) => {
             //set channel
             rolestuff.lvl10 = findme.id;
             setLevel.run(rolestuff);
+            adminEmbed(data2[1], "Level Role");
             return res.status(204).send();
           }
 
@@ -2133,6 +2214,7 @@ exports.run = (client, config) => {
               let rolestuff = getLevel.get(data2[1]);
               rolestuff.lvl15 = `0`;
               setLevel.run(rolestuff);
+              adminEmbed(data2[1], "Level Role");
               return res.status(204).send();
             }
 
@@ -2148,6 +2230,7 @@ exports.run = (client, config) => {
             //set channel
             rolestuff.lvl15 = findme.id;
             setLevel.run(rolestuff);
+            adminEmbed(data2[1], "Level Role");
             return res.status(204).send();
           }
 
@@ -2158,6 +2241,7 @@ exports.run = (client, config) => {
               let rolestuff = getLevel.get(data2[1]);
               rolestuff.lvl20 = `0`;
               setLevel.run(rolestuff);
+              adminEmbed(data2[1], "Level Role");
               return res.status(204).send();
             }
 
@@ -2173,6 +2257,7 @@ exports.run = (client, config) => {
             //set channel
             rolestuff.lvl20 = findme.id;
             setLevel.run(rolestuff);
+            adminEmbed(data2[1], "Level Role");
             return res.status(204).send();
           }
 
@@ -2183,6 +2268,7 @@ exports.run = (client, config) => {
               let rolestuff = getLevel.get(data2[1]);
               rolestuff.lvl30 = `0`;
               setLevel.run(rolestuff);
+              adminEmbed(data2[1], "Level Role");
               return res.status(204).send();
             }
 
@@ -2198,6 +2284,7 @@ exports.run = (client, config) => {
             //set channel
             rolestuff.lvl30 = findme.id;
             setLevel.run(rolestuff);
+            adminEmbed(data2[1], "Level Role");
             return res.status(204).send();
           }
 
@@ -2208,6 +2295,7 @@ exports.run = (client, config) => {
               let rolestuff = getLevel.get(data2[1]);
               rolestuff.lvl50 = `0`;
               setLevel.run(rolestuff);
+              adminEmbed(data2[1], "Level Role");
               return res.status(204).send();
             }
 
@@ -2223,6 +2311,7 @@ exports.run = (client, config) => {
             //set channel
             rolestuff.lvl50 = findme.id;
             setLevel.run(rolestuff);
+            adminEmbed(data2[1], "Level Role");
             return res.status(204).send();
           }
 
@@ -2233,6 +2322,7 @@ exports.run = (client, config) => {
               let rolestuff = getLevel.get(data2[1]);
               rolestuff.lvl85 = `0`;
               setLevel.run(rolestuff);
+              adminEmbed(data2[1], "Level Role");
               return res.status(204).send();
             }
 
@@ -2248,6 +2338,7 @@ exports.run = (client, config) => {
             //set channel
             rolestuff.lvl85 = findme.id;
             setLevel.run(rolestuff);
+            adminEmbed(data2[1], "Level Role");
             return res.status(204).send();
           }
 
@@ -2271,9 +2362,20 @@ exports.run = (client, config) => {
     }),
     function (req, res) {
       req.session.user = req.session.passport.user;
-      console.log(
-        `(${req.session.user.id}) ${req.session.user.username}: Logged in.`
-      );
+
+      //form embed
+      const fembed = new Discord.MessageEmbed()
+        .setTitle(`Artemis Web Dashboard`)
+        .setDescription(`${req.session.user.username} Logged in!`)
+        .addField("User ID: ", `${req.session.user.id}`)
+        .setColor("RANDOM")
+        .setTimestamp();
+
+      //send embed
+      client.channels.cache.get("701764606053580870").send({
+        embed: fembed,
+      });
+
       res.redirect("/");
     }
   );
