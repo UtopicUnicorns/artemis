@@ -222,6 +222,27 @@ exports.dbinit = function () {
     db.pragma("journal_mode = wal");
   }
 
+  //////////////////////
+  //Admin Cases     DB//
+  //////////////////////
+  const table14 = db
+    .prepare(
+      "SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'admincases';"
+    )
+    .get();
+  if (!table14["count(*)"]) {
+    db.prepare("CREATE TABLE admincases (guildidcaseid TEXT PRIMARY KEY, caseid INTEGER, guildid TEXT, userid TEXT, username TEXT, type TEXT, reason TEXT, date TEXT);").run();
+    db.prepare("CREATE UNIQUE INDEX idx_admincases_id ON admincases (guildidcaseid);").run();
+    db.pragma("synchronous = 1");
+    db.pragma("journal_mode = wal");
+  }
+
+   //run admincases
+   getACase = db.prepare("SELECT * FROM admincases WHERE guildid = ?");
+   setACase = db.prepare(
+     "INSERT OR REPLACE INTO admincases (guildidcaseid, caseid, guildid, userid, username, type, reason, date) VALUES (@guildidcaseid, @caseid, @guildid, @userid, @username, @type, @reason, @date);"
+   );
+
   //run uwu
   getUwu = db.prepare("SELECT * FROM uwu WHERE cid = ? AND gid = ?");
   setUwu = db.prepare(
