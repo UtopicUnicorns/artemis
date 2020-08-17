@@ -10,7 +10,8 @@ dbinit.dbinit();
 module.exports = {
   name: "level",
   description: "[level] Show your points and level",
-  explain: `This command will show you your level, points, points to next level and warning amount via a nice and neat image.`,
+  explain: `This command will show you your level, points, points to next level and warning amount via a nice and neat image.
+  \`level id UserID\` will show you points of a user who has been deleted/banned`,
   async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
@@ -49,6 +50,91 @@ module.exports = {
           var user = message.guild.members.cache.get(
             message.mentions.users.first().id
           );
+        }
+
+        //if removed
+        if (args[0] == "id") {
+          //if no args 2
+          if (!args[1]) return message.reply("Please provide an user ID");
+
+          //pull user from database
+          let userscore = getScore.get(args[1], message.guild.id);
+
+          //if no entry
+          if (!userscore)
+            return message.reply(
+              "This user does not have a database index yet."
+            );
+
+          //math
+          let userLevel = Math.floor(0.5 * Math.sqrt(userscore.points));
+          userscore.level = userLevel;
+          setScore.run(userscore);
+
+          //more math
+          let mathlev = userscore.level;
+          let mathpoint = userscore.points;
+          let mathwarn = userscore.warning;
+          let math0 = Math.floor(Math.pow(mathlev, 2) * 4);
+          let math1 = Math.floor(mathlev + 1);
+          let math2 = Math.floor(Math.pow(math1, 2) * 4);
+          let math3 = Math.floor(math2 - mathpoint);
+          let math4 = Math.floor(math2 / math3);
+          let math5 = Math.floor(((mathpoint - math0) / (math2 - math0)) * 100);
+          let math6 = Math.floor((700 / 100) * math5);
+
+          //build canvas
+          const canvas = Canvas.createCanvas(700, 250);
+          const ctx = canvas.getContext("2d");
+          const background = await Canvas.loadImage(
+            "./modules/img/mintwelcome.png"
+          );
+          ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+          ctx.font = "30px sans-serif";
+          ctx.shadowColor = "black";
+          ctx.shadowBlur = 5;
+          ctx.fillStyle = "#FFFFFF";
+          ctx.fillText(`${args[1]}`, 175, 100);
+          ctx.font = "25px sans-serif";
+          ctx.shadowColor = "black";
+          ctx.shadowBlur = 5;
+          ctx.fillStyle = "#ffffff";
+          ctx.fillText(
+            `Level: ${mathlev}\nPoints to next level: ${math3.toLocaleString()}`,
+            175,
+            135
+          );
+          if (mathwarn > 0) {
+            const avatar = await Canvas.loadImage("./modules/img/alert.png");
+            ctx.drawImage(avatar, 600, 150, 50, 50);
+            ctx.font = "30px sans-serif";
+            ctx.shadowColor = "black";
+            ctx.shadowBlur = 5;
+            ctx.fillStyle = "#FFFFFF";
+            ctx.fillText(mathwarn, 650, 175);
+          }
+          ctx.globalAlpha = 0.2;
+          ctx.fillStyle = "white";
+          ctx.fillRect(0, 200, 700, 50);
+          ctx.globalAlpha = 1.0;
+          ctx.fillStyle = "green";
+          ctx.fillRect(0, 200, math6, 50);
+          ctx.font = "25px sans-serif";
+          ctx.shadowColor = "black";
+          ctx.shadowBlur = 5;
+          ctx.fillStyle = "#ffffff";
+          ctx.fillText(
+            `${mathpoint.toLocaleString()} / ${math2.toLocaleString()} points`,
+            50,
+            235
+          );
+          const attachment = new Discord.MessageAttachment(
+            canvas.toBuffer(),
+            "level.png"
+          );
+
+          //send image
+          return message.channel.send(attachment);
         }
 
         //if no user
