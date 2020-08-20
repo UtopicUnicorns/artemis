@@ -11,7 +11,7 @@ module.exports = {
   name: "info",
   description: "[general] Display server info",
   explain: `This command will show you server statistics.`,
-  execute(message) {
+  async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
@@ -31,65 +31,138 @@ module.exports = {
       size: 1024,
     });
 
-    //function for converting time
-    function convertMS(milliseconds) {
-      var day, hour, minute, seconds;
-      seconds = Math.floor(milliseconds / 1000);
-      minute = Math.floor(seconds / 60);
-      seconds = seconds % 60;
-      hour = Math.floor(minute / 60);
-      minute = minute % 60;
-      day = Math.floor(hour / 24);
-      hour = hour % 24;
-      return {
-        day: day,
-        hour: hour,
-        minute: minute,
-        seconds: seconds,
-      };
+    //array
+    let inver = [];
+
+    //get leveling
+    let levelthing = getGuild.get(message.guild.id);
+
+    //proccess leveling
+    if (levelthing.leveling == "2") {
+      var levelstat = "OFF";
+    } else {
+      var levelstat = "ON";
     }
 
-    //define and convert time
-    let timers = convertMS(message.client.uptime);
+    //process stream pings
+    if (levelthing.streamHere == "2") {
+      var streamstat = "ON";
+    } else {
+      var streamstat = "OFF";
+    }
+
+    //process automod
+    if (levelthing.automod == "2") var autostat = "ON";
+    if (levelthing.automod == "1" || "0") var autostat = "OFF";
+    if (levelthing.automod == "strict") var autostat = "strict";
+
+    //get invites
+    await message.guild.fetchInvites().then((invites) => {
+      for (let i of invites) {
+        if (i[1].maxAge == "0") inver.push(i[0]);
+      }
+    });
+
+    if (!inver[0]) {
+      var letInvite = "No Active Permanent Invite.";
+    } else {
+      var letInvite = `https://discord.com/invite/${inver[0]}`;
+    }
+
+    //levelget
+    let levelget = getLevel.get(message.guild.id);
 
     //for membed
     let serverembed = new Discord.MessageEmbed()
       .setColor("RANDOM")
       .setThumbnail(sicon)
-      .setAuthor(message.guild.name)
-      .addField("Name", message.guild.name, inline)
+      .setAuthor(message.guild.name, sicon)
       .addField("ID", message.guild.id, inline)
       .addField("Owner", message.guild.owner, inline)
       .addField("Region", message.guild.region, inline)
       .addField("Members", `${message.guild.memberCount}`, inline)
       .addField("Roles", message.guild.roles.cache.size, inline)
-      .addField("Channels", message.guild.channels.cache.size, inline)
       .addField(
-        "Uptime: ",
-        "Day [" +
-          timers.day +
-          "], Hour [" +
-          timers.hour +
-          "], Minute [" +
-          timers.minute +
-          "], Seconds [" +
-          timers.seconds +
-          "]"
+        "Channels",
+        `💬: ${
+          message.guild.channels.cache.filter(
+            (channel) => channel.type === "text"
+          ).size
+        } 🔈: ${
+          message.guild.channels.cache.filter(
+            (channel) => channel.type === "voice"
+          ).size
+        } `,
+        inline
       )
+      .addField("Guild Invite: ", letInvite, inline)
+      .addField("Autmod mode: ", autostat, inline)
+      .addField("Stream Pings: ", streamstat, inline)
+      .addField("Leveling: ", levelstat, inline)
       .addField(
-        "Ram: ",
-        (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2) + "MB"
-      )
-      .addField("Total servers", message.client.guilds.cache.size)
-      .addField("Total users: ", message.client.users.cache.size)
+        "Channels: ",
+        `
+        Welcome:
+        ${message.guild.channels.cache.find(
+          (channel) => channel.id === levelthing.generalChannel
+        )}
+
+        Mute/Verify:
+        ${message.guild.channels.cache.find(
+          (channel) => channel.id === levelthing.muteChannel
+        )}
+
+        Logs:
+        ${message.guild.channels.cache.find(
+          (channel) => channel.id === levelthing.logsChannel
+        )}
+
+        Highlights:
+        ${message.guild.channels.cache.find(
+          (channel) => channel.id === levelthing.highlightChannel
+        )}
+
+        Reaction Roles:
+        ${message.guild.channels.cache.find(
+          (channel) => channel.id === levelthing.reactionChannel
+        )}
+
+       Stream: 
+        ${message.guild.channels.cache.find(
+          (channel) => channel.id === levelthing.streamChannel
+        )}
+      `
+      , inline)
       .addField(
-        "You Joined",
-        moment
-          .utc(message.member.joinedAt)
-          .format("dddd, MMMM Do YYYY, HH:mm:ss")
+        "Level Roles:",
+        `
+            5:
+            ${message.guild.roles.cache.find((r) => r.id === levelget.lvl5)}
+
+            10:
+            ${message.guild.roles.cache.find((r) => r.id === levelget.lvl10)}
+
+            15:
+            ${message.guild.roles.cache.find((r) => r.id === levelget.lvl15)}
+
+            20:
+            ${message.guild.roles.cache.find((r) => r.id === levelget.lvl20)}
+
+            30:
+            ${message.guild.roles.cache.find((r) => r.id === levelget.lvl30)}
+
+            50:
+            ${message.guild.roles.cache.find((r) => r.id === levelget.lvl50)}
+
+            85:
+            ${message.guild.roles.cache.find((r) => r.id === levelget.lvl85)}
+          
+      `,
+        inline
       )
+
       .setFooter(
-        `Created ${moment
+        `This guild was created at ${moment
           .utc(message.guild.createdAt)
           .format("dddd, MMMM Do YYYY, HH:mm:ss")}`
       );

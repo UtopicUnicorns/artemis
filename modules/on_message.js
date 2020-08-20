@@ -166,6 +166,57 @@ module.exports = {
           }
         }
 
+        //discordserver.info
+        if (message.author.username.includes("DSMonitoring")) {
+          //if this
+          if (message.embeds[0]) {
+            //if the discordserver response is bump done
+            if (
+              message.embeds[0] && message.embeds[0].description.includes(
+                "You successfully liked the server."
+              )
+            ) {
+              //define guild channel
+              let guildChannels2 = getGuild.get(message.guild.id);
+
+              //proceed if valid guild
+              if (guildChannels2) {
+                //fetch latest message that bumped
+                message.channel.messages.fetch().then((messages) => {
+                  let dbumper = messages
+                    .filter((msg) =>
+                      msg.content.toLowerCase().startsWith("!like")
+                    )
+                    .map((msg) => msg.author.id);
+                  message.channel.send(
+                    "You bumped for DiscordServer.info!\nIn 4 hours we will ping you.\n<@" +
+                      dbumper[0] +
+                      ">"
+                  );
+
+                  //define database entry
+                  let settime = 14400000;
+                  let remindtext = "Time for your next `!like`";
+                  let datefor = moment()
+                    .add(settime, "ms")
+                    .format("YYYYMMDDHHmmss");
+                  timerset = {
+                    mid: message.id,
+                    cid: message.channel.id,
+                    gid: message.guild.id,
+                    uid: dbumper[0],
+                    time: datefor,
+                    reminder: remindtext,
+                  };
+
+                  //run db
+                  setRemind.run(timerset);
+                });
+              }
+            }
+          }
+        }
+
         //DiscordServers
         //If it's the DiscordServers bot
         if (message.author.id == "115385224119975941") {
@@ -569,7 +620,7 @@ module.exports = {
         }
 
         //if user says done
-        if (message.content.toLowerCase() == "done") {
+        if (message.content.toLowerCase() == prefix + "done") {
           //Write database
           supportID.inuse = `0`;
           setSupport.run(supportID);
@@ -583,7 +634,7 @@ module.exports = {
           return message.reply(`
             Wrapping this up, we are done here!\n
             You can resume your session if needed with 
-            \`resume caseNum\`
+            \`${prefix}resume caseNum\`
             \nTo the person who answered use:
               \`${prefix}support answer caseNum <Answer>\``);
         }
@@ -591,8 +642,8 @@ module.exports = {
         //if no support session
         if (
           message.content.toLowerCase().startsWith("help") ||
-          message.content.toLowerCase().startsWith("resume") ||
-          message.content.toLowerCase().startsWith("!support")
+          message.content.toLowerCase().startsWith(prefix + "resume") ||
+          message.content.toLowerCase().startsWith(prefix + "support")
         ) {
           supportGet.add(message.guild.id);
         } else {
@@ -601,7 +652,9 @@ module.exports = {
           } else {
             //notify
             message.reply(
-              "There is no help session activated, start one by simply writing:\n`help`\nOr resume a case with:\n`resume CaseNum`"
+              "There is no help session activated, start one by simply writing:\n`help`\nOr resume a case with:\n" +
+                prefix +
+                "`resume CaseNum`"
             );
 
             //add user to the set
@@ -615,9 +668,9 @@ module.exports = {
         }
 
         //if message is resume
-        if (message.content.toLowerCase().startsWith("resume")) {
+        if (message.content.toLowerCase().startsWith(prefix + "resume")) {
           //create args
-          let prevCase = message.content.slice(7).split(" ");
+          let prevCase = message.content.slice(prefix.length + 7).split(" ");
 
           //get the case entry
           let prevCaseGet = getSupCase.get(prevCase[0]);
@@ -1137,11 +1190,11 @@ module.exports = {
     /*   //EVENT
   if (message.guild.id == "628978428019736619") {
     let eventnumber = 25;
-    let eventnumber2 = Math.floor(Math.random() * 50);
+    let eventnumber2 = Math.floor(Math.random() * 100);
     if (eventnumber2 == eventnumber) {
-      let eventcheck = message.member.roles.cache.find(r => r.name === `512Mb`);
+      let eventcheck = message.member.roles.cache.find(r => r.name === `1024Mb`);
       if (!eventcheck) {
-        let eventr = message.guild.roles.cache.find(r => r.name === `512Mb`);
+        let eventr = message.guild.roles.cache.find(r => r.name === `1024Mb`);
         if (!eventr) return;
         message.member.roles.add(eventr);
         const eventembed = new Discord.MessageEmbed()
@@ -1149,10 +1202,10 @@ module.exports = {
           .setColor("RANDOM")
           .setDescription(
             message.author +
-              "\n earned the event title:\n512Mb\nCongratulations!"
+              "\n earned the event title:\n1024Mb\nCongratulations!"
           )
           .setTimestamp();
-        message.client.channels.cache.get(`628984660298563584`).send({
+        message.client.channels.cache.get(`695182849476657223`).send({
           embed: eventembed
         });
       }

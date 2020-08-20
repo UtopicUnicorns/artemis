@@ -270,8 +270,7 @@ module.exports = {
 
       //react with arrow
       message
-        .react("⬅️")
-        .then(() => message.react("🔂"))
+        .react("🔂")
         .then(() => message.react("🇦"))
         .then(() => message.react("🇧"))
         .then(() => message.react("🇨"))
@@ -280,30 +279,18 @@ module.exports = {
         .then(() => message.react("🇫"))
         .then(() => message.react("🇬"))
         .then(() => message.react("🇭"))
-        .then(() => message.react("🇮"))
-        .then(() => message.react("➡️"));
+        .then(() => message.react("🇮"));
 
       //form collector
       const collector = message.createReactionCollector(
         //Respond to author
         (reaction, user) =>
-          [
-            "⬅️",
-            "🔂",
-            "🇦",
-            "🇧",
-            "🇨",
-            "🇩",
-            "🇪",
-            "🇫",
-            "🇬",
-            "🇭",
-            "🇮",
-            "➡️",
-          ].includes(reaction.emoji.name) && user.id === author.id,
+          ["🔂", "🇦", "🇧", "🇨", "🇩", "🇪", "🇫", "🇬", "🇭", "🇮"].includes(
+            reaction.emoji.name
+          ) && user.id === author.id,
 
         //timeout
-        { time: 300000 }
+        { time: 3000000 }
       );
 
       //current page
@@ -319,10 +306,6 @@ module.exports = {
       collector.on("collect", (reaction) => {
         //Remove reaction
         reaction.users.remove(author.id);
-
-        //increase/decrease index
-        if (reaction.emoji.name === "⬅️") currentIndex -= 1;
-        if (reaction.emoji.name === "➡️") currentIndex += 1;
 
         //index shoot
         if (reaction.emoji.name === "🔂") currentIndex = 0;

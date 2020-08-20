@@ -154,8 +154,10 @@ module.exports = {
             "You have not altered the reason, please try again."
           );
 
+          let c1 = message.content.split(" ");
+
         //new args
-        let sargs = message.content.slice(args[0].length + args[1].length);
+        let sargs = message.content.slice(prefix.length + c1[0].length + c1[1].length + c1[2].length + 2);
 
         //run answer
         GetCaseGet.reason = sargs;
