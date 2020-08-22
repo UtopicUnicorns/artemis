@@ -32,80 +32,125 @@ module.exports = {
     const cargs = message.content.slice(prefix.length + 10);
 
     //if no args
-    if (!args)
-      return message.reply("Provide 2 more args not/yes + roleID/roleName");
+    if (!args[0] || !args[1])
+      return message.reply(`
+      Format:
+      \`${prefix}check yes RoleName/RoleID\`
+      \`${prefix}check not RoleName/RoleID\`
+      `);
 
     //throw all members into an array
     let array = await message.guild.members.cache.map((m) => m);
 
-    //if args is not
-    if (args[0] == "not") {
-      //to be filled
-      let str = "";
+    //roles
+    const role =
+      (await message.guild.roles.cache.find((r) => r.id === cargs)) ||
+      (await message.guild.roles.cache.find((r) => r.name === cargs));
 
-      //loop array
-      for (let i of array) {
-        //if cannot find the role
-        if (
-          !i.roles.cache.find((r) => r.name === cargs) ||
-          i.roles.cache.find((r) => r.id === cargs)
-        ) {
-          //push into array
-          str += `${i}\n`;
-        }
-      }
+    //if not a role
+    if (!role) return message.reply("This role was not found.");
 
-      //define role
-      let role =
-        message.guild.roles.cache.find((r) => r.id === cargs) ||
-        message.guild.roles.cache.find((r) => r.name === cargs);
+    //final array
+    let str = [];
 
-      //build embed
-      const check = new Discord.MessageEmbed()
-        .setTitle("RoleCheck")
-        .setColor("RANDOM")
-        .addField("These users do not have: ", `${role} \n\n ${str}`)
-        .setTimestamp();
+    //switch
+    switch (args[0]) {
+      //if case is not
+      case "not":
+        //loop array
+        for (let i of array)
+          if (!i.roles.cache.find((r) => r.id === role.id))
+            if (!i.user.bot)
+              str.push(
+                `${i} / ${i.id}\n${i.user.username}\nDoes not have ${role}`
+              );
 
-      //send embed
-      return message.channel.send({
-        embed: check,
-      });
+        break;
+
+      //if case is yes
+      case "yes":
+        //loop array
+        for (let i of array)
+          if (i.roles.cache.find((r) => r.id === role.id))
+            if (!i.user.bot)
+              str.push(`${i} / ${i.id}\n${i.user.username}\nDoes have ${role}`);
+
+        break;
     }
 
-    //if args is yes
-    if (args[0] == "yes") {
-      //empty stuff
-      let str = "";
+    //continue
+    /**
+     * Creates an embed with guilds starting from an index.
+     * @param {number} start The index to start from.
+     */
+    const generateEmbed = (start) => {
+      const current = str.slice(start, start + 10);
 
-      //loop array
-      for (let i of array) {
-        //if can find role
-        if (
-          i.roles.cache.find((r) => r.name === cargs) ||
-          i.roles.cache.find((r) => r.id === cargs)
-        ) {
-          //push into emty stuff
-          str += `${i}\n`;
-        }
-      }
-
-      //define role
-      let role =
-        message.guild.roles.cache.find((r) => r.id === cargs) ||
-        message.guild.roles.cache.find((r) => r.name === cargs);
-
-      //build embed
-      const check = new Discord.MessageEmbed()
-        .setTitle("RoleCheck")
+      //Embed template
+      const embed = new Discord.MessageEmbed()
+        .setTitle(`${start + 1}-${start + current.length} / ${str.length}`)
         .setColor("RANDOM")
-        .addField("These users have: ", `${role} \n\n ${str}`)
-        .setTimestamp();
+        .setThumbnail(
+          message.guild.iconURL({
+            format: "png",
+            dynamic: true,
+            size: 1024,
+          })
+        )
+        .setAuthor(
+          message.guild.name,
+          message.guild.iconURL({
+            format: "png",
+            dynamic: true,
+            size: 1024,
+          })
+        );
 
-      //send embed
-      return message.channel.send({
-        embed: check,
+      current.forEach((g) => embed.addField("\u200B", g));
+      return embed;
+    };
+
+    //Define user
+    const author = message.author;
+
+    //First emb
+    message.channel.send(generateEmbed(0)).then((message) => {
+      //If length is below 10
+      if (str.length <= 10) return;
+
+      //At start only right arrow is needed
+      message.react("➡️");
+
+      //form collector
+      const collector = message.createReactionCollector(
+        //Collect left and right from user
+        (reaction, user) =>
+          ["⬅️", "➡️"].includes(reaction.emoji.name) && user.id === author.id,
+
+        //time out
+        { time: 600000 }
+      );
+
+      //current page is 0
+      let currentIndex = 0;
+
+      //on collect event
+      collector.on("collect", (reaction) => {
+        //remove the existing reactions
+        message.reactions.removeAll().then(async () => {
+          // increase/decrease index
+          reaction.emoji.name === "⬅️"
+            ? (currentIndex -= 10)
+            : (currentIndex += 10);
+
+          //gen new embed
+          message.edit(generateEmbed(currentIndex));
+
+          //apropriate emojis
+          if (currentIndex !== 0) await message.react("⬅️");
+          if (currentIndex + 10 < str.length) message.react("➡️");
+        });
       });
-    }
+    });
   },
 };

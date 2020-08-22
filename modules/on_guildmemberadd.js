@@ -467,7 +467,7 @@ module.exports = {
         if (
           guildMember.user.username
             .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/[\u0300-\u036f]/g, "").replace(/\s/g, '')
             .toLowerCase()
             .includes(i)
         )
