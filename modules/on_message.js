@@ -167,51 +167,53 @@ module.exports = {
         }
 
         //discordserver.info
-        if (message.author.username.includes("DSMonitoring")) {
+        if (message.author.id == "575776004233232386") {
           //if this
           if (message.embeds[0]) {
             //if the discordserver response is bump done
-            if (
-              message.embeds[0] && message.embeds[0].description.includes(
-                "You successfully liked the server."
-              )
-            ) {
-              //define guild channel
-              let guildChannels2 = getGuild.get(message.guild.id);
+            if (message.embeds[0] && message.embeds[0].description) {
+              if (
+                message.embeds[0].description.includes(
+                  "You successfully liked the server."
+                )
+              ) {
+                //define guild channel
+                let guildChannels2 = getGuild.get(message.guild.id);
 
-              //proceed if valid guild
-              if (guildChannels2) {
-                //fetch latest message that bumped
-                message.channel.messages.fetch().then((messages) => {
-                  let dbumper = messages
-                    .filter((msg) =>
-                      msg.content.toLowerCase().startsWith("!like")
-                    )
-                    .map((msg) => msg.author.id);
-                  message.channel.send(
-                    "You bumped for DiscordServer.info!\nIn 4 hours we will ping you.\n<@" +
-                      dbumper[0] +
-                      ">"
-                  );
+                //proceed if valid guild
+                if (guildChannels2) {
+                  //fetch latest message that bumped
+                  message.channel.messages.fetch().then((messages) => {
+                    let dbumper = messages
+                      .filter((msg) =>
+                        msg.content.toLowerCase().startsWith("!like")
+                      )
+                      .map((msg) => msg.author.id);
+                    message.channel.send(
+                      "You bumped for DiscordServer.info!\nIn 4 hours we will ping you.\n<@" +
+                        dbumper[0] +
+                        ">"
+                    );
 
-                  //define database entry
-                  let settime = 14400000;
-                  let remindtext = "Time for your next `!like`";
-                  let datefor = moment()
-                    .add(settime, "ms")
-                    .format("YYYYMMDDHHmmss");
-                  timerset = {
-                    mid: message.id,
-                    cid: message.channel.id,
-                    gid: message.guild.id,
-                    uid: dbumper[0],
-                    time: datefor,
-                    reminder: remindtext,
-                  };
+                    //define database entry
+                    let settime = 14400000;
+                    let remindtext = "Time for your next `!like`";
+                    let datefor = moment()
+                      .add(settime, "ms")
+                      .format("YYYYMMDDHHmmss");
+                    timerset = {
+                      mid: message.id,
+                      cid: message.channel.id,
+                      gid: message.guild.id,
+                      uid: dbumper[0],
+                      time: datefor,
+                      reminder: remindtext,
+                    };
 
-                  //run db
-                  setRemind.run(timerset);
-                });
+                    //run db
+                    setRemind.run(timerset);
+                  });
+                }
               }
             }
           }
@@ -1187,30 +1189,35 @@ module.exports = {
       hookSend(message);
     }
 
-    /*   //EVENT
-  if (message.guild.id == "628978428019736619") {
-    let eventnumber = 25;
-    let eventnumber2 = Math.floor(Math.random() * 100);
-    if (eventnumber2 == eventnumber) {
-      let eventcheck = message.member.roles.cache.find(r => r.name === `1024Mb`);
-      if (!eventcheck) {
-        let eventr = message.guild.roles.cache.find(r => r.name === `1024Mb`);
-        if (!eventr) return;
-        message.member.roles.add(eventr);
-        const eventembed = new Discord.MessageEmbed()
-          .setTitle("EVENT")
-          .setColor("RANDOM")
-          .setDescription(
-            message.author +
-              "\n earned the event title:\n1024Mb\nCongratulations!"
-          )
-          .setTimestamp();
-        message.client.channels.cache.get(`695182849476657223`).send({
-          embed: eventembed
-        });
+    //EVENT
+    if (message.guild.id == "628978428019736619") {
+      let eventnumber = 25;
+      let eventnumber2 = Math.floor(Math.random() * 100);
+      if (eventnumber2 == eventnumber) {
+        let eventcheck = message.member.roles.cache.find(
+          (r) => r.name === `1024Mb`
+        );
+        if (!eventcheck) {
+          let eventr = message.guild.roles.cache.find(
+            (r) => r.name === `1024Mb`
+          );
+          if (!eventr) return;
+          message.member.roles.add(eventr);
+          const eventembed = new Discord.MessageEmbed()
+            .setTitle("EVENT")
+            .setColor("RANDOM")
+            .setDescription(
+              `
+              ${message.author}
+                \n earned the event title:\n1024Mb\nCongratulations!`
+            )
+            .setTimestamp();
+          message.client.channels.cache.get(`695182849476657223`).send({
+            embed: eventembed,
+          });
+        }
       }
     }
-  } */
 
     //Artemis Talk
     //if sentient channel

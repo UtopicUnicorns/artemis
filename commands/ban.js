@@ -39,6 +39,9 @@ module.exports = {
       //form member
       let member = message.guild.members.cache.get(numbers);
 
+      if (member.user.id == message.author.id)
+        return message.reply("Let's not ban ourselves, shall we?");
+
       //if member
       if (member) {
         await member.ban({ days: 7, reason: "Artemis Rules!" });
@@ -79,7 +82,7 @@ module.exports = {
 
         message.reply(`${member} has been banned!\nCase: ${caseNum}`);
       } else {
-        message.reply(`I could not ban ${i}!`);
+        //message.reply(`I could not ban ${i}!`);
       }
     }
 

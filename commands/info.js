@@ -52,9 +52,9 @@ module.exports = {
     }
 
     //process automod
-    if (levelthing.automod == "2") var autostat = "ON";
-    if (levelthing.automod == "1" || "0") var autostat = "OFF";
-    if (levelthing.automod == "strict") var autostat = "strict";
+    if (levelthing.autoMod == "2") var autostat = "ON";
+    if (levelthing.autoMod == "1" || "0") var autostat = "OFF";
+    if (levelthing.autoMod == "strict") var autostat = "strict";
 
     //get invites
     await message.guild.fetchInvites().then((invites) => {
