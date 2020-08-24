@@ -476,19 +476,19 @@ _Commands in this category do not need special permissions_
 
 ### Board
 This command will show the leader board regarding points and levels.
-It also holds a small competative rank vs other servers with Artemis.
+It also holds a small competitive rank vs other servers with Artemis.
 
 Example usage: `!board`
 
 ### Join
 Users can use this command when there are self-assignable roles.
-This command will give the user the coresponding role if it exists.
+This command will give the user the corresponding role if it exists.
 
 Example usage: `!join RoleName`
 
 ### Leave
 Users can use this command when there are self-assignable roles.
-This command will take away the coresponding role from the user if it exists.
+This command will take away the corresponding role from the user if it exists.
 
 Example usage: `!leave RoleName`
 
