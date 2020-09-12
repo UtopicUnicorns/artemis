@@ -335,6 +335,10 @@ module.exports = {
       setScore.run(userfailsafe);
     }
 
+    var defaultRoles = message.guild.roles.cache.find(
+      (r) => r.name === `~/Members`
+    );
+
     //Guild safe db
     guildfailsafe = getGuild.get(message.guild.id);
     if (!guildfailsafe) {
@@ -351,8 +355,17 @@ module.exports = {
         prefix: `!`,
         leveling: `1`,
         wmessage: "",
+        defaultrole: defaultRoles.id,
       };
       setGuild.run(guildfailsafe);
+    } else {
+      if (!guildfailsafe.defaultrole) {
+        if (defaultRoles) {
+          guildfailsafe.defaultrole = defaultRoles.id;
+
+          setGuild.run(guildfailsafe);
+        }
+      }
     }
 
     //Level failsafe db
@@ -754,7 +767,7 @@ module.exports = {
           }
 
           //send support embed
-          message.reply({
+          return message.reply({
             embed: supTic3,
           });
         }
@@ -987,7 +1000,7 @@ module.exports = {
 
                 //fetch role
                 let roleadd = message.guild.roles.cache.find(
-                  (r) => r.name === "~/Members"
+                  (r) => r.id === guildChannels.defaultrole
                 );
 
                 //define member
@@ -1190,9 +1203,9 @@ module.exports = {
     }
 
     //EVENT
-    if (message.guild.id == "628978428019736619") {
-      let eventnumber = 25;
-      let eventnumber2 = Math.floor(Math.random() * 100);
+    /*     if (message.guild.id == "628978428019736619") {
+      let eventnumber = 5;
+      let eventnumber2 = Math.floor(Math.random() * 10);
       if (eventnumber2 == eventnumber) {
         let eventcheck = message.member.roles.cache.find(
           (r) => r.name === `1024Mb`
@@ -1217,7 +1230,7 @@ module.exports = {
           });
         }
       }
-    }
+    } */
 
     //Artemis Talk
     //if sentient channel

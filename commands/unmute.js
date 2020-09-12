@@ -38,7 +38,7 @@ module.exports = {
 
     //Check member role
     let memberrole = message.guild.roles.cache.find(
-      (r) => r.name === `~/Members`
+      (r) => r.id === guildChannels.defaultrole
     );
 
     //define member

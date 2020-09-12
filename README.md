@@ -615,6 +615,11 @@ Example usage: `!dog`
 ### Emoji
 This command will show a bigger version of an emoji you specify.
 
+Mods will have an extra feature that adds an emoji right to your own server. The syntag might be a tad tricky, but the API is limited in this way.
+
+
+Example MOD usage: `!emoji steal https://someurl.com/gif.gif EmoteName`
+
 Example usage: `!emoji :glitch:`
 
 ### Fbi

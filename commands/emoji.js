@@ -10,7 +10,11 @@ dbinit.dbinit();
 module.exports = {
   name: "emoji",
   description: "[fun] Show an emoji",
-  explain: `This command will show you a big version of the emoji you put in, make sure it's a custom emoji and that you actually have access to the emoji itself.`,
+  explain: `This command will show you a big version of the emoji you put in, make sure it's a custom emoji and that you actually have access to the emoji itself.
+  Mods and up can use the steal feature of this command to add an emote right to your server.
+  
+  Example usage:
+  \`emoji steal https://someURL.com/emote.gif EmoteName\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
@@ -25,8 +29,23 @@ module.exports = {
     let args = message.content.slice(prefix.length + 6).split(" ");
 
     //if no args
-    if (!args[0]) {
-      return message.reply("Provide a custom Emoji!");
+    if (!args[0]) return message.reply("Provide a custom Emoji!");
+
+    //if steal
+    if (args[0].toLowerCase() == "steal") {
+      //if user has no perms
+      if (!message.member.permissions.has("KICK_MEMBERS")) return;
+
+      if (!args[1])
+        return message.reply(
+          "Add the link to the image of which emote you want to steal"
+        );
+      if (!args[2]) return message.reply("Provide the emoji name");
+
+      message.guild.emojis
+        .create(`${args[1]}`, `${args[2]}`)
+        .then((emoji) => message.reply(`Done added ${emoji}`))
+        .catch((err) => message.reply("An error occured!"));
     }
 
     //build x

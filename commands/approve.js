@@ -44,7 +44,7 @@ module.exports = {
     setUsage.run(usage);
 
     //fetch role
-    let roleadd = message.guild.roles.cache.find((r) => r.name === "~/Members");
+    let roleadd = message.guild.roles.cache.find((r) => r.id === guildChannels.defaultrole);
 
     //def args
     let args = message.content.slice(prefix.length + 8).split(" ");

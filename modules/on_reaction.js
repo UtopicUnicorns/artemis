@@ -92,6 +92,9 @@ module.exports = {
         embed.setImage(image);
       }
 
+      //reply
+      reaction.message.channel.send(`Message ${reaction.message.url} has been highligted!\n Check: <#${highlightChannel1.id}>`);
+
       //send embed
       return highlightChannel1.send({
         embed: embed,

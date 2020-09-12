@@ -12,9 +12,12 @@ module.exports = {
     //if bot
     if (newMessage.author.bot) return;
 
+    //if emoji
+    if (newMessage.content.toLowerCase().includes("emoji steal")) return;
+
     //if no newguild
     if (!newMessage) return;
-    
+
     //load prefix
     const prefixstart = getGuild.get(newMessage.guild.id);
     const prefix = prefixstart.prefix;
@@ -59,7 +62,7 @@ module.exports = {
           //form embed
           const embed = new Discord.MessageEmbed()
             .setTitle(`Message edited`)
-            .setColor('#d4ac0d')
+            .setColor("#d4ac0d")
             .setAuthor(
               user.user.username + "#" + user.user.discriminator,
               user.user.displayAvatarURL({

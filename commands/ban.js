@@ -37,7 +37,7 @@ module.exports = {
       let numbers = i.replace(/[^0-9]/gi, "");
 
       //form member
-      let member = message.guild.members.cache.get(numbers);
+      let member = await message.guild.members.cache.get(numbers);
 
       if (member.user.id == message.author.id)
         return message.reply("Let's not ban ourselves, shall we?");
@@ -81,8 +81,6 @@ module.exports = {
         setACase.run(adminCase);
 
         message.reply(`${member} has been banned!\nCase: ${caseNum}`);
-      } else {
-        //message.reply(`I could not ban ${i}!`);
       }
     }
 

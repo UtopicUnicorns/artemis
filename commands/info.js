@@ -77,8 +77,14 @@ module.exports = {
       .setColor("RANDOM")
       .setThumbnail(sicon)
       .setAuthor(message.guild.name, sicon)
+      .addField("Guild name", message.guild.name, inline)
       .addField("ID", message.guild.id, inline)
       .addField("Owner", message.guild.owner, inline)
+      .addField(
+        "Default Role",
+        message.guild.roles.cache.find((r) => r.id === levelthing.defaultrole),
+        inline
+      )
       .addField("Region", message.guild.region, inline)
       .addField("Members", `${message.guild.memberCount}`, inline)
       .addField("Roles", message.guild.roles.cache.size, inline)
@@ -131,8 +137,9 @@ module.exports = {
         ${message.guild.channels.cache.find(
           (channel) => channel.id === levelthing.streamChannel
         )}
-      `
-      , inline)
+      `,
+        inline
+      )
       .addField(
         "Level Roles:",
         `

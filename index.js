@@ -9,23 +9,96 @@ const client = new Client();
 const dbinit = require("./modules/dbinit.js");
 dbinit.dbinit();
 
-//Stolen console logger
-var originalLog = console.log;
-console.log = function (str) {
-  originalLog(str);
-  if (str) {
-    if (str.length > 1500) {
-      client.channels.cache.get("701764606053580870").send(str, {
-        split: true,
-      });
-    } else {
-      client.channels.cache.get("701764606053580870").send(str);
+//Minecraft stuff...
+/* const util = require("util");
+const color = require("ansi-color").set;
+const readline = require("readline");
+const mc = require("minecraft-protocol");
+const rcon = require("./modules/rcon.js").newHandle;
+const states = mc.states;
+const rconClient = new rcon();
+
+rconClient.connect("artemisbot.eu", 25575, configfile.MCPASS);
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+var clientmc = mc.createClient({
+  username: configfile.MCANAME,
+  password: configfile.MCAPASS,
+  host: "artemisbot.eu",
+  port: 25565,
+  version: "1.16.1",
+});
+
+clientmc.on("success", function (player, status) {
+  console.log("Minecraft client logged in.");
+});
+
+clientmc.on("login", function (player, status) {
+  console.log("Minecraft client joined server");
+});
+
+clientmc.on("chat", function (packet) {
+  //fetch packet
+  var json = JSON.parse(packet.message);
+
+  //loop material
+  let parsing = json.extra;
+
+  //array to read out
+  let parseThis = [];
+
+  //loop
+  parsing.forEach((entr) => parseThis.push(entr.text));
+
+  //if MC chat
+  if (parseThis[parseThis.length - 1].startsWith(">")) {
+    let msg = parseThis[parseThis.length - 1].replace(">", "");
+    let user = parseThis[parseThis.length - 2];
+
+    async function hookSend(message, usr) {
+      //fetch hooks
+      const webhooks = await client.channels.cache
+        .get("745323868390162453")
+        .fetchWebhooks();
+
+      //select first hook
+      const webhook = webhooks.first();
+
+      //if no hook
+      if (webhook) {
+        //send content
+        await webhook.send(message.replace(/@/g, ""), {
+          username: usr,
+          avatarURL: `https://minotar.net/helm/${usr}`,
+        });
+      }
     }
+
+    //init the function
+    hookSend(msg, user);
+    //client.channels.cache.get("745323868390162453").send(`${user}: ${msg}`);
   }
-};
+
+  if (
+    json.translate == "chat.type.announcement" ||
+    json.translate == "chat.type.text"
+  ) {
+    var message = parseChat(json, {});
+    client.channels.cache.get("745323868390162453").send(message);
+  }
+});
+
+rl.on("line", function (input) {
+  clientmc.write("chat", { message: input, position: 0 });
+}); */
 
 //reddit rss feed
 const { FeedEmitter } = require("rss-emitter-ts");
+const { parseURL } = require("simple-youtube-api/src/util");
 const emitter = new FeedEmitter();
 
 //Dashboard stuff
@@ -395,6 +468,7 @@ client.on("guildCreate", (guild) => {
   if (!newGuild1) {
     newGuild = getGuild.get(guild.id);
     if (!newGuild) {
+      //create role
       if (!guild.roles.cache.find((r) => r.name === `~/Members`)) {
         guild.roles.create({
           data: {
@@ -402,7 +476,12 @@ client.on("guildCreate", (guild) => {
           },
           reason: "Needed for Artemis",
         });
+
+        var defaultRoles = guild.roles.cache.find((r) => r.name === `~/Members`);
+      } else {
+        var defaultRoles = guild.roles.cache.find((r) => r.name === `~/Members`);
       }
+
       newGuild = {
         guild: guild.id,
         generalChannel: `0`,
@@ -416,6 +495,7 @@ client.on("guildCreate", (guild) => {
         prefix: `!`,
         leveling: `1`,
         wmessage: ``,
+        defaultrole: defaultRoles.id,
       };
       setGuild.run(newGuild);
 
@@ -567,6 +647,28 @@ client.on("messageUpdate", (oldMessage, newMessage) => {
 
 //the best thing here
 client.on("message", async (message) => {
+ /*  if (
+    message.guild.id == "628978428019736619" &&
+    message.channel.id == "745323868390162453"
+  ) {
+    if (message.author.bot) return
+    var discordUser = message.author.username.replace(/[^ -~]+/g, "");
+
+    //else
+    rconClient.sendCommand(
+      'tellraw @a [{"text":"[","color":"light_purple","bold":true},{"text":"Discord","color":"dark_purple","bold":false},{"text":"]","color":"light_purple","bold":true},{"text":" ' +
+        discordUser +
+        '","color":"green","bold":false},{"text":":","color":"yellow","bold":true},{"text":" ' +
+        message.content.replace(/@/g, "") +
+        '","color":"aqua", "bold":false}]',
+      function (err, response) {
+        if (err) {
+          console.log(err);
+        }
+      }
+    );
+  } */
+
   //load module
   const onMessage = require("./modules/on_message.js");
   onMessage.onMessage(message);

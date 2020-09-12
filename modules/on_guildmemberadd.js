@@ -457,6 +457,13 @@ module.exports = {
       "whore",
       "willies",
       "xrated",
+      "utopicunicorn",
+      "aranym",
+      "zebra",
+      "lgb",
+      "byte",
+      "hewlet",
+      "olivia",
     ];
 
     //if guild is Mint, apply filter
@@ -467,7 +474,8 @@ module.exports = {
         if (
           guildMember.user.username
             .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "").replace(/\s/g, '')
+            .replace(/[\u0300-\u036f]/g, "")
+            .replace(/\s/g, "")
             .toLowerCase()
             .includes(i)
         )
@@ -513,9 +521,15 @@ module.exports = {
     }
 
     //define members role
-    let roleadd1 = guildMember.guild.roles.cache.find(
-      (r) => r.name === "~/Members"
-    );
+    if (guildChannels.defaultrole) {
+      var roleadd1 = guildMember.guild.roles.cache.find(
+        (r) => r.id === guildChannels.defaultrole
+      );
+    } else {
+      var roleadd1 = guildMember.guild.roles.cache.find(
+        (r) => r.name === "~/Members"
+      );
+    }
 
     //redefine user
     let user = guildMember.user;
@@ -557,7 +571,7 @@ module.exports = {
         //form embed
         const embed = new Discord.MessageEmbed()
           .setTitle(`User joined`)
-          .setColor('#27ae60')
+          .setColor("#27ae60")
           .setAuthor(
             guildMember.user.username + "#" + guildMember.user.discriminator,
             guildMember.user.displayAvatarURL({

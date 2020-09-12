@@ -42,7 +42,7 @@ module.exports = {
 
     //Check member role
     let memberrole = message.guild.roles.cache.find(
-      (r) => r.name === `~/Members`
+      (r) => r.id === guildChannels.defaultrole
     );
 
     //define member
@@ -225,6 +225,10 @@ module.exports = {
 
               //submit the case
               setACase.run(adminCase);
+              //notify you
+              message.channel.send(
+                `${member} has been muted!\nCase: ${caseNum}`
+              );
               return logMe();
             }
           }

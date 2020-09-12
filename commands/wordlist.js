@@ -13,7 +13,7 @@ module.exports = {
   explain: `This command manages the banned wordlist which will be active when automod is ON.\n
   \`wordlist add Word1 Word2 Word3\` will add words to the banned list.\n
   \`wordlist del Word1 Word2 Word3\` will delete the words from the banned list.`,
-  execute(message) {
+  async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
@@ -62,7 +62,7 @@ module.exports = {
           wordpush = {
             guild: message.guild.id,
             words: i,
-            wordguild: message.guild.id + i,
+            wordguild: `${await message.guild.id}${i}`,
           };
 
           //run database
@@ -85,7 +85,7 @@ module.exports = {
         if (array.includes(i)) {
           //delete from database
           let thishere = message.guild.id + i;
-          db.prepare(`DELETE FROM words WHERE wordguild = '${thishere}'`).run();
+          db.prepare(`DELETE FROM words WHERE words = '${i}' AND guild = '${message.guild.id}'`).run();
         }
       }
 

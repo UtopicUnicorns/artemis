@@ -25,6 +25,7 @@ module.exports = {
     setUsage.run(usage);
 
     //experimental
-    message.reply("Nothing here");
+    return message.channel.send("no");
+
   },
 };

@@ -43,7 +43,7 @@ module.exports = {
 
     //build embed
     const embed = new Discord.MessageEmbed().setImage(
-      user.user.displayAvatarURL({ format: "jpg" })
+      user.user.displayAvatarURL({ format: "png", dynamic: true, size: 1024 })
     );
 
     //send embed
