@@ -71,7 +71,7 @@ module.exports = {
       )
       .addField(
         "Joined at: ",
-        moment.utc(user.user.joinedAt).format("dddd, MMMM Do YYYY, HH:mm:ss")
+        moment.utc(user.joinedAt).format("dddd, MMMM Do YYYY, HH:mm:ss")
       )
       .addField("Status:", user.user.presence.status)
       .addField(

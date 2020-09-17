@@ -11,7 +11,8 @@ module.exports = {
   onMsgUpdate: async function (oldMessage, newMessage) {
     //if bot
     if (newMessage.author.bot) return;
-
+    //if same message
+    if (oldMessage.content == newMessage.content) return;
     //if emoji
     if (newMessage.content.toLowerCase().includes("emoji steal")) return;
 

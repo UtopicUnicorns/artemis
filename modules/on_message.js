@@ -641,8 +641,8 @@ module.exports = {
           setSupport.run(supportID);
 
           //if mint
-          if (message.guild.id == "628978428019736619") {
-            message.channel.setParent("629017150266540062");
+          if (supportID.mainchan) {
+            message.channel.setParent(supportID.mainchan);
           }
 
           //notify user
@@ -651,7 +651,7 @@ module.exports = {
             You can resume your session if needed with 
             \`${prefix}resume caseNum\`
             \nTo the person who answered use:
-              \`${prefix}support answer caseNum <Answer>\``);
+              \`${prefix}support answer ${supportID.casenumber} <Answer>\``);
         }
       } else {
         //if no support session
@@ -726,11 +726,12 @@ module.exports = {
 
           //Write database
           supportID.inuse = `1`;
+          supportID.casenumber = prevCaseGet.scase;
           setSupport.run(supportID);
 
-          //if mint
-          if (message.guild.id == "628978428019736619") {
-            message.channel.setParent("739592358177276026");
+          //if used category
+          if (supportID.inusechan) {
+            message.channel.setParent(supportID.inusechan);
           }
 
           //if mint server
@@ -866,11 +867,12 @@ module.exports = {
 
             //Write database
             supportID.inuse = `1`;
+            supportID.casenumber = caseNum;
             setSupport.run(supportID);
 
-            //if mint
-            if (message.guild.id == "628978428019736619") {
-              message.channel.setParent("739592358177276026");
+            //if used category
+            if (supportID.inusechan) {
+              message.channel.setParent(supportID.inusechan);
             }
 
             //send support embed
@@ -999,7 +1001,7 @@ module.exports = {
                 }
 
                 //fetch role
-                let roleadd = message.guild.roles.cache.find(
+                let roleadd = await message.guild.roles.cache.find(
                   (r) => r.id === guildChannels.defaultrole
                 );
 
@@ -1013,11 +1015,7 @@ module.exports = {
 
                 //if there is the role
                 if (roleadd) {
-                  setTimeout(async () => {
-                    await message.member.roles
-                      .add(roleadd)
-                      .catch(console.error);
-                  }, 2000);
+                  await message.member.roles.add(roleadd).catch(console.error);
                 }
 
                 //build image
@@ -1348,10 +1346,6 @@ module.exports = {
       translateopt.translate == `2` ||
       message.content.startsWith(prefix + "tr")
     ) {
-      //Define basic config
-      let baseurl = "https://translate.yandex.net/api/v1.5/tr.json/translate";
-      let key = configfile.yandex;
-
       //Define proper message to translate
       if (message.content.startsWith(prefix + "tr")) {
         var text = message.content.slice(prefix.length + 3);
@@ -1359,87 +1353,44 @@ module.exports = {
         var text = message.content;
       }
 
-      //form URL
-      let url =
-        baseurl +
-        "?key=" +
-        key +
-        "&hint=en,de,nl,fr,tr&lang=en" +
-        "&text=" +
-        encodeURIComponent(text) +
-        "&format=plain";
+      //actual translation
+      translate(text, {
+        to: "en",
+      }).then((res) => {
+        //if shrug
+        if (message.content.includes("Ã£Æ’â€ž")) return;
 
-      //start translation
-      request(
-        url,
-        {
-          json: true,
-        },
-        (err, res, body) => {
-          //if no body
-          if (!body) return;
+        //if message is equal to translation
+        if (res == message.content) return;
 
-          //if no body text
-          if (!body.text) {
-            return;
-          }
+        //send translation
+        try {
+          //form embed
+          const translationtext = new Discord.MessageEmbed()
+            .setAuthor(
+              message.author.username,
+              message.author.avatarURL({
+                format: "png",
+                dynamic: true,
+                size: 1024,
+              })
+            )
+            .setColor("RANDOM")
+            .setDescription(res)
+            .setTimestamp();
 
-          //force translation with prefix
-          if (message.content.startsWith(prefix + "tr")) {
-          } else {
-            if (JSON.stringify(body).startsWith('{"code":200,"lang":"en-en"')) {
-              return;
-            }
-          }
-
-          //actual translation
-          translate(text, {
-            to: "en",
-          })
-            .then((res) => {
-              //if shrug
-              if (message.content.includes("Ã£Æ’â€ž")) return;
-
-              //if message is equal to translation
-              if (res == message.content) return;
-
-              //send translation
-              try {
-                //form embed
-                const translationtext = new Discord.MessageEmbed()
-                  .setAuthor(
-                    message.author.username,
-                    message.author.avatarURL({
-                      format: "png",
-                      dynamic: true,
-                      size: 1024,
-                    })
-                  )
-                  .setColor("RANDOM")
-                  .setDescription(res)
-                  .setFooter("Translated from: " + body.lang)
-                  .setTimestamp();
-
-                //send embed
-                message.channel.send({
-                  embed: translationtext,
-                });
-              } catch {
-                console.log(
-                  moment().format("MMMM Do YYYY, HH:mm:ss") +
-                    "\n" +
-                    __filename +
-                    ":" +
-                    ln()
-                );
-              }
-            })
-            .catch((err) => {
-              console.log("");
-            });
-          if (err) return message.channel.send(err);
+          //send embed
+          message.channel.send({
+            embed: translationtext,
+          });
+        } catch {
+          console.log(
+            `${moment().format(
+              "MMMM Do YYYY, HH:mm:ss"
+            )}\n${__filename}: ${ln()}`
+          );
         }
-      );
+      });
     }
 
     //Add user points

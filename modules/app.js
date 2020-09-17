@@ -531,6 +531,32 @@ exports.run = (client, config) => {
                     var se6 = s6.name;
                   }
 
+                  //support
+                  let getSupport2 = db.prepare(
+                    "SELECT * FROM support WHERE gid = ?"
+                  );
+                  let grabChan = getSupport2.get(gettheguild.id);
+
+                  if (grabChan) {
+                    //7
+                    let s7 = grabChan.mainchan;
+
+                    if (!s7) {
+                      var se7 = "None Set";
+                    } else {
+                      var se7 = s7;
+                    }
+
+                    //8
+                    let s8 = grabChan.inusechan;
+
+                    if (!s8) {
+                      var se8 = "None Set";
+                    } else {
+                      var se8 = s8;
+                    }
+                  }
+
                   //start channel build
                   let channelPush = `
                   <!--//build general-->
@@ -686,6 +712,61 @@ exports.run = (client, config) => {
                     <br><input type="submit" class="button" onclick="document.getElementById('${
                       data.guild
                     }a6).innerHTML = 'Changed!'" value="Save">
+                    </form></td></tr>
+
+                    
+                    <tr style="text-align:left"><td><br><h2>Set up Support categories</h2></td></tr>
+
+                    <!--//build Support category-->
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td>Support category</td>
+                    <td><div id="${data.guild}a7">#${se7}</div></td></tr>
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td></td>
+                    <td><form action="/" method="post">
+                    <select name="data2">
+                    <option value="" selected disabled hidden>Choose Support category</option>
+                    <option value="7 ${data.guild} disable">DISABLE</option>
+                    ${gettheguild.channels.cache
+                      .filter((channel) => channel.type === "category")
+                      .map(
+                        (channels) =>
+                          '<option value="7 ' +
+                          data.guild +
+                          " " +
+                          channels.id +
+                          '">#' +
+                          channels.name +
+                          "</option>"
+                      )}
+                      </select>
+                    <br><input type="submit" class="button" onclick="document.getElementById('${
+                      data.guild
+                    }a7).innerHTML = 'Changed!'" value="Save">
+                    </form></td></tr>
+
+                    <!--//build Support in-use category-->
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td>Support in-use category</td>
+                    <td><div id="${data.guild}a8">#${se8}</div></td></tr>
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td></td>
+                    <td><form action="/" method="post">
+                    <select name="data2">
+                    <option value="" selected disabled hidden>Choose Support in-use category</option>
+                    <option value="8 ${data.guild} disable">DISABLE</option>
+                    ${gettheguild.channels.cache
+                      .filter((channel) => channel.type === "category")
+                      .map(
+                        (channels) =>
+                          '<option value="8 ' +
+                          data.guild +
+                          " " +
+                          channels.id +
+                          '">#' +
+                          channels.name +
+                          "</option>"
+                      )}
+                      </select>
+                    <br><input type="submit" class="button" onclick="document.getElementById('${
+                      data.guild
+                    }a8).innerHTML = 'Changed!'" value="Save">
                     </form></td></tr>
                     `;
 
@@ -2007,6 +2088,115 @@ exports.run = (client, config) => {
             channelstuff.streamChannel = findme.id;
             setGuild.run(channelstuff);
             adminEmbed(data2[1], "Stream Notification Channel");
+            return res.status(204).send();
+          }
+
+          //Support main category
+          if (data2[0] == "7") {
+            //get support channels
+            let getSupport2 = db
+              .prepare("SELECT * FROM support WHERE gid = ?")
+              .all(data2[1]);
+
+            //insert stuff
+            let setSupport = db.prepare(
+              "INSERT OR REPLACE INTO support (cid, gid, inuse, casenumber, mainchan, inusechan) VALUES (@cid, @gid, @inuse, @casenumber, @mainchan, @inusechan);"
+            );
+
+            //if nothing
+            if (!getSupport2) return res.status(204).send();
+
+            console.log(data2[2]);
+            //if data arg 2 is disable
+            if (data2[2] == "disable") {
+              //loop trough support2
+              for (let i of getSupport2) {
+                let getSupport3 = db.prepare(
+                  "SELECT * FROM support WHERE cid = ?"
+                );
+                let testing = getSupport3.get(i.cid);
+
+                testing.mainchan = 0;
+                setSupport.run(testing);
+              }
+
+              adminEmbed(data2[1], "Stream Notification Channel");
+              return res.status(204).send();
+            }
+
+            //check if channel exists
+            let findme = gettheguild.channels.cache.find(
+              (channel) => channel.id === data2[2]
+            );
+
+            //If no channel
+            if (!findme) return res.status(204).send();
+
+            for (let i of getSupport2) {
+              let getSupport3 = db.prepare(
+                "SELECT * FROM support WHERE cid = ?"
+              );
+              let testing = getSupport3.get(i.cid);
+
+              testing.mainchan = findme.id;
+              setSupport.run(testing);
+            }
+
+            adminEmbed(data2[1], "Support channels MAIN");
+            return res.status(204).send();
+          }
+
+          //Support in-use category
+          if (data2[0] == "8") {
+            //get support channels
+            let getSupport2 = db
+              .prepare("SELECT * FROM support WHERE gid = ?")
+              .all(data2[1]);
+
+            //insert stuff
+            let setSupport = db.prepare(
+              "INSERT OR REPLACE INTO support (cid, gid, inuse, casenumber, mainchan, inusechan) VALUES (@cid, @gid, @inuse, @casenumber, @mainchan, @inusechan);"
+            );
+
+            //if nothing
+            if (!getSupport2) return res.status(204).send();
+
+            //if data arg 2 is disable
+            if (data2[2] == "disable") {
+              //loop trough support2
+              for (let i of getSupport2) {
+                let getSupport3 = db.prepare(
+                  "SELECT * FROM support WHERE cid = ?"
+                );
+                let testing = getSupport3.get(i.cid);
+
+                testing.inusechan = 0;
+                setSupport.run(testing);
+              }
+
+              adminEmbed(data2[1], "Stream Notification Channel");
+              return res.status(204).send();
+            }
+
+            //check if channel exists
+            let findme = gettheguild.channels.cache.find(
+              (channel) => channel.id === data2[2]
+            );
+
+            //If no channel
+            if (!findme) return res.status(204).send();
+
+            for (let i of getSupport2) {
+              let getSupport3 = db.prepare(
+                "SELECT * FROM support WHERE cid = ?"
+              );
+              let testing = getSupport3.get(i.cid);
+
+              testing.inusechan = findme.id;
+              setSupport.run(testing);
+            }
+
+            adminEmbed(data2[1], "Support channels IN-USE");
             return res.status(204).send();
           }
 

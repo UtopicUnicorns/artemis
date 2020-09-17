@@ -9,93 +9,6 @@ const client = new Client();
 const dbinit = require("./modules/dbinit.js");
 dbinit.dbinit();
 
-//Minecraft stuff...
-/* const util = require("util");
-const color = require("ansi-color").set;
-const readline = require("readline");
-const mc = require("minecraft-protocol");
-const rcon = require("./modules/rcon.js").newHandle;
-const states = mc.states;
-const rconClient = new rcon();
-
-rconClient.connect("artemisbot.eu", 25575, configfile.MCPASS);
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-var clientmc = mc.createClient({
-  username: configfile.MCANAME,
-  password: configfile.MCAPASS,
-  host: "artemisbot.eu",
-  port: 25565,
-  version: "1.16.1",
-});
-
-clientmc.on("success", function (player, status) {
-  console.log("Minecraft client logged in.");
-});
-
-clientmc.on("login", function (player, status) {
-  console.log("Minecraft client joined server");
-});
-
-clientmc.on("chat", function (packet) {
-  //fetch packet
-  var json = JSON.parse(packet.message);
-
-  //loop material
-  let parsing = json.extra;
-
-  //array to read out
-  let parseThis = [];
-
-  //loop
-  parsing.forEach((entr) => parseThis.push(entr.text));
-
-  //if MC chat
-  if (parseThis[parseThis.length - 1].startsWith(">")) {
-    let msg = parseThis[parseThis.length - 1].replace(">", "");
-    let user = parseThis[parseThis.length - 2];
-
-    async function hookSend(message, usr) {
-      //fetch hooks
-      const webhooks = await client.channels.cache
-        .get("745323868390162453")
-        .fetchWebhooks();
-
-      //select first hook
-      const webhook = webhooks.first();
-
-      //if no hook
-      if (webhook) {
-        //send content
-        await webhook.send(message.replace(/@/g, ""), {
-          username: usr,
-          avatarURL: `https://minotar.net/helm/${usr}`,
-        });
-      }
-    }
-
-    //init the function
-    hookSend(msg, user);
-    //client.channels.cache.get("745323868390162453").send(`${user}: ${msg}`);
-  }
-
-  if (
-    json.translate == "chat.type.announcement" ||
-    json.translate == "chat.type.text"
-  ) {
-    var message = parseChat(json, {});
-    client.channels.cache.get("745323868390162453").send(message);
-  }
-});
-
-rl.on("line", function (input) {
-  clientmc.write("chat", { message: input, position: 0 });
-}); */
-
 //reddit rss feed
 const { FeedEmitter } = require("rss-emitter-ts");
 const { parseURL } = require("simple-youtube-api/src/util");
@@ -293,13 +206,13 @@ client.once("ready", () => {
                 client.channels.cache
                   .get(data.cid)
                   .send(
-                    "Support session expired!\nYou can resume a session with:\n`resume caseNum`\nOr start a new session by simply typing:\n`help`"
+                    `Support session expired!\nYou can resume a session with:\n\`resume ${supportID.casenumber}\`\nOr start a new session by simply typing:\n\`help\``
                   );
                 //if mint
-                if (data.gid == "628978428019736619") {
+                if (data.mainchan) {
                   client.channels.cache
                     .get(data.cid)
-                    .setParent("629017150266540062");
+                    .setParent(data.mainchan);
                 }
               }
             });

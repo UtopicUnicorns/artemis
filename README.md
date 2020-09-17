@@ -41,7 +41,6 @@ _Oh god, another thing Artemis may be controlling_
          * [Help](#Help)
          * [Info](#Info)
          * [Invite](#Invite)
-         * [Opt](#Opt)
          * [Ping](#Ping)
          * [Remindme](#Remindme)
          * [Search](#Search)
@@ -53,7 +52,6 @@ _Oh god, another thing Artemis may be controlling_
          * [Level](#Level)
          * [Numbers](#Numbers)
       * [Linux_Commands](#Linux_Commands)
-         * [Ask](#Ask)
          * [Btw](#Btw)
          * [Linus](#Linus)
          * [Man](#Man)
@@ -65,12 +63,10 @@ _Oh god, another thing Artemis may be controlling_
          * [Avatar](#Avatar)
          * [Bird](#Bird)
          * [Cat](#Cat)
-         * [Catfact](#Catfact)
          * [Convert](#Convert)
          * [Dog](#Dog)
          * [Emoji](#Emoji)
          * [Fbi](#Fbi)
-         * [Fox](#Fox)
          * [Honk](#Honk)
          * [Hug](#Hug)
          * [Lenny](#Lenny)
@@ -432,12 +428,6 @@ It will also hold a link to add Artemis to your own server.
 
 Example usage: `!invite`
 
-### Opt
-This will show the user if they have Autotranslation on for themselves.
-They can change this on the Artemis website if they please, by default this is off.
-
-Example usage: `!opt`
-
 ### Ping
 This is just a ping command, checks the lag between messages...
 
@@ -512,12 +502,6 @@ Example usage: `!numbers`
 ## Linux_Commands
 _Commands in this category do not need special permissions_
 
-### Ask
-This command will pull an available question from AskUbuntu using their API.
-It is a garbage API though, so just use search.
-
-Example usage: `!ask [question]`
-
 ### Btw
 This command has a distribution list of 900+ entries.
 When this command is used, it will display a random distribution from the list in the classical `I am using Arch BTW` format.
@@ -585,11 +569,6 @@ These cats are my own.
 
 Example usage: `!cat`
 
-### Catfact
-This command will show the user a random cat fact.
-
-Example usage: `!catfact`
-
 ### Convert
 This command allows you to convert:
 
@@ -628,11 +607,6 @@ This will show a random wanted poster for yourself, or the user you specify.
 Example usage: `!fbi`
 
 Example usage: `!fbi @mention`
-
-### Fox
-This command will show you a random fox picture.
-
-Example usage: `!fox`
 
 ### Honk
 This command will show the user a random geeko picture, honk honk.

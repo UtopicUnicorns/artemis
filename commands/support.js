@@ -300,6 +300,9 @@ module.exports = {
           cid: message.channel.id,
           gid: message.guild.id,
           inuse: `0`,
+          casenumber: `0`,
+          mainchan: message.channel.parent.id,
+          inusechan: message.channel.parent.id,
         };
         setSupport.run(cCheck);
         return message.reply(
