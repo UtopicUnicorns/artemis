@@ -290,9 +290,15 @@ Example usage: `!support answer caseNum [Answer here]`
 Example usage: `!support user @mention`
 
 ### Topic
-The topic command is used to change the topic of a situation. This topic is completely unrelated from mostly anything else.
+The topic command is used to change the topic of a situation. When you have no databse entries yet the topics will be selected from a default list.
+To add a topic which may match your server you can use `!topic add {Example topic here}`. You can view your server topics with the command `!topic view`.
 
 Example usage: `!topic`
+
+Example usage: `!topic view`
+
+Example usage: `!topic add [Example Topic Here]`
+
 
 ### Unmute
 This command will unmute the mentioned member, which will generate a [Case](#Case).

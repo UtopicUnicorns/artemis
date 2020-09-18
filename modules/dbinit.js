@@ -231,17 +231,50 @@ exports.dbinit = function () {
     )
     .get();
   if (!table14["count(*)"]) {
-    db.prepare("CREATE TABLE admincases (guildidcaseid TEXT PRIMARY KEY, caseid INTEGER, guildid TEXT, userid TEXT, username TEXT, type TEXT, reason TEXT, date TEXT);").run();
-    db.prepare("CREATE UNIQUE INDEX idx_admincases_id ON admincases (guildidcaseid);").run();
+    db.prepare(
+      "CREATE TABLE admincases (guildidcaseid TEXT PRIMARY KEY, caseid INTEGER, guildid TEXT, userid TEXT, username TEXT, type TEXT, reason TEXT, date TEXT);"
+    ).run();
+    db.prepare(
+      "CREATE UNIQUE INDEX idx_admincases_id ON admincases (guildidcaseid);"
+    ).run();
     db.pragma("synchronous = 1");
     db.pragma("journal_mode = wal");
   }
 
-   //run admincases
-   getACase = db.prepare("SELECT * FROM admincases WHERE guildid = ?");
-   setACase = db.prepare(
-     "INSERT OR REPLACE INTO admincases (guildidcaseid, caseid, guildid, userid, username, type, reason, date) VALUES (@guildidcaseid, @caseid, @guildid, @userid, @username, @type, @reason, @date);"
-   );
+  //////////////////////
+  //Topics          DB//
+  //////////////////////
+  const table15 = db
+    .prepare(
+      "SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'topics';"
+    )
+    .get();
+  if (!table15["count(*)"]) {
+    db.prepare(
+      "CREATE TABLE topics (gidtopic TEXT PRIMARY KEY, gid TEXT, topic TEXT);"
+    ).run();
+    db.prepare(
+      "CREATE UNIQUE INDEX idx_topics_id ON topics (gidtopic);"
+    ).run();
+    db.pragma("synchronous = 1");
+    db.pragma("journal_mode = wal");
+  }
+
+  /////////////////////////
+  //RUN ALL DB'S         //
+  /////////////////////////
+
+  //run topics
+  getTopics = db.prepare("SELECT * FROM topics WHERE gid = ?");
+  setTopics = db.prepare(
+    "INSERT OR REPLACE INTO topics (gidtopic, gid, topic) VALUES (@gidtopic, @gid, @topic);"
+  );
+
+  //run admincases
+  getACase = db.prepare("SELECT * FROM admincases WHERE guildid = ?");
+  setACase = db.prepare(
+    "INSERT OR REPLACE INTO admincases (guildidcaseid, caseid, guildid, userid, username, type, reason, date) VALUES (@guildidcaseid, @caseid, @guildid, @userid, @username, @type, @reason, @date);"
+  );
 
   //run uwu
   getUwu = db.prepare("SELECT * FROM uwu WHERE cid = ? AND gid = ?");

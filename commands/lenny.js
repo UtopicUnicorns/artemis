@@ -42,7 +42,7 @@ module.exports = {
 
         //if no args
         if (!args[0]) {
-          request(`https://aranym.com/categories`, (err, res, body) => {
+          request(`https://aranym.com/artemis-categories`, (err, res, body) => {
             //if err
             if (!body) return message.reply("An error occured");
 
