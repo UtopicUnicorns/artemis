@@ -1586,7 +1586,7 @@ module.exports = {
               user.username +
               "\n" +
               user.username +
-              " has gotten 20 points for their effort!"
+              " has gotten \u20B920 for their effort!"
           );
         }
       }
@@ -1645,7 +1645,7 @@ module.exports = {
               user.username +
               "\n" +
               user.username +
-              " got 20 points!"
+              " got \u20B920!"
           );
         }
       }

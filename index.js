@@ -141,7 +141,7 @@ client.once("ready", () => {
             })
           )
           .setDescription(reminduser)
-          .addField("Reminder: ", data.reminder + "!")
+          .addField("Reminder: ", data.reminder + "\u200b")
           .setColor("RANDOM");
 
         //send embed

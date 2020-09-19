@@ -10,7 +10,7 @@ dbinit.dbinit();
 module.exports = {
   name: "board",
   description: "[level] Show leaderboard",
-  explain: `The \`board\` command will show you the top 10 users with the most points, points are based on user messages and/or thanking.`,
+  explain: `The \`board\` command will show you the top 10 users with the most \u20B9, \u20B9 are based on user messages and/or thanking.`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
@@ -197,7 +197,7 @@ module.exports = {
 
           //if guild is current guild
           if (i.guild == message.guild.id)
-            finalString += `Guild ranking position: Rank ${finalCount}, Total guild points: ${i.total.toLocaleString()}`;
+            finalString += `Guild ranking position: Rank ${finalCount}, Total guild cash: \u20B9${i.total.toLocaleString()}`;
         }
 
         //pull data from database
@@ -225,9 +225,9 @@ module.exports = {
             embed.addField(
               "Place: (" + counter + ")",
               `${user.user} \ ${user.user.username}` +
-                "\n" +
+                "\n\u20B9" +
                 data.points.toLocaleString() +
-                " points (level " +
+                " (level " +
                 data.level +
                 ")"
             );

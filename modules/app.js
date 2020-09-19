@@ -212,8 +212,8 @@ exports.run = (client, config) => {
                     <tr style="text-align:left"><th>Level:</th><th>${
                       data.level
                     }</th></tr>
-                    <tr style="text-align:left; border-bottom: 1px solid black"><td>Points:</td>
-                    <td>${data.points}</td></tr>
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td>Cash:</td>
+                    <td>\u20B9 ${data.points}</td></tr>
                     <tr style="text-align:left; border-bottom: 1px solid black"><td>Warning points:</td>
                     <td>${data.warning}</td></tr>
                     <tr style="text-align:left; border-bottom: 1px solid black"><td>Auto Translation:</td>
@@ -355,7 +355,7 @@ exports.run = (client, config) => {
                       })}" width="20px" height="20px"></a>
                       ${thisss.user.username.replace(/\</g, "&lt;")}
                       </td>
-                      <td style="width: 50%;">Level: ${data2.level} | Points: ${
+                      <td style="width: 50%;">Level: ${data2.level} | \u20B9 ${
                         data2.points
                       }</td></tr>`);
                     } else {
@@ -374,7 +374,7 @@ exports.run = (client, config) => {
                       })}" width="20px" height="20px"></a>
                       ${thisss.user.username.replace(/\</g, "&lt;")}
                       </td>
-                      <td style="width: 50%;">Level: ${data2.level} | Points: ${
+                      <td style="width: 50%;">Level: ${data2.level} | \u20B9 ${
                         data2.points
                       }</td></tr>`);
                     }
@@ -1402,7 +1402,7 @@ exports.run = (client, config) => {
                       })}" width="20px" height="20px"></a>
                       ${thisss.user.username.replace(/\</g, "&lt;")}
                       </td>
-                      <td style="width: 50%;">Level: ${data2.level} | Points: ${
+                      <td style="width: 50%;">Level: ${data2.level} | \u20B9 ${
                     data2.points
                   }</td></tr>`);
                 } else {
@@ -1421,7 +1421,7 @@ exports.run = (client, config) => {
                       })}" width="20px" height="20px"></a>
                       ${thisss.user.username.replace(/\</g, "&lt;")}
                       </td>
-                      <td style="width: 50%;">Level: ${data2.level} | Points: ${
+                      <td style="width: 50%;">Level: ${data2.level} | \u20B9 ${
                     data2.points
                   }</td></tr>`);
                 }

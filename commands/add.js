@@ -91,7 +91,7 @@ module.exports = {
 
         //reply to user notify
         return message.channel.send(
-          `${user.user.username} has gotten: ${pointsToAdd} Points.\nYou have ${userscore.points} points now.\nAnd your level is ${userscore.level}`
+          `${user.user.username} has gotten: \u20B9${pointsToAdd}.\nYou have \u20B9${userscore.points} now.\nAnd your level is ${userscore.level}`
         );
       }
     }
