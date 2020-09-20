@@ -718,7 +718,7 @@ module.exports = {
             .setDescription("Case has been resumed")
             .addField("Asked by: ", `${user}`)
             .addField("Context link: ", prevCaseGet.murl)
-            .addField("Question: ", prevCaseGet.question + ".")
+            .addField("Question: ", prevCaseGet.question.slice(0, 1000) + ".")
             .addField("\u200b", "\u200b")
             .addField("Answer: ", prevCaseGet.answer)
             .setColor("RANDOM")
@@ -728,6 +728,11 @@ module.exports = {
           supportID.inuse = `1`;
           supportID.casenumber = prevCaseGet.scase;
           setSupport.run(supportID);
+
+          //change channel topic to subject
+          message.client.channels.cache
+            .get(message.channel.id)
+            .setTopic(prevCaseGet.question.slice(0, 1000));
 
           //if used category
           if (supportID.inusechan) {
@@ -869,6 +874,11 @@ module.exports = {
             supportID.inuse = `1`;
             supportID.casenumber = caseNum;
             setSupport.run(supportID);
+
+            //change channel topic to subject
+            message.client.channels.cache
+              .get(message.channel.id)
+              .setTopic(message.content.slice(0, 1000));
 
             //if used category
             if (supportID.inusechan) {

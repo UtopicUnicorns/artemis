@@ -8,19 +8,16 @@ dbinit.dbinit();
 
 //start
 module.exports = {
-  name: "lab",
-  description: "[hidden] the lab",
-  explain: `UtopicUnicorn's laboratory.`,
+  name: "speen",
+  description: "[fun] Lose your money!",
+  explain: `Each spin costs \u20B920, just use the command \`speen\` and hope for the best!`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
 
-    //if no perms
-    if (!message.member.permissions.has("KICK_MEMBERS")) return;
-
     //update usage
-    usage = getUsage.get("lab");
+    usage = getUsage.get("speen");
     usage.number++;
     setUsage.run(usage);
 
@@ -103,7 +100,7 @@ module.exports = {
 
     if (result1 == 4 && result2 == 4 && result3 == 4) var prize = 1000;
 
-    if (!prize) var prize = Math.floor((result1 + result2 + result3) * 3);
+    if (!prize) var prize = Math.floor((result1 + result2 + result3) * 2);
 
     //Userscore
     let userscore = getScore.get(message.author.id, message.guild.id);
@@ -154,7 +151,7 @@ module.exports = {
 
         //Edit message
         msg.edit(bMessage);
-      }, 5000);
+      }, 3000);
     });
   },
 };
