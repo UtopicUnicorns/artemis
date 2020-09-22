@@ -210,9 +210,7 @@ client.once("ready", () => {
                   );
                 //if mint
                 if (data.mainchan) {
-                  client.channels.cache
-                    .get(data.cid)
-                    .setParent(data.mainchan);
+                  client.channels.cache.get(data.cid).setParent(data.mainchan);
                 }
               }
             });
@@ -238,6 +236,23 @@ client.once("ready", () => {
       }
     }
   }, 5000);
+
+  //Ads
+  setInterval(() => {
+    //build embed
+    const adsEmbed = new Discord.MessageEmbed()
+      .setAuthor("Artemis Ads", "https://cdn.discordapp.com/emojis/670038964194770954.gif")
+      .setThumbnail("https://cdn.discordapp.com/emojis/670038964194770954.gif")
+      .setDescription("Support Artemis!")
+      .addField("Donate: ", "https://artemisbot.eu")
+      .addField("Bot List Vote: ", "https://top.gg/bot/440892659264126997")
+      .setColor("RANDOM");
+
+    //send embed
+    client.channels.cache.get("695182849476657223").send({
+      embed: adsEmbed,
+    });
+  }, 21600000);
 
   //mutedshit run
   setInterval(() => {
@@ -390,9 +405,13 @@ client.on("guildCreate", (guild) => {
           reason: "Needed for Artemis",
         });
 
-        var defaultRoles = guild.roles.cache.find((r) => r.name === `~/Members`);
+        var defaultRoles = guild.roles.cache.find(
+          (r) => r.name === `~/Members`
+        );
       } else {
-        var defaultRoles = guild.roles.cache.find((r) => r.name === `~/Members`);
+        var defaultRoles = guild.roles.cache.find(
+          (r) => r.name === `~/Members`
+        );
       }
 
       newGuild = {
@@ -560,7 +579,7 @@ client.on("messageUpdate", (oldMessage, newMessage) => {
 
 //the best thing here
 client.on("message", async (message) => {
- /*  if (
+  /*  if (
     message.guild.id == "628978428019736619" &&
     message.channel.id == "745323868390162453"
   ) {

@@ -23,14 +23,14 @@ class Captcha2 {
   constructor() {
 
     // Initialize canvas
-    this._canvas = Canvas.createCanvas(200, 75);
+    this._canvas = Canvas.createCanvas(250, 75);
     let ctx = this._canvas.getContext('2d');
 
     // Set background color
     ctx.globalAlpha = 1;
     ctx.fillStyle = "white";
     ctx.beginPath();
-    ctx.fillRect(0, 0, 200, 75);
+    ctx.fillRect(0, 0, 250, 75);
 
     // Draw background noise
     for (let i = 0; i < 10000; i++) {
@@ -39,7 +39,7 @@ class Captcha2 {
       while (color.length < 7) color += Math.round(Math.random() * 16).toString(16);
       ctx.fillStyle = color;
       ctx.arc(
-        Math.round(Math.random() * 200), // X coordinate
+        Math.round(Math.random() * 250), // X coordinate
         Math.round(Math.random() * 75), // Y coordinate
         Math.random(), // Radius
         0, // Start angle
