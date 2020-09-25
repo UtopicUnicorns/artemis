@@ -335,7 +335,7 @@ module.exports = {
       setScore.run(userfailsafe);
     }
 
-    var defaultRoles = message.guild.roles.cache.find(
+    var defaultRoles = await message.guild.roles.cache.find(
       (r) => r.name === `~/Members`
     );
 
@@ -355,7 +355,7 @@ module.exports = {
         prefix: `!`,
         leveling: `1`,
         wmessage: "",
-        defaultrole: defaultRoles.id,
+        defaultrole: "",
       };
       setGuild.run(guildfailsafe);
     } else {
@@ -1211,16 +1211,16 @@ module.exports = {
     }
 
     //EVENT
-    /*     if (message.guild.id == "628978428019736619") {
+         if (message.guild.id == "628978428019736619") {
       let eventnumber = 5;
       let eventnumber2 = Math.floor(Math.random() * 10);
       if (eventnumber2 == eventnumber) {
         let eventcheck = message.member.roles.cache.find(
-          (r) => r.name === `1024Mb`
+          (r) => r.id === `759093444987322368`
         );
         if (!eventcheck) {
           let eventr = message.guild.roles.cache.find(
-            (r) => r.name === `1024Mb`
+            (r) => r.id === `759093444987322368`
           );
           if (!eventr) return;
           message.member.roles.add(eventr);
@@ -1230,7 +1230,7 @@ module.exports = {
             .setDescription(
               `
               ${message.author}
-                \n earned the event title:\n1024Mb\nCongratulations!`
+                \n earned the event title:\n1 Year User\n\nThanks for your continued support for this server.`
             )
             .setTimestamp();
           message.client.channels.cache.get(`695182849476657223`).send({
@@ -1238,7 +1238,7 @@ module.exports = {
           });
         }
       }
-    } */
+    } 
 
     //Artemis Talk
     //if sentient channel
