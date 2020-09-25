@@ -2,8 +2,11 @@
 const npm = require("./modules/NPM.js");
 npm.npm();
 
+const ArtemisClient = require("./client/Client");
+
 //Shit
-const client = new Client();
+const client = new ArtemisClient();
+// Add config in later
 
 //load Database
 const dbinit = require("./modules/dbinit.js");
@@ -18,10 +21,10 @@ const emitter = new FeedEmitter();
 const oAuth = Discord.OAuth2Application;
 
 //command holder
-client.commands = new Discord.Collection();
+//client.commands = new Discord.Collection();
 
 //command files open
-const commandFiles = fs
+/*const commandFiles = fs
   .readdirSync("./commands")
   .filter((file) => file.endsWith(".js"));
 
@@ -47,7 +50,7 @@ for (const file of commandFiles) {
   //load commands
   client.commands.set(command.name, command);
 }
-
+*/
 //Bot ready
 client.once("ready", () => {
   //look at that a fucking welcome message to the console
@@ -73,7 +76,10 @@ client.once("ready", () => {
 
   //change bot Status
   setInterval(() => {
-    var RAN = [`https://artemisbot.eu`, `${client.guilds.cache.size} servers`];
+    const RAN = [
+      `https://artemisbot.eu`,
+      `${client.guilds.cache.size} servers`,
+    ];
     client.user.setActivity(RAN[~~(Math.random() * RAN.length)], {
       type: "LISTENING",
     });
@@ -241,7 +247,10 @@ client.once("ready", () => {
   setInterval(() => {
     //build embed
     const adsEmbed = new Discord.MessageEmbed()
-      .setAuthor("Artemis Ads", "https://cdn.discordapp.com/emojis/670038964194770954.gif")
+      .setAuthor(
+        "Artemis Ads",
+        "https://cdn.discordapp.com/emojis/670038964194770954.gif"
+      )
       .setThumbnail("https://cdn.discordapp.com/emojis/670038964194770954.gif")
       .setDescription("Support Artemis!")
       .addField("Donate: ", "https://artemisbot.eu")
@@ -623,4 +632,5 @@ client.on("warn", (e) => {});
 client.on("debug", (e) => {});
 
 //And login in the bot
-client.login(configfile.token);
+//client.login(configfile.token);
+client.start();
