@@ -20,15 +20,23 @@ const oAuth = Discord.OAuth2Application;
 //command holder
 client.commands = new Discord.Collection();
 
-//command files open
-const commandFiles = fs
-  .readdirSync("./commands")
-  .filter((file) => file.endsWith(".js"));
+var walkSync = function (dir, filelist) {
+  var path = path || require("path");
+  var fs = fs || require("fs"),
+    files = fs.readdirSync(dir);
+  filelist = filelist || [];
+  files.forEach(function (file) {
+    if (fs.statSync(path.join(dir, file)).isDirectory()) {
+      filelist = walkSync(path.join(dir, file), filelist);
+    } else {
+      filelist.push(`${dir}/${file}`);
+    }
+  });
+  return filelist;
+};
 
-//loopdiloop commands and loads em
-for (const file of commandFiles) {
-  //define command files
-  const command = require(`./commands/${file}`);
+walkSync("commands").forEach((file) => {
+  const command = require(`./${file}`);
 
   //pull database from database
   let usagecheck = getUsage.get(command.name);
@@ -46,7 +54,7 @@ for (const file of commandFiles) {
 
   //load commands
   client.commands.set(command.name, command);
-}
+});
 
 //Bot ready
 client.once("ready", () => {
@@ -73,11 +81,15 @@ client.once("ready", () => {
 
   //change bot Status
   setInterval(() => {
-    var RAN = [`https://artemisbot.eu`, `${client.guilds.cache.size} servers`];
+    var RAN = [
+      `\uD83C\uDF10${client.guilds.cache.size.toLocaleString()} Servers \uD83D\uDC64${client.users.cache.size.toLocaleString()} Users \uD83D\uDCBB${Math.floor(
+        process.memoryUsage().heapUsed / 1024 / 1024
+      )} MB ram`,
+    ];
     client.user.setActivity(RAN[~~(Math.random() * RAN.length)], {
       type: "LISTENING",
     });
-  }, 60000);
+  }, 10000);
 
   //Reminder run
   setInterval(() => {
@@ -241,7 +253,10 @@ client.once("ready", () => {
   setInterval(() => {
     //build embed
     const adsEmbed = new Discord.MessageEmbed()
-      .setAuthor("Artemis Ads", "https://cdn.discordapp.com/emojis/670038964194770954.gif")
+      .setAuthor(
+        "Artemis Ads",
+        "https://cdn.discordapp.com/emojis/670038964194770954.gif"
+      )
       .setThumbnail("https://cdn.discordapp.com/emojis/670038964194770954.gif")
       .setDescription("Support Artemis!")
       .addField("Donate: ", "https://artemisbot.eu")
@@ -579,28 +594,6 @@ client.on("messageUpdate", (oldMessage, newMessage) => {
 
 //the best thing here
 client.on("message", async (message) => {
-  /*  if (
-    message.guild.id == "628978428019736619" &&
-    message.channel.id == "745323868390162453"
-  ) {
-    if (message.author.bot) return
-    var discordUser = message.author.username.replace(/[^ -~]+/g, "");
-
-    //else
-    rconClient.sendCommand(
-      'tellraw @a [{"text":"[","color":"light_purple","bold":true},{"text":"Discord","color":"dark_purple","bold":false},{"text":"]","color":"light_purple","bold":true},{"text":" ' +
-        discordUser +
-        '","color":"green","bold":false},{"text":":","color":"yellow","bold":true},{"text":" ' +
-        message.content.replace(/@/g, "") +
-        '","color":"aqua", "bold":false}]',
-      function (err, response) {
-        if (err) {
-          console.log(err);
-        }
-      }
-    );
-  } */
-
   //load module
   const onMessage = require("./modules/on_message.js");
   onMessage.onMessage(message);

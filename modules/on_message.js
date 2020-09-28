@@ -1230,7 +1230,7 @@ module.exports = {
             .setDescription(
               `
               ${message.author}
-                \n earned the event title:\n1 Year User\n\nThanks for your continued support for this server.`
+                \n earned the event title:\nFirst Year Member\n\nThanks for your continued support for this server.`
             )
             .setTimestamp();
           message.client.channels.cache.get(`695182849476657223`).send({

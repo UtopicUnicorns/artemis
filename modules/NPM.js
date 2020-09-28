@@ -21,6 +21,7 @@ exports.npm = function () {
   Captcha2 = require("./captcha.js");
   https = require("https");
   Stream = require("stream");
+  path = require("path");
   youtube = new YouTube(configfile.youtubekey);
   msgRecently = new Set();
   noticeset = new Set();
