@@ -91,6 +91,57 @@ client.once("ready", () => {
     });
   }, 10000);
 
+  //autokick
+  setInterval(() => {
+    async function hello() {
+      //grab database entry
+      let getGuild = await db.prepare("SELECT * FROM guildhub").all();
+      for (let data of getGuild) {
+        //if there is a mute channel AND a default role
+        if (data.muteChannel !== "0" && data.defaultrole) {
+          //grab guild
+          let guildGrab = await client.guilds.cache.get(data.guild);
+
+          //Seems like it only works with this..
+          if (guildGrab) {
+            //grab specific members
+            let hello = guildGrab.members.cache
+              .filter(
+                (member) =>
+                  !member.roles.cache.find((r) => r.id === data.defaultrole)
+              )
+              .map((m) => m);
+
+            //Loop trough members
+            hello.forEach((mem) => {
+              //Define joined AT date
+              var cdate = moment.utc(mem.joinedAt).format("YYYYMMDD");
+
+              //FromNow date
+              let ageS = moment(cdate, "YYYYMMDD").fromNow(true);
+
+              //if specific age
+              if (ageS == "a day" && !mem.bot)
+                mem
+                  .kick()
+                  .then(() =>
+                    client.channels.cache
+                      .get(data.muteChannel)
+                      .send(
+                        `${mem.user.tag} was kicked.\nFailed to verify within a day!`
+                      )
+                  )
+                  .catch((error) => console.log(""));
+            });
+          }
+        }
+      }
+    }
+
+    //run async function
+    hello();
+  }, 60000);
+
   //Reminder run
   setInterval(() => {
     //pull reminder data
@@ -269,6 +320,28 @@ client.once("ready", () => {
     });
   }, 21600000);
 
+  //Member update
+  setInterval(() => {
+    client.channels.cache
+      .get("760363714544795650")
+      .setName(
+        `Online: \uD83D\uDCBB${
+          client.guilds.cache
+            .get("628978428019736619")
+            .members.cache.filter(
+              (member) => member.presence.status !== "offline"
+            ).size
+        }`
+      );
+    client.channels.cache
+      .get("760363798556704790")
+      .setName(
+        `Total Members: \uD83D\uDC64${
+          client.guilds.cache.get("628978428019736619").memberCount
+        }`
+      );
+  }, 60000);
+
   //mutedshit run
   setInterval(() => {
     const timerdb = db
@@ -442,7 +515,7 @@ client.on("guildCreate", (guild) => {
         prefix: `!`,
         leveling: `1`,
         wmessage: ``,
-        defaultrole: defaultRoles.id,
+        defaultrole: ``,
       };
       setGuild.run(newGuild);
 

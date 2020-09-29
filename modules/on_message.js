@@ -1211,7 +1211,7 @@ module.exports = {
     }
 
     //EVENT
-         if (message.guild.id == "628978428019736619") {
+    if (message.guild.id == "628978428019736619") {
       let eventnumber = 5;
       let eventnumber2 = Math.floor(Math.random() * 10);
       if (eventnumber2 == eventnumber) {
@@ -1238,7 +1238,7 @@ module.exports = {
           });
         }
       }
-    } 
+    }
 
     //Artemis Talk
     //if sentient channel
@@ -1352,10 +1352,8 @@ module.exports = {
     translateopt = getScore.get(message.author.id, message.guild.id);
 
     //if translation for user is on, or prefix is used
-    if (
-      translateopt.translate == `2` ||
-      message.content.startsWith(prefix + "tr")
-    ) {
+    //translateopt.translate == `2` ||
+    if (message.content.startsWith(prefix + "tr")) {
       //Define proper message to translate
       if (message.content.startsWith(prefix + "tr")) {
         var text = message.content.slice(prefix.length + 3);
