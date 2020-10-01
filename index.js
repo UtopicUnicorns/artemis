@@ -91,7 +91,7 @@ client.once("ready", () => {
     });
   }, 10000);
 
-  //autokick
+  /* //autokick !!BORKED!!
   setInterval(() => {
     async function hello() {
       //grab database entry
@@ -121,7 +121,14 @@ client.once("ready", () => {
               let ageS = moment(cdate, "YYYYMMDD").fromNow(true);
 
               //if specific age
-              if (ageS == "a day" && !mem.bot)
+              if (
+                (ageS.includes("days") &&
+                  data.guild !== "558624707147071489" &&
+                  !mem.user.bot) ||
+                (ageS.includes("month") &&
+                  data.guild == "558624707147071489" &&
+                  !mem.user.bot)
+              )
                 mem
                   .kick()
                   .then(() =>
@@ -140,7 +147,7 @@ client.once("ready", () => {
 
     //run async function
     hello();
-  }, 60000);
+  }, 60000); */
 
   //Reminder run
   setInterval(() => {
