@@ -77,19 +77,51 @@ module.exports = {
       return message.reply("That command does not exist");
     }
 
-    //delete cache for command
-    delete require.cache[require.resolve(`./${commandName}.js`)];
+    //Loop trough commands
+    Object.keys(require.cache).forEach(function (key) {
+      //rename obj
+      let delReq = require.cache[key];
 
-    //delete from set
-    message.client.commands.delete(commandName);
+      //Target commands only
+      if (delReq.id.includes("/root/Server/commands/")) {
+        //Split objects
+        let delReq2 = delReq.id.split("/");
 
-    //reload command
-    const props = require(`./${commandName}.js`);
+        //Array
+        let commandPush = [];
 
-    //pour into set
-    message.client.commands.set(commandName, props);
+        //for every object
+        delReq2.forEach((mod) => {
+          //if object is input.js
+          if (mod === `${commandName}.js`) {
+            if (delReq.id.length > 1) {
+              //Push into array
+              commandPush.push(`${delReq.id}`);
+            }
+          }
 
-    //notify
-    message.reply(`The command ${commandName} has been reloaded`);
+          //loop trough array
+          commandPush.forEach((comName) => {
+            //if it includes this key
+            if (comName.includes("/root/Server/commands/")) {
+              //delete cache for command
+              delete require.cache[require.resolve(`${comName}`)];
+
+              //delete from set
+              message.client.commands.delete(commandName);
+
+              //reload command
+              const props = require(`${comName}`);
+
+              //pour into set
+              message.client.commands.set(commandName, props);
+
+              //notify
+              message.reply(`The command ${commandName} has been reloaded`);
+            }
+          });
+        });
+      }
+    });
   },
 };
