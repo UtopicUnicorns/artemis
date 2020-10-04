@@ -23,20 +23,11 @@ module.exports = {
     setUsage.run(usage);
 
     //ping
-    if (message.author.id == "558206606685372451") {
-      const m = await message.channel.send("Wanna dance?");
-      m.edit(
-        `Let's dance! \uD83D\uDC83\uD83C\uDFFB\uD83D\uDC83\uD83C\uDFFB\uD83D\uDC83\uD83C\uDFFB\uD83D\uDC83\uD83C\uDFFB\n Latency is ${
-          m.createdTimestamp - message.createdTimestamp
-        }ms. API Latency is ${Math.round(message.client.ws.ping)}ms`
-      );
-    } else {
-      const m = await message.channel.send("Ping?");
-      m.edit(
-        `Pong! Latency is ${
-          m.createdTimestamp - message.createdTimestamp
-        }ms. API Latency is ${Math.round(message.client.ws.ping)}ms`
-      );
-    }
+    const m = await message.channel.send("Ping?");
+    m.edit(
+      `Pong! Latency is ${
+        m.createdTimestamp - message.createdTimestamp
+      }ms. API Latency is ${Math.round(message.client.ws.ping)}ms`
+    );
   },
 };

@@ -108,20 +108,22 @@ module.exports = {
         //if user defined
         if (user) {
           //if number is specified
-          if (args[1].match(/^[0-9]+$/) != null) {
-            //set ammount
-            let amount = args[1];
+          if (args[1]) {
+            if (args[1].match(/^[0-9]+$/) != null) {
+              //set ammount
+              let amount = args[1];
 
-            //define messages
-            messages = messages
-              .filter((m) => m.author.id === user.id)
-              .array()
-              .slice(0, amount);
+              //define messages
+              messages = messages
+                .filter((m) => m.author.id === user.id)
+                .array()
+                .slice(0, amount);
 
-            //purge
-            return message.channel
-              .bulkDelete(messages)
-              .catch((error) => console.log(error.stack));
+              //purge
+              return message.channel
+                .bulkDelete(messages)
+                .catch((error) => console.log(error.stack));
+            }
           }
         }
       });

@@ -1211,6 +1211,7 @@ module.exports = {
     }
 
     //EVENT
+    /*
     if (message.guild.id == "628978428019736619") {
       let eventnumber = 5;
       let eventnumber2 = Math.floor(Math.random() * 10);
@@ -1239,6 +1240,7 @@ module.exports = {
         }
       }
     }
+    */
 
     //Artemis Talk
     //if sentient channel

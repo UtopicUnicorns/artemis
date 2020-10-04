@@ -533,6 +533,7 @@ client.on("guildCreate", (guild) => {
           leavejoin: `0`,
           deletemsg: `0`,
           editmsg: `0`,
+          bumpping: `0`,
         };
         setSettings.run(settingsfailsafe);
       }
