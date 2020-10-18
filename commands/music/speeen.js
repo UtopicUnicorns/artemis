@@ -54,7 +54,23 @@ module.exports = {
       );
 
     var connection = await voiceChannel.join();
-    const dispatcher = await connection.play("./speen.mp3");
+
+    //Select speen
+    //define pics
+    const speens = fs.readdirSync("./media");
+
+    //empty array
+    const array = [];
+
+    //loop trough photos
+    for (const file of speens) {
+      //push into array
+      array.push(file);
+    }
+
+    let selSpeen = array[~~(Math.random() * array.length)];
+
+    const dispatcher = await connection.play(`./media/${selSpeen}`);
 
     dispatcher.on("finish", () => voiceChannel.leave());
   },
