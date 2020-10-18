@@ -91,64 +91,6 @@ client.once("ready", () => {
     });
   }, 10000);
 
-  /* //autokick !!BORKED!!
-  setInterval(() => {
-    async function hello() {
-      //grab database entry
-      let getGuild = await db.prepare("SELECT * FROM guildhub").all();
-      for (let data of getGuild) {
-        //if there is a mute channel AND a default role
-        if (data.muteChannel !== "0" && data.defaultrole) {
-          //grab guild
-          let guildGrab = await client.guilds.cache.get(data.guild);
-
-          //Seems like it only works with this..
-          if (guildGrab) {
-            //grab specific members
-            let hello = guildGrab.members.cache
-              .filter(
-                (member) =>
-                  !member.roles.cache.find((r) => r.id === data.defaultrole)
-              )
-              .map((m) => m);
-
-            //Loop trough members
-            hello.forEach((mem) => {
-              //Define joined AT date
-              var cdate = moment.utc(mem.joinedAt).format("YYYYMMDD");
-
-              //FromNow date
-              let ageS = moment(cdate, "YYYYMMDD").fromNow(true);
-
-              //if specific age
-              if (
-                (ageS.includes("days") &&
-                  data.guild !== "558624707147071489" &&
-                  !mem.user.bot) ||
-                (ageS.includes("month") &&
-                  data.guild == "558624707147071489" &&
-                  !mem.user.bot)
-              )
-                mem
-                  .kick()
-                  .then(() =>
-                    client.channels.cache
-                      .get(data.muteChannel)
-                      .send(
-                        `${mem.user.tag} was kicked.\nFailed to verify within a day!`
-                      )
-                  )
-                  .catch((error) => console.log(""));
-            });
-          }
-        }
-      }
-    }
-
-    //run async function
-    hello();
-  }, 60000); */
-
   //Reminder run
   setInterval(() => {
     //pull reminder data
@@ -547,6 +489,14 @@ client.on("guildCreate", (guild) => {
 client.on("guildDelete", (guild) => {
   //log the pitiful loser who left us
   console.log("Left a guild: " + guild.name + " Users: " + guild.memberCount);
+
+  //next
+});
+
+client.on("voiceStateUpdate", (oldMember, newMember) => {
+  //load module
+  const voiceStateUpdate = require("./modules/voiceStateUpdate.js");
+  voiceStateUpdate.voiceStateUpdate(oldMember, newMember);
 
   //next
 });

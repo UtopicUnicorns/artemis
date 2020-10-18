@@ -27,6 +27,8 @@ module.exports = {
     usage.number++;
     setUsage.run(usage);
 
+    return message.reply("This command is temporarely disabled due to well I have no damn clue.. Something is wrong reeee!");
+
     const Role = message.mentions.roles.first();
 
     message.guild.members.cache.filter(m => !m.user.bot).forEach(member => member.roles.add(Role))
