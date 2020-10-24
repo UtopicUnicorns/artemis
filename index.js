@@ -11,8 +11,17 @@ dbinit.dbinit();
 
 //reddit rss feed
 const { FeedEmitter } = require("rss-emitter-ts");
-const { parseURL } = require("simple-youtube-api/src/util");
 const emitter = new FeedEmitter();
+
+//Twitch Emitter
+//call events
+const TwitchEmitter = require("events");
+
+//extend
+class Emitter extends TwitchEmitter {}
+
+//Dub to call and listen
+const twitchEmitter = new Emitter();
 
 //Dashboard stuff
 const oAuth = Discord.OAuth2Application;
@@ -62,10 +71,10 @@ client.once("ready", () => {
   //form embed
   let embed = new Discord.MessageEmbed()
     .setColor("RANDOM")
-    .setThumbnail("https://artemisbot.eu/static/images/artava.png")
+    .setThumbnail("https://artemis.rest/static/images/artava.png")
     .setAuthor(
       "Artemis Client",
-      "https://artemisbot.eu/static/images/artava.png"
+      "https://artemis.rest/static/images/artava.png"
     )
     .setDescription("Bot Started")
     .addField(
@@ -231,24 +240,6 @@ client.once("ready", () => {
     }
   }, 5000);
 
-  //streamshit run
-  setInterval(() => {
-    const timerdb2 = db
-      .prepare("SELECT * FROM timers ORDER BY time DESC;")
-      .all();
-    for (const data of timerdb2) {
-      let timenow = moment().format("YYYYMMDDHHmmss");
-      if (timenow > data.time) {
-        if (data.bs !== "stream") return;
-        return db
-          .prepare(
-            `DELETE FROM timers WHERE cid = ${data.cid} AND uid = ${data.uid}`
-          )
-          .run();
-      }
-    }
-  }, 5000);
-
   //Ads
   setInterval(() => {
     //build embed
@@ -259,7 +250,7 @@ client.once("ready", () => {
       )
       .setThumbnail("https://cdn.discordapp.com/emojis/670038964194770954.gif")
       .setDescription("Support Artemis!")
-      .addField("Donate: ", "https://artemisbot.eu")
+      .addField("Donate: ", "https://artemis.rest")
       .addField("Bot List Vote: ", "https://top.gg/bot/440892659264126997")
       .setColor("RANDOM");
 
@@ -363,6 +354,72 @@ client.once("ready", () => {
     }
   }
 
+  //Twitch emitter output
+  setInterval(async () => {
+    //
+    let data = db.prepare("SELECT * FROM streamers;").all();
+    data.forEach((streamerData) => {
+      //Select twitch scopes
+      const SCOPE = "user:read:email";
+
+      //call twitch module, insert client ID and secret and scopes needed
+      Twitch.getToken(
+        configfile.CLIENT_IDT,
+        configfile.CLIENT_SECRETT,
+        SCOPE
+      ).then(
+        //display results
+        async (result) => {
+          //set token
+          let access_token = result.access_token;
+
+          //authorize
+          let user = await Twitch.getUserInfo(
+            access_token,
+            configfile.CLIENT_IDT,
+            streamerData.streamer
+          );
+
+          //fail safes
+          if (!user) return;
+          if (!user.data) return;
+          if (!user.data[0]) return;
+
+          //dub data user
+          let user_id = user.data[0].id;
+
+          //get info
+          let stream_info = await Twitch.getStream(
+            access_token,
+            configfile.CLIENT_IDT,
+            user_id
+          );
+
+          if (!stream_info.data[0]) {
+            var dat = [streamerData.streamer, streamerData.guild, "OFFLINE"];
+          } else {
+            var dat = [
+              streamerData.streamer,
+              streamerData.guild,
+              stream_info.data[0].user_name,
+              stream_info.data[0].game_id,
+              stream_info.data[0].title,
+              stream_info.data[0].viewer_count,
+              stream_info.data[0].thumbnail_url,
+            ];
+          }
+
+          //console.log(dat);
+
+          //Throw shit into the emitter
+          twitchEmitter.emit("event", dat);
+        }
+      );
+      //
+    });
+    //
+  }, 60000);
+
   //start Website
   dashboard.run(
     client,
@@ -383,10 +440,10 @@ client.once("shardReconnecting", (id) => {
   //form embed
   let embed = new Discord.MessageEmbed()
     .setColor("RANDOM")
-    .setThumbnail("https://artemisbot.eu/static/images/artava.png")
+    .setThumbnail("https://artemis.rest/static/images/artava.png")
     .setAuthor(
       "Artemis Client",
-      "https://artemisbot.eu/static/images/artava.png"
+      "https://artemis.rest/static/images/artava.png"
     )
     .setDescription("Bot Reconnected")
     .addField(
@@ -594,6 +651,15 @@ emitter.on("item:new", (item) => {
 //go fuck yourself
 emitter.on("feed:error", (error) => {
   //console.error(error.message)
+});
+
+//on twitch event
+twitchEmitter.on("event", async (dat) => {
+  //load module
+  const twitchEmit = require("./modules/twitch.js");
+  twitchEmit.twitchEmit(dat, client);
+
+  //next
 });
 
 //Message delete

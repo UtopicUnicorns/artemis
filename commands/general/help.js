@@ -236,7 +236,7 @@ module.exports = {
         .setDescription(
           "Having 3 :tea: reactions to a message will highlight it!"
         )
-        .addField("Also available on: ", "https://artemisbot.eu")
+        .addField("Also available on: ", "https://artemis.rest")
         .setColor(`RANDOM`)
         .setThumbnail(
           message.guild.iconURL({

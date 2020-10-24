@@ -2324,15 +2324,15 @@ exports.run = (client, config) => {
     res.redirect("/");
   });
   const privateKey = fs.readFileSync(
-    "/etc/letsencrypt/live/artemisbot.eu/privkey.pem",
+    "/etc/letsencrypt/live/artemis.rest/privkey.pem",
     "utf8"
   );
   const certificate = fs.readFileSync(
-    "/etc/letsencrypt/live/artemisbot.eu/cert.pem",
+    "/etc/letsencrypt/live/artemis.rest/cert.pem",
     "utf8"
   );
   const ca = fs.readFileSync(
-    "/etc/letsencrypt/live/artemisbot.eu/chain.pem",
+    "/etc/letsencrypt/live/artemis.rest/chain.pem",
     "utf8"
   );
 

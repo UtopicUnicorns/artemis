@@ -118,6 +118,7 @@ body {
   width: 100%;
   padding-top: 100px;
   text-align: center;
+  animation: boxed 2s 1;
 }
 
 .buttonmenu {
@@ -218,6 +219,25 @@ body {
   animation: glitch 2s 2s infinite;
 }
 
+@keyframes boxed {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 100;
+  }
+}
+
+@keyframes boxed2 {
+  0% {
+    margin-top: 1000px;
+    opacity: 0;
+  }
+  100% {
+    opacity: 100;
+  }
+}
+
 .contentbox {
   margin: 0px;
   padding: 0px;
@@ -229,6 +249,7 @@ body {
   float: left;
   clear: none;
   width: 100%;
+  animation: boxed2 2s 1;
   transition: 500ms;
 }
 

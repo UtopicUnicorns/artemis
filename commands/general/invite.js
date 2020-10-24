@@ -32,7 +32,7 @@ module.exports = {
       .setColor("RANDOM")
       .setDescription("Hello, I am Artemis!")
       .addField("Main discord server: ", "https://discord.gg/EVVtPpw")
-      .addField("Bot Website: ", "https://artemisbot.eu")
+      .addField("Bot Website: ", "https://artemis.rest")
       .addField("Bot Github: ", "https://github.com/UtopicUnicorns/artemis")
       .addField(
         "Bot Invite: ",

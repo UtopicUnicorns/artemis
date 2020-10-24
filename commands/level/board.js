@@ -107,7 +107,7 @@ module.exports = {
           const embed = new Discord.MessageEmbed()
             .setTitle("Leaderboard")
             .setDescription(
-              `Full leaderboard on https://artemisbot.eu/${message.guild.id}`
+              `Full leaderboard on https://artemis.rest/${message.guild.id}`
             )
             .setColor("RANDOM");
 
@@ -213,7 +213,7 @@ module.exports = {
         const embed = new Discord.MessageEmbed()
           .setTitle("Leaderboard")
           .setDescription(
-            `Full leaderboard on https://artemisbot.eu/${message.guild.id}`
+            `Full leaderboard on https://artemis.rest/${message.guild.id}`
           )
           .setColor("RANDOM");
 

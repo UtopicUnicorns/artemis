@@ -91,7 +91,7 @@ _To even begin you need to make sure you are actually allowed to add bots to you
 
 ### Adding_the_bot
 Adding the bot is simple, you either hit the button `Add Bot` on:
-* [https://artemisbot.eu/](#https://artemisbot.eu/)
+* [https://artemis.rest/](#https://artemis.rest/)
 
 Or you use the direct link: 
 * [https://discord.com/oauth2/authorize?client_id=440892659264126997&permissions=8&scope=bot](#https://discord.com/oauth2/authorize?client_id=440892659264126997&permissions=8&scope=bot)
@@ -107,7 +107,7 @@ Artemis is a multi-function bot.
 * And more...
 
 ### Setting_up_the_channels
-Go to [https://artemisbot.eu/](#https://artemisbot.eu/) and login there.
+Go to [https://artemis.rest/](#https://artemis.rest/) and login there.
 Click `Server Control`,
 choose the server you want to modify, then scroll down to `Channels`.
 
@@ -171,7 +171,7 @@ This section will cover the commands Artemis has.
 Note that not every command may be available, because I don't update this guide quite as much as my bot.
 My apologies about that.
 
-All of the commands below require you to use a prefix in front of them, which you can setup on [https://artemisbot.eu](https://artemisbot.eu).
+All of the commands below require you to use a prefix in front of them, which you can setup on [https://artemis.rest](https://artemis.rest).
 
 Example: `!help`
 
@@ -632,7 +632,7 @@ Example usage: `!lenny`
 ### P
 This will fully load a webpage within the bot's code, then return the loading speed to the user.
 
-Example usage: `!p https://artemisbot.eu`
+Example usage: `!p https://artemis.rest`
 
 ### Wallpaper
 A small collection of single and double screen wallpapers.

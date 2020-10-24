@@ -10,9 +10,11 @@ dbinit.dbinit();
 module.exports = {
   category: `stream`,
   name: "stream",
-  description: `[stream] turn on or off your own stream notifications`,
-  explain: `This command shows you if you allow the bot to notify others if you go live on Twitch.\n
-  Change this on the artemis website to turn it on or off.`,
+  description: `[stream] Manage your guilds streamers!`,
+  explain: `Add or remove streamers from your guild streaming list!
+  Streamers will be added or removed depending on if the streamer is already in the database for your server.
+
+  Example usage: \`stream {StreamerName}\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
@@ -23,26 +25,43 @@ module.exports = {
     usage.number++;
     setUsage.run(usage);
 
-    //pull data
-    let stream = getScore.get(message.author.id, message.guild.id);
+    //Mods required!
+    if (!message.member.permissions.has("KICK_MEMBERS")) return;
 
-    //form status
-    if (stream.stream == `2`) {
-      var optstatus = `Your stream notifications are OFF!`;
+    //args
+    let streamerName = message.content.slice(prefix.length + 7);
+
+    //if no args
+    if (!streamerName) return message.reply("Please provide a streamers name.");
+
+    //get streamer
+    let StreamerCheck = getStreamers.get(`${message.guild.id}-${streamerName}`);
+
+    //perform check
+    if (!StreamerCheck) {
+      //define new streamer
+      streamerAdd = {
+        streamerguild: `${message.guild.id}-${streamerName}`,
+        streamer: `${streamerName}`,
+        guild: `${message.guild.id}`,
+        status: `offline`,
+      };
+
+      //Run db
+      setStreamers.run(streamerAdd);
+
+      //notify
+      return message.reply(`Added ${streamerName} to our list!`);
     } else {
-      var optstatus = `Your stream notifications are ON!`;
+      //delete from database
+      db.prepare(
+        `DELETE FROM streamers WHERE streamerguild = '${message.guild.id}-${streamerName}'`
+      ).run();
+
+      //notify
+      return message.reply(
+        `Removed ${streamerName} from the guild streamers list!`
+      );
     }
-
-    //form embed
-    const embed = new Discord.MessageEmbed()
-      .setTitle("Stream Notifications")
-      .setDescription("change this on https://artemisbot.eu/")
-      .setColor("RANDOM")
-      .addField("Stream Notifications: ", optstatus);
-
-    //send embed
-    message.channel.send({
-      embed,
-    });
   },
 };

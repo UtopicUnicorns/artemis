@@ -290,7 +290,7 @@ module.exports = {
         .setColor("RANDOM")
         .setDescription("Hello, I am Artemis!")
         .addField("Main discord server: ", "https://discord.gg/EVVtPpw")
-        .addField("Bot Website: ", "https://artemisbot.eu")
+        .addField("Bot Website: ", "https://artemis.rest")
         .addField("Bot Github: ", "https://github.com/UtopicUnicorns/artemis")
         .addField(
           "Bot Invite: ",
@@ -917,7 +917,7 @@ module.exports = {
         .addField("Example command usage: \n", prefix + "help")
         .addField(
           "Support my work: ",
-          "https://www.paypal.com/paypalme2/UtopicUnicorn\nhttps://artemisbot.eu"
+          "https://www.paypal.com/paypalme2/UtopicUnicorn\nhttps://artemis.rest"
         )
         .setTimestamp();
 
@@ -1175,7 +1175,7 @@ module.exports = {
           //create hook
           message.channel
             .createWebhook("ArtemisHook", {
-              avatar: "https://artemisbot.eu/static/images/artava.png",
+              avatar: "https://artemis.rest/static/images/artava.png",
             })
             .then((webhook) => message.reply(`Created webhook ${webhook}`))
             .catch(console.error);

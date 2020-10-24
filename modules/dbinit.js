@@ -253,8 +253,25 @@ exports.dbinit = function () {
     db.prepare(
       "CREATE TABLE topics (gidtopic TEXT PRIMARY KEY, gid TEXT, topic TEXT);"
     ).run();
+    db.prepare("CREATE UNIQUE INDEX idx_topics_id ON topics (gidtopic);").run();
+    db.pragma("synchronous = 1");
+    db.pragma("journal_mode = wal");
+  }
+
+  //////////////////////
+  //Streams         DB//
+  //////////////////////
+  const table16 = db
+    .prepare(
+      "SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'streamers';"
+    )
+    .get();
+  if (!table16["count(*)"]) {
     db.prepare(
-      "CREATE UNIQUE INDEX idx_topics_id ON topics (gidtopic);"
+      "CREATE TABLE streamers (streamerguild TEXT PRIMARY KEY, streamer TEXT, guild TEXT, status TEXT);"
+    ).run();
+    db.prepare(
+      "CREATE UNIQUE INDEX idx_streamers_id ON streamers (streamerguild);"
     ).run();
     db.pragma("synchronous = 1");
     db.pragma("journal_mode = wal");
@@ -263,6 +280,12 @@ exports.dbinit = function () {
   /////////////////////////
   //RUN ALL DB'S         //
   /////////////////////////
+
+  //run streamers
+  getStreamers = db.prepare("SELECT * FROM streamers WHERE streamerguild = ?");
+  setStreamers = db.prepare(
+    "INSERT OR REPLACE INTO streamers (streamerguild, streamer, guild, status) VALUES (@streamerguild, @streamer, @guild, @status);"
+  );
 
   //run topics
   getTopics = db.prepare("SELECT * FROM topics WHERE gid = ?");
