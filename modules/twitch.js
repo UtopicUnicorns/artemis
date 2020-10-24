@@ -77,9 +77,11 @@ module.exports = {
 
             //Define stuffs
             let gameName = stream_info.data[0].name;
-            let gameImg = stream_info.data[0].box_art_url
+            let gameImg = await stream_info.data[0].box_art_url
               .replace("{width}", "500")
-              .replace("{height}", "500");
+              .replace("{height}", "500")
+              .replace("./", "");
+            //console.log(gameImg);
             let streamImg = dat[6]
               .replace("{width}", "500")
               .replace("{height}", "400");
