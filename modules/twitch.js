@@ -99,7 +99,7 @@ module.exports = {
               .setURL(streamUrl)
               .setDescription(`${streamName} went live on Twitch!`)
               .addField(streamInfo, "\n" + streamUrl)
-              .setImage(streamImg)
+              .setImage(gameImg)
               .setFooter(`Viewers: ${streamView}`);
 
             //check if @here is enabled

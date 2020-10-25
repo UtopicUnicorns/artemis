@@ -12,6 +12,16 @@ supportGet = new Set();
 //start
 module.exports = {
   onMessage: async function (message) {
+    //clever
+    if (message.content.toLowerCase().startsWith("artemis")) {
+      //args
+      let contextMsg = message.content.slice(8);
+
+      cleverbot(contextMsg).then((response) => {
+        message.reply(response);
+      });
+    }
+
     //init something
     if (message.guild) {
       var bumps = getSettings.get(message.guild.id);
@@ -1165,44 +1175,48 @@ module.exports = {
       //function hookSend
       async function hookSend(message) {
         //fetch hooks
-        const webhooks = await message.channel.fetchWebhooks();
+        const webhooks = await message.channel
+          .fetchWebhooks()
+          .catch((err) => console.log(""));
 
-        //select first hook
-        const webhook = webhooks.first();
+        if (webhooks) {
+          //select first hook
+          const webhook = webhooks.first();
 
-        //if no hook
-        if (!webhook) {
-          //create hook
-          message.channel
-            .createWebhook("ArtemisHook", {
-              avatar: "https://artemis.rest/static/images/artava.png",
-            })
-            .then((webhook) => message.reply(`Created webhook ${webhook}`))
-            .catch(console.error);
-        } else {
-          //delete message
-          message.delete();
+          //if no hook
+          if (!webhook) {
+            //create hook
+            message.channel
+              .createWebhook("ArtemisHook", {
+                avatar: "https://artemis.rest/static/images/artava.png",
+              })
+              .then((webhook) => message.reply(`Created webhook ${webhook}`))
+              .catch(console.error);
+          } else {
+            //delete message
+            message.delete();
 
-          //UWU
-          v = message.content;
-          if (!message.content) return;
-          if (!message.content.startsWith("http")) {
-            v = v.replace(/(?:r|l)/g, "w");
-            v = v.replace(/(?:R|L)/g, "W");
-            v = v.replace(/n([aeiou])/g, "ny$1");
-            v = v.replace(/N([aeiou])/g, "Ny$1");
-            v = v.replace(/N([AEIOU])/g, "Ny$1");
-            v = v.replace(/ove/g, "uv");
+            //UWU
+            v = message.content;
+            if (!message.content) return;
+            if (!message.content.startsWith("http")) {
+              v = v.replace(/(?:r|l)/g, "w");
+              v = v.replace(/(?:R|L)/g, "W");
+              v = v.replace(/n([aeiou])/g, "ny$1");
+              v = v.replace(/N([aeiou])/g, "Ny$1");
+              v = v.replace(/N([AEIOU])/g, "Ny$1");
+              v = v.replace(/ove/g, "uv");
+            }
+            //send content
+            await webhook.send(v, {
+              username: message.author.username,
+              avatarURL: message.author.displayAvatarURL({
+                format: "png",
+                dynamic: true,
+                size: 128,
+              }),
+            });
           }
-          //send content
-          await webhook.send(v, {
-            username: message.author.username,
-            avatarURL: message.author.displayAvatarURL({
-              format: "png",
-              dynamic: true,
-              size: 128,
-            }),
-          });
         }
       }
 

@@ -23,11 +23,13 @@ module.exports = {
     setUsage.run(usage);
 
     //ping
-    const m = await message.channel.send("Ping?");
+    const m = await message.channel
+      .send("Ping?")
+      .catch((err) => console.log(""));
     m.edit(
       `Pong! Latency is ${
         m.createdTimestamp - message.createdTimestamp
       }ms. API Latency is ${Math.round(message.client.ws.ping)}ms`
-    );
+    ).catch((err) => console.log(""));
   },
 };

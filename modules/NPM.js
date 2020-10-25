@@ -25,6 +25,7 @@ exports.npm = function () {
   gis = require('g-i-s');
   searchGoogle = require("npm-search-google/disk/search-keyword-google");
   Twitch = require("simple-twitch-api");
+  cleverbot = require("cleverbot-free");
   search = new searchGoogle();
   youtube = new YouTube(configfile.youtubekey);
   msgRecently = new Set();
