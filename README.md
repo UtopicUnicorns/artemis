@@ -1,3 +1,6 @@
+![GitHub](https://img.shields.io/github/license/UtopicUnicorns/artemis?style=for-the-badge) 
+![Discord](https://img.shields.io/discord/628978428019736619?logo=Discord&style=for-the-badge)
+
 # Artemis Wiki
 _Oh god, another thing Artemis may be controlling_
 
