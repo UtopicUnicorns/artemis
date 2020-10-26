@@ -27,6 +27,8 @@ module.exports = {
     usage.number++;
     setUsage.run(usage);
 
+    //return message.reply("Broken, plz fix.");
+
     try {
       //form args
       const args = message.content.slice(prefix.length + 5);

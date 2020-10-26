@@ -117,9 +117,9 @@ module.exports = {
           return message.reply(`${member}` + " is already muted!");
         } else {
           //unblock mute channel
-          let channel = message.guild.channels.cache.find(
-            (channel) => channel.id === muteChannel1.id
-          );
+          let channel = message.guild.channels.cache
+            .find((channel) => channel.id === muteChannel1.id)
+            .catch((err) => console.log(""));
           channel.createOverwrite(member, {
             VIEW_CHANNEL: true,
             READ_MESSAGES: true,

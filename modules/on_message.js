@@ -1100,10 +1100,9 @@ module.exports = {
 
                 //send image
                 if (generalChannel1) {
-                  await generalChannel1.send(
-                    sMessage.slice(0, 2000),
-                    attachment
-                  );
+                  await generalChannel1
+                    .send(sMessage.slice(0, 2000), attachment)
+                    .catch((err) => console.log(""));
                 }
 
                 //block mute channel

@@ -93,7 +93,9 @@ module.exports = {
       }
 
       //reply
-      reaction.message.channel.send(`Message ${reaction.message.url} has been highligted!\n Check: <#${highlightChannel1.id}>`);
+      reaction.message.channel.send(
+        `Message ${reaction.message.url} has been highligted!\n Check: <#${highlightChannel1.id}>`
+      );
 
       //send embed
       return highlightChannel1.send({
@@ -179,10 +181,12 @@ module.exports = {
                 .get(reactionChannel1.id)
                 .send(embed)
                 .then((message) => {
-                  message.delete({
-                    timeout: 5000,
-                    reason: "It had to be done.",
-                  });
+                  message
+                    .delete({
+                      timeout: 5000,
+                      reason: "It had to be done.",
+                    })
+                    .catch((err) => console.log(""));
                 });
 
               //if user does have role
@@ -208,10 +212,12 @@ module.exports = {
                 .get(reactionChannel1.id)
                 .send(embed)
                 .then((message) => {
-                  message.delete({
-                    timeout: 5000,
-                    reason: "It had to be done.",
-                  });
+                  message
+                    .delete({
+                      timeout: 5000,
+                      reason: "It had to be done.",
+                    })
+                    .catch((err) => console.log(""));
                 });
             }
           }

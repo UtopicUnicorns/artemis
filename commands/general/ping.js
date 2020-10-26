@@ -26,6 +26,8 @@ module.exports = {
     const m = await message.channel
       .send("Ping?")
       .catch((err) => console.log(""));
+
+      if(!m) return;
     m.edit(
       `Pong! Latency is ${
         m.createdTimestamp - message.createdTimestamp
