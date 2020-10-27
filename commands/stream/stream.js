@@ -26,7 +26,7 @@ module.exports = {
     setUsage.run(usage);
 
     //Mods required!
-    if (!message.member.permissions.has("KICK_MEMBERS")) return;
+    if (!message.member.permissions.has("KICK_MEMBERS")) return message.reply("You do not have permissions to use this command!");
 
     //args
     let streamerName = message.content.slice(prefix.length + 7);

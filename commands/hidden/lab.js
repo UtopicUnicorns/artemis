@@ -18,7 +18,7 @@ module.exports = {
     const prefix = prefixstart.prefix;
 
     //if no perms
-    if (!message.member.permissions.has("KICK_MEMBERS")) return;
+    if (!message.member.permissions.has("KICK_MEMBERS")) return message.reply("You do not have permissions to use this command!");
 
     //update usage
     usage = getUsage.get("lab");

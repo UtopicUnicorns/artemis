@@ -277,9 +277,34 @@ exports.dbinit = function () {
     db.pragma("journal_mode = wal");
   }
 
+  //////////////////////
+  //command enable  DB//
+  //////////////////////
+  const table17 = db
+    .prepare(
+      "SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'commandcontrol';"
+    )
+    .get();
+  if (!table17["count(*)"]) {
+    db.prepare(
+      "CREATE TABLE commandcontrol (channelid TEXT PRIMARY KEY, status TEXT);"
+    ).run();
+    db.prepare(
+      "CREATE UNIQUE INDEX idx_commandcontrol_id ON commandcontrol (channelid);"
+    ).run();
+    db.pragma("synchronous = 1");
+    db.pragma("journal_mode = wal");
+  }
+
   /////////////////////////
   //RUN ALL DB'S         //
   /////////////////////////
+
+  //run command control
+  getCC = db.prepare("SELECT * FROM commandcontrol WHERE channelid = ?");
+  setCC = db.prepare(
+    "INSERT OR REPLACE INTO commandcontrol (channelid, status) VALUES (@channelid, @status);"
+  );
 
   //run streamers
   getStreamers = db.prepare("SELECT * FROM streamers WHERE streamerguild = ?");

@@ -291,7 +291,7 @@ module.exports = {
     }
 
     //reject non mods after this point
-    if (!message.member.permissions.has("KICK_MEMBERS")) return;
+    if (!message.member.permissions.has("KICK_MEMBERS")) return message.reply("You do not have permissions to use this command!");
 
     //add or delete support channel
     if (args[0].toLowerCase() == "set") {

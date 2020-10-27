@@ -104,6 +104,14 @@ module.exports = {
     //if command does not start with prefix
     if (!newMessage.content.startsWith(prefix)) return;
 
+    //check if channel exists
+    let controller = getCC.get(newMessage.channel.id);
+
+    //disable commands if exists
+    if (controller) {
+      if (!newMessage.member.permissions.has("KICK_MEMBERS")) return;
+    }
+
     //do your shit
     try {
       command.execute(newMessage);

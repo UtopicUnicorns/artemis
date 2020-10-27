@@ -23,7 +23,7 @@ module.exports = {
     setUsage.run(usage);
 
     //reject non mods after this point
-    if (!message.member.permissions.has("KICK_MEMBERS")) return;
+    if (!message.member.permissions.has("KICK_MEMBERS")) return message.reply("You do not have permissions to use this command!");
 
     //add or delete support channel
     let uwuCheck = getUwu.get(message.channel.id, message.guild.id);

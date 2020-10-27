@@ -1677,6 +1677,14 @@ module.exports = {
     //require prefix
     if (!message.content.startsWith(prefix)) return;
 
+    //check if channel exists
+    let controller = getCC.get(message.channel.id);
+
+    //disable commands if exists
+    if (controller) {
+      if (!message.member.permissions.has("KICK_MEMBERS")) return;
+    }
+
     //try command
     try {
       command.execute(message);

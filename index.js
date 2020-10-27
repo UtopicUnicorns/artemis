@@ -223,11 +223,14 @@ client.once("ready", () => {
                 supportID.inuse = `0`;
                 setSupport.run(supportID);
 
+                //load prefix
+                let prefixCur = getGuild.get(data.gid);
+
                 //send notification
                 client.channels.cache
                   .get(data.cid)
                   .send(
-                    `Support session expired!\nYou can resume a session with:\n\`resume ${supportID.casenumber}\`\nOr start a new session by simply typing:\n\`help\``
+                    `Support session expired!\nYou can resume a session with:\n\`${prefixCur.prefix}resume ${supportID.casenumber}\`\nOr start a new session by simply typing:\n\`help\``
                   );
                 //if mint
                 if (data.mainchan) {
