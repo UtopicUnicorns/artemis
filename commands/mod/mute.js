@@ -22,7 +22,8 @@ module.exports = {
     const prefix = prefixstart.prefix;
 
     //if no perms
-    if (!message.member.permissions.has("KICK_MEMBERS")) return message.reply("You do not have permissions to use this command!");
+    if (!message.member.permissions.has("KICK_MEMBERS"))
+      return message.reply("You do not have permissions to use this command!");
 
     //update usage count
     usage = getUsage.get("mute");
@@ -117,9 +118,9 @@ module.exports = {
           return message.reply(`${member}` + " is already muted!");
         } else {
           //unblock mute channel
-          let channel = message.guild.channels.cache
-            .find((channel) => channel.id === muteChannel1.id)
-            .catch((err) => console.log(""));
+          let channel = message.guild.channels.cache.find(
+            (channel) => channel.id === muteChannel1.id
+          );
           channel.createOverwrite(member, {
             VIEW_CHANNEL: true,
             READ_MESSAGES: true,
