@@ -70,7 +70,8 @@ module.exports = {
       //form song
       const song = {
         title: musicInfo[0].title,
-        url: songInfo.video_url,
+        //url: songInfo.video_url,
+        url: musicInfo[0].id,
         thumb: musicInfo[0].thumbnails.high.url,
       };
 
@@ -157,7 +158,7 @@ module.exports = {
 
     //build dispatcher
     const dispatcher = serverQueue.connection
-      .play(ytdl(song.url))
+      .play(ytdl(`${song.url}`))
       .on("finish", () => {
         serverQueue.songs.shift();
         this.play(message, serverQueue.songs[0]);
