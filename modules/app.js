@@ -227,15 +227,14 @@ exports.run = (client, config) => {
                     <br><input type="submit" class="button" onclick="document.getElementById('${count}TRA').innerHTML = 'Changed!'" value="Save">
                     </form>
                     </td></tr>
-                    <tr style="text-align:left; border-bottom: 1px solid black"><td>Stream Notifications:</td>
-                    <td><div id="${count}STR">${streaming}</div></td></tr>
+                    <tr style="text-align:left; border-bottom: 1px solid black"><td>Delete data:</td>
+                    <td><div id="${count}STR">This will delete all user data connected to this server</div></td></tr>
                     <tr style="text-align:left; border-bottom: 1px solid black"><td></td><td>
                     <form action="/" method="post">
-                    <select name="data3">
-                    <option value="${count} ST OFF">off</option>
-                    <option value="${count} ST ON">on</option>
+                    <select name="data3" style="display: none;">
+                    <option value="${count} ST DELETE">off</option>
                     </select>
-                    <br><input type="submit" class="button" onclick="document.getElementById('${count}STR').innerHTML = 'Changed!'" value="Save">
+                    <input type="submit" class="button" style="background-color: red;" onclick="document.getElementById('${count}STR').innerHTML = 'Your data has been deleted!'" value="Delete my data!">
                     </form>
                     </td></tr></table></div>\n`
                 );
@@ -1592,16 +1591,12 @@ exports.run = (client, config) => {
       //stream
       if (data3[1] == "ST") {
         let stream = getScore2.get(req.session.user.id, array[c].guild);
-        if (data3[2] == "ON") {
-          stream.stream = `1`;
-          setScore.run(stream);
-          memberEmbed("Stream");
-          res.status(204).send();
-        }
-        if (data3[2] == "OFF") {
-          stream.stream = `2`;
-          setScore.run(stream);
-          memberEmbed("Stream");
+        if (data3[2] == "DELETE") {
+          //here
+          db.prepare(
+            `DELETE FROM scores WHERE user = '${req.session.user.id}' AND guild = '${array[c].guild}'`
+          ).run();
+
           res.status(204).send();
         }
       }

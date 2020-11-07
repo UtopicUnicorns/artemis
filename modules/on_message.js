@@ -12,8 +12,21 @@ supportGet = new Set();
 //start
 module.exports = {
   onMessage: async function (message) {
+    //Writing
+    function writeType() {
+      //start writing
+      message.channel.startTyping();
+
+      //timer
+      setTimeout(() => {
+        message.channel.stopTyping();
+      }, 2000);
+    }
+
     //clever
     if (message.content.toLowerCase().startsWith("artemis")) {
+      //Typing
+      writeType();
       //args
       let contextMsg = message.content.slice(8);
 
@@ -282,6 +295,9 @@ module.exports = {
 
     //Direct Message handle
     if (message.channel.type == "dm") {
+      //Typing
+      writeType();
+
       console.log(
         moment().format("MMMM Do YYYY, HH:mm:ss") +
           "\n" +
@@ -469,6 +485,9 @@ module.exports = {
               fetchChannel.messages
                 .fetch(`${checkUrl2[1]}`)
                 .then((message) => {
+                  //Typing
+                  writeType();
+
                   //form embed
                   const embed = new Discord.MessageEmbed()
                     .setTitle("Message link contents")
@@ -529,6 +548,9 @@ module.exports = {
               fetchChannel.messages
                 .fetch(`${checkUrl2[1]}`)
                 .then((message) => {
+                  //Typing
+                  writeType();
+
                   //form embed
                   const embed = new Discord.MessageEmbed()
                     .setTitle("Message link contents")
@@ -589,6 +611,9 @@ module.exports = {
               fetchChannel.messages
                 .fetch(`${checkUrl2[1]}`)
                 .then((message) => {
+                  //Typing
+                  writeType();
+
                   //form embed
                   const embed = new Discord.MessageEmbed()
                     .setTitle("Message link contents")
@@ -639,6 +664,9 @@ module.exports = {
       if (supportID.inuse == "1") {
         //if help
         if (message.content.toLowerCase() == "help") {
+          //Typing
+          writeType();
+
           return message.reply(
             "This support channel is currently in use, please wait for the current session to end, or use a different channel!"
           );
@@ -646,6 +674,9 @@ module.exports = {
 
         //if user says done
         if (message.content.toLowerCase() == prefix + "done") {
+          //Typing
+          writeType();
+
           //Write database
           supportID.inuse = `0`;
           setSupport.run(supportID);
@@ -675,6 +706,9 @@ module.exports = {
           //Timeout notification
           if (supportGet.has(message.guild.id)) {
           } else {
+            //Typing
+            writeType();
+
             //notify
             message.reply(
               "There is no help session activated, start one by simply writing:\n`help`\nOr resume a case with:\n" +
@@ -694,6 +728,9 @@ module.exports = {
 
         //if message is resume
         if (message.content.toLowerCase().startsWith(prefix + "resume")) {
+          //Typing
+          writeType();
+
           //create args
           let prevCase = message.content.slice(prefix.length + 7).split(" ");
 
@@ -790,6 +827,9 @@ module.exports = {
 
         //if message is help
         if (message.content.toLowerCase() == "help") {
+          //Typing
+          writeType();
+
           //build collector
           let collector3 = message.channel.createMessageCollector(
             (m) => m.author.id === message.author.id,
@@ -907,36 +947,6 @@ module.exports = {
       }
     }
 
-    //non-prefix help
-    if (
-      message.mentions.has(message.client.user) &&
-      message.content.toLowerCase().includes("help")
-    ) {
-      //build embed
-      const nonprefix = new Discord.MessageEmbed()
-        .setTitle("Non prefix help menu")
-        .setAuthor(
-          message.author.username,
-          message.author.avatarURL({ format: "png", dynamic: true, size: 1024 })
-        )
-        .setDescription(
-          "This message was triggered by mentioning me with the help argument"
-        )
-        .setColor("RANDOM")
-        .addField("My prefix for this server:\n", prefix)
-        .addField("Example command usage: \n", prefix + "help")
-        .addField(
-          "Support my work: ",
-          "https://www.paypal.com/paypalme2/UtopicUnicorn\nhttps://artemis.rest"
-        )
-        .setTimestamp();
-
-      //send embed
-      message.channel.send({
-        embed: nonprefix,
-      });
-    }
-
     //autoMod START
     //free pass for members with kick permissions
     if (message.member && message.member.permissions.has("KICK_MEMBERS")) {
@@ -967,6 +977,9 @@ module.exports = {
       if (message.channel.id === muteChannel1.id) {
         //Make function
         function verifyHuman(message) {
+          //Typing
+          writeType();
+
           //make a new captcha
           let captcha = new Captcha2();
 
@@ -996,6 +1009,9 @@ module.exports = {
 
             //if message is equal to captcha
             if (m.content.toUpperCase() === captcha.value) {
+              //Typing
+              writeType();
+
               //if anti raid is on
               if (guildChannels.autoMod == "strict") {
                 return message.reply(
@@ -1150,6 +1166,9 @@ module.exports = {
 
               //if user failed verification
             } else {
+              //Typing
+              writeType();
+
               message.reply(
                 `Failed Verification!\nTry again with:\n${prefix}verify`
               );
@@ -1280,85 +1299,6 @@ module.exports = {
             .get(`${channelcheck}`)
             .send(message.content);
         }
-      }
-    }
-
-    //Artemis stuff
-    if (message.content.toLowerCase() == "artemis?") {
-      //check if me
-      if (message.author.id !== "127708549118689280") return;
-
-      //Responses
-      let picker = [
-        "What is it, baldy?",
-        "What do you want now?",
-        "Go away please!",
-        "Leave me alone!",
-        "What is it, dragons?",
-      ];
-
-      //pick random response
-      let picked = picker[~~(Math.random() * picker.length)];
-
-      //reply
-      message.reply(picked);
-
-      //build collector
-      let collector2 = message.channel.createMessageCollector(
-        (m) => m.author.id === message.author.id
-      );
-
-      //await message
-      collector2.on("collect", async (m) => {
-        //restart bot
-        if (
-          m.content.toLowerCase() == "kill yourself" ||
-          m.content.toLowerCase() == "hang yourself" ||
-          m.content.toLowerCase() == "die" ||
-          m.content.toLowerCase() == "restart"
-        ) {
-          //notify me
-          m.reply(
-            "\uD83D\uDC80\uD83D\uDC80\uD83D\uDC80\uD83D\uDC80\uD83D\uDC80\uD83D\uDC80\uD83D\uDC80\uD83D\uDC80\uD83D\uDC80"
-          );
-
-          //set a small delay
-          setTimeout(() => {
-            //Quit the app and restart if system daddy
-            process.exit();
-          }, 2000);
-        }
-        collector2.stop();
-      });
-    }
-
-    //Simulate guild member join
-    if (message.content === prefix + "guildmemberadd") {
-      //If user is me or guild owner
-      if (
-        message.author.id === "127708549118689280" ||
-        message.author.id == message.guild.owner.id
-      ) {
-        //simulate event
-        message.client.emit(
-          "guildMemberAdd",
-          message.member || (await message.guild.members.fetch(message.author))
-        );
-      }
-    }
-
-    //Simulate guild member leave
-    if (message.content === prefix + "guildmemberremove") {
-      //if user is me or guild owner
-      if (
-        message.author.id === "127708549118689280" ||
-        message.author.id == message.guild.owner.id
-      ) {
-        //simulate event
-        message.client.emit(
-          "guildMemberRemove",
-          message.member || (await message.guild.members.fetch(message.author))
-        );
       }
     }
 
@@ -1553,125 +1493,71 @@ module.exports = {
     }
 
     //Check if leveling for the guild is on
-    if (guildChannels.leveling == "2") {
-    } else {
-      //if message is thanks
-      if (message.content.toLowerCase().includes("thank")) {
-        //define user
-        const user =
-          message.mentions.users.first() ||
-          message.client.users.cache.get(args[0]);
+    if (guildChannels.leveling != "2") {
+      //Define key words
+      let keyWords = ["thank", "congrat"];
 
-        //if no user
-        if (!user) return;
+      //fetch members
+      let memberFetch = [];
 
-        //if user is self
-        if (user == message.author) return;
+      //count
+      let countNum = 0;
 
-        //if user already did this in the past 20 minutes
-        if (congratulationsRecently.has(message.author.id + message.guild.id)) {
-          return;
-        } else {
-          //add user to the set
-          congratulationsRecently.add(message.author.id) + message.guild.id;
+      for (let word of keyWords) {
+        //If no keyword
+        if (message.content.toLowerCase().includes(word)) {
+          //split stuff
+          let wordSplit = message.content.toLowerCase().split(" ");
 
-          //remove user from the set after 20 minutes
-          setTimeout(() => {
-            congratulationsRecently.delete(
-              message.author.id + message.guild.id
-            );
-          }, 600000);
+          //loop trough words
+          for (let number of wordSplit) {
+            //replace symbols in words
+            let number2 = number.replace(/[^0-9]/gi, "");
 
-          //add points
-          const pointsToAdd = parseInt(20, 10);
+            //if nothing left
+            if (number2) {
+              //check if word is an user id
+              let wordMember = await message.client.users.cache.get(number2);
 
-          //pull data
-          let userscore = getScore.get(user.id, message.guild.id);
+              //if word contained member
+              if (wordMember && wordMember.id != message.author.id) {
+                //add points
+                const pointsToAdd = parseInt(20, 10);
 
-          //if user is not in db
-          if (!userscore) return;
+                //pull data
+                let userscore = await getScore.get(
+                  wordMember.id,
+                  message.guild.id
+                );
 
-          //add the points
-          userscore.points += pointsToAdd;
+                //if user is not in db
+                if (userscore) {
+                  //add the points
+                  userscore.points += pointsToAdd;
 
-          //calc level
-          let userLevel = Math.floor(0.5 * Math.sqrt(userscore.points));
+                  //calc level
+                  let userLevel = Math.floor(0.5 * Math.sqrt(userscore.points));
 
-          //define level
-          userscore.level = userLevel;
+                  //define level
+                  userscore.level = userLevel;
 
-          //run db
-          setScore.run(userscore);
+                  //run db
+                  await setScore.run(userscore);
 
-          //norify user
-          return message.reply(
-            "thanked " +
-              user.username +
-              "\n" +
-              user.username +
-              " has gotten \u20B920 for their effort!"
-          );
+                  //give user
+                  memberFetch.push(wordMember.username);
+
+                  countNum++;
+                }
+              }
+            }
+          }
         }
       }
 
-      //if message is congrat
-      if (message.content.toLowerCase().includes("congrat")) {
-        //define user
-        const user =
-          message.mentions.users.first() ||
-          message.client.users.cache.get(args[0]);
-
-        //if no user
-        if (!user) return;
-
-        //if user is self
-        if (user == message.author) return;
-
-        //if user already did this in the past 20 minutes
-        if (congratulationsRecently.has(message.author.id + message.guild.id)) {
-          return;
-        } else {
-          //add user to the set
-          congratulationsRecently.add(message.author.id) + message.guild.id;
-
-          //remove user from the set after 20 minutes
-          setTimeout(() => {
-            congratulationsRecently.delete(
-              message.author.id + message.guild.id
-            );
-          }, 600000);
-
-          //add points
-          const pointsToAdd = parseInt(20, 10);
-
-          //pull data
-          let userscore = getScore.get(user.id, message.guild.id);
-
-          //if user is not in db
-          if (!userscore) return;
-
-          //add the points
-          userscore.points += pointsToAdd;
-
-          //calc level
-          let userLevel = Math.floor(0.5 * Math.sqrt(userscore.points));
-
-          //define level
-          userscore.level = userLevel;
-
-          //run db
-          setScore.run(userscore);
-
-          //norify user
-          return message.reply(
-            "congratulated " +
-              user.username +
-              "\n" +
-              user.username +
-              " got \u20B920!"
-          );
-        }
-      }
+      //check counter
+      if ((memberFetch.length = countNum))
+        message.reply(`gifted ${memberFetch.join(", ")} 20 points!`);
     }
 
     //require prefix
@@ -1684,6 +1570,9 @@ module.exports = {
     if (controller) {
       if (!message.member.permissions.has("KICK_MEMBERS")) return;
     }
+
+    //Typing
+    writeType();
 
     //try command
     try {

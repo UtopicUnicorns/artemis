@@ -245,7 +245,7 @@ module.exports = {
             size: 1024,
           })
         )
-        .setFooter(`Hit the arrow buttons to scroll trough the pages`)
+        .setFooter(`Select the reaction coresponding to the letters in teh list to select a category`)
         .setTimestamp();
 
       //loop trough current
