@@ -11,10 +11,17 @@ module.exports = {
   category: `general`,
   name: "remindme",
   description: "[general] set a reminder",
-  explain: `This command will allow you to set a reminder for yourself.\n
-  \`remindme 10 hours *Reminder Text Here*\` will set a reminder.\n
-  \`remindme delete clear\` will clear all your reminders.\n
-  \`remindme delete DeletionKey\` will remove the specified reminder.`,
+  explain: `This is a command that allows the user to set a reminder for themselves.
+When the time comes for them to be reminded, they will be pinged in the channel they used the command in.
+Using the command without arguments will show you how to use the command, as well as active reminders.
+
+Example usage: \`!remindme\`
+
+Example usage: \`!remindme 10 hours [reminder]\` _Seconds, minutes and hours are supported_
+
+Example usage: \`!remindme delete clear\` _Delete all reminders for yourself_
+
+Example usage: \`!remindme delete DeletionKey\` _Delete only the reminder matching the deletion key_`,
   async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

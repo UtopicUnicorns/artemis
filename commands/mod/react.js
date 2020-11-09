@@ -11,9 +11,14 @@ module.exports = {
   category: `mod`,
   name: "react",
   description: "[mod] Add CUSTOM EMOTE reactions to a message",
-  explain: `This command will try to add custome emoji reactions to a specified message in the channel you use this command in.\n
-  \`react messageID emojiName1 emojiName2\`\n
-  Do not that the emojis have to be custom!`,
+  explain: `This command is a core command for [Reaction_Roles](#Reaction_Roles).
+
+This command only accepts CUSTOM emojis. You can add as many to this command as a message can hold.
+When used properly, the React command will react to the message you specified with the specified emojis.
+
+_The react command in combination with the message ID should ONLY be used WITHIN the channel the message originates from._
+
+Example usage: \`!react MessageID EmojiName EmojiName EmojiName\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

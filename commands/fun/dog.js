@@ -11,7 +11,9 @@ module.exports = {
   category: `fun`,
   name: "dog",
   description: "[fun] Random dog picture",
-  explain: `This command will show you a random dog picture grabbed from some-random-api.ml`,
+  explain: `This command will show the user a random dog picture.
+
+Example usage: \`!dog\``,
   execute(message) {
     //load prefix
     const prefixstart = getGuild.get(message.guild.id);

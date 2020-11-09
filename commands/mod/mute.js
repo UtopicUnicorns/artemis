@@ -11,11 +11,20 @@ module.exports = {
   category: `mod`,
   name: "mute",
   description: "[mod] mute MENTION\n[mod]mute 2 m MENTION",
-  explain: `This command allows you to mute a user.\n
-  A muted user will not be able to see any channels beside the mute channel(or none).\n
-  You can also specify the time by using the following command:\n
-  \`mute 5 h @mention\`\n
-  This will mute the user for 5 hours.`,
+  explain: `This command will mute the user you specify.
+The action will create a [Case](#Case).
+Do note that without proper role permissions and channel permissions, this command will fail.
+This is explained in [Mute_Channel](#Mute_Channel).
+
+Example usage: \`!mute @mention\`
+
+Example usage: \`!mute 5 hour @mention\`
+
+Example usage: \`!mute 5 second @mention\`
+
+Example usage: \`!mute 5 minute @mention\`
+
+Example usage: \`!mute 5 day @mention\``,
   async execute(message) {
     //set prefix
     const prefixstart = getGuild.get(message.guild.id);

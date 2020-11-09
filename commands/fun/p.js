@@ -14,8 +14,9 @@ module.exports = {
   category: `fun`,
   name: "p",
   description: "[fun] Ping a website",
-  explain: `Provide a website URL and Artemis will try to get a response from the website.\n
-  Useful as an *IsItDown* feature.`,
+  explain: `This will fully load a webpage within the bot's code, then return the loading speed to the user.
+
+Example usage: \`!p https://artemis.rest\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

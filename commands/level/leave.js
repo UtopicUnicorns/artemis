@@ -11,8 +11,10 @@ module.exports = {
   category: `level`,
   name: "leave",
   description: "[level] Leave a self assignable role",
-  explain: `This command allows you to leave a self asignable role.\n
-  \`leave roleName\``,
+  explain: `Users can use this command when there are self-assignable roles.
+This command will take away the coresponding role from the user if it exists.
+
+Example usage: \`!leave RoleName\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

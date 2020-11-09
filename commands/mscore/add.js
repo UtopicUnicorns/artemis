@@ -11,9 +11,11 @@ module.exports = {
   category: `mscore`,
   name: "add",
   description: "[mscore] Give a user points or take them",
-  explain: `This command will allow you to add or remove points from a user. 
-  using \`add -50\` will substract 50 points from a user and using \`add 50\` will add 50 points to a user.
-  The points will affect a users level and/or level role if that has been set up.`,
+  explain: `This command allows you to gift or retract points from a user if leveling is enabled for your guild/server.
+
+Example usage: \`!add @mention -100\` _Note the minus symbol_
+
+Example usage: \`!add @mention 100\``,
   execute(message) {
     //load prefix
     const prefixstart = getGuild.get(message.guild.id);
@@ -25,7 +27,8 @@ module.exports = {
     setUsage.run(usage);
 
     //if user does not have proper perms
-    if (!message.member.permissions.has("KICK_MEMBERS")) return message.reply("You do not have permissions to use this command!");
+    if (!message.member.permissions.has("KICK_MEMBERS"))
+      return message.reply("You do not have permissions to use this command!");
 
     //define guildchannel
     let guildChannels2 = getGuild.get(message.guild.id);

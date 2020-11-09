@@ -11,7 +11,9 @@ module.exports = {
   category: `music`,
   name: "stop",
   description: "[music] Stop all songs in the queue!",
-  explain: `When the bot is playing music, then you can use this command to stop it.`,
+  explain: `This will stop the music player.
+
+Example usage: \`!stop\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

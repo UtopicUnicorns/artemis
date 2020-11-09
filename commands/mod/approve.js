@@ -11,15 +11,18 @@ module.exports = {
   category: `mod`,
   name: "approve",
   description: "[mod] Force a user trough verification",
-  explain: `Force approve a member trough the verification process.
-  You can use either \`approve @mention\` or \`approve userID\``,
+  explain: `When you have a verify channel set up, and you have AutoMod on Strict mode (Which prevents verifying), you can use this command to manually approve users.
+This is also the command you want to use when a user has bad eyesight, to the point where they cannot see the captcha.
+
+Example usage: \`!verify @mention\``,
   async execute(message) {
     //define prefix
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
 
     //if no proper perms
-    if (!message.member.permissions.has("KICK_MEMBERS")) return message.reply("You do not have permissions to use this command!");
+    if (!message.member.permissions.has("KICK_MEMBERS"))
+      return message.reply("You do not have permissions to use this command!");
 
     //form guild channels
     const guildChannels = getGuild.get(message.guild.id);

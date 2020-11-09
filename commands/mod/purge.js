@@ -11,18 +11,24 @@ module.exports = {
   category: `mod`,
   name: "purge",
   description: "[mod] Purge a mentioned user or a specified ammount",
-  explain: `This command allows you to purge up to 100 messages from the channel you use this command in or from the specified user.\n
-  \`purge @mention 2-100\`\n
-  \`purge 2-100\`\n
-  \`purge WORD\`\n
-  \`purge WORD 2-100\``,
+  explain: `Purging is one of the main features of a Discord bot.
+This command will wipe a specified ammount of messages from the channel you use it in.
+Due to API limitations, you can only purge 100 messages at a time, and only up to 2 weeks ago.
+Artemis allows you to purge from a mentioned user too, or a keyword which will remove up to 100 messages containing that word.
+
+Example usage: \`!purge 100\`
+
+Example usage: \`!purge @mention 100\`
+
+Example usage: \`!purge KeyWord 100\``,
   async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
 
     //if no perms
-    if (!message.member.permissions.has("KICK_MEMBERS")) return message.reply("You do not have permissions to use this command!");
+    if (!message.member.permissions.has("KICK_MEMBERS"))
+      return message.reply("You do not have permissions to use this command!");
 
     //update usage
     usage = getUsage.get("purge");

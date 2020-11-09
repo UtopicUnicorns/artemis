@@ -12,7 +12,9 @@ module.exports = {
   name: "ubuntu",
   description:
     "[linux] This command gives a small description of the distribution",
-  explain: `This command gives a small description of the distribution`,
+  explain: `This command gives a small description of the distribution
+  
+  Example usage: \`!ubuntu\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

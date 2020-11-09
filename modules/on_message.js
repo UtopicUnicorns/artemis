@@ -12,21 +12,8 @@ supportGet = new Set();
 //start
 module.exports = {
   onMessage: async function (message) {
-    //Writing
-    function writeType() {
-      //start writing
-      message.channel.startTyping();
-
-      //timer
-      setTimeout(() => {
-        message.channel.stopTyping();
-      }, 2000);
-    }
-
     //clever
     if (message.content.toLowerCase().startsWith("artemis")) {
-      //Typing
-      writeType();
       //args
       let contextMsg = message.content.slice(8);
 
@@ -295,9 +282,6 @@ module.exports = {
 
     //Direct Message handle
     if (message.channel.type == "dm") {
-      //Typing
-      writeType();
-
       console.log(
         moment().format("MMMM Do YYYY, HH:mm:ss") +
           "\n" +
@@ -485,9 +469,6 @@ module.exports = {
               fetchChannel.messages
                 .fetch(`${checkUrl2[1]}`)
                 .then((message) => {
-                  //Typing
-                  writeType();
-
                   //form embed
                   const embed = new Discord.MessageEmbed()
                     .setTitle("Message link contents")
@@ -548,9 +529,6 @@ module.exports = {
               fetchChannel.messages
                 .fetch(`${checkUrl2[1]}`)
                 .then((message) => {
-                  //Typing
-                  writeType();
-
                   //form embed
                   const embed = new Discord.MessageEmbed()
                     .setTitle("Message link contents")
@@ -611,9 +589,6 @@ module.exports = {
               fetchChannel.messages
                 .fetch(`${checkUrl2[1]}`)
                 .then((message) => {
-                  //Typing
-                  writeType();
-
                   //form embed
                   const embed = new Discord.MessageEmbed()
                     .setTitle("Message link contents")
@@ -664,9 +639,6 @@ module.exports = {
       if (supportID.inuse == "1") {
         //if help
         if (message.content.toLowerCase() == "help") {
-          //Typing
-          writeType();
-
           return message.reply(
             "This support channel is currently in use, please wait for the current session to end, or use a different channel!"
           );
@@ -674,9 +646,6 @@ module.exports = {
 
         //if user says done
         if (message.content.toLowerCase() == prefix + "done") {
-          //Typing
-          writeType();
-
           //Write database
           supportID.inuse = `0`;
           setSupport.run(supportID);
@@ -706,9 +675,6 @@ module.exports = {
           //Timeout notification
           if (supportGet.has(message.guild.id)) {
           } else {
-            //Typing
-            writeType();
-
             //notify
             message.reply(
               "There is no help session activated, start one by simply writing:\n`help`\nOr resume a case with:\n" +
@@ -728,9 +694,6 @@ module.exports = {
 
         //if message is resume
         if (message.content.toLowerCase().startsWith(prefix + "resume")) {
-          //Typing
-          writeType();
-
           //create args
           let prevCase = message.content.slice(prefix.length + 7).split(" ");
 
@@ -827,9 +790,6 @@ module.exports = {
 
         //if message is help
         if (message.content.toLowerCase() == "help") {
-          //Typing
-          writeType();
-
           //build collector
           let collector3 = message.channel.createMessageCollector(
             (m) => m.author.id === message.author.id,
@@ -977,9 +937,6 @@ module.exports = {
       if (message.channel.id === muteChannel1.id) {
         //Make function
         function verifyHuman(message) {
-          //Typing
-          writeType();
-
           //make a new captcha
           let captcha = new Captcha2();
 
@@ -1009,9 +966,6 @@ module.exports = {
 
             //if message is equal to captcha
             if (m.content.toUpperCase() === captcha.value) {
-              //Typing
-              writeType();
-
               //if anti raid is on
               if (guildChannels.autoMod == "strict") {
                 return message.reply(
@@ -1166,9 +1120,6 @@ module.exports = {
 
               //if user failed verification
             } else {
-              //Typing
-              writeType();
-
               message.reply(
                 `Failed Verification!\nTry again with:\n${prefix}verify`
               );
@@ -1570,9 +1521,6 @@ module.exports = {
     if (controller) {
       if (!message.member.permissions.has("KICK_MEMBERS")) return;
     }
-
-    //Typing
-    writeType();
 
     //try command
     try {

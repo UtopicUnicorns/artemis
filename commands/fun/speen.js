@@ -11,7 +11,9 @@ module.exports = {
   category: `fun`,
   name: "speen",
   description: "[fun] Lose your money!",
-  explain: `Each spin costs \u20B920, just use the command \`speen\` and hope for the best!`,
+  explain: `Each spin costs \u20B920, just use the command \`!speen\` and hope for the best!
+  
+  Example usage: \`!speen\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

@@ -23,7 +23,8 @@ module.exports = {
     const prefix = prefixstart.prefix;
 
     //if no proper perms
-    if (!message.member.permissions.has("KICK_MEMBERS")) return message.reply("You do not have permissions to use this command!");
+    if (!message.member.permissions.has("KICK_MEMBERS"))
+      return message.reply("You do not have permissions to use this command!");
 
     //update usage
     usage = getUsage.get("command");

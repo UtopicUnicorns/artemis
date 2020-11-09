@@ -11,8 +11,13 @@ module.exports = {
   category: `general`,
   name: "help",
   description: "[general] Displays all available commands",
-  explain: `This command will show you every command available to you.\n
-  use \`help COMMANDNAME\` to see more information on the command`,
+  explain: `This command will show the user a help menu which is only controllable by the user who called for it.
+It will show every command available, sorted into categories.
+Users can also have a command explained by adding the command's name to the help command.
+
+Example usage: \`!help\`
+
+Example usage: \`!help rolemanage\` _This will explain the command named rolemanage_`,
   async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
@@ -245,7 +250,9 @@ module.exports = {
             size: 1024,
           })
         )
-        .setFooter(`Select the reaction coresponding to the letters in teh list to select a category`)
+        .setFooter(
+          `Select the reaction coresponding to the letters in teh list to select a category`
+        )
         .setTimestamp();
 
       //loop trough current

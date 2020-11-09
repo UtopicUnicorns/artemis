@@ -11,19 +11,22 @@ module.exports = {
   category: `mod`,
   name: "case",
   description: "[mod] View and adjust cases",
-  explain: `Use these commands to control and view cases.
-  Cases get automatically generated when using the mute, unmute, ban, kick and warn command.
-  The cases are unique to your guild only.
-  \`case view CaseNum\`
-  \`case user mention/userID\`
-  \`case reason CaseNum <Reason>\``,
+  explain: `Cases are automatically generated when using certain commands.
+A case is used to keep track of the baddies.
+
+Example usage: \`!case view caseNum\`
+
+Example usage: \`!case user userID\`
+
+Example usage: \`!case reason caseNum [Reason here]\``,
   execute(message) {
     //load prefix
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
 
     //if no mod
-    if (!message.member.permissions.has("KICK_MEMBERS")) return message.reply("You do not have permissions to use this command!");
+    if (!message.member.permissions.has("KICK_MEMBERS"))
+      return message.reply("You do not have permissions to use this command!");
 
     //Usage
     usage = getUsage.get("case");

@@ -11,18 +11,32 @@ module.exports = {
   category: `server`,
   name: "automod",
   description: `[server] Turn on or off automod!`,
-  explain: `Automod affects how users experience the chat, it actively blocks discord links, 
-  blocks certain words if set up, mutes users who mass ping multiple users and stops users from verifying if strict mode is on.\n
-  \`automod on\` will enable the automod\n
-  \`automod off\` will turn automod off\n
-  \`automod strict\` will prevent users from verifying, useful in raids\n`,
+  explain: `Automod is a tool which can help moderators out a little bit in their daily tasks,
+
+Automod includes:
+* A word filter (Filters are guild/server specific and will have to be setup by using the [Wordlist](#Wordlist) command)
+* Anti discord invites
+* Anti spam
+* Anti mention (If a user scrapes a list of users and uses that to mention everyone, if done twice, that user gets muted.)
+   * Anti Verification (if Strict mode is on)
+
+Strict mode is used against raids, or when you want users to be verified manually by using [Approve](#Approve)
+
+Example usage: \`!automod\`
+
+Example usage: \`!automod on\`
+
+Example usage: \`!automod off\`
+
+Example usage: \`!automod strict\``,
   execute(message) {
     //define prefix
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
 
     //if no proper perms
-    if (!message.member.permissions.has("KICK_MEMBERS")) return message.reply("You do not have permissions to use this command!");
+    if (!message.member.permissions.has("KICK_MEMBERS"))
+      return message.reply("You do not have permissions to use this command!");
 
     //update usage
     usage = getUsage.get("automod");

@@ -11,8 +11,16 @@ module.exports = {
   category: `linux`,
   name: "specs",
   description: "[linux] Add your hardware specifications to !userinfo",
-  explain: `This command allows you to add your system settings to your userinfo profile.\n
-  For this you need to do \`neofetch --stdout\` in your terminal of choice and then paste it after the command.`,
+  explain: `This command will allow you to upload a piece of text to your [Userinfo](#Userinfo).
+Users typically use this command to share their system specification.
+
+Example usage: 
+
+\`\`\`sh
+!specs neofetch
+output
+output
+\`\`\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

@@ -11,8 +11,14 @@ module.exports = {
   category: `level`,
   name: "level",
   description: "[level] Show your points and level",
-  explain: `This command will show you your level, points, points to next level and warning amount via a nice and neat image.
-  \`level id UserID\` will show you points of a user who has been deleted/banned`,
+  explain: `This command will show a neat graphic card with level/points info, as well as warnings, for the user who uses this command.
+You can also specify it further by providing an userID or @mention.
+
+Example usage: \`!level\`
+
+Example usage: \`!level @mention\`
+
+Example usage: \`!level userID\``,
   async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

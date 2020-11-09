@@ -11,9 +11,12 @@ module.exports = {
   category: `music`,
   name: "skip",
   description: "[music] Skip a song!",
-  explain: `When the bot is playing music you will have the option to skip songs.\n
-  When using plain \`skip\` or \`skip 0\` then the current song playing will be skipped.\n
-  using \`skip 3\` will skip the 3rd song in the playlist, you can see the playlist with the command \`np\``,
+  explain: `Skips the song that is currently playing.
+If you provide the coresponding song number provided by [Np](#Np), it will skip that song.
+
+Example usage: \`!skip\`
+
+Example usage: \`!skip 4\` _This skips the 4th song in the queue_`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

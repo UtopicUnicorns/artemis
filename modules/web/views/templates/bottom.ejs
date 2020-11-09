@@ -1,26 +1,66 @@
-<!--CUT bottom-->
 </div>
-</th>
-</tr>
-</table>
+<div class="skew-text-content-login">
+  <!--Level Roles-->
+  <button
+  onclick="location.href='/control2'"
+    class="skew-box3"
+    style="height: 150px"
+  >
+    <div class="skew-text">Level Roles</div>
+  </button>
 
-<!--End actual content-->
+  <!--Server Settings-->
+  <button
+  onclick="location.href='/control'"
+    class="skew-box3"
+    style="height: 150px"
+  >
+    <div class="skew-text">Server Settings</div>
+  </button>
+
+  <!--Leaderboard-->
+  <button
+  onclick="location.href='/board'"
+    class="skew-box3"
+    style="height: 150px"
+  >
+    <div class="skew-text">Leaderboard</div>
+  </button>
+  
+  <!--User Settings-->
+  <button
+  onclick="location.href='/'"
+    class="skew-box3"
+    style="height: 150px"
+  >
+    <div class="skew-text">User Settings</div>
+  </button>
+
+  <!--Wiki-->
+  <button
+  onclick="location.href='/command'"
+    class="skew-box3"
+    style="height: 150px"
+  >
+    <div class="skew-text">Commands</div>
+  </button>
+</div>
+</div>
 </div>
 
-<!--Collapse-->
-<script src="/static/modules/cl.js"></script>
-
-<!--Pixels-->
-<script src="/static/modules/px.js"></script>
-
-<!--Moving background-->
+<!--Jquery-->
 <script src="/static/modules/jq.js"></script>
+
+<!--Background Effect-->
 <script src="/static/modules/bg.js"></script>
 
-<script type="text/javascript">
-    $(function(){
-$('#focus').addClass('active');
-})
+<!--Rain Effect-->
+<script src="/static/modules/rn.js"></script>
+
+<!--Toggle-->
+<script>
+  function toggle(flick){
+    $(`#${flick}`).slideToggle();
+  }
 </script>
-<!--<div class="infoBox">My VPS is Experiencing issues, I do not know how long this takes, my apologies for the inconvinience</div>-->
 </body>

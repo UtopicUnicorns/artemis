@@ -11,8 +11,11 @@ module.exports = {
   category: `mod`,
   name: "warn",
   description: "[mod] Warn a user",
-  explain: `Using \`warn @mention\` will warn the user, adding text after the mention will be teh reason why the user got a warning.\n
-  After 3 warnings the user will get muted if there is a mute channel set up.`,
+  explain: `This command will warn a user,  and will also generate a [Case](#Case).
+When a user is warned ,the warning point table for the user will increase by 1.
+When a user has 3 or more warning points, with a properly set up muting channel, and the \`~/Members\` role has been properly applied to the channels, the user will be muted.
+
+Example usage: \`!warn @mention [Reason]\``,
   async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
@@ -27,7 +30,8 @@ module.exports = {
     );
 
     //if no perms
-    if (!message.member.permissions.has("KICK_MEMBERS")) return message.reply("You do not have permissions to use this command!");
+    if (!message.member.permissions.has("KICK_MEMBERS"))
+      return message.reply("You do not have permissions to use this command!");
 
     //update usage
     usage = getUsage.get("warn");

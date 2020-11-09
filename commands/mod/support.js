@@ -11,14 +11,28 @@ module.exports = {
   category: `mod`,
   name: "support",
   description: "[mod] Set a support channel",
-  explain: `This command allows you to view, modify and answer support tickets.\n
-  \`support view CaseNUM\` will show you the support ticket linked to this number.\n
-  \`support answer caseNUM\` will add your answer to the ticket number, everything that comes after this command in the same message will count as an answer.\n
-  \`support user @mention\` will show the last 25 tickets of a user.\n
-  \`support user userID\` will show the last 25 tickets of a user.\n
-  \`support search kde\` //No filter\n
-  \`support search --a kde\` //Answered only cases\n
-  \`support search --u kde\` //Unanswered only cases`,
+  explain: `The support command is used to view, edit and set support related things.
+Support cases are shared across any server, basically creating a sort of stackexchange-like system.
+You do not need to have support channels set up to view cases.
+
+To accept support cases you will have to use the command \`!support set\` within the channel you wish to make a support channel (The same command will also unset the support channel).
+Now that you have a support channel set up, your members will simply have to say \`help\` inside the support channel. They will then be prompted to ask their question.
+When the a submits their question, the support case will be opened, and users may help the user who opened the question.
+When the session is done ,(user uses the command \`!done\` or lets the case expire), the user who answered the question should use \`!support answer caseNum [Answer here]\` to add their answer to the database.
+
+Example usage: \`!support set\`
+
+Example usage: \`!support view caseNum\`
+
+Example usage: \`!support answer caseNum [Answer here]\`
+
+Example usage: \`!support user @mention\`
+
+Example usage: \`!support search kde\` //No filter
+
+Example usage:   \`!support search --a kde\` //Answered only cases
+
+Example usage:   \`!support search --u kde\` //Unanswered only cases`,
   execute(message) {
     //load prefix
     const prefixstart = getGuild.get(message.guild.id);
@@ -291,7 +305,8 @@ module.exports = {
     }
 
     //reject non mods after this point
-    if (!message.member.permissions.has("KICK_MEMBERS")) return message.reply("You do not have permissions to use this command!");
+    if (!message.member.permissions.has("KICK_MEMBERS"))
+      return message.reply("You do not have permissions to use this command!");
 
     //add or delete support channel
     if (args[0].toLowerCase() == "set") {

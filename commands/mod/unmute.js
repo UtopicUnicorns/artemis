@@ -11,14 +11,19 @@ module.exports = {
   category: `mod`,
   name: "unmute",
   description: "[mod] unmute MENTION",
-  explain: `When a user is muted you can use this command with the users mention to unmute the user!`,
+  explain: `This command will unmute the mentioned member, which will generate a [Case](#Case).
+Users who have been properly muted will have their warning points reset after being unmuted.
+Their reasons (if given) do not get reset in the case system.
+
+Example usage: \`!unmute @mention [Reason]\``,
   async execute(message) {
     //set prefix
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
 
     //if no perms
-    if (!message.member.permissions.has("KICK_MEMBERS")) return message.reply("You do not have permissions to use this command!");
+    if (!message.member.permissions.has("KICK_MEMBERS"))
+      return message.reply("You do not have permissions to use this command!");
 
     //update usage count
     usage = getUsage.get("unmute");

@@ -125,21 +125,6 @@ exports.run = (client, config) => {
     d(null, u);
   });
 
-  ////////////////
-  // spectrum page
-  ////////////////
-  app.get("/spectrum", (req, res) => {
-    //check if user is logged in
-    const test = {
-      client: client,
-      db: db,
-    };
-    res.render("spectrum", {
-      page: "spectrum",
-      test: test,
-    });
-  });
-
   /////////////
   // Index page
   /////////////
@@ -202,12 +187,12 @@ exports.run = (client, config) => {
 
                 //push into array
                 array.push(
-                  `<button class="collapsible"><img src ="${i}" width="30px" height="30px" style="border-radius: 50%;">
+                  `<br><button class="collapsible" onclick=\"toggle('${data.guild}')\"><img src ="${i}" width="30px" height="30px" style="border-radius: 50%;">
                   <div class="textcol">
                   ${client.guilds.cache.get(data.guild)}
                   (${guildsizeget.memberCount} members)
                     </div></button>
-                    <div class="content">
+                    <div class="content" id="${data.guild}">
                     <table width="100%" style="border-collapse: collapse;" align="center">
                     <tr style="text-align:left"><th>Level:</th><th>${
                       data.level
@@ -216,17 +201,7 @@ exports.run = (client, config) => {
                     <td>\u20B9 ${data.points}</td></tr>
                     <tr style="text-align:left; border-bottom: 1px solid black"><td>Warning points:</td>
                     <td>${data.warning}</td></tr>
-                    <tr style="text-align:left; border-bottom: 1px solid black"><td>Auto Translation:</td>
-                    <td><div id="${count}TRA">${translation}</div></td></tr>
-                    <tr style="text-align:left; border-bottom: 1px solid black"><td></td><td>
-                    <form action="/" method="post">
-                    <select name="data3">
-                    <option value="${count} TR OFF">off</option>
-                    <option value="${count} TR ON">on</option>
-                    </select>
-                    <br><input type="submit" class="button" onclick="document.getElementById('${count}TRA').innerHTML = 'Changed!'" value="Save">
-                    </form>
-                    </td></tr>
+                    
                     <tr style="text-align:left; border-bottom: 1px solid black"><td>Delete data:</td>
                     <td><div id="${count}STR">This will delete all user data connected to this server</div></td></tr>
                     <tr style="text-align:left; border-bottom: 1px solid black"><td></td><td>
@@ -234,7 +209,7 @@ exports.run = (client, config) => {
                     <select name="data3" style="display: none;">
                     <option value="${count} ST DELETE">off</option>
                     </select>
-                    <input type="submit" class="button" style="background-color: red;" onclick="document.getElementById('${count}STR').innerHTML = 'Your data has been deleted!'" value="Delete my data!">
+                    <input type="submit" class="button" onclick="document.getElementById('${count}STR').innerHTML = 'Your data has been deleted!'" value="Delete my data!">
                     </form>
                     </td></tr></table></div>\n`
                 );
@@ -303,7 +278,7 @@ exports.run = (client, config) => {
             if (thiss) {
               //first push
               array.push(
-                `<button class="collapsible">
+                `<br><button onclick=\"toggle('${data.guild}')\" class="collapsible">
                 <img src ="${gettheguild.iconURL({
                   format: "jpg",
                 })}" width="30px" height="30px" style="border-radius: 50%;">
@@ -311,7 +286,7 @@ exports.run = (client, config) => {
                   gettheguild.memberCount
                 } Members)</div>
                 </button>
-                <div class="content">
+                <div class="content" id="${data.guild}">
                 <table width="100%" style="border-collapse: collapse;" align="center">`
               );
 
@@ -457,14 +432,14 @@ exports.run = (client, config) => {
                   rolec.toString().includes("true")
                 ) {
                   //build top part of array
-                  let top1 = `<button class="collapsible">
+                  let top1 = `<br><button onclick=\"toggle('${data.guild}')\" class="collapsible">
                     <img src ="${gettheguild.iconURL({
                       format: "jpg",
                     })}" width="30px" height="30px" style="border-radius: 50%;">
                     <div class="textcol">${client.guilds.cache.get(
                       data.guild
                     )} (${gettheguild.memberCount} Members)</div></button>
-                    <div class="content">
+                    <div id="${data.guild}" class="content">
                     <table width="100%" style="border-collapse: collapse;" align="center">`;
 
                   //build bottom part of array
@@ -1096,7 +1071,7 @@ exports.run = (client, config) => {
 
           //first push
           array.push(
-            `<button class="collapsible" id="focus">
+            `<br><button onclick=\"toggle('${data.guild}')\" class="collapsible">
                 <img src ="${gettheguild.iconURL({
                   format: "jpg",
                 })}" width="30px" height="30px" style="border-radius: 50%;">
@@ -1104,7 +1079,7 @@ exports.run = (client, config) => {
               gettheguild.memberCount
             } Members)</div>
                 </button>
-                <div class="content">
+                <div class="content" id="${data.guild}">
                 <table width="100%" style="border-collapse: collapse;" align="center">`
           );
 
@@ -1258,14 +1233,14 @@ exports.run = (client, config) => {
                   rolec.toString().includes("true")
                 ) {
                   //build top part of array
-                  let top1 = `<button class="collapsible">
+                  let top1 = `<br><button onclick=\"toggle('${data.guild}')\" class="collapsible">
                     <img src ="${gettheguild.iconURL({
                       format: "jpg",
                     })}" width="30px" height="30px" style="border-radius: 50%;">
                     <div class="textcol">${client.guilds.cache.get(
                       data.guild
                     )} (${gettheguild.memberCount} Members)</div></button>
-                    <div class="content">
+                    <div class="content" id="${data.guild}">
                     <table width="100%" style="border-collapse: collapse;" align="center">`;
 
                   //build bottom part of array

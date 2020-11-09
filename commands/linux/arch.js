@@ -12,7 +12,9 @@ module.exports = {
   name: "arch",
   description:
     "[linux] This command gives a small description of the distribution",
-  explain: `This command gives a small description of the distribution`,
+  explain: `This command gives a small description of the distribution
+  
+  Example usage: \`!arch\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

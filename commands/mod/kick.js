@@ -11,15 +11,19 @@ module.exports = {
   category: `mod`,
   name: "kick",
   description: "[mod] Kick a user from the server",
-  explain: `This command will surely kick an @mentioned user.\n
-  This will only kick the user, it does not ban, mute or whatever to the user.`,
+  explain: `This command will attempt to kick the user you specify.
+To properly use this command, make sure that Artemis is in a higher role hierachy slot than the user you try to kick.
+Using this command will also generate a [Case](#Case).
+
+Example usage: \`!kick @mention\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
 
     //if user has no perms
-    if (!message.member.permissions.has("KICK_MEMBERS")) return message.reply("You do not have permissions to use this command!");
+    if (!message.member.permissions.has("KICK_MEMBERS"))
+      return message.reply("You do not have permissions to use this command!");
 
     //update usage
     usage = getUsage.get("kick");

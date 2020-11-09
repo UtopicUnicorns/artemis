@@ -14,9 +14,11 @@ module.exports = {
   category: `music`,
   name: "play",
   description: "[music] Play a song!",
-  explain: `To use this command you have to be in a voice channel.\n
-  To play a song simply use the following command:\n
-  \`play YoutubeURL/SearchQuery\``,
+  explain: `Plays a specified song, or adds it to the queue if there is a song currently playing.
+
+Example usage: \`!play YtURL\`
+
+Example usage: \`!play Search Query\``,
   async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

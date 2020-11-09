@@ -11,7 +11,11 @@ module.exports = {
   category: `fun`,
   name: "avatar",
   description: "[fun] Show a user avatar",
-  explain: `This will show a users profile picture, either use \`avatar @mention\`, \`avatar userID\` or \`avatar\``,
+  explain: `This command will show the user their own, or a specified user's profile picture.
+
+Example usage: \`!avatar\`
+
+Example usage: \`!avatar @mention\``,
   execute(message) {
     //define prefix
     const prefixstart = getGuild.get(message.guild.id);

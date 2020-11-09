@@ -11,7 +11,10 @@ module.exports = {
   category: `mod`,
   name: "userdata",
   description: "[mod] See user info",
-  explain: `This command will let you see a users database entries`,
+  explain: `Within the Artemis Bot Network are many servers which cover related topics (in Artemis's case, it's space related and Linux related).
+Related servers often attract users from the same pool, userdata simply tells you if a user has been misbehaving in other servers. It will not show actual data of the user, only how many times a user has been warned, and if the user has been muted in a server Artemis is also in.
+
+Example usage: \`!userdata userID\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
@@ -23,7 +26,8 @@ module.exports = {
     setUsage.run(usage);
 
     //if no perms
-    if (!message.member.permissions.has("KICK_MEMBERS")) return message.reply("You do not have permissions to use this command!");
+    if (!message.member.permissions.has("KICK_MEMBERS"))
+      return message.reply("You do not have permissions to use this command!");
 
     //build args
     let args = message.content.slice(prefix.length + 9).split(" ");

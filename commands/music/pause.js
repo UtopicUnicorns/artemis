@@ -11,7 +11,9 @@ module.exports = {
   category: `music`,
   name: "pause",
   description: "[music] Pause the music",
-  explain: `If the bot is playing music, then you will be able to pause the music with this command.`,
+  explain: `Pauses the music player.
+
+Example usage: \`!pause\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

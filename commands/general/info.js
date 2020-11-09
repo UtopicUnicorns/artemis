@@ -11,7 +11,9 @@ module.exports = {
   category: `general`,
   name: "info",
   description: "[general] Display server info",
-  explain: `This command will show you server statistics.`,
+  explain: `This command will show the user detailed information about the guild/server they are in.
+
+Example usage: \`!info\``,
   async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

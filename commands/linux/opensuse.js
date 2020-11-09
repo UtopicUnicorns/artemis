@@ -12,7 +12,9 @@ module.exports = {
   name: "opensuse",
   description:
     "[linux] This command gives a small description of the distribution",
-  explain: `This command gives a small description of the distribution`,
+  explain: `This command gives a small description of the distribution
+  
+  Example usage: \`!opensuse\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

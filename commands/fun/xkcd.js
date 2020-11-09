@@ -11,9 +11,13 @@ module.exports = {
   category: `fun`,
   name: "xkcd",
   description: "[fun] Xkcd images",
-  explain: `\`xkcd\` Will show the latest xkcd\n
-  \`xkcd NUM\` will show the published comic number you entered\n
-  \`xkcd random\` will show you a random comic`,
+  explain: `This command will show you an XKCD comic.
+
+Example usage: \`!xkcd\` _Shows the most recent comic_
+
+Example usage: \`!xkcd NUMBER\` _Shows the specified comic coresponding to the number you provided_
+
+Example usage: \`!xkcd random\` _Shows a random comic_`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

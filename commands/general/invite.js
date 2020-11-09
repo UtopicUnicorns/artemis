@@ -11,7 +11,11 @@ module.exports = {
   category: `general`,
   name: "invite",
   description: "[general] bot invite and main server invite",
-  explain: `This command displays the github of the bot, main server invite, bot invite, patreon link and creator tag.`,
+  explain: `This is basically self promotion for me.
+This command shows my GitHub, Paypal, Website, my main Discord Server, as well as my username with discriminator.
+It will also hold a link to add Artemis to your own server.
+
+Example usage: \`!invite\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

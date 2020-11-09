@@ -11,15 +11,18 @@ module.exports = {
   category: `mod`,
   name: "forceremove",
   description: "[mod] remove a database entry",
-  explain: `Removes every trace of the mentioned userID from the database.\n
-  This will also completely wipe any userinfo, warnings, mutes and personal user settings.`,
+  explain: `This is a dangerous command, for it allows you to remove a user's data from the database as long as the user is within your guild.
+This means that all user records such as warnings, last warning message, user level, user points, and if the user is muted will be removed.
+
+Example usage: \`!forceremove userID\``,
   async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
 
     //if user has no perms
-    if (!message.member.permissions.has("KICK_MEMBERS")) return message.reply("You do not have permissions to use this command!");
+    if (!message.member.permissions.has("KICK_MEMBERS"))
+      return message.reply("You do not have permissions to use this command!");
 
     //update usage
     usage = getUsage.get("forceremove");

@@ -11,7 +11,9 @@ module.exports = {
   category: `music`,
   name: "resume",
   description: "[music] Resume the music",
-  explain: `If the bot is playing music and the music is currently paused, then this command will unpause it.`,
+  explain: `If the music player was paused, this command will resume it.
+
+Example usage: \`!resume\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

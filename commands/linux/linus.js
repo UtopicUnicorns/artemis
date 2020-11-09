@@ -11,7 +11,9 @@ module.exports = {
   category: `linux`,
   name: "linus",
   description: "[linux] What you are referring to as Linux(donation command)",
-  explain: `This command will post a cheezy linux meme.`,
+  explain: `This command will show one part of a 2 part story between RMS and linus.
+
+Example usage: \`!linus\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

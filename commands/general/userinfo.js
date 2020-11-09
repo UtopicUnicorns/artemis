@@ -11,10 +11,14 @@ module.exports = {
   category: `general`,
   name: "userinfo",
   description: "[general] Displays your own or mentioned user info",
-  explain: `This command will show extensive information about the user your mention or yourself.\n
-  \`userinfo\` will show info about yourself.\n
-  \`userinfo @mention\` will show info about the mentioned user.\n
-  To see info silently you can use \`userinfo userID\``,
+  explain: `This command will show you detailed info about yourself, or a specified user.
+It can also be used in combination with [Specs](#Specs) to share your system info.
+
+Example usage: \`!userinfo\`
+
+Example usage: \`!userinfo @mention\`
+
+Example usage: \`!userinfo userID\``,
   execute(message) {
     //form prefix
     const prefixstart = getGuild.get(message.guild.id);
@@ -81,7 +85,7 @@ module.exports = {
           .utc(user.user.createdTimestamp)
           .format("dddd, MMMM Do YYYY, HH:mm:ss")
       )
-      .addField("Roles:", `${roleMap}`);
+      .addField("Roles:", `${roleMap.slice(0, 20)}`);
     if (entryYes) {
       embed.addField("Specifications:\n", `${getSpecs.get(user.user.id).spec}`);
     } else {

@@ -11,8 +11,10 @@ module.exports = {
   category: `level`,
   name: "join",
   description: "[level] Join a self assignable role",
-  explain: `This command allows you to join a self-asignable role.\n
-  \`join roleName\``,
+  explain: `Users can use this command when there are self-assignable roles.
+This command will give the user the coresponding role if it exists.
+
+Example usage: \`!join RoleName\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

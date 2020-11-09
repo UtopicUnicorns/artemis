@@ -11,14 +11,23 @@ module.exports = {
   category: `mod`,
   name: "ban",
   description: "[mod] Ban a user",
-  explain: `\`ban @mention @mention @mention userID\`\nWill surely ban a user if the bot is able to, this depends on the permissions and hierarchy of the roles.`,
+  explain: `Using this command will try to ban a user or users. 
+Do note that Artemis needs valid permissions, and needs to be above the user in the role hierachy.
+Using this command will also create a [Case](#Case).
+
+Example usage: \`!ban @mention [Reason for the ban]\`
+
+Example usage: \`!ban @mention @mention @mention\`
+
+Example usage: \`!ban userID userID userID\``,
   async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
 
     //if no proper perms
-    if (!message.member.permissions.has("KICK_MEMBERS")) return message.reply("You do not have permissions to use this command!");
+    if (!message.member.permissions.has("KICK_MEMBERS"))
+      return message.reply("You do not have permissions to use this command!");
 
     //update usage
     usage = getUsage.get("ban");

@@ -1,593 +1,188 @@
-<%- include ("templates/head2.ejs") %>
+<!--Load Head-->
+<head>
+  <!--Meta data-->
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta
+    name="description"
+    content="The home website for the discord bot Artemis, this website contains your dashboard and a control panel for mods+."
+  />
+  <meta property="og:image" content="/static/images/artava.png" />
+  <meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
 
-<style>
-  html {
-  scroll-behavior: smooth;
-  }
+  <!--Title-->
+  <title>Project Artemis</title>
 
-  a {
-    color: burlywood;
-    text-shadow: 2px 2px 2px green;
-    font-size: 14px;
-    transition: 250ms;
-  }
+  <!--Favicon-->
+  <link
+    rel="shortcut icon"
+    href="/static/images/logo2.svg"
+    type="image/x-icon"
+  />
 
-  a:hover, a:active {
-    color: burlywood;
-    text-shadow: 5px 5px 5px green;
-    font-size: 16px;
-  }
+  <!--Favicon too-->
+  <link rel="icon" href="/static/images/logo2.svg" type="image/x-icon" />
 
-  code {
-    background-color: rgba(0, 0, 0, 0.5);
-    padding-left: 5px;
-    padding-right: 20px;
-    color: white;
-    font-size: 12px;
-    font-style: normal;
-    box-shadow: 2px 2px 2px black;
-  }
-</style>
-<table style="width: 100%; text-align: left; padding-left: 10px; text-shadow: 2px 2px 2px black;">
-  <th>
-<h1 id="artemis-wiki">Artemis Wiki</h1>
-<p><em>Oh god, another thing Artemis may be controlling</em></p>
-<h2 id="index">Index</h2>
-<ul>
-<li><a href="#index">Index</a><ul>
-<li><a href="#getting_Started">Getting_Started</a><ul>
-<li><a href="#adding_the_bot">Adding_the_bot</a></li>
-<li><a href="#small_overview">Small_overview</a></li>
-<li><a href="#setting_up_the_channels">Setting_up_the_channels</a></li>
-<li><a href="#reaction_Roles">Reaction_Roles</a></li>
-<li><a href="#mute_Channel">Mute_Channel</a></li>
-<li><a href="#credits">Credits</a></li>
-</ul>
-</li>
-<li><a href="#commands">Commands</a><ul>
-<li><a href="#mod_Commands">Mod_Commands</a><ul>
-<li><a href="#approve">Approve</a></li>
-<li><a href="#ban">Ban</a></li>
-<li><a href="#case">Case</a></li>
-<li><a href="#embed">Embed</a></li>
-<li><a href="#forceRemove">ForceRemove</a></li>
-<li><a href="#kick">Kick</a></li>
-<li><a href="#mute">Mute</a></li>
-<li><a href="#nick">Nick</a></li>
-<li><a href="#purge">Purge</a></li>
-<li><a href="#support">Support</a></li>
-<li><a href="#topic">Topic</a></li>
-<li><a href="#unmute">Unmute</a></li>
-<li><a href="#userData">UserData</a></li>
-<li><a href="#uwu">Uwu</a></li>
-<li><a href="#warn">Warn</a></li>
-<li><a href="#warnings">Warnings</a></li>
-</ul>
-</li>
-<li><a href="#server_Commands">Server_Commands</a><ul>
-<li><a href="#automod">Automod</a></li>
-<li><a href="#check">Check</a></li>
-<li><a href="#react">React</a></li>
-<li><a href="#wordlist">Wordlist</a></li>
-</ul>
-</li>
-<li><a href="#mscore_Commands">Mscore_Commands</a><ul>
-<li><a href="#add">Add</a></li>
-<li><a href="#rolemanage">Rolemanage</a></li>
-</ul>
-</li>
-<li><a href="#general_Commands">General_Commands</a><ul>
-<li><a href="#help">Help</a></li>
-<li><a href="#info">Info</a></li>
-<li><a href="#invite">Invite</a></li>
-<li><a href="#opt">Opt</a></li>
-<li><a href="#ping">Ping</a></li>
-<li><a href="#remindme">Remindme</a></li>
-<li><a href="#search">Search</a></li>
-<li><a href="#userinfo">Userinfo</a></li>
-</ul>
-</li>
-<li><a href="#level_Commands">Level_Commands</a><ul>
-<li><a href="#board">Board</a></li>
-<li><a href="#join">Join</a></li>
-<li><a href="#leave">Leave</a></li>
-<li><a href="#level">Level</a></li>
-<li><a href="#numbers">Numbers</a></li>
-</ul>
-</li>
-<li><a href="#linux_Commands">Linux_Commands</a><ul>
-<li><a href="#ask">Ask</a></li>
-<li><a href="#btw">Btw</a></li>
-<li><a href="#linus">Linus</a></li>
-<li><a href="#man">Man</a></li>
-<li><a href="#package">Package</a></li>
-<li><a href="#proton">Proton</a></li>
-<li><a href="#rms">Rms</a></li>
-<li><a href="#specs">Specs</a></li>
-</ul>
-</li>
-<li><a href="#fun_Commands">Fun_Commands</a><ul>
-<li><a href="#avatar">Avatar</a></li>
-<li><a href="#bird">Bird</a></li>
-<li><a href="#cat">Cat</a></li>
-<li><a href="#catfact">Catfact</a></li>
-<li><a href="#convert">Convert</a></li>
-<li><a href="#dog">Dog</a></li>
-<li><a href="#emoji">Emoji</a></li>
-<li><a href="#fbi">Fbi</a></li>
-<li><a href="#fox">Fox</a></li>
-<li><a href="#honk">Honk</a></li>
-<li><a href="#hug">Hug</a></li>
-<li><a href="#lenny">Lenny</a></li>
-<li><a href="#p">P</a></li>
-<li><a href="#wallpaper">Wallpaper</a></li>
-<li><a href="#wiki">Wiki</a></li>
-<li><a href="#xkcd">Xkcd</a></li>
-</ul>
-</li>
-<li><a href="#stream_Commands">Stream_Commands</a><ul>
-<li><a href="#stream">Stream</a></li>
-</ul>
-</li>
-<li><a href="#music_Commands">Music_Commands</a><ul>
-<li><a href="#np">Np</a></li>
-<li><a href="#pause">Pause</a></li>
-<li><a href="#play">Play</a></li>
-<li><a href="#resume">Resume</a></li>
-<li><a href="#skip">Skip</a></li>
-<li><a href="#stop">Stop</a></li>
-<li><a href="#vol">Vol</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="getting_started">Getting_Started</h2>
-<p><em>To even begin you need to make sure you are actually allowed to add bots to your server</em></p>
-<h3 id="adding_the_bot">Adding_the_bot</h3>
-<p>Adding the bot is simple, you either hit the button <code>Add Bot</code> on:</p>
-<ul>
-<li><a href="#https://artemis.rest/">https://artemis.rest/</a></li>
-</ul>
-<p>Or you use the direct link: </p>
-<ul>
-<li><a href="#https://discord.com/oauth2/authorize?client_id=440892659264126997&amp;permissions=8&amp;scope=bot">https://discord.com/oauth2/authorize?client_id=440892659264126997&amp;permissions=8&amp;scope=bot</a></li>
-</ul>
-<h3 id="small_overview">Small_overview</h3>
-<p>Artemis is a multi-function bot.</p>
-<ul>
-<li>Moderation</li>
-<li>Warn system</li>
-<li>Case sytem</li>
-<li>Translation</li>
-<li>Internet Search</li>
-<li>Verification</li>
-<li>And more...</li>
-</ul>
-<h3 id="setting_up_the_channels">Setting_up_the_channels</h3>
-<p>Go to <a href="#https://artemis.rest/">https://artemis.rest/</a> and login there.
-Click <code>Server Control</code>,
-choose the server you want to modify, then scroll down to <code>Channels</code>.</p>
-<ul>
-<li><p>Welcome</p>
-<ul>
-<li>This channel is used to display the welcome message for new users</li>
-</ul>
-</li>
-<li><p>Logs</p>
-<ul>
-<li>This channel is used to display several type of logs.</li>
-</ul>
-</li>
-<li><p>Mute/Verify</p>
-<ul>
-<li>This channel is used to verify new users and store muted members. For this channel to be effective, you need to use the role provided by Artemis <code>~/members</code> and give ONLY THIS role access to channels you would want to be locked. When a user gets muted, all those channels will be invisible for the muted user, and verifying users may get access to these channels if they pass the captcha.</li>
-</ul>
-</li>
-<li><p>Highlights</p>
-<ul>
-<li>When a message in one of the channels gets 3 :tea: emotes, the bot will try to highlight it. This channel will be used to store highlighted messages.</li>
-</ul>
-</li>
-<li><p>Reaction Roles</p>
-<ul>
-<li>This channel will be used to use reaction roles. Make sure that this channel is completely empty apart from the message(s) containing the role emotes.</li>
-</ul>
-</li>
-<li><p>Stream Notification</p>
-<ul>
-<li>This channel will be used to display if a user goes live on Twitch.</li>
-</ul>
-</li>
-</ul>
-<h3 id="reaction_roles">Reaction_Roles</h3>
-<p><em>This is gonna get complicated oh boi.</em></p>
-<p>I am going to make this a sort of step by step guide for the ease of it, follow along Pond.</p>
-<ul>
-<li>Setup your Reaction Role Channel.</li>
-<li>Pick a role you want to be self-assignable.</li>
-<li>Use the command <a href="#Rolemanage">Rolemanage</a> to make it self asignable</li>
-<li>Create a new emoji (This has to be a custom emote), and give it the EXACT same name as the role you made self-asignable</li>
-<li>Go to the channel which you picked for the reaction role channel.</li>
-<li>Place a message there (You can use <a href="#embed">Embed</a>), it does not matter what the message is, but perhaps information of what the role does.</li>
-<li>Right click the message you just made and select <code>copy ID</code>.</li>
-<li>Now it&#39;s time to use <a href="#React">React</a>, use the ID on your clipboard as messageID and the emoji name you created which should be the exact same name as your role.</li>
-<li>If everything went well a new reaction should be under the message of which you copied the ID from.</li>
-<li>Click it to test if it worked.</li>
-<li>If Artemis sends a message like <code>Joined ****</code> then you are done here, you setup a reaction role.</li>
-</ul>
-<h3 id="mute_channel">Mute_Channel</h3>
-<p>This channel is also used for verification, time to pay some attention.</p>
-<p>When Artemis first joins a new Guild, she will create a role called <code>~/Members</code>.
-This is the role she gives out to new users (or users who verified), and takes away from users who get muted.</p>
-<p>Make absolutely sure that only users with the role <code>~/Members</code> have access to the channels you want them to see if they verify.
-If you did this right, then both muting and verifying should work just fine.</p>
-<h3 id="credits">Credits</h3>
-<p>Artemis was created by:</p>
-<p> Richard Dorrestijn</p>
-<p> <a href="mailto:dorrestijn.r@gmail.com">dorrestijn.r@gmail.com</a></p>
-<p> Discord: UtopicUnicorn#0383</p>
-<p>A big thanks goes out to all the MIT licensed projects that I used as reference guides, and of course to Stack Exchange.</p>
-<h2 id="commands">Commands</h2>
-<p>This section will cover the commands Artemis has.
-Note that not every command may be available, because I don&#39;t update this guide quite as much as my bot.
-My apologies about that.</p>
-<p>All of the commands below require you to use a prefix in front of them, which you can setup on <a href="https://artemis.rest">https://artemis.rest</a>.</p>
-<p>Example: <code>!help</code></p>
-<p>In this guide/wiki, I am using the <code>!</code> prefix, this is of course changeable on the Artemis website.</p>
-<h2 id="mod_commands">Mod_Commands</h2>
-<p><em>Mod commands need the user who uses the commands to have at least kick permissions, and Artemis needs proper permissions. To simplify everything, it might be best to give Artemis administrator permissions, which she prompts when getting added to a server.</em></p>
-<h3 id="approve">Approve</h3>
-<p>When you have a verify channel set up, and you have AutoMod on Strict mode (Which prevents verifying), you can use this command to manually approve users.
-This is also the command you want to use when a user has bad eyesight, to the point where they cannot see the captcha.</p>
-<p>Example usage: <code>!verify @mention</code></p>
-<h3 id="ban">Ban</h3>
-<p>Using this command will try to ban a user or users. 
-Do note that Artemis needs valid permissions, and needs to be above the user in the role hierachy.
-Using this command will also create a <a href="#Case">Case</a>.</p>
-<p>Example usage: <code>!ban @mention [Reason for the ban]</code></p>
-<p>Example usage: <code>!ban @mention @mention @mention</code></p>
-<p>Example usage: <code>!ban userID userID userID</code></p>
-<h3 id="case">Case</h3>
-<p>Cases are automatically generated when using certain commands.
-A case is used to keep track of the baddies.</p>
-<p>Example usage: <code>!case view caseNum</code></p>
-<p>Example usage: <code>!case user userID</code></p>
-<p>Example usage: <code>!case reason caseNum [Reason here]</code></p>
-<h3 id="embed">Embed</h3>
-<p>Embeds are used to make some text look prettier.
-The first line contains the embed title, the rows/lines after that will be the content of the embed.
-Do note that this command needs you to use newLines (Shift + enter).</p>
-<p>Example usage: </p>
-<pre><code class="lang-sh">!embed <span class="hljs-string">[Title]</span>
+  <!--Load Styles-->
+  <link href="/static/modules/style.css" rel="stylesheet" type="text/css" />
+</head>
 
-<span class="hljs-string">[Content]</span>
+<!--Body Block-->
+<body class="back-row-toggle splat-toggle">
+  <!--Title Block-->
+  <div class="titlebox">
+    <!--Main title-->
+    <div class="glitch">Project Artemis</div>
+    <img
+      src="/static/images/artava.png"
+      height="10px"
+      width="10px"
+      style="border-radius: 20px"
+    />
+    <%- test.client.users.cache.size.toLocaleString() %> users / <%-
+    test.client.guilds.cache.size.toLocaleString() %> guilds | <% let t =
+    test.db.prepare("SELECT number FROM usage;").all(); %> <% let str = 0; for
+    (let i in t) str += t[i].number; %> <%- str.toLocaleString() %> commands
+    used
+  </div>
 
-<span class="hljs-string">[Content]</span>
+  <!--Main BG block-->
+  <div class="wrap">
+    <!--Main BG-->
+    <div class="bg"></div>
 
-<span class="hljs-string">[Content]</span>
-</code></pre>
-<h3 id="forceremove">ForceRemove</h3>
-<p>This is a dangerous command, for it allows you to remove a user&#39;s data from the database as long as the user is within your guild.
-This means that all user records such as warnings, last warning message, user level, user points, and if the user is muted will be removed.</p>
-<p>Example usage: <code>!forceremove userID</code></p>
-<h3 id="kick">Kick</h3>
-<p>This command will attempt to kick the user you specify.
-To properly use this command, make sure that Artemis is in a higher role hierachy slot than the user you try to kick.
-Using this command will also generate a <a href="#Case">Case</a>.</p>
-<p>Example usage: <code>!kick @mention</code></p>
-<h3 id="mute">Mute</h3>
-<p>This command will mute the user you specify.
-The action will create a <a href="#Case">Case</a>.
-Do note that without proper role permissions and channel permissions, this command will fail.
-This is explained in <a href="#Mute_Channel">Mute_Channel</a>.</p>
-<p>Example usage: <code>!mute @mention</code></p>
-<p>Example usage: <code>!mute 5 hour @mention</code></p>
-<p>Example usage: <code>!mute 5 second @mention</code></p>
-<p>Example usage: <code>!mute 5 minute @mention</code></p>
-<p>Example usage: <code>!mute 5 day @mention</code></p>
-<h3 id="nick">Nick</h3>
-<p>Nick will allow you to change a user&#39;s nickname.</p>
-<p>Example usage: <code>!nick @mention [New Nick Name]</code></p>
-<h3 id="purge">Purge</h3>
-<p>Purging is one of the main features of a Discord bot.
-This command will wipe a specified ammount of messages from the channel you use it in.
-Due to API limitations, you can only purge 100 messages at a time, and only up to 2 weeks ago.
-Artemis allows you to purge from a mentioned user too, or a keyword which will remove up to 100 messages containing that word.</p>
-<p>Example usage: <code>!purge 100</code></p>
-<p>Example usage: <code>!purge @mention 100</code></p>
-<p>Example usage: <code>!purge KeyWord 100</code></p>
-<h3 id="support">Support</h3>
-<p>The support command is used to view, edit and set support related things.
-Support cases are shared across any server, basically creating a sort of stackexchange-like system.
-You do not need to have support channels set up to view cases.</p>
-<p>To accept support cases you will have to use the command <code>!support set</code> within the channel you wish to make a support channel (The same command will also unset the support channel).
-Now that you have a support channel set up, your members will simply have to say <code>help</code> inside the support channel. They will then be prompted to ask their question.
-When the a submits their question, the support case will be opened, and users may help the user who opened the question.
-When the session is done ,(user uses the command <code>!done</code> or lets the case expire), the user who answered the question should use <code>!support answer caseNum [Answer here]</code> to add their answer to the database.</p>
-<p>Example usage: <code>!support set</code></p>
-<p>Example usage: <code>!support view caseNum</code></p>
-<p>Example usage: <code>!support answer caseNum [Answer here]</code></p>
-<p>Example usage: <code>!support user @mention</code></p>
-<h3 id="topic">Topic</h3>
-<p>The topic command is used to change the topic of a situation. This topic is completely unrelated from mostly anything else.</p>
-<p>Example usage: <code>!topic</code></p>
-<h3 id="unmute">Unmute</h3>
-<p>This command will unmute the mentioned member, which will generate a <a href="#Case">Case</a>.
-Users who have been properly muted will have their warning points reset after being unmuted.
-Their reasons (if given) do not get reset in the case system.</p>
-<p>Example usage: <code>!unmute @mention [Reason]</code></p>
-<h3 id="userdata">UserData</h3>
-<p>Within the Artemis Bot Network are many servers which cover related topics (in Artemis&#39;s case, it&#39;s space related and Linux related).
-Related servers often attract users from the same pool, userdata simply tells you if a user has been misbehaving in other servers. It will not show actual data of the user, only how many times a user has been warned, and if the user has been muted in a server Artemis is also in.</p>
-<p>Example usage: <code>!userdata userID</code></p>
-<h3 id="uwu">Uwu</h3>
-<p>This command makes use of existing webhooks, if there is no webhook in the channel you have set this up, Artemis will create one if possible.
-This command will convert all messages sent within the server it has been setup in to be converted to <code>uwu</code> speech.
-It&#39;s a horrible thing, but people love it.</p>
-<p>Example usage: <code>!uwu</code></p>
-<h3 id="warn">Warn</h3>
-<p>This command will warn a user,  and will also generate a <a href="#Case">Case</a>.
-When a user is warned ,the warning point table for the user will increase by 1.
-When a user has 3 or more warning points, with a properly set up muting channel, and the <code>~/Members</code> role has been properly applied to the channels, the user will be muted.</p>
-<p>Example usage: <code>!warn @mention [Reason]</code></p>
-<h3 id="warnings">Warnings</h3>
-<p>This command allows you to see how many warnings a user has and what the latest reason of a warn was.
-It will also show if a user has been muted.
-An additional usage of this command is that it can reset warnings to 0.</p>
-<p>Example usage: <code>!warnings</code></p>
-<p>Example usage: <code>!warnings @mention</code></p>
-<p>Example usage: <code>!warnings @mention reset</code></p>
-<h2 id="server_commands">Server_Commands</h2>
-<p><em>Server commands need the user who uses them to have at least kick permissions, and Artemis needs proper permissions. To simplify everything it might be best to give Artemis administrator permissions, which she prompts when getting added to a server.</em></p>
-<h3 id="automod">Automod</h3>
-<p>Automod is a tool which can help moderators out a little bit in their daily tasks,</p>
-<p>Automod includes:</p>
-<ul>
-<li>A word filter (Filters are guild/server specific and will have to be setup by using the <a href="#Wordlist">Wordlist</a> command)</li>
-<li>Anti discord invites</li>
-<li>Anti spam</li>
-<li>Anti mention (If a user scrapes a list of users and uses that to mention everyone, if done twice, that user gets muted.)<ul>
-<li>Anti Verification (if Strict mode is on)</li>
-</ul>
-</li>
-</ul>
-<p>Strict mode is used against raids, or when you want users to be verified manually by using <a href="#Approve">Approve</a></p>
-<p>Example usage: <code>!automod</code></p>
-<p>Example usage: <code>!automod on</code></p>
-<p>Example usage: <code>!automod off</code></p>
-<p>Example usage: <code>!automod strict</code></p>
-<h3 id="check">Check</h3>
-<p>This command allows you to see which users in your guild/server have or don&#39;t have a certain role you specify.</p>
-<p>Example usage: <code>!check yes roleName</code></p>
-<p>Example usage: <code>!check not roleName</code></p>
-<h3 id="react">React</h3>
-<p>This command is a core command for <a href="#Reaction_Roles">Reaction_Roles</a>.</p>
-<p>This command only accepts CUSTOM emojis. You can add as many to this command as a message can hold.
-When used properly, the React command will react to the message you specified with the specified emojis.</p>
-<p><em>The react command in combination with the message ID should ONLY be used WITHIN the channel the message originates from.</em></p>
-<p>Example usage: <code>!react MessageID EmojiName EmojiName EmojiName</code></p>
-<h3 id="wordlist">Wordlist</h3>
-<p>This is a core command for <a href="#Automod">Automod</a>.</p>
-<p>Without arguments the wordlist will be shown. To somewhat protect people from seeing bad words, the wordlist will be shown within spoiler tags.
-When you add words to the list, and when Automod is ON, users without the kick permission will get their full message removed without notice when they use a word on the list.
-This system is not perfect and is not meant to be used as your main moderator.</p>
-<p>Example usage: <code>!wordlist add Word1 Word2 Word3</code></p>
-<p>Example usage: <code>!wordlist del Word1 Word2 Word3</code></p>
-<h2 id="mscore_commands">Mscore_Commands</h2>
-<p><em>Mscore commands need the user who uses the commands to have at least kick permissions, and Artemis needs proper permissions. To simplify everything, it might be best to give Artemis administrator permissions, which she prompts when getting added to a server.</em></p>
-<h3 id="add">Add</h3>
-<p>This command allows you to gift or retract points from a user if leveling is enabled for your guild/server.</p>
-<p>Example usage: <code>!add @mention -100</code> <em>Note the minus symbol</em></p>
-<p>Example usage: <code>!add @mention 100</code></p>
-<h3 id="rolemanage">Rolemanage</h3>
-<p>This is a semi-core command for <a href="#Reaction_Roles">Reaction_Roles</a>.</p>
-<p>This command will allow you to add or remove a role from the self-asignable role list.
-When a role is self-asignable, a user may use <code>!join</code> or <code>!leave</code> to obtain and remove the role for themselves.
-Do note that Artemis&#39;s role needs to be higher in the role hierachy than the role you try to add/remove.
-Using this command with success will add the role to the list if it was not there, and remove it from the list if it was.
-You can check which roles are self-asignable with the <a href="#Numbers">Numbers</a> command.</p>
-<p>Example usage: <code>!rolemanage RoleName</code></p>
-<h2 id="general_commands">General_Commands</h2>
-<p><em>Commands in this category do not need special permissions</em></p>
-<h3 id="help">Help</h3>
-<p>This command will show the user a help menu which is only controllable by the user who called for it.
-It will show every command available, sorted into categories.
-Users can also have a command explained by adding the command&#39;s name to the help command.</p>
-<p>Example usage: <code>!help</code></p>
-<p>Example usage: <code>!help rolemanage</code> <em>This will explain the command named rolemanage</em></p>
-<h3 id="info">Info</h3>
-<p>This command will show the user detailed information about the guild/server they are in.</p>
-<p>Example usage: <code>!info</code></p>
-<h3 id="invite">Invite</h3>
-<p>This is basically self promotion for me.
-This command shows my GitHub, Paypal, Website, my main Discord Server, as well as my username with discriminator.
-It will also hold a link to add Artemis to your own server.</p>
-<p>Example usage: <code>!invite</code></p>
-<h3 id="opt">Opt</h3>
-<p>This will show the user if they have Autotranslation on for themselves.
-They can change this on the Artemis website if they please, by default this is off.</p>
-<p>Example usage: <code>!opt</code></p>
-<h3 id="ping">Ping</h3>
-<p>This is just a ping command, checks the lag between messages...</p>
-<p>Example usage: <code>!ping</code></p>
-<h3 id="remindme">Remindme</h3>
-<p>This is a command that allows the user to set a reminder for themselves.
-When the time comes for them to be reminded, they will be pinged in the channel they used the command in.
-Using the command without arguments will show you how to use the command, as well as active reminders.</p>
-<p>Example usage: <code>!remindme</code></p>
-<p>Example usage: <code>!remindme 10 hours [reminder]</code> <em>Seconds, minutes and hours are supported</em></p>
-<p>Example usage: <code>!remindme delete clear</code> <em>Delete all reminders for yourself</em></p>
-<p>Example usage: <code>!remindme delete DeletionKey</code> <em>Delete only the reminder matching the deletion key</em></p>
-<h3 id="search">Search</h3>
-<p>This command allows you to search google... within Discord...</p>
-<p>Example usage: <code>!search [keywords]</code></p>
-<h3 id="userinfo">Userinfo</h3>
-<p>This command will show you detailed info about yourself, or a specified user.
-It can also be used in combination with <a href="#Specs">Specs</a> to share your system info.</p>
-<p>Example usage: <code>!userinfo</code></p>
-<p>Example usage: <code>!userinfo @mention</code></p>
-<p>Example usage: <code>!userinfo userID</code></p>
-<h2 id="level_commands">Level_Commands</h2>
-<p><em>Commands in this category do not need special permissions</em></p>
-<h3 id="board">Board</h3>
-<p>This command will show the leader board regarding points and levels.
-It also holds a small competative rank vs other servers with Artemis.</p>
-<p>Example usage: <code>!board</code></p>
-<h3 id="join">Join</h3>
-<p>Users can use this command when there are self-assignable roles.
-This command will give the user the coresponding role if it exists.</p>
-<p>Example usage: <code>!join RoleName</code></p>
-<h3 id="leave">Leave</h3>
-<p>Users can use this command when there are self-assignable roles.
-This command will take away the coresponding role from the user if it exists.</p>
-<p>Example usage: <code>!leave RoleName</code></p>
-<h3 id="level">Level</h3>
-<p>This command will show a neat graphic card with level/points info, as well as warnings, for the user who uses this command.
-You can also specify it further by providing an userID or @mention.</p>
-<p>Example usage: <code>!level</code></p>
-<p>Example usage: <code>!level @mention</code></p>
-<p>Example usage: <code>!level userID</code></p>
-<h3 id="numbers">Numbers</h3>
-<p>This command is a core command for <a href="#Rolemanage">Rolemanage</a>.</p>
-<p>When this command is used it will show all available self-assignable roles along with the number of members who have that role.</p>
-<p>Example usage: <code>!numbers</code></p>
-<h2 id="linux_commands">Linux_Commands</h2>
-<p><em>Commands in this category do not need special permissions</em></p>
-<h3 id="ask">Ask</h3>
-<p>This command will pull an available question from AskUbuntu using their API.
-It is a garbage API though, so just use search.</p>
-<p>Example usage: <code>!ask [question]</code></p>
-<h3 id="btw">Btw</h3>
-<p>This command has a distribution list of 900+ entries.
-When this command is used, it will display a random distribution from the list in the classical <code>I am using Arch BTW</code> format.</p>
-<p>Example usage: <code>!btw</code></p>
-<h3 id="linus">Linus</h3>
-<p>This command will show one part of a 2 part story between RMS and linus.</p>
-<p>Example usage: <code>!linus</code></p>
-<h3 id="man">Man</h3>
-<p>This command allows you to view manual pages provided by cheat.sh</p>
-<p>Example usage: <code>!man neofetch</code></p>
-<h3 id="package">Package</h3>
-<p>This command allows users to see if a package they need/looking for is available in the Arch repos, or the Ubuntu repos.</p>
-<p>Example usage: <code>!package arch [packageName]</code></p>
-<p>Example usage: <code>!package ubuntu [packageName]</code></p>
-<h3 id="proton">Proton</h3>
-<p>This command will search the Proton Database and Steam API for the game you specify.
-It will show if a game is native to Linux, or if Proton partially or fully supports it.</p>
-<p>Example usage: <code>!proton subnautica</code></p>
-<h3 id="rms">Rms</h3>
-<p>This command will show one part of a 2 part story between RMS and linus.</p>
-<p>Example usage: <code>!rms</code></p>
-<h3 id="specs">Specs</h3>
-<p>This command will allow you to upload a piece of text to your <a href="#Userinfo">Userinfo</a>.
-Users typically use this command to share their system specification.</p>
-<p>Example usage: </p>
-<pre><code class="lang-sh">!specs neofetch
-<span class="hljs-keyword">output</span>
-<span class="hljs-keyword">output</span>
-</code></pre>
-<h2 id="fun_commands">Fun_Commands</h2>
-<p><em>Commands in this category do not need special permissions</em></p>
-<h3 id="avatar">Avatar</h3>
-<p>This command will show the user their own, or a specified user&#39;s profile picture.</p>
-<p>Example usage: <code>!avatar</code></p>
-<p>Example usage: <code>!avatar @mention</code></p>
-<h3 id="bird">Bird</h3>
-<p>This command will show a random bird picture.</p>
-<p>Example usage: <code>!bird</code></p>
-<h3 id="cat">Cat</h3>
-<p>This command will show a random cat picture.
-These cats are my own.</p>
-<p>Example usage: <code>!cat</code></p>
-<h3 id="catfact">Catfact</h3>
-<p>This command will show the user a random cat fact.</p>
-<p>Example usage: <code>!catfact</code></p>
-<h3 id="convert">Convert</h3>
-<p>This command allows you to convert:</p>
-<ul>
-<li>CM to Inch</li>
-<li>Inch to CM</li>
-<li>Celcius to Fahrenheit</li>
-<li>Fahrenheit to Celcius</li>
-</ul>
-<p>Example usage: <code>convert NUM cm</code></p>
-<p>Example usage: <code>convert NUM inch</code></p>
-<p>Example usage: <code>convert NUM celcius</code></p>
-<p>Example usage: <code>convert NUM fahrenheit</code></p>
-<h3 id="dog">Dog</h3>
-<p>This command will show the user a random dog picture.</p>
-<p>Example usage: <code>!dog</code></p>
-<h3 id="emoji">Emoji</h3>
-<p>This command will show a bigger version of an emoji you specify.</p>
-<p>Example usage: <code>!emoji :glitch:</code></p>
-<h3 id="fbi">Fbi</h3>
-<p>This will show a random wanted poster for yourself, or the user you specify.</p>
-<p>Example usage: <code>!fbi</code></p>
-<p>Example usage: <code>!fbi @mention</code></p>
-<h3 id="fox">Fox</h3>
-<p>This command will show you a random fox picture.</p>
-<p>Example usage: <code>!fox</code></p>
-<h3 id="honk">Honk</h3>
-<p>This command will show the user a random geeko picture, honk honk.</p>
-<p>Example usage: <code>!honk</code></p>
-<h3 id="hug">Hug</h3>
-<p>This will display an image as if hugging the specified user.</p>
-<p>Example usage: <code>!hug @mention</code></p>
-<h3 id="lenny">Lenny</h3>
-<p><em>RESTRICTED COMMAND, CONTACT ME IF YOU NEED ACCESS</em></p>
-<p>Example usage: <code>!lenny</code></p>
-<h3 id="p">P</h3>
-<p>This will fully load a webpage within the bot&#39;s code, then return the loading speed to the user.</p>
-<p>Example usage: <code>!p https://artemis.rest</code></p>
-<h3 id="wallpaper">Wallpaper</h3>
-<p>A small collection of single and double screen wallpapers.
-The command will return a random wallpaper.</p>
-<p>Example usage: <code>!wallpaper s</code> <em>Single screen wallpaper</em></p>
-<p>Example usage: <code>!wallpaper d</code> <em>Double screen wallpaper</em></p>
-<h3 id="wiki">Wiki</h3>
-<p>This command will provide a small description of a specified Wikipedia page.</p>
-<p>Example usage: <code>!wiki GNU/Linux</code></p>
-<h3 id="xkcd">Xkcd</h3>
-<p>This command will show you an XKCD comic.</p>
-<p>Example usage: <code>!xkcd</code> <em>Shows the most recent comic</em></p>
-<p>Example usage: <code>!xkcd NUMBER</code> <em>Shows the specified comic coresponding to the number you provided</em></p>
-<p>Example usage: <code>!xkcd random</code> <em>Shows a random comic</em></p>
-<h2 id="stream_commands">Stream_Commands</h2>
-<p><em>Commands in this category do not need special permissions</em></p>
-<h3 id="stream">Stream</h3>
-<p>This will show if a notification in a set stream channel will show up for the user.
-This can be changed on the Artemis website, by default this is ON.</p>
-<p>Example usage: <code>!stream</code></p>
-<h2 id="music_commands">Music_Commands</h2>
-<p><em>Commands in this category do not need special permissions</em></p>
-<h3 id="np">Np</h3>
-<p>Shows the queue if there is music playing.</p>
-<p>Example usage: <code>!np</code></p>
-<h3 id="pause">Pause</h3>
-<p>Pauses the music player.</p>
-<p>Example usage: <code>!pause</code></p>
-<h3 id="play">Play</h3>
-<p>Plays a specified song, or adds it to the queue if there is a song currently playing.</p>
-<p>Example usage: <code>!play YtURL</code></p>
-<p>Example usage: <code>!play Search Query</code></p>
-<h3 id="resume">Resume</h3>
-<p>If the music player was paused, this command will resume it.</p>
-<p>Example usage: <code>!resume</code></p>
-<h3 id="skip">Skip</h3>
-<p>Skips the song that is currently playing.
-If you provide the coresponding song number provided by <a href="#Np">Np</a>, it will skip that song.</p>
-<p>Example usage: <code>!skip</code></p>
-<p>Example usage: <code>!skip 4</code> <em>This skips the 4th song in the queue</em></p>
-<h3 id="stop">Stop</h3>
-<p>This will stop the music player.</p>
-<p>Example usage: <code>!stop</code></p>
-<h3 id="vol">Vol</h3>
-<p>This will change the volume of the music player from 1-100</p>
-<p>Example usage: <code>!vol NUM</code></p>
-</th>
-</table>
+    <!--Dark Overlay-->
+    <div class="bg2"></div>
+  </div>
 
-<%- include ("templates/bottom.ejs") %>
+  <!--Rain 1-->
+  <div class="rain front-row"></div>
+
+  <!--Rain 2-->
+  <div class="rain back-row"></div>
+
+  <!--Main Content Box-->
+  <div class="center">
+    <!--Add bot-->
+    <button
+      onclick="window.open('https://discordapp.com/api/oauth2/authorize?client_id=440892659264126997&permissions=8&scope=bot','_blank')"
+      class="skew-box"
+    >
+      <div class="skew-text">Add Bot</div>
+    </button>
+
+    <!--Github-->
+    <button
+      onclick="window.open('https://github.com/UtopicUnicorns/artemis','_blank')"
+      class="skew-box2"
+    >
+      <div class="skew-text">Github</div>
+    </button>
+
+    <!--Paypal-->
+    <button
+      onclick="window.open('https://www.paypal.com/paypalme/utopicunicorn','_blank')"
+      class="skew-box3"
+    >
+      <div class="skew-text">Paypal</div>
+    </button>
+
+    <!--Discord-->
+    <button
+      onclick="window.open('https://discord.gg/bJQyQQa','_blank')"
+      class="skew-box4"
+    >
+      <div class="skew-text">Discord</div>
+    </button>
+
+    <!--Login-->
+    <button onclick="location.href='/auth/discord'" class="skew-box5">
+      <div class="skew-text">
+        <img
+          src="/static/images/unk.jpg"
+          height="10px"
+          width="10px"
+          style="border-radius: 20px"
+        />
+        Click here to login
+      </div>
+    </button>
+
+    <!--Content-->
+    <div class="skew-content">
+      <div class="skew-text-content">
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+        test<br>
+      
+      </div>
+    </div>
+  </div>
+
+  <!--Jquery-->
+  <script src="/static/modules/jq.js"></script>
+
+  <!--Background Effect-->
+  <script src="/static/modules/bg.js"></script>
+
+  <!--Rain Effect-->
+  <script src="/static/modules/rn.js"></script>
+</body>

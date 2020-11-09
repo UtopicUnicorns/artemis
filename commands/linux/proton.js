@@ -11,8 +11,10 @@ module.exports = {
   category: `linux`,
   name: "proton",
   description: "[linux] Search the ProtonDB",
-  explain: `This command will search steam and the protonDB API for the game you specified.\n
-  It will return how it runs on linux, if it's native and so forth.`,
+  explain: `This command will search the Proton Database and Steam API for the game you specify.
+It will show if a game is native to Linux, or if Proton partially or fully supports it.
+
+Example usage: \`!proton subnautica\``,
   execute(message) {
     //Build prefix
     const prefixstart = getGuild.get(message.guild.id);

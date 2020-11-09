@@ -11,7 +11,9 @@ module.exports = {
   category: `fun`,
   name: "wiki",
   description: "[fun] Wikipedia stuff",
-  explain: `This command allows you to search entries of wikipedia.`,
+  explain: `This command will provide a small description of a specified Wikipedia page.
+
+Example usage: \`!wiki GNU/Linux\``,
   async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

@@ -11,9 +11,12 @@ module.exports = {
   category: `fun`,
   name: "wallpaper",
   description: "[fun] Random wallpaper",
-  explain: `This command will show you a random wallpaper.\n
-  use \`wallpaper s\` for a single screen wallpaper.\n
-  use \`wallpaper d\` for a double screen wallpaper.`,
+  explain: `A small collection of single and double screen wallpapers.
+The command will return a random wallpaper.
+
+Example usage: \`!wallpaper s\` _Single screen wallpaper_
+
+Example usage: \`!wallpaper d\` _Double screen wallpaper_`,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

@@ -11,10 +11,21 @@ module.exports = {
   category: `fun`,
   name: "convert",
   description: "[fun] Convert stuff",
-  explain: `\`convert NUM cm\`
-  \`convert NUM inch\`
-  \`convert NUM celcius\`
-  \`convert NUM fahrenheit\``,
+  explain: `This command allows you to convert:
+
+* CM to Inch
+* Inch to CM
+* Celcius to Fahrenheit
+* Fahrenheit to Celcius
+
+
+Example usage: \`!convert NUM cm\`
+
+Example usage: \`!convert NUM inch\`
+
+Example usage: \`!convert NUM celcius\`
+
+Example usage: \`!convert NUM fahrenheit\``,
   execute(message) {
     //define prefix
     const prefixstart = getGuild.get(message.guild.id);

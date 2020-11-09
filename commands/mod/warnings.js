@@ -11,16 +11,23 @@ module.exports = {
   category: `mod`,
   name: "warnings",
   description: "[mod] Look up user warning",
-  explain: `Using this command without arguments will show a top 25 of warning holders along with the latest provided reason.\n
-  Using \`warnings @mention\` will show a small log of the user mentioned.\n
-  Using \`warnings reset @mention\` will reset the warning points for the user.`,
+  explain: `This command allows you to see how many warnings a user has and what the latest reason of a warn was.
+It will also show if a user has been muted.
+An additional usage of this command is that it can reset warnings to 0.
+
+Example usage: \`!warnings\`
+
+Example usage: \`!warnings @mention\`
+
+Example usage: \`!warnings @mention reset\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
 
     //if no perms
-    if (!message.member.permissions.has("KICK_MEMBERS")) return message.reply("You do not have permissions to use this command!");
+    if (!message.member.permissions.has("KICK_MEMBERS"))
+      return message.reply("You do not have permissions to use this command!");
 
     //update usage
     usage = getUsage.get("warnings");

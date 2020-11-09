@@ -11,16 +11,23 @@ module.exports = {
   category: `server`,
   name: "wordlist",
   description: "[server] Add or remove bad words from the wordlist",
-  explain: `This command manages the banned wordlist which will be active when automod is ON.\n
-  \`wordlist add Word1 Word2 Word3\` will add words to the banned list.\n
-  \`wordlist del Word1 Word2 Word3\` will delete the words from the banned list.`,
+  explain: `This is a core command for [Automod](#Automod).
+
+Without arguments the wordlist will be shown. To somewhat protect people from seeing bad words, the wordlist will be shown within spoiler tags.
+When you add words to the list, and when Automod is ON, users without the kick permission will get their full message removed without notice when they use a word on the list.
+This system is not perfect and is not meant to be used as your main moderator.
+
+Example usage: \`!wordlist add Word1 Word2 Word3\`
+
+Example usage: \`!wordlist del Word1 Word2 Word3\``,
   async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
 
     //if no perms
-    if (!message.member.permissions.has("KICK_MEMBERS")) return message.reply("You do not have permissions to use this command!");
+    if (!message.member.permissions.has("KICK_MEMBERS"))
+      return message.reply("You do not have permissions to use this command!");
 
     //update usage
     usage = getUsage.get("wordlist");

@@ -14,7 +14,9 @@ module.exports = {
   category: `music`,
   name: "speeen",
   description: "[music] Vinesauce quote!",
-  explain: `To use this command, you will have to be in a voice channel, there also has to be no music playing by the bot.`,
+  explain: `To use this command, you will have to be in a voice channel, there also has to be no music playing by the bot.
+  
+  Example usage: \`!speeen\``,
   async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

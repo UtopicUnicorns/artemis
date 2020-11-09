@@ -11,15 +11,30 @@ module.exports = {
   category: `mod`,
   name: "embed",
   description: "[mod] generate an embed",
-  explain: `Form a fancy embed in the channel you use this command in.\n
-  The first line after the command will create the title for the embed, every new line after will be content.`,
+  explain: `Embeds are used to make some text look prettier.
+The first line contains the embed title, the rows/lines after that will be the content of the embed.
+Do note that this command needs you to use newLines (Shift + enter).
+
+
+Example usage: 
+
+\`\`\` sh
+!embed [Title]
+
+[Content]
+
+[Content]
+
+[Content]
+\`\`\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
 
     //if user has perms
-    if (!message.member.permissions.has("KICK_MEMBERS")) return message.reply("You do not have permissions to use this command!");
+    if (!message.member.permissions.has("KICK_MEMBERS"))
+      return message.reply("You do not have permissions to use this command!");
 
     //update usage
     usage = getUsage.get("embed");

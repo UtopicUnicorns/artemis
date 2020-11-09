@@ -11,7 +11,11 @@ module.exports = {
   category: `mod`,
   name: "uwu",
   description: "[mod] Cursed command",
-  explain: `Cursed command!`,
+  explain: `This command makes use of existing webhooks, if there is no webhook in the channel you have set this up, Artemis will create one if possible.
+This command will convert all messages sent within the server it has been setup in to be converted to \`uwu\` speech.
+It's a horrible thing, but people love it.
+
+Example usage: \`!uwu\``,
   execute(message) {
     //load prefix
     const prefixstart = getGuild.get(message.guild.id);
@@ -23,7 +27,8 @@ module.exports = {
     setUsage.run(usage);
 
     //reject non mods after this point
-    if (!message.member.permissions.has("KICK_MEMBERS")) return message.reply("You do not have permissions to use this command!");
+    if (!message.member.permissions.has("KICK_MEMBERS"))
+      return message.reply("You do not have permissions to use this command!");
 
     //add or delete support channel
     let uwuCheck = getUwu.get(message.channel.id, message.guild.id);

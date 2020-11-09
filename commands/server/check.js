@@ -11,15 +11,19 @@ module.exports = {
   category: `server`,
   name: "check",
   description: "[server] Role check",
-  explain: `This command allows you to see which user have what role and which do not.\n
-  \`check not RoleName/RoleID\`\n\`check yes RoleName/RoleID\``,
+  explain: `This command allows you to see which users in your guild/server have or don't have a certain role you specify.
+
+Example usage: \`!check yes roleName\`
+
+Example usage: \`!check not roleName\``,
   async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
 
     //if member has perms
-    if (!message.member.permissions.has("KICK_MEMBERS")) return message.reply("You do not have permissions to use this command!");
+    if (!message.member.permissions.has("KICK_MEMBERS"))
+      return message.reply("You do not have permissions to use this command!");
 
     //update usage
     usage = getUsage.get("check");

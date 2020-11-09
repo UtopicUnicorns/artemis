@@ -11,7 +11,10 @@ module.exports = {
   category: `level`,
   name: "board",
   description: "[level] Show leaderboard",
-  explain: `The \`board\` command will show you the top 10 users with the most \u20B9, \u20B9 are based on user messages and/or thanking.`,
+  explain: `This command will show the leader board regarding points and levels.
+It also holds a small competative rank vs other servers with Artemis.
+
+Example usage: \`!board\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

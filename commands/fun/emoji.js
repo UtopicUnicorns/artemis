@@ -11,11 +11,14 @@ module.exports = {
   category: `fun`,
   name: "emoji",
   description: "[fun] Show an emoji",
-  explain: `This command will show you a big version of the emoji you put in, make sure it's a custom emoji and that you actually have access to the emoji itself.
-  Mods and up can use the steal feature of this command to add an emote right to your server.
-  
-  Example usage:
-  \`emoji steal https://someURL.com/emote.gif EmoteName\``,
+  explain: `This command will show a bigger version of an emoji you specify.
+
+Mods will have an extra feature that adds an emoji right to your own server. The syntag might be a tad tricky, but the API is limited in this way.
+
+
+Example MOD usage: \`!emoji steal https://someurl.com/gif.gif EmoteName\`
+
+Example usage: \`!emoji :glitch:\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
@@ -35,7 +38,10 @@ module.exports = {
     //if steal
     if (args[0].toLowerCase() == "steal") {
       //if user has no perms
-      if (!message.member.permissions.has("KICK_MEMBERS")) return message.reply("You do not have permissions to use this command!");
+      if (!message.member.permissions.has("KICK_MEMBERS"))
+        return message.reply(
+          "You do not have permissions to use this command!"
+        );
 
       if (!args[1])
         return message.reply(

@@ -11,7 +11,9 @@ module.exports = {
   category: `music`,
   name: "vol",
   description: "[music] Control the volume",
-  explain: `While the bot is playing music in a voice channel you can set the volume for it by giving it a number between 1 and 100.`,
+  explain: `This will change the volume of the music player from 1-100
+
+Example usage: \`!vol NUM\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

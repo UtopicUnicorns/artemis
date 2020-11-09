@@ -11,7 +11,9 @@ module.exports = {
   category: `linux`,
   name: "man",
   description: "[linux] Shows linux manual pages",
-  explain: `This command shows you manual pages for linux terminal commands.`,
+  explain: `This command allows you to view manual pages provided by cheat.sh
+
+Example usage: \`!man neofetch\``,
   async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

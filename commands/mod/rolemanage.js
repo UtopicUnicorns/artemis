@@ -11,15 +11,23 @@ module.exports = {
   category: `mod`,
   name: "rolemanage",
   description: "[mod] Manage self assignable roles",
-  explain: `This command will allow you to make roles self assignable/ready for reaction roles.\n
-  By using \`rolemanage roleName\roleID\` you add or remove the self asignable role.`,
+  explain: `This is a semi-core command for [Reaction_Roles](#Reaction_Roles).
+
+This command will allow you to add or remove a role from the self-asignable role list.
+When a role is self-asignable, a user may use \`!join\` or \`!leave\` to obtain and remove the role for themselves.
+Do note that Artemis's role needs to be higher in the role hierachy than the role you try to add/remove.
+Using this command with success will add the role to the list if it was not there, and remove it from the list if it was.
+You can check which roles are self-asignable with the [Numbers](#Numbers) command.
+
+Example usage: \`!rolemanage RoleName\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
 
     //if no perms
-    if (!message.member.permissions.has("KICK_MEMBERS")) return message.reply("You do not have permissions to use this command!");
+    if (!message.member.permissions.has("KICK_MEMBERS"))
+      return message.reply("You do not have permissions to use this command!");
 
     //update usage
     usage = getUsage.get("rolemanage");

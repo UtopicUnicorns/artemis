@@ -11,7 +11,9 @@ module.exports = {
   category: `general`,
   name: "ping",
   description: "[general] ping",
-  explain: `This command will return a pong and latency information.`,
+  explain: `This is just a ping command, checks the lag between messages...
+
+Example usage: \`!ping\``,
   async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
@@ -27,7 +29,7 @@ module.exports = {
       .send("Ping?")
       .catch((err) => console.log(""));
 
-      if(!m) return;
+    if (!m) return;
     m.edit(
       `Pong! Latency is ${
         m.createdTimestamp - message.createdTimestamp

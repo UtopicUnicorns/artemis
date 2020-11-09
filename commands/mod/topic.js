@@ -11,16 +11,22 @@ module.exports = {
   category: `mod`,
   name: "topic",
   description: "[mod] Set a discussion topic",
-  explain: `This command will allow you to change a discussion to a predefined topic.
-  using the command \`topic add [topic entry]\` will add a new topic to the database which this command can choose from.
-  You can also view all topics in your server with \`topic view\``,
+  explain: `The topic command is used to change the topic of a situation. When you have no databse entries yet the topics will be selected from a default list.
+To add a topic which may match your server you can use \`!topic add {Example topic here}\`. You can view your server topics with the command \`!topic view\`.
+
+Example usage: \`!topic\`
+
+Example usage: \`!topic view\`
+
+Example usage: \`!topic add [Example Topic Here]\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
 
     //if no proper perms
-    if (!message.member.permissions.has("KICK_MEMBERS")) return message.reply("You do not have permissions to use this command!");
+    if (!message.member.permissions.has("KICK_MEMBERS"))
+      return message.reply("You do not have permissions to use this command!");
 
     //update usage
     usage = getUsage.get("topic");

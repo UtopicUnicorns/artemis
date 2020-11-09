@@ -11,8 +11,9 @@ module.exports = {
   category: `fun`,
   name: "hug",
   description: "[fun] Hug someone",
-  explain: `Sends a random hugging give including the user your specify.\n
-  \`hug @mention\``,
+  explain: `This will display an image as if hugging the specified user.
+
+Example usage: \`!hug @mention\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

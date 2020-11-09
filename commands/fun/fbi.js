@@ -11,8 +11,11 @@ module.exports = {
   category: `fun`,
   name: "fbi",
   description: "[fun] Harmless fun",
-  explain: `Generate a fake wanted poster for the user mentioned.\n
-  \`fbi @mention\`\n\`fbi userID\``,
+  explain: `This will show a random wanted poster for yourself, or the user you specify.
+
+Example usage: \`!fbi\`
+
+Example usage: \`!fbi @mention\``,
   async execute(message) {
     //start prefix
     const prefixstart = getGuild.get(message.guild.id);

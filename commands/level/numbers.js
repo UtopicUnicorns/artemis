@@ -11,7 +11,11 @@ module.exports = {
   category: `level`,
   name: "numbers",
   description: "[level] Display role sizes",
-  explain: `This command displays all self-asignable roles alongside their sizes.`,
+  explain: `This command is a core command for [Rolemanage](#Rolemanage).
+
+When this command is used it will show all available self-assignable roles along with the number of members who have that role.
+
+Example usage: \`!numbers\``,
   execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);

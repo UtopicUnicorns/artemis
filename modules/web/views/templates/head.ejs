@@ -1,3 +1,4 @@
+<!--Load Head-->
 <head>
   <!--Meta data-->
   <meta charset="utf-8" />
@@ -10,163 +11,103 @@
   <meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
 
   <!--Title-->
-  <title><%= test.client.user.username %></title>
+  <title>Project Artemis</title>
 
-  <!--favicon-->
-  <link rel="shortcut icon" href="/static/images/logo2.svg" type="image/x-icon" />
+  <!--Favicon-->
+  <link
+    rel="shortcut icon"
+    href="/static/images/logo2.svg"
+    type="image/x-icon"
+  />
+
+  <!--Favicon too-->
   <link rel="icon" href="/static/images/logo2.svg" type="image/x-icon" />
 
-  <!--Style shit-->
+  <!--Load Styles-->
   <link href="/static/modules/style.css" rel="stylesheet" type="text/css" />
 </head>
-<body>
-  <!--title-->
-  <div class="container2">
-    <div class="glitch">
-      Project Artemis
-      <img src="/static/images/logo2.svg" height="50px" width="50px" />
-    </div>
-    <p class="subtitle">Discord Bot</p>
+
+<!--Body Block-->
+<body class="back-row-toggle splat-toggle">
+  <!--Title Block-->
+  <div class="titlebox">
+    <!--Main title-->
+    <div class="glitch">Project Artemis</div>
+    <img
+      src="/static/images/artava.png"
+      height="10px"
+      width="10px"
+      style="border-radius: 20px"
+    />
+    <%- test.client.users.cache.size.toLocaleString() %> users / <%-
+    test.client.guilds.cache.size.toLocaleString() %> guilds | <% let t =
+    test.db.prepare("SELECT number FROM usage;").all(); %> <% let str = 0; for
+    (let i in t) str += t[i].number; %> <%- str.toLocaleString() %> commands
+    used
   </div>
 
-  <!--pixels-->
-  <div id="container">
-    <canvas id="pixie"></canvas>
-  </div>
-
-  <!--Moving background-->
+  <!--Main BG block-->
   <div class="wrap">
+    <!--Main BG-->
     <div class="bg"></div>
-    <div class="bg2"></div>
 
-    <!--Menu-->
-    <div class="menubar">
-      <!--Login/logout/bot-->
-      <button
-        class="buttonlogin"
-        style="background-color: rgba(255, 217, 0, 0.05);"
-        onclick="location.href='/logout'"
-        type="button"
-      >
+    <!--Dark Overlay-->
+    <div class="bg2"><canvas id="q"></canvas></div>
+  </div>
+
+  <!--Rain 1-->
+  <div class="rain front-row"></div>
+
+  <!--Rain 2-->
+  <div class="rain back-row"></div>
+
+  <!--Main Content Box-->
+  <div class="center">
+    <!--Add bot-->
+    <button
+      onclick="window.open('https://discordapp.com/api/oauth2/authorize?client_id=440892659264126997&permissions=8&scope=bot','_blank')"
+      class="skew-box"
+    >
+      <div class="skew-text">Add Bot</div>
+    </button>
+
+    <!--Github-->
+    <button
+      onclick="window.open('https://github.com/UtopicUnicorns/artemis','_blank')"
+      class="skew-box2"
+    >
+      <div class="skew-text">Github</div>
+    </button>
+
+    <!--Paypal-->
+    <button
+      onclick="window.open('https://www.paypal.com/paypalme/utopicunicorn','_blank')"
+      class="skew-box3"
+    >
+      <div class="skew-text">Paypal</div>
+    </button>
+
+    <!--Discord-->
+    <button
+      onclick="window.open('https://discord.gg/bJQyQQa','_blank')"
+      class="skew-box4"
+    >
+      <div class="skew-text">Discord</div>
+    </button>
+
+    <!--logout-->
+    <button onclick="location.href='/logout'" class="skew-box5">
+      <div class="skew-text">
         <img
           src="https://cdn.discordapp.com/avatars/<%- userInfo.id %>/<%- userInfo.avatar %>.png"
           height="10px"
           width="10px"
-          style="border-radius: 20px;"
+          style="border-radius: 20px"
         />
         <%- userInfo.username %> Click here to logout
-      </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <button
-        class="buttonlogin"
-        style="background-color: rgba(255, 0, 0, 0.05);"
-        type="button"
-      >
-        <img
-          src="/static/images/artava.png"
-          height="10px"
-          width="10px"
-          style="border-radius: 20px;"
-        />
-        <%- test.client.users.cache.size.toLocaleString() %> users / 
-        <%- test.client.guilds.cache.size.toLocaleString() %> guilds | 
-        <% let t = test.db.prepare("SELECT number FROM usage;").all(); %> 
-        <% let str = 0; for (let i in t) str += t[i].number; %> 
-        <%- str.toLocaleString() %>
-        commands used
-      </button>
-      <br /><br />
+      </div>
+    </button>
 
-      <!--Link Menu-->
-      <button
-        class="buttonlink"
-        style="background-color: rgba(0, 255, 55, 0.05);"
-        onclick="window.open('https://github.com/UtopicUnicorns/artemis','_blank')"
-        type="button"
-      >
-        Github<br />
-      </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <button
-        class="buttonlink"
-        style="background-color: rgba(0, 255, 255, 0.05);"
-        onclick="window.open('https://www.paypal.com/paypalme2/UtopicUnicorn','_blank')"
-        type="button"
-      >
-        Paypal
-      </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <button
-        class="buttonlink"
-        style="background-color: rgba(0, 4, 255, 0.05);"
-        onclick="window.open('https://discord.gg/bJQyQQa','_blank')"
-        type="button"
-      >
-        Discord
-      </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <button
-        class="buttonlink"
-        style="background-color: rgba(255, 0, 234, 0.05);"
-        onclick="window.open('https://discordapp.com/api/oauth2/authorize?client_id=440892659264126997&permissions=8&scope=bot','_blank')"
-        type="button"
-      >
-        Add Bot
-      </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <button
-        class="buttonlink"
-        style="background-color: rgba(251, 255, 0, 0.05);"
-        onclick="window.open('https://artemis.rest/spectrum','_blank')"
-        type="button"
-      >
-       Spectrum
-      </button>
-      <br /><br />
-
-      <!--Site menu-->
-      <button
-        class="buttonmenu"
-        style="background-color: rgba(255, 0, 221, 0.05);"
-        onclick="location.href='/'"
-        type="button"
-      >
-        User<br />Control
-      </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <button
-        class="buttonmenu"
-        style="background-color: rgba(255, 153, 0, 0.05);"
-        onclick="location.href='/board'"
-        type="button"
-      >
-        Leader<br />Board
-      </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <button
-        class="buttonmenu"
-        style="background-color: rgba(208, 255, 0, 0.05);"
-        onclick="location.href='/control'"
-        type="button"
-      >
-        Server<br />Control
-      </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <button
-        class="buttonmenu"
-        style="background-color: rgba(140, 0, 255, 0.05);"
-        onclick="location.href='/control2'"
-        type="button"
-      >
-        Level-up<br />Roles
-      </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-      <button
-        class="buttonmenu"
-        style="background-color: rgba(140, 0, 255, 0.05);"
-        onclick="location.href='/command'"
-        type="button"
-      >
-        Artemis<br />Wiki
-      </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    </div>
-
-    <!-- Actual content-->
-    <br>
-    <table width="800" border="0" align="center">
-      <tr>
-        <th scope="col">
-          <!--Box-->
-          <div class="contentbox">
-            <!--CUT top-->
+    <!--Content-->
+    <div class="skew-content">
+      <div class="skew-text-content">
