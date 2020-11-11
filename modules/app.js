@@ -126,7 +126,7 @@ exports.run = (client, config) => {
   });
 
   /////////////
-  // Index page
+  // Index page (rew)
   /////////////
   app.get("/", (req, res) => {
     //check if user is logged in
@@ -148,9 +148,6 @@ exports.run = (client, config) => {
         //guild images
         const image = [];
 
-        //counter
-        let count = -1;
-
         //map guild icons
         client.guilds.cache.map((guild) =>
           image.push(guild.iconURL({ format: "jpg" }))
@@ -165,53 +162,72 @@ exports.run = (client, config) => {
             } else {
               //if guild data exists
               if (i.includes(data.guild)) {
-                //Translation
-                if (data.translate == "2") {
-                  var translation = "ON";
-                } else {
-                  var translation = "OFF";
-                }
-
-                //stream notifications
-                if (data.stream == "2") {
-                  var streaming = "OFF";
-                } else {
-                  var streaming = "ON";
-                }
-
-                //up counter
-                count++;
-
                 //guild data
                 let guildsizeget = client.guilds.cache.get(data.guild);
 
                 //push into array
                 array.push(
-                  `<br><button class="collapsible" onclick=\"toggle('${data.guild}')\"><img src ="${i}" width="30px" height="30px" style="border-radius: 50%;">
-                  <div class="textcol">
-                  ${client.guilds.cache.get(data.guild)}
-                  (${guildsizeget.memberCount} members)
-                    </div></button>
-                    <div class="content" id="${data.guild}">
+                  `<br>
+                  <button id="${data.guild}b" class="collapsible" onclick=\"toggle('${data.guild}')\">
+                    <img src ="${i}" width="30px" height="30px" style="border-radius: 50%;">
+                    <div class="textcol">
+                        ${client.guilds.cache.get(data.guild)}
+                        (${guildsizeget.memberCount} members)
+                    </div>
+                  </button>
+
+                  <div class="content" id="${data.guild}">
                     <table width="100%" style="border-collapse: collapse;" align="center">
-                    <tr style="text-align:left"><th>Level:</th><th>${
-                      data.level
-                    }</th></tr>
-                    <tr style="text-align:left; border-bottom: 1px solid black"><td>Cash:</td>
-                    <td>\u20B9 ${data.points}</td></tr>
-                    <tr style="text-align:left; border-bottom: 1px solid black"><td>Warning points:</td>
-                    <td>${data.warning}</td></tr>
-                    
-                    <tr style="text-align:left; border-bottom: 1px solid black"><td>Delete data:</td>
-                    <td><div id="${count}STR">This will delete all user data connected to this server</div></td></tr>
-                    <tr style="text-align:left; border-bottom: 1px solid black"><td></td><td>
-                    <form action="/" method="post">
-                    <select name="data3" style="display: none;">
-                    <option value="${count} ST DELETE">off</option>
-                    </select>
-                    <input type="submit" class="button" onclick="document.getElementById('${count}STR').innerHTML = 'Your data has been deleted!'" value="Delete my data!">
-                    </form>
-                    </td></tr></table></div>\n`
+                      <tr style="text-align:left">
+                        <th>
+                          Level:
+                        </th>
+                        <th>
+                          ${data.level}
+                        </th>
+                      </tr>
+                    <tr style="text-align:left; border-bottom: 1px solid black">
+                      <td>
+                        Cash:
+                      </td>
+                      <td>
+                        \u20B9 ${data.points}
+                      </td>
+                    </tr>
+                    <tr style="text-align:left; border-bottom: 1px solid black">
+                      <td>
+                        Warning points:
+                      </td>
+                      <td>
+                        ${data.warning}
+                      </td>
+                    </tr>
+                    <tr style="text-align:left; border-bottom: 1px solid black">
+                      <td>
+                        Delete data:
+                      </td>
+                      <td>
+                        <div id="${data.guild}STR">
+                          This will delete all user data connected to this server
+                        </div>
+                      </td>
+                    </tr>
+                    <tr style="text-align:left; border-bottom: 1px solid black">
+                      <td>
+                      </td>
+                      <td>
+                        <form action="/" method="post">
+                        <select name="data3" style="display: none;">
+                          <option value="${data.guild} ST DELETE">
+                            off
+                          </option>
+                        </select>
+                        <input type="submit" class="button" onclick="notification('Deleted data for:<br>${client.guilds.cache.get(data.guild)}'); document.getElementById('${data.guild}').style.display = 'none'; document.getElementById('${data.guild}b').style.display = 'none'" value="Delete my data!">
+                        </form>
+                      </td>
+                    </tr>
+                    </table>
+                    </div>\n`
                 );
               }
             }
@@ -219,7 +235,7 @@ exports.run = (client, config) => {
         }
 
         //return array after formatting
-        return array.toString().replace(/,/g, "");
+        return array.join(" ");
       }
 
       //client
@@ -1079,7 +1095,7 @@ exports.run = (client, config) => {
               gettheguild.memberCount
             } Members)</div>
                 </button>
-                <div class="content" id="${data.guild}">
+                <div class="content" style="display: block;" id="${data.guild}">
                 <table width="100%" style="border-collapse: collapse;" align="center">`
           );
 
@@ -1517,29 +1533,9 @@ exports.run = (client, config) => {
         });
       }
 
-      const array = [];
-      const image = [];
-      client.guilds.cache.map((guild) =>
-        image.push(guild.iconURL({ format: "jpg" }))
-      );
-      for (const data of getScore.all(req.session.user.id)) {
-        for (let i of image) {
-          if (!i) {
-          } else {
-            if (i.includes(data.guild)) {
-              array.push(data);
-            }
-          }
-        }
-      }
       //change data to array
       var data3 = req.body.data3.split(" ");
-      //num err
-      if (isNaN(data3[0])) return console.log("Error");
-      //numlength err
-      if (data3[0] > array.length) return console.log("Error2");
-      //num is c
-      let c = data3[0];
+
       //renew db
       getScore2 = db.prepare(
         "SELECT * FROM scores WHERE user = ? AND guild = ? ORDER BY guild DESC"
@@ -1547,30 +1543,17 @@ exports.run = (client, config) => {
       setScore2 = db.prepare(
         "INSERT OR REPLACE INTO scores (id, user, guild, points, level, warning, muted, translate, stream, notes) VALUES (@id, @user, @guild, @points, @level, @warning, @muted, @translate, @stream, @notes);"
       );
-      //Translate
-      if (data3[1] == "TR") {
-        let translate = getScore2.get(req.session.user.id, array[c].guild);
-        if (data3[2] == "ON") {
-          translate.translate = `2`;
-          setScore.run(translate);
-          memberEmbed("Translate");
-          res.status(204).send();
-        }
-        if (data3[2] == "OFF") {
-          translate.translate = `1`;
-          setScore.run(translate);
-          memberEmbed("Translate");
-          res.status(204).send();
-        }
-      }
-      //stream
+
+      //Delete
       if (data3[1] == "ST") {
-        let stream = getScore2.get(req.session.user.id, array[c].guild);
+        let stream = getScore2.get(req.session.user.id, data3[0]);
         if (data3[2] == "DELETE") {
           //here
           db.prepare(
-            `DELETE FROM scores WHERE user = '${req.session.user.id}' AND guild = '${array[c].guild}'`
+            `DELETE FROM scores WHERE user = '${req.session.user.id}' AND guild = '${data3[0]}'`
           ).run();
+          
+          memberEmbed(`Deleted userinfo for guild: ${data3[0]}`)
 
           res.status(204).send();
         }

@@ -57,6 +57,21 @@
 <!--Rain Effect-->
 <script src="/static/modules/rn.js"></script>
 
+<!--Notification-->
+<script>
+  function notification(text) {
+    var x = document.getElementById("notification");
+    var y = document.getElementById("notifText");
+    y.innerHTML = text;
+    if (x.style.display === "none") {
+      x.style.display = "block";
+      setTimeout(() => {
+      x.style.display = "none";
+      }, 5000);
+    }
+  }
+  </script>
+
 <!--Toggle-->
 <script>
   function toggle(flick){

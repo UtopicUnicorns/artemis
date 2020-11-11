@@ -1,6 +1,129 @@
-<%- include ("templates/head2.ejs") %>
-
+<!--Load Head-->
+<head>
+    <!--Meta data-->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="description"
+      content="The home website for the discord bot Artemis, this website contains your dashboard and a control panel for mods+."
+    />
+    <meta property="og:image" content="/static/images/artava.png" />
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+  
+    <!--Title-->
+    <title>Project Artemis</title>
+  
+    <!--Favicon-->
+    <link
+      rel="shortcut icon"
+      href="/static/images/logo2.svg"
+      type="image/x-icon"
+    />
+  
+    <!--Favicon too-->
+    <link rel="icon" href="/static/images/logo2.svg" type="image/x-icon" />
+  
+    <!--Load Styles-->
+    <link href="/static/modules/style.css" rel="stylesheet" type="text/css" />
+  </head>
+  
+  <!--Body Block-->
+  <body class="back-row-toggle splat-toggle">
+    <!--Title Block-->
+    <div class="titlebox">
+      <!--Main title-->
+      <div class="glitch">Project Artemis</div>
+      <img
+        src="/static/images/artava.png"
+        height="10px"
+        width="10px"
+        style="border-radius: 20px"
+      />
+      <%- test.client.users.cache.size.toLocaleString() %> users / <%-
+      test.client.guilds.cache.size.toLocaleString() %> guilds | <% let t =
+      test.db.prepare("SELECT number FROM usage;").all(); %> <% let str = 0; for
+      (let i in t) str += t[i].number; %> <%- str.toLocaleString() %> commands
+      used
+    </div>
+  
+    <!--Main BG block-->
+    <div class="wrap">
+      <!--Main BG-->
+      <div class="bg"></div>
+  
+      <!--Dark Overlay-->
+      <div class="bg2"></div>
+    </div>
+  
+    <!--Rain 1-->
+    <div class="rain front-row"></div>
+  
+    <!--Rain 2-->
+    <div class="rain back-row"></div>
+  
+    <!--Main Content Box-->
+    <div class="center">
+      <!--Add bot-->
+      <button
+        onclick="window.open('https://discordapp.com/api/oauth2/authorize?client_id=440892659264126997&permissions=8&scope=bot','_blank')"
+        class="skew-box"
+      >
+        <div class="skew-text">Add Bot</div>
+      </button>
+  
+      <!--Github-->
+      <button
+        onclick="window.open('https://github.com/UtopicUnicorns/artemis','_blank')"
+        class="skew-box2"
+      >
+        <div class="skew-text">Github</div>
+      </button>
+  
+      <!--Donate-->
+      <button
+        onclick="window.open('https://www.buymeacoffee.com/utopicunicorn','_blank')"
+        class="skew-box3"
+      >
+        <div class="skew-text">Donate</div>
+      </button>
+  
+      <!--Discord-->
+      <button
+        onclick="window.open('https://discord.gg/bJQyQQa','_blank')"
+        class="skew-box4"
+      >
+        <div class="skew-text">Discord</div>
+      </button>
+  
+      <!--Login-->
+      <button onclick="location.href='/auth/discord'" class="skew-box5">
+        <div class="skew-text">
+          <img
+            src="/static/images/unk.jpg"
+            height="10px"
+            width="10px"
+            style="border-radius: 20px"
+          />
+          Click here to login
+        </div>
+      </button>
+  
+      <!--Content-->
+       <div class="skew-content">
+        <div class="skew-text-content">
+<br><h1>Leaderboard</h1>
 
 <%- dataLboard %>
 
-<%- include ("templates/bottom.ejs") %>
+</div> 
+</div>
+
+<!--Jquery-->
+<script src="/static/modules/jq.js"></script>
+
+<!--Background Effect-->
+<script src="/static/modules/bg.js"></script>
+
+<!--Rain Effect-->
+<script src="/static/modules/rn.js"></script>
+</body>

@@ -194,6 +194,9 @@ client.once("ready", () => {
             .get(data.cid)
             .messages.fetch()
             .then((messages) => {
+              //if error?
+              if (!messages) return;
+
               //grab time stamp
               let supportChannelTime = messages.map(
                 (msg) => msg.createdTimestamp
