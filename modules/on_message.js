@@ -1508,7 +1508,37 @@ module.exports = {
 
       //check counter
       if ((memberFetch.length = countNum))
-        message.reply(`gifted ${memberFetch.join(", ")} 20 points!`);
+        message.reply(`gifted ${memberFetch.join(", ")} \u058F 20!`);
+    }
+
+    //Welcoming a new user
+    if (generalChannel1) {
+      if (message.channel.id == generalChannel1.id && message.content.toLowerCase().includes("welcome")) {
+        //add points
+        const pointsToAdd = parseInt(50, 10);
+
+        //pull data
+        let userscore = await getScore.get(message.author.id, message.guild.id);
+
+        //if user is not in db
+        if (userscore) {
+          //add the points
+          userscore.points += pointsToAdd;
+
+          //calc level
+          let userLevel = Math.floor(0.5 * Math.sqrt(userscore.points));
+
+          //define level
+          userscore.level = userLevel;
+
+          //run db
+          await setScore.run(userscore);
+
+          message.reply(
+            "Thanks for welcoming a new user!\nHere is \u058F 50 for doing that!"
+          );
+        }
+      }
     }
 
     //require prefix

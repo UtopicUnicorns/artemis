@@ -107,7 +107,7 @@ Example usage: \`!level userID\``,
           ctx.shadowBlur = 5;
           ctx.fillStyle = "#ffffff";
           ctx.fillText(
-            `Level: ${mathlev}\nCash to next level: \u20B9${math3.toLocaleString()}`,
+            `Level: ${mathlev}\nCash to next level: \u058F ${math3.toLocaleString()}`,
             175,
             135
           );
@@ -131,7 +131,7 @@ Example usage: \`!level userID\``,
           ctx.shadowBlur = 5;
           ctx.fillStyle = "#ffffff";
           ctx.fillText(
-            `\u20B9${mathpoint.toLocaleString()} / \u20B9${math2.toLocaleString()}`,
+            `\u058F ${mathpoint.toLocaleString()} / \u058F ${math2.toLocaleString()}`,
             50,
             235
           );
@@ -188,7 +188,7 @@ Example usage: \`!level userID\``,
         ctx.shadowBlur = 5;
         ctx.fillStyle = "#ffffff";
         ctx.fillText(
-          `Level: ${mathlev}\nCash to next level: \u20B9${math3.toLocaleString()}`,
+          `Level: ${mathlev}\nCash to next level: \u058F ${math3.toLocaleString()}`,
           175,
           135
         );
@@ -216,7 +216,7 @@ Example usage: \`!level userID\``,
         ctx.shadowBlur = 5;
         ctx.fillStyle = "#ffffff";
         ctx.fillText(
-          `\u20B9${mathpoint.toLocaleString()} / \u20B9${math2.toLocaleString()}`,
+          `\u058F ${mathpoint.toLocaleString()} / \u058F ${math2.toLocaleString()}`,
           50,
           235
         );

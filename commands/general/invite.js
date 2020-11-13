@@ -44,7 +44,7 @@ Example usage: \`!invite\``,
       )
       .addField(
         "Support my work: ",
-        "https://www.buymeacoffee.com/utopicunicorn"
+        "https://www.paypal.com/paypalme/utopicunicorn"
       )
       .setFooter("Bot owner: <@127708549118689280> | UtopicUnicorn#0383")
       .setTimestamp();

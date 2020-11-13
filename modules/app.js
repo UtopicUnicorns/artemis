@@ -12,6 +12,7 @@ const { SESSION_SECRET } = require("../config.json");
 const http = require("http");
 const https = require("https");
 const fs = require("fs");
+const path = require("path");
 const db = require("better-sqlite3")("./scores.sqlite");
 const bodyParser = require("body-parser");
 const Discord = require("discord.js");
@@ -168,7 +169,9 @@ exports.run = (client, config) => {
                 //push into array
                 array.push(
                   `<br>
-                  <button id="${data.guild}b" class="collapsible" onclick=\"toggle('${data.guild}')\">
+                  <button id="${
+                    data.guild
+                  }b" class="collapsible" onclick=\"toggle('${data.guild}')\">
                     <img src ="${i}" width="30px" height="30px" style="border-radius: 50%;">
                     <div class="textcol">
                         ${client.guilds.cache.get(data.guild)}
@@ -191,7 +194,7 @@ exports.run = (client, config) => {
                         Cash:
                       </td>
                       <td>
-                        \u20B9 ${data.points}
+                        \u058F  ${data.points}
                       </td>
                     </tr>
                     <tr style="text-align:left; border-bottom: 1px solid black">
@@ -222,7 +225,13 @@ exports.run = (client, config) => {
                             off
                           </option>
                         </select>
-                        <input type="submit" class="button" onclick="notification('Deleted data for:<br>${client.guilds.cache.get(data.guild)}'); document.getElementById('${data.guild}').style.display = 'none'; document.getElementById('${data.guild}b').style.display = 'none'" value="Delete my data!">
+                        <input type="submit" class="button" onclick="notification('Deleted data for:<br>${client.guilds.cache.get(
+                          data.guild
+                        )}'); document.getElementById('${
+                    data.guild
+                  }').style.display = 'none'; document.getElementById('${
+                    data.guild
+                  }b').style.display = 'none'" value="Delete my data!">
                         </form>
                       </td>
                     </tr>
@@ -294,7 +303,9 @@ exports.run = (client, config) => {
             if (thiss) {
               //first push
               array.push(
-                `<br><button onclick=\"toggle('${data.guild}')\" class="collapsible">
+                `<br><button onclick=\"toggle('${
+                  data.guild
+                }')\" class="collapsible">
                 <img src ="${gettheguild.iconURL({
                   format: "jpg",
                 })}" width="30px" height="30px" style="border-radius: 50%;">
@@ -345,7 +356,7 @@ exports.run = (client, config) => {
                       })}" width="20px" height="20px"></a>
                       ${thisss.user.username.replace(/\</g, "&lt;")}
                       </td>
-                      <td style="width: 50%;">Level: ${data2.level} | \u20B9 ${
+                      <td style="width: 50%;">Level: ${data2.level} | \u058F  ${
                         data2.points
                       }</td></tr>`);
                     } else {
@@ -364,7 +375,7 @@ exports.run = (client, config) => {
                       })}" width="20px" height="20px"></a>
                       ${thisss.user.username.replace(/\</g, "&lt;")}
                       </td>
-                      <td style="width: 50%;">Level: ${data2.level} | \u20B9 ${
+                      <td style="width: 50%;">Level: ${data2.level} | \u058F  ${
                         data2.points
                       }</td></tr>`);
                     }
@@ -447,8 +458,15 @@ exports.run = (client, config) => {
                   gettheguild.owner.id == user.id ||
                   rolec.toString().includes("true")
                 ) {
+                  //map channels
+                  const chan = gettheguild.channels.cache.map(
+                    (c) => `${c.id} ${c.type} ${c.name}`
+                  );
+
                   //build top part of array
-                  let top1 = `<br><button onclick=\"toggle('${data.guild}')\" class="collapsible">
+                  let top1 = `<br><button onclick=\"toggle('${
+                    data.guild
+                  }')\" class="collapsible">
                     <img src ="${gettheguild.iconURL({
                       format: "jpg",
                     })}" width="30px" height="30px" style="border-radius: 50%;">
@@ -461,90 +479,149 @@ exports.run = (client, config) => {
                   //build bottom part of array
                   let bot1 = "</table></div>";
 
-                  //1
-                  let s1 = gettheguild.channels.cache.find(
-                    (channel) => channel.id === data.generalChannel
-                  );
-                  if (!s1) {
-                    var se1 = "None Set";
-                  } else {
-                    var se1 = s1.name;
-                  }
+                  /////////////////
+                  //NAME CHANNELS//
+                  /////////////////
 
-                  //2
-                  let s2 = gettheguild.channels.cache.find(
-                    (channel) => channel.id === data.logsChannel
-                  );
-                  if (!s2) {
-                    var se2 = "None Set";
-                  } else {
-                    var se2 = s2.name;
-                  }
+                  //generalChannel name
+                  var se1 = [];
 
-                  //3
-                  let s3 = gettheguild.channels.cache.find(
-                    (channel) => channel.id === data.muteChannel
-                  );
-                  if (!s3) {
-                    var se3 = "None Set";
-                  } else {
-                    var se3 = s3.name;
-                  }
+                  chan.forEach((c) => {
+                    if (
+                      data.generalChannel.length > 1 &&
+                      c.includes(`${data.generalChannel}`)
+                    )
+                      se1.push(
+                        c
+                          .replace(`${data.generalChannel}`, "")
+                          .replace(`text`, "")
+                      );
+                  });
 
-                  //4
-                  let s4 = gettheguild.channels.cache.find(
-                    (channel) => channel.id === data.highlightChannel
-                  );
-                  if (!s4) {
-                    var se4 = "None Set";
-                  } else {
-                    var se4 = s4.name;
-                  }
+                  if (se1.toString() == "") var se1 = "None set";
 
-                  //5
-                  let s5 = gettheguild.channels.cache.find(
-                    (channel) => channel.id === data.reactionChannel
-                  );
-                  if (!s5) {
-                    var se5 = "None Set";
-                  } else {
-                    var se5 = s5.name;
-                  }
+                  //logsChannel name
+                  var se2 = [];
 
-                  //6
-                  let s6 = gettheguild.channels.cache.find(
-                    (channel) => channel.id === data.streamChannel
-                  );
-                  if (!s6) {
-                    var se6 = "None Set";
-                  } else {
-                    var se6 = s6.name;
-                  }
+                  chan.forEach((c) => {
+                    if (
+                      data.logsChannel.length > 1 &&
+                      c.includes(`${data.logsChannel}`)
+                    )
+                      se2.push(
+                        c.replace(`${data.logsChannel}`, "").replace(`text`, "")
+                      );
+                  });
+
+                  if (se2.toString() == "") var se2 = "None set";
+
+                  //muteChannel name
+                  var se3 = [];
+
+                  chan.forEach((c) => {
+                    if (
+                      data.muteChannel.length > 1 &&
+                      c.includes(`${data.muteChannel}`)
+                    )
+                      se3.push(
+                        c.replace(`${data.muteChannel}`, "").replace(`text`, "")
+                      );
+                  });
+
+                  if (se3.toString() == "") var se3 = "None set";
+
+                  //highlightChannel name
+                  var se4 = [];
+
+                  chan.forEach((c) => {
+                    if (
+                      data.highlightChannel.length > 1 &&
+                      c.includes(`${data.highlightChannel}`)
+                    )
+                      se4.push(
+                        c
+                          .replace(`${data.highlightChannel}`, "")
+                          .replace(`text`, "")
+                      );
+                  });
+
+                  if (se4.toString() == "") var se4 = "None set";
+
+                  //reactionChannel name
+                  var se5 = [];
+
+                  chan.forEach((c) => {
+                    if (
+                      data.reactionChannel.length > 1 &&
+                      c.includes(`${data.reactionChannel}`)
+                    )
+                      se5.push(
+                        c
+                          .replace(`${data.reactionChannel}`, "")
+                          .replace(`text`, "")
+                      );
+                  });
+
+                  if (se5.toString() == "") var se5 = "None set";
+
+                  //streamChannel name
+                  var se6 = [];
+
+                  chan.forEach((c) => {
+                    if (
+                      data.streamChannel.length > 1 &&
+                      c.includes(`${data.streamChannel}`)
+                    )
+                      se6.push(
+                        c
+                          .replace(`${data.streamChannel}`, "")
+                          .replace(`text`, "")
+                      );
+                  });
+
+                  if (se6.toString() == "") var se6 = "None set";
 
                   //support
                   let getSupport2 = db.prepare(
                     "SELECT * FROM support WHERE gid = ?"
                   );
+
                   let grabChan = getSupport2.get(gettheguild.id);
 
                   if (grabChan) {
-                    //7
-                    let s7 = grabChan.mainchan;
+                    //mainchan name
+                    var se7 = [];
 
-                    if (!s7) {
-                      var se7 = "None Set";
-                    } else {
-                      var se7 = s7;
-                    }
+                    chan.forEach((c) => {
+                      if (
+                        grabChan.mainchan.length > 1 &&
+                        c.includes(`${grabChan.mainchan}`)
+                      )
+                        se7.push(
+                          c
+                            .replace(`${grabChan.mainchan}`, "")
+                            .replace(`category`, "")
+                        );
+                    });
 
-                    //8
-                    let s8 = grabChan.inusechan;
+                    if (se7.toString() == "") var se7 = "None set";
 
-                    if (!s8) {
-                      var se8 = "None Set";
-                    } else {
-                      var se8 = s8;
-                    }
+                    //inusechan name
+                    var se8 = [];
+
+                    chan.forEach((c) => {
+                      if (
+                        grabChan.inusechan.length > 1 &&
+                        c.includes(`${grabChan.inusechan}`)
+                      )
+                        se8.push(
+                          c
+                            .replace(`${grabChan.inusechan}`, "")
+                            .replace(`category`, "")
+                        );
+                    });
+
+                    if (se8.toString() == "") var se8 = "None set";
                   }
 
                   //start channel build
@@ -568,9 +645,12 @@ exports.run = (client, config) => {
                       )}
 
                     </select>
-                    <br><input type="submit" class="button" onclick="document.getElementById('${
+                    <br><input type="submit" id="${
                       data.guild
-                    }a1').innerHTML = 'Changed!'" value="Save">
+                    }1" class="button" onclick="notification('Edited:<br>Welcome Channel');
+                    document.getElementById('${
+                      data.guild
+                    }1').style.display = 'none'" value="Save">
                     </form></td></tr>
                     
 
@@ -595,9 +675,12 @@ exports.run = (client, config) => {
                           "</option>"
                       )}
                       </select>
-                    <br><input type="submit" class="button" onclick="document.getElementById('${
+                    <br><input type="submit" id="${
                       data.guild
-                    }a2').innerHTML = 'Changed!'" value="Save">
+                    }2" class="button" onclick="notification('Edited:<br>Logs Channel');
+                    document.getElementById('${
+                      data.guild
+                    }2').style.display = 'none'" value="Save">
                     </form></td></tr>
 
                   <!--//build mute-->
@@ -621,9 +704,12 @@ exports.run = (client, config) => {
                           "</option>"
                       )}
                       </select>
-                    <br><input type="submit" class="button" onclick="document.getElementById('${
+                    <br><input type="submit" id="${
                       data.guild
-                    }a3').innerHTML = 'Changed!'" value="Save">
+                    }3" class="button" onclick="notification('Edited:<br>Mute/Verify Channel');
+                    document.getElementById('${
+                      data.guild
+                    }3').style.display = 'none'" value="Save">
                     </form></td></tr>
 
                   <!--//build highlights-->
@@ -647,9 +733,12 @@ exports.run = (client, config) => {
                           "</option>"
                       )}
                       </select>
-                    <br><input type="submit" class="button" onclick="document.getElementById('${
+                    <br><input type="submit" id="${
                       data.guild
-                    }a4').innerHTML = 'Changed!'" value="Save">
+                    }4" class="button" onclick="notification('Edited:<br>Highlights Channel');
+                    document.getElementById('${
+                      data.guild
+                    }4').style.display = 'none'" value="Save">
                     </form></td></tr>
 
                   <!--//build reaction roles-->
@@ -673,9 +762,12 @@ exports.run = (client, config) => {
                           "</option>"
                       )}
                       </select>
-                    <br><input type="submit" class="button" onclick="document.getElementById('${
+                    <br><input type="submit" id="${
                       data.guild
-                    }a5').innerHTML = 'Changed!'" value="Save">
+                    }5" class="button" onclick="notification('Edited:<br>Reaction Roles Channel');
+                    document.getElementById('${
+                      data.guild
+                    }5').style.display = 'none'" value="Save">
                     </form></td></tr>
 
                   <!--//build stream notification channel-->
@@ -699,9 +791,12 @@ exports.run = (client, config) => {
                           "</option>"
                       )}
                       </select>
-                    <br><input type="submit" class="button" onclick="document.getElementById('${
+                    <br><input type="submit" id="${
                       data.guild
-                    }a6).innerHTML = 'Changed!'" value="Save">
+                    }6" class="button" onclick="notification('Edited:<br>Stream Notification Channel');
+                    document.getElementById('${
+                      data.guild
+                    }6').style.display = 'none'" value="Save">
                     </form></td></tr>
 
                     
@@ -728,9 +823,12 @@ exports.run = (client, config) => {
                           "</option>"
                       )}
                       </select>
-                    <br><input type="submit" class="button" onclick="document.getElementById('${
+                    <br><input type="submit" id="${
                       data.guild
-                    }a7).innerHTML = 'Changed!'" value="Save">
+                    }7" class="button" onclick="notification('Edited:<br>Support Category');
+                    document.getElementById('${
+                      data.guild
+                    }7').style.display = 'none'" value="Save">
                     </form></td></tr>
 
                     <!--//build Support in-use category-->
@@ -754,9 +852,12 @@ exports.run = (client, config) => {
                           "</option>"
                       )}
                       </select>
-                    <br><input type="submit" class="button" onclick="document.getElementById('${
+                    <br><input type="submit" id="${
                       data.guild
-                    }a8).innerHTML = 'Changed!'" value="Save">
+                    }8" class="button" onclick="notification('Edited:<br>Support in-use Category');
+                    document.getElementById('${
+                      data.guild
+                    }8').style.display = 'none'" value="Save">
                     </form></td></tr>
                     `;
 
@@ -779,10 +880,8 @@ exports.run = (client, config) => {
                     ' OFF">off</option><option value="am ' +
                     data.guild +
                     ' ON">on</option></select>';
-                  let rapp1b =
-                    '<br><input type="submit" class="button" onclick="document.getElementById(`' +
-                    data.guild +
-                    'rapp1`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
+                  let rapp1b = `<br><input type="submit" id="${data.guild}9" class="button" onclick="notification('Edited:<br>AutoMod');
+                    document.getElementById('${data.guild}9').style.display = 'none'" value="Save"></form></td></tr>`;
 
                   //leveling
                   if (data.leveling == "2") {
@@ -802,10 +901,8 @@ exports.run = (client, config) => {
                     ' OFF">off</option><option value="lv ' +
                     data.guild +
                     ' ON">on</option></select>';
-                  let rapp4b =
-                    '<br><input type="submit" class="button" onclick="document.getElementById(`' +
-                    data.guild +
-                    'rapp4`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
+                  let rapp4b = `<br><input type="submit" id="${data.guild}10" class="button" onclick="notification('Edited:<br>Leveling');
+                    document.getElementById('${data.guild}10').style.display = 'none'" value="Save"></form></td></tr>`;
 
                   //streamhere
                   if (data.streamHere == "2") {
@@ -825,10 +922,8 @@ exports.run = (client, config) => {
                     ' OFF">off</option><option value="sh ' +
                     data.guild +
                     ' ON">on</option></select>';
-                  let rapp2b =
-                    '<br><input type="submit" class="button" onclick="document.getElementById(`' +
-                    data.guild +
-                    'rapp2`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
+                  let rapp2b = `<br><input type="submit" id="${data.guild}11" class="button" onclick="notification('Edited:<br>Stream @here pings');
+                    document.getElementById('${data.guild}11').style.display = 'none'" value="Save"></form></td></tr>`;
 
                   //logsettings initiate
                   let loggerSettings = getSettings.get(data.guild);
@@ -863,10 +958,8 @@ exports.run = (client, config) => {
                     ' OFF">off</option><option value="lj ' +
                     data.guild +
                     ' ON">on</option></select>';
-                  let rapp5b =
-                    '<br><input type="submit" class="button" onclick="document.getElementById(`' +
-                    data.guild +
-                    'rapp5`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
+                  let rapp5b = `<br><input type="submit" id="${data.guild}12" class="button" onclick="notification('Edited:<br>Join/Leave messages');
+                    document.getElementById('${data.guild}12').style.display = 'none'" value="Save"></form></td></tr>`;
 
                   //logs msgedit
                   if (loggerSettings.editmsg == "1") {
@@ -886,10 +979,8 @@ exports.run = (client, config) => {
                     ' OFF">off</option><option value="em ' +
                     data.guild +
                     ' ON">on</option></select>';
-                  let rapp6b =
-                    '<br><input type="submit" class="button" onclick="document.getElementById(`' +
-                    data.guild +
-                    'rapp6`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
+                  let rapp6b = `<br><input type="submit" id="${data.guild}13" class="button" onclick="notification('Edited:<br>Logs: Edit messages');
+                    document.getElementById('${data.guild}13').style.display = 'none'" value="Save"></form></td></tr>`;
 
                   //logs deletemsg
                   if (loggerSettings.deletemsg == "1") {
@@ -909,10 +1000,8 @@ exports.run = (client, config) => {
                     ' OFF">off</option><option value="dm ' +
                     data.guild +
                     ' ON">on</option></select>';
-                  let rapp7b =
-                    '<br><input type="submit" class="button" onclick="document.getElementById(`' +
-                    data.guild +
-                    'rapp7`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
+                  let rapp7b = `<br><input type="submit" id="${data.guild}14" class="button" onclick="notification('Edited:<br>Logs: Deleted messages');
+                    document.getElementById('${data.guild}14').style.display = 'none'" value="Save"></form></td></tr>`;
 
                   //Bump pings
                   if (loggerSettings.bumpping == "1") {
@@ -932,10 +1021,8 @@ exports.run = (client, config) => {
                     ' OFF">off</option><option value="bp ' +
                     data.guild +
                     ' ON">on</option></select>';
-                  let rapp8b =
-                    '<br><input type="submit" class="button" onclick="document.getElementById(`' +
-                    data.guild +
-                    'rapp8`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
+                  let rapp8b = `<br><input type="submit" id="${data.guild}15" class="button" onclick="notification('Edited:<br>Reminders for bump bots');
+                    document.getElementById('${data.guild}15').style.display = 'none'" value="Save"></form></td></tr>`;
 
                   //prefix
                   let rapp3t =
@@ -948,10 +1035,8 @@ exports.run = (client, config) => {
                     '<tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><input type="hidden" name="data2" value="pr ' +
                     data.guild +
                     '" /><input type="text" name="data2" value="prefix">';
-                  let rapp3b =
-                    '<br><input type="submit" class="button" onclick="document.getElementById(`' +
-                    data.guild +
-                    'rapp3`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
+                  let rapp3b = `<br><input type="submit" id="${data.guild}16" class="button" onclick="notification('Edited:<br>Server Prefix');
+                    document.getElementById('${data.guild}16').style.display = 'none'" value="Save"></form></td></tr>`;
 
                   //welcome message
                   let wm1 =
@@ -964,10 +1049,8 @@ exports.run = (client, config) => {
                     '" /><textarea rows="5" cols="20" name="data2">' +
                     data.wmessage +
                     "</textarea>";
-                  let wm3 =
-                    '<br><input type="submit" class="button" onclick="document.getElementById(`' +
-                    data.guild +
-                    'wmD`).innerHTML = `Changed!`" value="Save"></form></td></tr>';
+                  let wm3 = `<br><input type="submit" id="${data.guild}17" class="button" onclick="notification('Edited:<br>Welcome Message');
+                    document.getElementById('${data.guild}17').style.display = 'none'" value="Save"></form></td></tr>`;
 
                   //Form webpage
                   array.push(
@@ -1043,6 +1126,62 @@ exports.run = (client, config) => {
         test: test,
       });
     } else {
+      //Files
+      function fileWalker(user) {
+        var walkSync = function (dir, filelist) {
+          var path = path || require("path");
+          var fs = fs || require("fs"),
+            files = fs.readdirSync(dir);
+          filelist = filelist || [];
+          files.forEach(function (file) {
+            if (fs.statSync(path.join(dir, file)).isDirectory()) {
+              filelist = walkSync(path.join(dir, file), filelist);
+            } else {
+              filelist.push(`${dir}/${file}`);
+            }
+          });
+          return filelist;
+        };
+
+        let fileArray = [];
+
+        let fileCount = 0;
+
+        walkSync("/root/Server/commands").forEach((file) => {
+          fileCount++;
+
+          const command = require(`${file}`);
+
+          if (fileCount % 2 == 0) {
+            fileArray.push(`
+            <button class="collapsible" style="background-color: rgba(0, 255, 255, 0.2);" onclick=\"toggle('${command.name}')\">
+              <div class="textcol">
+                ${command.name}
+              </div>
+            </button>
+            <div class="content" style="display: none;" id="${command.name}">
+              Category: <h2>${command.category}</h2> <br>
+                ${command.explain.replace(/Example/g, "<br><br>Example")}
+            </div>
+          `);
+          } else {
+            fileArray.push(`
+            <button class="collapsible" onclick=\"toggle('${command.name}')\">
+              <div class="textcol">
+                ${command.name}
+              </div>
+            </button>
+            <div class="content" style="display: none;" id="${command.name}">
+              Category: <h2>${command.category}</h2> <br>
+                ${command.explain.replace(/Example/g, "<br><br>Example")}
+            </div>
+          `);
+          }
+        });
+
+        return fileArray.join(" ");
+      }
+
       const test = {
         client: client,
         db: db,
@@ -1052,6 +1191,7 @@ exports.run = (client, config) => {
       res.render("command", {
         page: "command",
         test: test,
+        data: fileWalker(req.session.user),
         userInfo: req.session.user,
       });
     }
@@ -1087,7 +1227,9 @@ exports.run = (client, config) => {
 
           //first push
           array.push(
-            `<br><button onclick=\"toggle('${data.guild}')\" class="collapsible">
+            `<br><button onclick=\"toggle('${
+              data.guild
+            }')\" class="collapsible">
                 <img src ="${gettheguild.iconURL({
                   format: "jpg",
                 })}" width="30px" height="30px" style="border-radius: 50%;">
@@ -1138,7 +1280,7 @@ exports.run = (client, config) => {
                       })}" width="20px" height="20px"></a>
                       ${thisss.user.username.replace(/\</g, "&lt;")}
                       </td>
-                      <td style="width: 50%;">Level: ${data2.level} | \u20B9 ${
+                      <td style="width: 50%;">Level: ${data2.level} | \u058F  ${
                     data2.points
                   }</td></tr>`);
                 } else {
@@ -1157,7 +1299,7 @@ exports.run = (client, config) => {
                       })}" width="20px" height="20px"></a>
                       ${thisss.user.username.replace(/\</g, "&lt;")}
                       </td>
-                      <td style="width: 50%;">Level: ${data2.level} | \u20B9 ${
+                      <td style="width: 50%;">Level: ${data2.level} | \u058F  ${
                     data2.points
                   }</td></tr>`);
                 }
@@ -1249,7 +1391,9 @@ exports.run = (client, config) => {
                   rolec.toString().includes("true")
                 ) {
                   //build top part of array
-                  let top1 = `<br><button onclick=\"toggle('${data.guild}')\" class="collapsible">
+                  let top1 = `<br><button onclick=\"toggle('${
+                    data.guild
+                  }')\" class="collapsible">
                     <img src ="${gettheguild.iconURL({
                       format: "jpg",
                     })}" width="30px" height="30px" style="border-radius: 50%;">
@@ -1351,9 +1495,12 @@ exports.run = (client, config) => {
                     )}
 
                     </select>
-                    <br><input type="submit" class="button" onclick="document.getElementById('${
+                    <br><input type="submit" id="${
                       data.guild
-                    }a1').innerHTML = 'Changed!'" value="Save">
+                    }18" class="button" onclick="notification('Edited:<br>Level 5 role');
+                    document.getElementById('${
+                      data.guild
+                    }18').style.display = 'none'" value="Save">
                     </form></td></tr>
                     
 
@@ -1372,9 +1519,12 @@ exports.run = (client, config) => {
                     )}
 
                       </select>
-                    <br><input type="submit" class="button" onclick="document.getElementById('${
+                    <br><input type="submit" id="${
                       data.guild
-                    }a2').innerHTML = 'Changed!'" value="Save">
+                    }19" class="button" onclick="notification('Edited:<br>Level 10 role');
+                    document.getElementById('${
+                      data.guild
+                    }19').style.display = 'none'" value="Save">
                     </form></td></tr>
 
                   <!--//build level 15-->
@@ -1392,9 +1542,12 @@ exports.run = (client, config) => {
                     )}
 
                       </select>
-                    <br><input type="submit" class="button" onclick="document.getElementById('${
+                    <br><input type="submit" id="${
                       data.guild
-                    }a3').innerHTML = 'Changed!'" value="Save">
+                    }20" class="button" onclick="notification('Edited:<br>Level 15 role');
+                    document.getElementById('${
+                      data.guild
+                    }20').style.display = 'none'" value="Save">
                     </form></td></tr>
 
                   <!--//build level 20-->
@@ -1412,9 +1565,12 @@ exports.run = (client, config) => {
                     )}
 
                       </select>
-                    <br><input type="submit" class="button" onclick="document.getElementById('${
+                    <br><input type="submit" id="${
                       data.guild
-                    }a4').innerHTML = 'Changed!'" value="Save">
+                    }21" class="button" onclick="notification('Edited:<br>Level 20 role');
+                    document.getElementById('${
+                      data.guild
+                    }21').style.display = 'none'" value="Save">
                     </form></td></tr>
 
                   <!--//build level 30-->
@@ -1432,9 +1588,12 @@ exports.run = (client, config) => {
                     )}
 
                       </select>
-                    <br><input type="submit" class="button" onclick="document.getElementById('${
+                    <br><input type="submit" id="${
                       data.guild
-                    }a5').innerHTML = 'Changed!'" value="Save">
+                    }22" class="button" onclick="notification('Edited:<br>Level 30 role');
+                    document.getElementById('${
+                      data.guild
+                    }22').style.display = 'none'" value="Save">
                     </form></td></tr>
 
                   <!--//build level 50-->
@@ -1452,9 +1611,12 @@ exports.run = (client, config) => {
                     )}
 
                       </select>
-                    <br><input type="submit" class="button" onclick="document.getElementById('${
+                    <br><input type="submit" id="${
                       data.guild
-                    }a6).innerHTML = 'Changed!'" value="Save">
+                    }23" class="button" onclick="notification('Edited:<br>Level 50 role');
+                    document.getElementById('${
+                      data.guild
+                    }23').style.display = 'none'" value="Save">
                     </form></td></tr>
 
                     <!--//build 85-->
@@ -1472,9 +1634,12 @@ exports.run = (client, config) => {
                     )}
 
                       </select>
-                    <br><input type="submit" class="button" onclick="document.getElementById('${
+                    <br><input type="submit" id="${
                       data.guild
-                    }a7).innerHTML = 'Changed!'" value="Save">
+                    }24" class="button" onclick="notification('Edited:<br>Level 85 role');
+                    document.getElementById('${
+                      data.guild
+                    }24').style.display = 'none'" value="Save">
                     </form></td></tr>
                     `;
 
@@ -1552,8 +1717,8 @@ exports.run = (client, config) => {
           db.prepare(
             `DELETE FROM scores WHERE user = '${req.session.user.id}' AND guild = '${data3[0]}'`
           ).run();
-          
-          memberEmbed(`Deleted userinfo for guild: ${data3[0]}`)
+
+          memberEmbed(`Deleted userinfo for guild: ${data3[0]}`);
 
           res.status(204).send();
         }
@@ -1805,7 +1970,6 @@ exports.run = (client, config) => {
             //if nothing
             if (!getSupport2) return res.status(204).send();
 
-            console.log(data2[2]);
             //if data arg 2 is disable
             if (data2[2] == "disable") {
               //loop trough support2

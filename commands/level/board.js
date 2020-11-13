@@ -93,7 +93,7 @@ Example usage: \`!board\``,
 
             //if guild is current guild
             if (i.guild == message.guild.id)
-              finalString += `Guild ranking position: Rank ${finalCount}, Total guild points: ${i.total.toLocaleString()}`;
+              finalString += `Guild ranking position: Rank ${finalCount}, Total guild cash: ${i.total.toLocaleString()}`;
           }
 
           //pull data from database
@@ -201,7 +201,7 @@ Example usage: \`!board\``,
 
           //if guild is current guild
           if (i.guild == message.guild.id)
-            finalString += `Guild ranking position: Rank ${finalCount}, Total guild cash: \u20B9${i.total.toLocaleString()}`;
+            finalString += `Guild ranking position: Rank ${finalCount}, Total guild cash: \u058F ${i.total.toLocaleString()}`;
         }
 
         //pull data from database
@@ -229,7 +229,7 @@ Example usage: \`!board\``,
             embed.addField(
               "Place: (" + counter + ")",
               `${user.user} \ ${user.user.username}` +
-                "\n\u20B9" +
+                "\n\u058F " +
                 data.points.toLocaleString() +
                 " (level " +
                 data.level +

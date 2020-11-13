@@ -11,7 +11,7 @@ module.exports = {
   category: `fun`,
   name: "speen",
   description: "[fun] Lose your money!",
-  explain: `Each spin costs \u20B920, just use the command \`!speen\` and hope for the best!
+  explain: `Each spin costs \u058F 20, just use the command \`!speen\` and hope for the best!
   
   Example usage: \`!speen\``,
   execute(message) {
@@ -115,7 +115,7 @@ module.exports = {
     //If userscore is too low
     if (userscore.points < 1)
       return message.reply(
-        "You need at least `\u20B921` to be able to play slots!"
+        "You need at least `\u058F 21` to be able to play slots!"
       );
 
     //check user level
@@ -129,7 +129,7 @@ module.exports = {
 
     //build message
     let aMessage = `
-      \`=========\n| SLOTS |\n=========\`\n\`Each Spin\ncosts \u20B920\`\n\`=========\`\n\|${aniCard}\|${aniCard}\|${aniCard}\|\n\`=========\`\nBalance:\n\`\u20B9${userscore.points.toLocaleString()}\``;
+      \`=========\n| SLOTS |\n=========\`\n\`Each Spin\ncosts \u058F 20\`\n\`=========\`\n\|${aniCard}\|${aniCard}\|${aniCard}\|\n\`=========\`\nBalance:\n\`\u058F ${userscore.points.toLocaleString()}\``;
 
     //send message
     return message.channel.send(aMessage).then((msg) => {
@@ -150,7 +150,7 @@ module.exports = {
 
         //build message
         let bMessage = `
-      \`=========\n|  WIN  |\n=========\`\n\|${c1}\|${c2}\|${c3}\|\n\`=========\`\nYou won:\n\`\u20B9${prize}\`\n\nNew balance:\n\`\u20B9${userscore.points.toLocaleString()}\``;
+      \`=========\n|  WIN  |\n=========\`\n\|${c1}\|${c2}\|${c3}\|\n\`=========\`\nYou won:\n\`\u058F ${prize}\`\n\nNew balance:\n\`\u058F ${userscore.points.toLocaleString()}\``;
 
         //Edit message
         msg.edit(bMessage);

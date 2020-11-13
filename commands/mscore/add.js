@@ -95,7 +95,7 @@ Example usage: \`!add @mention 100\``,
 
         //reply to user notify
         return message.channel.send(
-          `${user.user.username} has gotten: \u20B9${pointsToAdd}.\nYou have \u20B9${userscore.points} now.\nAnd your level is ${userscore.level}`
+          `${user.user.username} has gotten: \u058F ${pointsToAdd}.\nYou have \u058F ${userscore.points} now.\nAnd your level is ${userscore.level}`
         );
       }
     }
