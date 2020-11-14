@@ -1513,7 +1513,7 @@ module.exports = {
 
     //Welcoming a new user
     if (generalChannel1) {
-      if (message.channel.id == generalChannel1.id && message.content.toLowerCase().includes("welcome")) {
+      if (message.channel.id == generalChannel1.id && message.content.toLowerCase().includes("welcome") && message.mentions.users.first()) {
         //add points
         const pointsToAdd = parseInt(50, 10);
 
