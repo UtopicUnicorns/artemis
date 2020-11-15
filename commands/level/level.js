@@ -18,7 +18,11 @@ Example usage: \`!level\`
 
 Example usage: \`!level @mention\`
 
-Example usage: \`!level userID\``,
+Example usage: \`!level userID\`
+
+Example usage: \`!level set IMAGEURL\`
+
+Example usage: \`!level unset\``,
   async execute(message) {
     //build prefix
     const prefixstart = getGuild.get(message.guild.id);
@@ -45,6 +49,37 @@ Example usage: \`!level userID\``,
       } else {
         //define args
         let args = message.content.slice(prefix.length + 6).split(" ");
+
+        //delete message
+        message.delete();
+
+        //set
+        if (args[0].toLowerCase() == "set") {
+          //if no URL
+          if (!args[1]) return message.reply("Please provide an image URL");
+
+          imageSet = {
+            userid: message.author.id,
+            img: args[1],
+          };
+
+          //run database
+          setCIMG.run(imageSet);
+
+          //return and reply
+          return message.reply("Custom image has been set!");
+        }
+
+        //unset
+        if (args[0].toLowerCase() == "unset") {
+          //Delete entry
+          db.prepare(
+            `DELETE FROM cimg WHERE userid = ${message.author.id}`
+          ).run();
+
+          //return and reply
+          return message.reply("Your custom image has been unset!");
+        }
 
         //define user
         if (!args[0]) {
@@ -174,9 +209,24 @@ Example usage: \`!level userID\``,
         //build canvas
         const canvas = Canvas.createCanvas(700, 250);
         const ctx = canvas.getContext("2d");
-        const background = await Canvas.loadImage(
-          "./modules/img/level_card.png"
-        );
+
+        //custom image
+        let customIMG = getCIMG.get(user.user.id);
+
+        if (!customIMG) {
+          var background = await Canvas.loadImage(
+            "./modules/img/level_card.png"
+          );
+        } else {
+          try {
+            var background = await Canvas.loadImage(`${customIMG.img}`);
+          } catch (error) {
+            var background = await Canvas.loadImage(
+              "./modules/img/level_card.png"
+            );
+          }
+        }
+
         ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
         ctx.font = "30px sans-serif";
         ctx.shadowColor = "black";

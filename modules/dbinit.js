@@ -296,9 +296,30 @@ exports.dbinit = function () {
     db.pragma("journal_mode = wal");
   }
 
+  //////////////////////
+  //custom Images   DB//
+  //////////////////////
+  const table18 = db
+    .prepare(
+      "SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'cimg';"
+    )
+    .get();
+  if (!table18["count(*)"]) {
+    db.prepare("CREATE TABLE cimg (userid TEXT PRIMARY KEY, img TEXT);").run();
+    db.prepare("CREATE UNIQUE INDEX idx_cimg_id ON cimg (userid);").run();
+    db.pragma("synchronous = 1");
+    db.pragma("journal_mode = wal");
+  }
+
   /////////////////////////
   //RUN ALL DB'S         //
   /////////////////////////
+
+  //run custom image
+  getCIMG = db.prepare("SELECT * FROM cimg WHERE userid = ?");
+  setCIMG = db.prepare(
+    "INSERT OR REPLACE INTO cimg (userid, img) VALUES (@userid, @img);"
+  );
 
   //run command control
   getCC = db.prepare("SELECT * FROM commandcontrol WHERE channelid = ?");
