@@ -400,6 +400,8 @@ client.once("ready", () => {
             configfile.CLIENT_IDT,
             user_id
           );
+          
+          if(!stream_info.data) return;
 
           if (!stream_info.data[0]) {
             var dat = [streamerData.streamer, streamerData.guild, "OFFLINE"];
@@ -424,7 +426,7 @@ client.once("ready", () => {
       //
     });
     //
-  }, 60000);
+  }, 3000);
 
   //start Website
   dashboard.run(

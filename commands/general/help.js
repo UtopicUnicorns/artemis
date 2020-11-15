@@ -183,7 +183,7 @@ Example usage: \`!help rolemanage\` _This will explain the command named roleman
                 size: 1024,
               })
             )
-            .setDescription(command.explain)
+            .setDescription(command.explain.replace(/!/g, `${prefix}`))
             .setFooter(`Category: ${command.category}\n`)
             .setTimestamp();
 
