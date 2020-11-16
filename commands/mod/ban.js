@@ -49,6 +49,8 @@ Example usage: \`!ban userID userID userID\``,
       //form member
       let member = await message.guild.members.cache.get(numbers);
 
+      if (!member) return;
+
       if (member.user.id == message.author.id)
         return message.reply("Let's not ban ourselves, shall we?");
 

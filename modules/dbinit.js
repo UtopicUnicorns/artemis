@@ -311,9 +311,32 @@ exports.dbinit = function () {
     db.pragma("journal_mode = wal");
   }
 
+  //////////////////////
+  //custom commands DB//
+  //////////////////////
+  const table19 = db
+    .prepare(
+      "SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'cc';"
+    )
+    .get();
+  if (!table19["count(*)"]) {
+    db.prepare(
+      "CREATE TABLE cc (guildcc TEXT PRIMARY KEY, guildid TEXT, command TEXT, type TEXT, gi TEXT, prefixreq TEXT);"
+    ).run();
+    db.prepare("CREATE UNIQUE INDEX idx_cc_id ON cc (guildcc);").run();
+    db.pragma("synchronous = 1");
+    db.pragma("journal_mode = wal");
+  }
+
   /////////////////////////
   //RUN ALL DB'S         //
   /////////////////////////
+
+  //run custom commands
+  getCustomCommand = db.prepare("SELECT * FROM cc WHERE guildcc = ?");
+  setCustomCommand = db.prepare(
+    "INSERT OR REPLACE INTO cc (guildcc, guildid, command, type, gi, prefixreq) VALUES (@guildcc, @guildid, @command, @type, @gi, @prefixreq);"
+  );
 
   //run custom image
   getCIMG = db.prepare("SELECT * FROM cimg WHERE userid = ?");

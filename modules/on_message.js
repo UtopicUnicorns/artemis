@@ -1513,7 +1513,11 @@ module.exports = {
 
     //Welcoming a new user
     if (generalChannel1) {
-      if (message.channel.id == generalChannel1.id && message.content.toLowerCase().includes("welcome") && message.mentions.users.first()) {
+      if (
+        message.channel.id == generalChannel1.id &&
+        message.content.toLowerCase().includes("welcome") &&
+        message.mentions.users.first()
+      ) {
         //add points
         const pointsToAdd = parseInt(50, 10);
 
@@ -1541,6 +1545,69 @@ module.exports = {
       }
     }
 
+    //Custom commands
+    let ccArgs = message.content.split(" ");
+
+    //array
+    let ccArray = [];
+
+    //users
+    let authorCC = message.author;
+
+    if (message.mentions.users.first())
+      var userCC = message.mentions.users.first();
+
+    if (!userCC) var userCC = message.author;
+
+    //get entries
+    let ccViewer = db
+      .prepare("SELECT * FROM cc WHERE guildid = ?")
+      .all(message.guild.id);
+
+    for (let i of ccArgs) {
+      for (let n of ccViewer) {
+        if (n.guildcc.replace(message.guild.id, "") == `-${i}`) ccArray.push(n);
+      }
+    }
+
+    if (ccArray.length > 0) {
+      const processedCC = ccArray[0].command
+        .replace("[author]", `${authorCC}`)
+        .replace("[mention]", `${userCC}`);
+
+      if (ccArray[0].type == "reply") {
+        if (ccArray[0].gi == "start") {
+          if (
+            message.content.startsWith(
+              `${ccArray[0].guildcc
+                .replace(message.guild.id, "")
+                .replace("-", "")}`
+            )
+          ) {
+            message.reply(processedCC);
+          }
+        } else {
+          //reply
+          message.reply(processedCC);
+        }
+      } else {
+        if (ccArray[0].gi == "start") {
+          if (
+            message.content.startsWith(
+              `${ccArray[0].guildcc
+                .replace(message.guild.id, "")
+                .replace("-", "")}`
+            )
+          ) {
+            message.channel.send(processedCC);
+          }
+        } else {
+          //reply
+          message.channel.send(processedCC);
+        }
+      }
+    }
+
     //require prefix
     if (!message.content.startsWith(prefix)) return;
 
@@ -1549,7 +1616,8 @@ module.exports = {
 
     //disable commands if exists
     if (controller) {
-      if (!message.member.permissions.has("KICK_MEMBERS")) return;
+      if (!message.member.permissions.has("KICK_MEMBERS"))
+        return message.reply("Commands are disabled in this channel.");
     }
 
     //try command

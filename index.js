@@ -426,7 +426,7 @@ client.once("ready", () => {
       //
     });
     //
-  }, 3000);
+  }, 60000);
 
   //start Website
   dashboard.run(
