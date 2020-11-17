@@ -1175,6 +1175,10 @@ module.exports = {
               v = v.replace(/N([aeiou])/g, "Ny$1");
               v = v.replace(/N([AEIOU])/g, "Ny$1");
               v = v.replace(/ove/g, "uv");
+              v = v.replace(/o/g, "owo");
+              v = v.replace(/O/g, "OwO");
+              v = v.replace(/u/g, "uwu");
+              v = v.replace(/U/g, "UwU");
             }
             //send content
             await webhook.send(v, {
