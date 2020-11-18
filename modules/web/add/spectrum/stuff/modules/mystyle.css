@@ -1,0 +1,154 @@
+body {
+  color: white;
+  background-color: #303030;
+  font-family: "Lucida Console", monospace;
+
+  /* for disabling text selection */
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+}
+
+#myProgress {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  height: 0%;
+  width: 10%;
+  background-image: linear-gradient(rgba(0, 128, 0, 0.2), rgba(50, 205, 50, 0.2) );
+}
+
+#myBar {
+  height: 0%;
+  width: 100%;
+  font-size: 40px;
+  text-align: center;
+  text-shadow: 2px 2px 2px black;
+  background-color: transparent;
+}
+
+.wrap {
+  height: 100%;
+  position: relative;
+}
+
+.wrap .bg {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  z-index: -3;
+  background: url("./images/C.jpg") no-repeat center center;
+  background-size: cover;
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+}
+
+.bg2 {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  z-index: -2;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+table.gameTable {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 90%;
+  height: 100%;
+  font-weight: bold;
+  background-color: transparent;
+}
+
+.cellGradient {
+  color: transparent;
+  cursor: default;
+  transition: 250ms;
+}
+
+.mouseOverCellGradient {
+  color: transparent;
+  cursor: pointer;
+  opacity: 0.5 !important;
+  transition: 250ms;
+}
+
+.selectedCellGradient {
+  color: transparent;
+  opacity: 0.5 !important;
+  cursor: pointer;
+  transition: 250ms;
+}
+
+td.gameTable {
+  text-align: center;
+  width: 100px;
+  height: 100px;
+  /* for rounded corners */
+  background-clip: padding-box;
+  border-radius: 5%;
+}
+
+tr.gameTable {
+  width: 100px;
+  height: 100px;
+  background-color: transparent;
+}
+
+#startscreenDiv {
+  width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+#container {
+  text-align: center;
+  width: 100%;
+  height: 100%;
+}
+
+#bottomBar {
+  display: inline-block;
+  position: absolute;
+  text-align: center;
+  color: white;
+  text-shadow: 2px 2px 2px black;
+  width: 10%;
+  bottom: 5px;
+  right: 0px;
+  z-index: 5;
+}
+
+.button {
+width: 100px;
+height: 100px;
+font-size: 25px;
+color: white;
+text-shadow: 2px 2px 2px black;
+border-radius: 25px;
+border: none;
+box-shadow: 2px 2px 2px black;
+background-color: rgba(0, 128, 0, 0.719);
+transition: 250ms;
+}
+
+.button:hover {
+  width: 100px;
+height: 100px;
+border-radius: 50px;
+border: none;
+box-shadow: 5px 5px 5px black;
+background-color: rgba(128, 9, 0, 0.719);
+}
+
+* {
+  transition: 250ms !important;
+}

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   sodipodi:docname="button_close_prelight.svg"
+   inkscape:version="1.0 (4035a4fb49, 2020-05-01)"
+   version="1.1"
+   id="svg4747"
+   viewBox="0 0 72.000001 72.000001"
+   height="72"
+   width="72">
+  <defs
+     id="defs4749">
+    <linearGradient
+       osb:paint="solid"
+       id="linearGradient3336">
+      <stop
+         id="stop3334"
+         offset="0"
+         style="stop-color:#ffffff;stop-opacity:1;" />
+    </linearGradient>
+    <linearGradient
+       gradientTransform="matrix(0.81081256,0,0,0.81081079,-2.9189324,202.01434)"
+       gradientUnits="userSpaceOnUse"
+       y2="963.88507"
+       x2="47.959068"
+       y1="1003.7924"
+       x1="47.857773"
+       id="linearGradient4159"
+       xlink:href="#linearGradient4153"
+       inkscape:collect="always" />
+    <linearGradient
+       id="linearGradient4153"
+       inkscape:collect="always">
+      <stop
+         id="stop4155"
+         offset="0"
+         style="stop-color:#FF5252;stop-opacity:0" />
+      <stop
+         id="stop4157"
+         offset="1"
+         style="stop-color:#ffffff;stop-opacity:0.2" />
+    </linearGradient>
+    <filter
+       height="1.168"
+       y="-0.084"
+       width="1.168"
+       x="-0.084"
+       id="filter829"
+       style="color-interpolation-filters:sRGB"
+       inkscape:collect="always">
+      <feGaussianBlur
+         id="feGaussianBlur831"
+         stdDeviation="2.1"
+         inkscape:collect="always" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     inkscape:guide-bbox="true"
+     showguides="true"
+     inkscape:document-rotation="0"
+     inkscape:window-maximized="1"
+     inkscape:window-y="0"
+     inkscape:window-x="0"
+     inkscape:window-height="1031"
+     inkscape:window-width="1920"
+     units="px"
+     showgrid="false"
+     inkscape:current-layer="layer1"
+     inkscape:document-units="px"
+     inkscape:cy="32.306682"
+     inkscape:cx="31.280659"
+     inkscape:zoom="7.4795741"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#808080"
+     id="base">
+    <sodipodi:guide
+       id="guide18"
+       orientation="1,0"
+       position="0,72.401093" />
+    <sodipodi:guide
+       id="guide20"
+       orientation="1,0"
+       position="72.062928,55.555214" />
+    <sodipodi:guide
+       id="guide22"
+       orientation="0,-1"
+       position="65.912845,72.133698" />
+    <sodipodi:guide
+       id="guide24"
+       orientation="0,-1"
+       position="64.709568,0.33816575" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata4752">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/by-sa/4.0/" />
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/licenses/by-sa/4.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Notice" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#Attribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+        <cc:requires
+           rdf:resource="http://creativecommons.org/ns#ShareAlike" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(0,-980.36216)"
+     id="layer1"
+     inkscape:groupmode="layer"
+     inkscape:label="Layer 1">
+    <circle
+       r="30"
+       cy="1018.4822"
+       cx="36"
+       id="path4143"
+       style="fill:#000000;fill-opacity:0.42000002;stroke-width:5;stroke-miterlimit:4;stroke-dasharray:none;filter:url(#filter829)" />
+    <ellipse
+       rx="30.000067"
+       ry="30"
+       cy="1016.3622"
+       cx="36.000072"
+       id="path5326"
+       style="opacity:1;fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:9.60499954;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:478.43673706;stroke-opacity:0.75" />
+    <path
+       sodipodi:nodetypes="cc"
+       inkscape:connector-curvature="0"
+       d="M 17.553998,1036.2141 54.522915,996.68038"
+       style="fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#ffffff;stroke-width:5.80000019;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
+       id="path4778-0" />
+    <ellipse
+       ry="29.18919"
+       rx="29.189255"
+       cy="1016.3622"
+       cx="36.000072"
+       id="path5326-0"
+       style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:url(#linearGradient4159);stroke-width:1.62163222;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:478.43673706;stroke-opacity:1" />
+  </g>
+</svg>

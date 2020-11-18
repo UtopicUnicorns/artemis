@@ -23,6 +23,6 @@ module.exports = {
     setUsage.run(usage);
 
     //ping
-    message.reply("*You have to really want it. . . . . that's all.*\n~Click 2020");
+    message.reply("\"You have to really want it.....that\'s all.\" -ClickTek 2020");
   },
 };

@@ -1,0 +1,14 @@
+[Desktop Entry]
+Type=X-GNOME-Metatheme
+Name=Artemis-Spectrum
+Comment=Artemis-Spectrum
+Encoding=UTF-8
+
+[X-GNOME-Metatheme]
+Type=X-GNOME-Metatheme
+GtkTheme=Artemis-Spectrum
+MetacityTheme=Artemis-Spectrum
+IconTheme=Adwaita
+CursorTheme=Adwaita
+CursorSize=24
+ButtonLayout=:close
