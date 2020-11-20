@@ -27,6 +27,71 @@ module.exports = {
       var bumps = getSettings.get(message.guild.id);
     }
 
+    //init the function
+    //hookSend(message);
+
+    //bridge?
+    switch (message.guild.id) {
+      //mint
+      case "628978428019736619":
+        //if channel
+        if (message.channel.id == "695182849476657223") {
+          if (!message.author.bot) {
+            //hook
+            async function hookSend(message) {
+              //select first hook
+              const webhook = new Discord.WebhookClient(
+                configfile.wh1,
+                configfile.wh2
+              );
+              //send content
+              await webhook.send(message.content, {
+                username: message.author.username,
+                avatarURL: message.author.displayAvatarURL({
+                  format: "png",
+                  dynamic: true,
+                  size: 128,
+                }),
+              });
+            }
+
+            //send
+            hookSend(message);
+          }
+        }
+        break;
+
+      //debian
+      case "773202271491457056":
+        //if channel
+        if (message.channel.id == "773203271208009749") {
+          if (!message.author.bot) {
+            //hook
+            async function hookSend(message) {
+              //select first hook
+              const webhook = new Discord.WebhookClient(
+                configfile.wh3,
+                configfile.wh4
+              );
+
+              //send content
+              await webhook.send(message.content, {
+                username: message.author.username,
+                avatarURL: message.author.displayAvatarURL({
+                  format: "png",
+                  dynamic: true,
+                  size: 128,
+                }),
+              });
+            }
+
+            //send
+            hookSend(message);
+          }
+        }
+        break;
+    }
+
     //if bump
     if (bumps) {
       if (bumps.bumpping !== "1") {
