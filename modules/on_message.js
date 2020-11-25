@@ -17,9 +17,15 @@ module.exports = {
       //args
       let contextMsg = message.content.slice(8);
 
-      cleverbot(contextMsg).then((response) => {
-        message.reply(response);
-      });
+      //Get db
+      let checkReplies = getEo.get(message.guild.id);
+
+      //check if requirements are met
+      if (!checkReplies || checkReplies.artreplies == "ON") {
+        cleverbot(contextMsg).then((response) => {
+          message.reply(response);
+        });
+      }
     }
 
     //init something
@@ -45,8 +51,8 @@ module.exports = {
                 configfile.wh2
               );
               //send content
-              await webhook.send(message.content, {
-                username: message.author.username,
+              await webhook.send(message.content.replace(/@/g, "`@`"), {
+                username: `${message.author.username} || From Mint Server`,
                 avatarURL: message.author.displayAvatarURL({
                   format: "png",
                   dynamic: true,
@@ -75,8 +81,8 @@ module.exports = {
               );
 
               //send content
-              await webhook.send(message.content, {
-                username: message.author.username,
+              await webhook.send(message.content.replace(/@/g, "`@`"), {
+                username: `${message.author.username} || From Debian Server`,
                 avatarURL: message.author.displayAvatarURL({
                   format: "png",
                   dynamic: true,
@@ -1320,60 +1326,6 @@ module.exports = {
             .send(message.content);
         }
       }
-    }
-
-    //translate
-    //Start db for opt
-    translateopt = getScore.get(message.author.id, message.guild.id);
-
-    //if translation for user is on, or prefix is used
-    //translateopt.translate == `2` ||
-    if (message.content.startsWith(prefix + "tr")) {
-      //Define proper message to translate
-      if (message.content.startsWith(prefix + "tr")) {
-        var text = message.content.slice(prefix.length + 3);
-      } else {
-        var text = message.content;
-      }
-
-      //actual translation
-      translate(text, {
-        to: "en",
-      }).then((res) => {
-        //if shrug
-        if (message.content.includes("Ã£Æ’â€ž")) return;
-
-        //if message is equal to translation
-        if (res == message.content) return;
-
-        //send translation
-        try {
-          //form embed
-          const translationtext = new Discord.MessageEmbed()
-            .setAuthor(
-              message.author.username,
-              message.author.avatarURL({
-                format: "png",
-                dynamic: true,
-                size: 1024,
-              })
-            )
-            .setColor("RANDOM")
-            .setDescription(res)
-            .setTimestamp();
-
-          //send embed
-          message.channel.send({
-            embed: translationtext,
-          });
-        } catch {
-          console.log(
-            `${moment().format(
-              "MMMM Do YYYY, HH:mm:ss"
-            )}\n${__filename}: ${ln()}`
-          );
-        }
-      });
     }
 
     //Add user points

@@ -65,6 +65,12 @@ setSettings = db.prepare(
   "INSERT OR REPLACE INTO settings (guild, leavejoin, deletemsg, editmsg, bumpping) VALUES (@guild, @leavejoin, @deletemsg, @editmsg, @bumpping);"
 );
 
+//run extra options
+getEo = db.prepare("SELECT * FROM eo WHERE guildid = ?");
+setEo = db.prepare(
+  "INSERT OR REPLACE INTO eo (guildid, artreplies) VALUES (@guildid, @artreplies);"
+);
+
 //start
 exports.run = (client, config) => {
   // App view
@@ -1024,6 +1030,39 @@ exports.run = (client, config) => {
                   let rapp8b = `<br><input type="submit" id="${data.guild}15" class="button" onclick="notification('Edited:<br>Reminders for bump bots');
                     document.getElementById('${data.guild}15').style.display = 'none'" value="Save"></form></td></tr>`;
 
+                  //Extra Options initiate
+                  let extraOptions = getEo.get(data.guild);
+
+                  //Extra Options failsafe
+                  if (!extraOptions) {
+                    extraOptions = {
+                      guildid: data.guild,
+                      artreplies: `ON`,
+                    };
+                    setEo.run(extraOptions);
+                  }
+
+                  //Extra Options: Artemis Replies
+                  if (extraOptions.artreplies == "OFF") {
+                    var bumpmsg = "OFF";
+                  } else {
+                    var bumpmsg = "ON";
+                  }
+                  let rapp11t =
+                    '<tr style="text-align:left; border-bottom: 1px solid black"><td>Artemis Replies: </td><td><div id="' +
+                    data.guild +
+                    'rapp11">' +
+                    bumpmsg +
+                    "</div></td></tr>";
+                  let rapp11 =
+                    '<tr style="text-align:left; border-bottom: 1px solid black"><td></td><td><form action="/" method="post"><select name="data2"><option value="ar ' +
+                    data.guild +
+                    ' OFF">off</option><option value="ar ' +
+                    data.guild +
+                    ' ON">on</option></select>';
+                  let rapp11b = `<br><input type="submit" id="${data.guild}40" class="button" onclick="notification('Edited:<br>Artemis Replies');
+                    document.getElementById('${data.guild}40').style.display = 'none'" value="Save"></form></td></tr>`;
+
                   //prefix
                   let rapp3t =
                     '<tr style="text-align:left; border-bottom: 1px solid black"><td>Server prefix:</td><td><div id="' +
@@ -1076,6 +1115,9 @@ exports.run = (client, config) => {
                       rapp8t +
                       rapp8 +
                       rapp8b +
+                      rapp11t +
+                      rapp11 +
+                      rapp11b +
                       rapp1t +
                       rapp1 +
                       rapp1b +
@@ -1154,7 +1196,9 @@ exports.run = (client, config) => {
 
           if (fileCount % 2 == 0) {
             fileArray.push(`
-            <button class="collapsible" style="background-color: rgba(0, 255, 255, 0.2);" onclick=\"toggle('${command.name}')\">
+            <button class="collapsible" style="background-color: rgba(0, 255, 255, 0.2);" onclick=\"toggle('${
+              command.name
+            }')\">
               <div class="textcol">
                 ${command.name}
               </div>
@@ -2184,6 +2228,24 @@ exports.run = (client, config) => {
               channelstuff.bumpping = `1`;
               setSettings.run(channelstuff);
               adminEmbed(data2[1], "Bump Notification");
+              return res.status(204).send();
+            }
+          }
+
+          //Extra Options: Artemis Replies
+          if (data2[0] == "ar") {
+            if (data2[2] == "ON") {
+              let channelstuff = getEo.get(data2[1]);
+              channelstuff.artreplies = `ON`;
+              setEo.run(channelstuff);
+              adminEmbed(data2[1], "Extra Options: Artemis Replies");
+              return res.status(204).send();
+            }
+            if (data2[2] == "OFF") {
+              let channelstuff = getEo.get(data2[1]);
+              channelstuff.artreplies = `OFF`;
+              setEo.run(channelstuff);
+              adminEmbed(data2[1], "Extra Options: Artemis Replies");
               return res.status(204).send();
             }
           }

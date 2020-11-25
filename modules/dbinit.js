@@ -328,9 +328,32 @@ exports.dbinit = function () {
     db.pragma("journal_mode = wal");
   }
 
+  //////////////////////
+  //extra options   DB//
+  //////////////////////
+  const table20 = db
+    .prepare(
+      "SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'eo';"
+    )
+    .get();
+  if (!table20["count(*)"]) {
+    db.prepare(
+      "CREATE TABLE eo (guildid TEXT PRIMARY KEY, artreplies TEXT);"
+    ).run();
+    db.prepare("CREATE UNIQUE INDEX idx_eo_id ON eo (guildid);").run();
+    db.pragma("synchronous = 1");
+    db.pragma("journal_mode = wal");
+  }
+
   /////////////////////////
   //RUN ALL DB'S         //
   /////////////////////////
+
+  //run extra options
+  getEo = db.prepare("SELECT * FROM eo WHERE guildid = ?");
+  setEo = db.prepare(
+    "INSERT OR REPLACE INTO eo (guildid, artreplies) VALUES (@guildid, @artreplies);"
+  );
 
   //run custom commands
   getCustomCommand = db.prepare("SELECT * FROM cc WHERE guildcc = ?");
