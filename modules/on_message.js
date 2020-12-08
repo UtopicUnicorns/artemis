@@ -33,71 +33,6 @@ module.exports = {
       var bumps = getSettings.get(message.guild.id);
     }
 
-    //init the function
-    //hookSend(message);
-
-    //bridge?
-    switch (message.guild.id) {
-      //mint
-      case "628978428019736619":
-        //if channel
-        if (message.channel.id == "695182849476657223") {
-          if (!message.author.bot) {
-            //hook
-            async function hookSend(message) {
-              //select first hook
-              const webhook = new Discord.WebhookClient(
-                configfile.wh1,
-                configfile.wh2
-              );
-              //send content
-              await webhook.send(message.content.replace(/@/g, "`@`"), {
-                username: `${message.author.username} || From Mint Server`,
-                avatarURL: message.author.displayAvatarURL({
-                  format: "png",
-                  dynamic: true,
-                  size: 128,
-                }),
-              });
-            }
-
-            //send
-            hookSend(message);
-          }
-        }
-        break;
-
-      //debian
-      case "773202271491457056":
-        //if channel
-        if (message.channel.id == "773203271208009749") {
-          if (!message.author.bot) {
-            //hook
-            async function hookSend(message) {
-              //select first hook
-              const webhook = new Discord.WebhookClient(
-                configfile.wh3,
-                configfile.wh4
-              );
-
-              //send content
-              await webhook.send(message.content.replace(/@/g, "`@`"), {
-                username: `${message.author.username} || From Debian Server`,
-                avatarURL: message.author.displayAvatarURL({
-                  format: "png",
-                  dynamic: true,
-                  size: 128,
-                }),
-              });
-            }
-
-            //send
-            hookSend(message);
-          }
-        }
-        break;
-    }
-
     //if bump
     if (bumps) {
       if (bumps.bumpping !== "1") {
@@ -1142,7 +1077,13 @@ module.exports = {
                 //send image
                 if (generalChannel1) {
                   await generalChannel1
-                    .send(sMessage.slice(0, 2000), attachment)
+                    .send(attachment)
+                    .catch((err) => console.log(""));
+
+                  await generalChannel1
+                    .send(sMessage, {
+                      split: true,
+                    })
                     .catch((err) => console.log(""));
                 }
 
@@ -1337,10 +1278,7 @@ module.exports = {
       score = getScore.get(message.author.id, message.guild.id);
 
       //if user leveling is off
-      if (
-        guildChannels.leveling == "2" ||
-        message.author.id == "121723489014120448"
-      ) {
+      if (guildChannels.leveling == "2") {
         //if user leveling is on
       } else {
         //add a point
@@ -1539,29 +1477,34 @@ module.exports = {
         message.content.toLowerCase().includes("welcome") &&
         message.mentions.users.first()
       ) {
-        //add points
-        const pointsToAdd = parseInt(50, 10);
+        if (message.mentions.users.first().id !== message.author.id) {
+          //add points
+          const pointsToAdd = parseInt(50, 10);
 
-        //pull data
-        let userscore = await getScore.get(message.author.id, message.guild.id);
-
-        //if user is not in db
-        if (userscore) {
-          //add the points
-          userscore.points += pointsToAdd;
-
-          //calc level
-          let userLevel = Math.floor(0.5 * Math.sqrt(userscore.points));
-
-          //define level
-          userscore.level = userLevel;
-
-          //run db
-          await setScore.run(userscore);
-
-          message.reply(
-            "Thanks for welcoming a new user!\nHere is \u058F 50 for doing that!"
+          //pull data
+          let userscore = await getScore.get(
+            message.author.id,
+            message.guild.id
           );
+
+          //if user is not in db
+          if (userscore) {
+            //add the points
+            userscore.points += pointsToAdd;
+
+            //calc level
+            let userLevel = Math.floor(0.5 * Math.sqrt(userscore.points));
+
+            //define level
+            userscore.level = userLevel;
+
+            //run db
+            await setScore.run(userscore);
+
+            message.reply(
+              "Thanks for welcoming a new user!\nHere is \u058F 50 for doing that!"
+            );
+          }
         }
       }
     }

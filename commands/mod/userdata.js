@@ -25,9 +25,9 @@ Example usage: \`!userdata userID\``,
     usage.number++;
     setUsage.run(usage);
 
-    //if no perms
-    if (!message.member.permissions.has("KICK_MEMBERS"))
-      return message.reply("You do not have permissions to use this command!");
+    //if no proper perms
+    if (!message.member.permissions.has("MUTE_MEMBERS"))
+      return message.reply("You do not have permissions to use this command!\nNeed `MUTE_MEMBERS` permission.");
 
     //build args
     let args = message.content.slice(prefix.length + 9).split(" ");

@@ -304,9 +304,9 @@ Example usage:   \`!support search --u kde\` //Unanswered only cases`,
       });
     }
 
-    //reject non mods after this point
-    if (!message.member.permissions.has("KICK_MEMBERS"))
-      return message.reply("You do not have permissions to use this command!");
+    //if no proper perms
+    if (!message.member.permissions.has("MUTE_MEMBERS"))
+      return message.reply("You do not have permissions to use this command!\nNeed `MUTE_MEMBERS` permission.");
 
     //add or delete support channel
     if (args[0].toLowerCase() == "set") {

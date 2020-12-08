@@ -25,8 +25,8 @@ Example usage: \`!topic add [Example Topic Here]\``,
     const prefix = prefixstart.prefix;
 
     //if no proper perms
-    if (!message.member.permissions.has("KICK_MEMBERS"))
-      return message.reply("You do not have permissions to use this command!");
+    if (!message.member.permissions.has("MUTE_MEMBERS"))
+      return message.reply("You do not have permissions to use this command!\nNeed `MUTE_MEMBERS` permission.");
 
     //update usage
     usage = getUsage.get("topic");

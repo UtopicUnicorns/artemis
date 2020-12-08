@@ -103,7 +103,7 @@ module.exports = {
 
     if (result1 == 4 && result2 == 4 && result3 == 4) var prize = 1000;
 
-    if (!prize) var prize = Math.floor((result1 + result2 + result3) * 3);
+    if (!prize) var prize = Math.floor((result1 + result2 + result3) * 1.5);
 
     //Userscore
     let userscore = getScore.get(message.author.id, message.guild.id);

@@ -24,8 +24,9 @@ Example usage: \`!react MessageID EmojiName EmojiName EmojiName\``,
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
 
-    //if no perms
-    //if (!message.member.permissions.has("KICK_MEMBERS")) return message.reply("You do not have permissions to use this command!");
+    //if no proper perms
+    if (!message.member.permissions.has("MUTE_MEMBERS"))
+      return message.reply("You do not have permissions to use this command!\nNeed `MUTE_MEMBERS` permission.");
 
     //update usage
     usage = getUsage.get("react");

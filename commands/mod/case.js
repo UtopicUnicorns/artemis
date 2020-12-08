@@ -24,9 +24,9 @@ Example usage: \`!case reason caseNum [Reason here]\``,
     const prefixstart = getGuild.get(message.guild.id);
     const prefix = prefixstart.prefix;
 
-    //if no mod
-    if (!message.member.permissions.has("KICK_MEMBERS"))
-      return message.reply("You do not have permissions to use this command!");
+    //if no proper perms
+    if (!message.member.permissions.has("MUTE_MEMBERS"))
+      return message.reply("You do not have permissions to use this command!\nNeed `MUTE_MEMBERS` permission.");
 
     //Usage
     usage = getUsage.get("case");

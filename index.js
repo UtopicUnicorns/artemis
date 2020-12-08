@@ -247,7 +247,7 @@ client.once("ready", () => {
   }, 5000);
 
   //Ads
-  setInterval(() => {
+  /* setInterval(() => {
     //build embed
     const adsEmbed = new Discord.MessageEmbed()
       .setAuthor(
@@ -264,7 +264,7 @@ client.once("ready", () => {
     client.channels.cache.get("695182849476657223").send({
       embed: adsEmbed,
     });
-  }, 21600000);
+  }, 21600000); */
 
   //Member update
   setInterval(() => {
