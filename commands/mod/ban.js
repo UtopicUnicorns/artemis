@@ -51,9 +51,16 @@ Example usage: \`!ban userID userID userID\``,
       //form member
       let member = await message.guild.members.cache.get(numbers);
 
-      if (!member) return;
+      if (!member) {
+        try {
+          await message.guild.members.ban(numbers);
+          message.reply(`Pre-emptively banned: <@${numbers}>`);
+        } catch {
+          console.log("");
+        }
+      }
 
-      if (member.user.id == message.author.id)
+      if (numbers == message.author.id)
         return message.reply("Let's not ban ourselves, shall we?");
 
       //if member

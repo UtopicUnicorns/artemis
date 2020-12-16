@@ -94,6 +94,7 @@ client.once("ready", () => {
       `\uD83C\uDF10${client.guilds.cache.size.toLocaleString()} Servers \uD83D\uDC64${client.users.cache.size.toLocaleString()} Users \uD83D\uDCBB${Math.floor(
         process.memoryUsage().heapUsed / 1024 / 1024
       )} MB ram`,
+      `Plz donate I need money https://artemis.rest`,
     ];
     client.user.setActivity(RAN[~~(Math.random() * RAN.length)], {
       type: "LISTENING",
@@ -246,26 +247,6 @@ client.once("ready", () => {
     }
   }, 5000);
 
-  //Ads
-  /* setInterval(() => {
-    //build embed
-    const adsEmbed = new Discord.MessageEmbed()
-      .setAuthor(
-        "Artemis Ads",
-        "https://cdn.discordapp.com/emojis/670038964194770954.gif"
-      )
-      .setThumbnail("https://cdn.discordapp.com/emojis/670038964194770954.gif")
-      .setDescription("Support Artemis!")
-      .addField("Donate: ", "https://artemis.rest")
-      .addField("Bot List Vote: ", "https://top.gg/bot/440892659264126997")
-      .setColor("RANDOM");
-
-    //send embed
-    client.channels.cache.get("695182849476657223").send({
-      embed: adsEmbed,
-    });
-  }, 21600000); */
-
   //Member update
   setInterval(() => {
     client.channels.cache
@@ -400,8 +381,8 @@ client.once("ready", () => {
             configfile.CLIENT_IDT,
             user_id
           );
-          
-          if(!stream_info.data) return;
+
+          if (!stream_info.data) return;
 
           if (!stream_info.data[0]) {
             var dat = [streamerData.streamer, streamerData.guild, "OFFLINE"];

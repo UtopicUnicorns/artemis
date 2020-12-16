@@ -509,3 +509,16 @@ h2:hover {
   }
 }
 
+
+a {
+  color: antiquewhite;
+  text-shadow: 2px 2px 2px black;
+  font-family: "Quicksand";
+  transition: 250ms;
+}
+
+a:hover {
+  color: blanchedalmond;
+  text-shadow: 4px 4px 4px red;
+  font-family: "Quicksand";
+}
