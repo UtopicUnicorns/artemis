@@ -26,6 +26,7 @@ exports.npm = function () {
   searchGoogle = require("./search.js");
   Twitch = require("./twitchModule.js");
   cleverbot = require("cleverbot-free");
+  CanvasGifEncoder = require('canvas-gif-encoder');
   search = new searchGoogle();
   youtube = new YouTube(configfile.youtubekey);
   msgRecently = new Set();

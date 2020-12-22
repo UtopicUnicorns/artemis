@@ -254,8 +254,12 @@ module.exports = {
     }
 
     //reply
-    if (entryView.length > 0)
-      return message.channel.send(`${entryView.join("\n")}`);
+    if (entryView.length > 0) {
+      return message.channel.send(`${entryView.join("\n")}`, {
+        split: true,
+      });
+    }
+
     return message.channel.send(`No custom commands yet.`);
   },
 };

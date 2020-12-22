@@ -27,6 +27,7 @@
     "better-sqlite3": "^5.4.3",
     "body-parser": "^1.19.0",
     "canvas": "^2.6.1",
+    "canvas-gif-encoder": "^0.1.2",
     "capture-console": "^1.0.1",
     "cheerio": "^1.0.0-rc.3",
     "cleverbot-free": "^1.0.5",
@@ -68,6 +69,6 @@
     "translate-google": "^1.4.3",
     "util": "^0.12.3",
     "wtf_wikipedia": "^8.5.1",
-    "ytdl-core": "^4.1.4"
+    "ytdl-core": "^4.1.7"
   }
 }

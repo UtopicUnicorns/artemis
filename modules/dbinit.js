@@ -345,9 +345,59 @@ exports.dbinit = function () {
     db.pragma("journal_mode = wal");
   }
 
+  //////////////////////
+  //Trainer         DB//
+  //////////////////////
+  const trainers = db
+    .prepare(
+      "SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'trainers';"
+    )
+    .get();
+  if (!trainers["count(*)"]) {
+    db.prepare(
+      "CREATE TABLE trainers (trainerid TEXT PRIMARY KEY, pokeballs INTEGER, greatballs INTEGER, ultraballs INTEGER, masterballs INTEGER);"
+    ).run();
+    db.prepare(
+      "CREATE UNIQUE INDEX idx_trainers_id ON trainers (trainerid);"
+    ).run();
+    db.pragma("synchronous = 1");
+    db.pragma("journal_mode = wal");
+  }
+
+  //////////////////////
+  //pokemon         DB//
+  //////////////////////
+  const pokemon = db
+    .prepare(
+      "SELECT count(*) FROM sqlite_master WHERE type='table' AND name = 'pokemon';"
+    )
+    .get();
+  if (!pokemon["count(*)"]) {
+    db.prepare(
+      "CREATE TABLE pokemon (trainerpokemon TEXT PRIMARY KEY, level INTEGER);"
+    ).run();
+    db.prepare(
+      "CREATE UNIQUE INDEX idx_pokemon_id ON pokemon (trainerid);"
+    ).run();
+    db.pragma("synchronous = 1");
+    db.pragma("journal_mode = wal");
+  }
+
   /////////////////////////
   //RUN ALL DB'S         //
   /////////////////////////
+
+  //run trainers
+  getPokemon = db.prepare("SELECT * FROM pokemon WHERE trainerpokemon = ?");
+  setPokemon = db.prepare(
+    "INSERT OR REPLACE INTO pokemon (trainerpokemon, level) VALUES (@trainerpokemon, @level);"
+  );
+
+  //run trainers
+  getTrainer = db.prepare("SELECT * FROM trainers WHERE trainerid = ?");
+  setTrainer = db.prepare(
+    "INSERT OR REPLACE INTO trainers (trainerid, pokeballs, greatballs, ultraballs, masterballs) VALUES (@trainerid, @pokeballs, @greatballs, @ultraballs, @masterballs);"
+  );
 
   //run extra options
   getEo = db.prepare("SELECT * FROM eo WHERE guildid = ?");

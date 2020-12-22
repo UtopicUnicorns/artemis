@@ -32,8 +32,11 @@ Example usage: \`!kick @mention\``,
     usage.number++;
     setUsage.run(usage);
 
+    //args
+    let args = message.content.slice(prefix.length + 5);
+
     //define member
-    const member = message.mentions.members.first();
+    const member = message.mentions.members.first() || message.guild.members.cache.get(args[0]);
 
     //if no user
     if (!member) {

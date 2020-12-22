@@ -90,11 +90,14 @@ client.once("ready", () => {
 
   //change bot Status
   setInterval(() => {
+    let countcommand = db.prepare("SELECT number FROM usage;").all();
+    let strcounter = 0;
+    for (let i in countcommand) strcounter += countcommand[i].number;
+
     var RAN = [
       `\uD83C\uDF10${client.guilds.cache.size.toLocaleString()} Servers \uD83D\uDC64${client.users.cache.size.toLocaleString()} Users \uD83D\uDCBB${Math.floor(
         process.memoryUsage().heapUsed / 1024 / 1024
-      )} MB ram`,
-      `Plz donate I need money https://artemis.rest`,
+      )} MB ram \uD83C\uDF00${strcounter.toLocaleString()} Commands used`,
     ];
     client.user.setActivity(RAN[~~(Math.random() * RAN.length)], {
       type: "LISTENING",
