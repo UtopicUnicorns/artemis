@@ -40,7 +40,8 @@ module.exports = {
         You got 5 pokeballs to start with.\n
         ${prefix}pokehunt
         ${prefix}pokeshop
-        ${prefix}pokeid`
+        ${prefix}pokeid
+        ${prefix}pokeevent`
       );
     }
 
@@ -167,7 +168,7 @@ Thanks for shopping with us!`
         userscore.points = greatMath1;
         setScore.run(userscore);
 
-        trainerGet.pokeballs = Math.floor(
+        trainerGet.greatballs = Math.floor(
           parseInt(trainerGet.greatballs) + parseInt(args[1])
         );
         setTrainer.run(trainerGet);
@@ -196,7 +197,7 @@ Thanks for shopping with us!`
         userscore.points = ultraMath1;
         setScore.run(userscore);
 
-        trainerGet.pokeballs = Math.floor(
+        trainerGet.ultraballs = Math.floor(
           parseInt(trainerGet.ultraballs) + parseInt(args[1])
         );
         setTrainer.run(trainerGet);

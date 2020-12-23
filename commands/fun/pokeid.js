@@ -40,7 +40,8 @@ module.exports = {
         You got 5 pokeballs to start with.\n
         ${prefix}pokehunt
         ${prefix}pokeshop
-        ${prefix}pokeid`
+        ${prefix}pokeid
+        ${prefix}pokeevent`
       );
     }
 
@@ -114,9 +115,9 @@ ${trainerGet.masterballs} Masterballs`,
     ctx.shadowBlur = 1;
     ctx.fillText(`Pokemon caught: ${pokeCount}`, 570, 400);
 
-    if(randoSelect) {
+    if (randoSelect) {
       var rand = await Canvas.loadImage(randoSelect);
-    ctx.drawImage(rand, 273, 350, 300, 300);
+      ctx.drawImage(rand, 300, 400, 200, 200);
     }
 
     //Avatar
