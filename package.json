@@ -29,7 +29,7 @@
     "canvas": "^2.6.1",
     "canvas-gif-encoder": "^0.1.2",
     "capture-console": "^1.0.1",
-    "cheerio": "^1.0.0-rc.3",
+    "cheerio": "^1.0.0-rc.5",
     "cleverbot-free": "^1.0.5",
     "curl": "^0.1.4",
     "discord.js": "^12.5.1",
@@ -39,19 +39,18 @@
     "fluent-ffmpeg": "^2.1.2",
     "fs": "0.0.1-security",
     "g-i-s": "^2.1.6",
-    "google-it": "^1.5.4",
+    "google-it": "^1.6.0",
     "html-text": "^1.0.1",
     "html-to-text": "^5.1.1",
     "http": "0.0.0",
     "https": "^1.0.0",
     "jquery": "^3.4.1",
-    "minecraft-protocol": "^1.20.1",
     "moment": "^2.29.1",
     "net": "^1.0.2",
     "node-gyp": "^6.1.0",
     "node-opus": "^0.3.3",
     "nodemon": "^2.0.6",
-    "npm-check-updates": "^10.2.2",
+    "npm-check-updates": "^10.2.5",
     "npm-search-google": "^2.0.3",
     "passport": "^0.4.1",
     "passport-discord.js": "0.0.6",
@@ -69,6 +68,6 @@
     "translate-google": "^1.4.3",
     "util": "^0.12.3",
     "wtf_wikipedia": "^8.5.1",
-    "ytdl-core": "^4.1.7"
+    "ytdl-core": "^4.2.1"
   }
 }

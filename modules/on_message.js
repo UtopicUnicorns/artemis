@@ -1580,7 +1580,7 @@ module.exports = {
 
     //disable commands if exists
     if (controller) {
-      if (!message.member.permissions.has("KICK_MEMBERS")) return; //message.reply("Commands are disabled in this channel.");
+      if (!message.member.permissions.has("MUTE_MEMBERS")) return; //message.reply("Commands are disabled in this channel.");
     }
 
     //try command

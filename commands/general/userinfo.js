@@ -45,9 +45,6 @@ Example usage: \`!userinfo userID\``,
       );
     }
 
-    //pull data
-    let entryYes = getSpecs.get(user.user.id);
-
     //array
     let roleMap = [];
 
@@ -86,14 +83,6 @@ Example usage: \`!userinfo userID\``,
           .format("dddd, MMMM Do YYYY, HH:mm:ss")
       )
       .addField("Roles:", `${roleMap.slice(0, 20)}`);
-    if (entryYes) {
-      embed.addField("Specifications:\n", `${getSpecs.get(user.user.id).spec}`);
-    } else {
-      embed.addField(
-        "Specifications:\n",
-        `User has not added their specifications.\nTo add your own specs use ${prefix}specs`
-      );
-    }
 
     //send embed
     return message.channel.send(embed);
